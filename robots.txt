@@ -1,0 +1,14 @@
+# robots.txt de Odissey
+User-agent: *
+Allow: /
+
+# el panel de administracion no debe indexarse
+Disallow: /admin
+
+# rutas del bot (API de Discord, tickets y contenido)
+Disallow: /bot
+
+# paginas privadas o de error
+Disallow: /404.html
+
+Sitemap: https://odisseymc.site/sitemap.xml

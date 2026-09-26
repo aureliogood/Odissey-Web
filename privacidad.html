@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');</script>
+    <title>Odissey - Política de Privacidad</title>
+  <meta property="og:url" content="https://odisseymc.site/privacidad">
+  <link rel="canonical" href="https://odisseymc.site/privacidad">
+  <meta name="description" content="Como Odissey recoge y usa tus datos: sesion con Discord, pedidos, almacenamiento local y tus derechos.">
+  <meta property="og:site_name" content="Odissey Minecraft Server">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Odissey - Política de Privacidad">
+  <meta property="og:description" content="Como Odissey recoge y usa tus datos: sesion con Discord, pedidos, almacenamiento local y tus derechos.">
+  <meta property="og:image" content="img/og-image.jpg">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Odissey - Política de Privacidad">
+  <meta name="twitter:description" content="Como Odissey recoge y usa tus datos: sesion con Discord, pedidos, almacenamiento local y tus derechos.">
+  <meta name="twitter:image" content="img/og-image.jpg">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="theme.css?v=26">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'marine-dark': 'var(--od-marine-dark)',
+                        'marine-medium': 'var(--od-marine-medium)',
+                        'marine-light': 'var(--od-marine-light)',
+                        'marine-accent': 'var(--od-marine-accent)',
+                        'gold-light': 'var(--od-gold-light)',
+                        'gold-dark': 'var(--od-gold-dark)',
+                        'text-light': 'var(--od-text-light)',
+                        'text-dark': 'var(--od-text-dark)',
+                        'marine-darker': 'var(--od-marine-darker)',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/privacidad.css?v=26">
+</head>
+
+<body>
+  <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
+    <div class="bg-layer" aria-hidden="true"></div>
+    <!-- Partículas doradas flotantes -->
+    <div class="page-particles" aria-hidden="true">
+        <span class="page-particle" style="left: 8%; top: 70%; animation-delay: 0s;"></span>
+        <span class="page-particle" style="left: 16%; top: 55%; animation-delay: 1.2s;"></span>
+        <span class="page-particle" style="left: 24%; top: 65%; animation-delay: 2.4s;"></span>
+        <span class="page-particle" style="left: 33%; top: 75%; animation-delay: 0.8s;"></span>
+        <span class="page-particle" style="left: 45%; top: 60%; animation-delay: 3.0s;"></span>
+        <span class="page-particle" style="left: 55%; top: 72%; animation-delay: 1.9s;"></span>
+        <span class="page-particle" style="left: 64%; top: 58%; animation-delay: 2.8s;"></span>
+        <span class="page-particle" style="left: 74%; top: 68%; animation-delay: 0.4s;"></span>
+        <span class="page-particle" style="left: 84%; top: 62%; animation-delay: 3.6s;"></span>
+        <span class="page-particle" style="left: 92%; top: 70%; animation-delay: 2.0s;"></span>
+    </div>
+    <div class="overlay">
+
+        <nav class="nav-bar sticky top-0 z-50 w-full backdrop-blur-md border-b">
+            <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-3 max-w-6xl mx-auto w-full">
+                <a href="./" class="flex items-center shrink-0">
+                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+                </a>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <button type="button" onclick="toggleLang()" id="langBtn" class="nav-button nav-button-secondary" title="Cambiar idioma / Switch language"></button>
+                </div>
+            </div>
+        </nav>
+
+        <main id="contenido" class="flex-grow px-4 py-14">
+            <div class="max-w-4xl mx-auto bg-marine-medium border border-marine-light rounded-2xl p-6 md:p-10">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-marine-accent mb-2" data-i18n="p_title">Política de Privacidad</h1>
+                <p class="text-sm text-text-dark mb-8" data-i18n="p_last_update">Última actualización: Septiembre 2026</p>
+
+                <div class="space-y-8 text-text-light leading-relaxed">
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec1">1. Información que recopilamos</h2>
+                        <p data-i18n="p_sec1_a">Cuando inicias sesión con tu cuenta de Discord, recibimos tu ID de Discord, tu nombre de usuario y tu avatar con el único fin de identificarte en la web.</p>
+                        <p class="mt-2" data-i18n="p_sec1_b">Cuando haces un pedido guardamos tu nombre de Minecraft, el carrito, la referencia del pedido y su estado.</p>
+                        <p class="mt-2" data-i18n="p_sec1_c">Los servidores pueden registrar direcciones IP en sus registros técnicos con fines de seguridad y funcionamiento.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec2">2. Uso de la información</h2>
+                        <p data-i18n="p_sec2_a">Usamos tus datos para: prestarte el servicio (sesión, tickets, pedidos), responder a soporte, prevenir abusos o fraudes y mejorar la web.</p>
+                        <p class="mt-2" data-i18n="p_sec2_b">No vendemos ni alquilamos tus datos personales a terceros.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec3">3. Almacenamiento local y cookies</h2>
+                        <p data-i18n="p_sec3_a">La web usa el almacenamiento local del navegador para recordar tu sesión, idioma y tema elegido. No usamos cookies de seguimiento de terceros.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec4">4. Compartir con terceros</h2>
+                        <p data-i18n="p_sec4_a">Tus datos se comparten únicamente con la API de Discord para validar tu sesión. Tus pedidos pueden ser visibles para el staff encargado del soporte.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec5">5. Retención y borrado</h2>
+                        <p data-i18n="p_sec5_a">Los datos se conservan mientras sean necesarios para el servicio. Puedes cerrar sesión y solicitar el borrado de tu información contactando con el staff por Discord.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec6">6. Tus derechos</h2>
+                        <p data-i18n="p_sec6_a">Puedes solicitar acceso, corrección o eliminación de tus datos personales en cualquier momento. Si no se atiende tu solicitud, puedes ponerte en contacto de nuevo por Discord.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec7">7. Seguridad</h2>
+                        <p data-i18n="p_sec7_a">Aplicamos medidas razonables para proteger tu información (sesiones cifradas, permisos restringidos y acceso solo para el personal autorizado).</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-bold text-marine-accent mb-2" data-i18n="p_sec8">8. Cambios y contacto</h2>
+                        <p data-i18n="p_sec8_a">Podemos actualizar esta política y lo publicaremos en esta página. Para cualquier duda, contacta con el staff en Discord.</p>
+                    </section>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="p-6 bg-marine-dark text-text-dark text-center text-sm border-t border-marine-light">
+            <p>&copy; 2026 Odissey. <span data-i18n="footer_res">Todos los derechos reservados.</span></p>
+            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs">
+                <a href="terminos.html" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_terms">Términos y condiciones</a>
+                <span class="text-marine-accent" data-i18n="footer_privacy">Política de privacidad</span>
+                <a href="./" class="text-text-dark hover:text-marine-accent transition-colors duration-200">Inicio</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const I18N = {
+            es: {
+cb_decline: 'Rechazar',
+cb_accept: 'Aceptar',
+    skip_link: 'Ir al contenido',
+                p_title: 'Política de Privacidad', p_last_update: 'Última actualización: Septiembre 2026',
+                p_sec1: '1. Información que recopilamos', p_sec1_a: 'Cuando inicias sesión con tu cuenta de Discord, recibimos tu ID de Discord, tu nombre de usuario y tu avatar con el único fin de identificarte en la web.',
+                p_sec1_b: 'Cuando haces un pedido guardamos tu nombre de Minecraft, el carrito, la referencia del pedido y su estado.',
+                p_sec1_c: 'Los servidores pueden registrar direcciones IP en sus registros técnicos con fines de seguridad y funcionamiento.',
+                p_sec2: '2. Uso de la información', p_sec2_a: 'Usamos tus datos para: prestarte el servicio (sesión, tickets, pedidos), responder a soporte, prevenir abusos o fraudes y mejorar la web.',
+                p_sec2_b: 'No vendemos ni alquilamos tus datos personales a terceros.',
+                p_sec3: '3. Almacenamiento local y cookies', p_sec3_a: 'La web usa el almacenamiento local del navegador para recordar tu sesión, idioma y tema elegido. No usamos cookies de seguimiento de terceros.',
+                p_sec4: '4. Compartir con terceros', p_sec4_a: 'Tus datos se comparten únicamente con la API de Discord para validar tu sesión. Tus pedidos pueden ser visibles para el staff encargado del soporte.',
+                p_sec5: '5. Retención y borrado', p_sec5_a: 'Los datos se conservan mientras sean necesarios para el servicio. Puedes cerrar sesión y solicitar el borrado de tu información contactando con el staff por Discord.',
+                p_sec6: '6. Tus derechos', p_sec6_a: 'Puedes solicitar acceso, corrección o eliminación de tus datos personales en cualquier momento. Si no se atiende tu solicitud, puedes ponerte en contacto de nuevo por Discord.',
+                p_sec7: '7. Seguridad', p_sec7_a: 'Aplicamos medidas razonables para proteger tu información (sesiones cifradas, permisos restringidos y acceso solo para el personal autorizado).',
+                p_sec8: '8. Cambios y contacto', p_sec8_a: 'Podemos actualizar esta política y lo publicaremos en esta página. Para cualquier duda, contacta con el staff en Discord.',
+                footer_res: 'Todos los derechos reservados.', footer_terms: 'Términos y condiciones', footer_privacy: 'Política de privacidad'
+            },
+            en: {
+cb_decline: 'Reject',
+cb_accept: 'Accept',
+    skip_link: 'Skip to content',
+                p_title: 'Privacy Policy', p_last_update: 'Last updated: September 2026',
+                p_sec1: '1. Information we collect', p_sec1_a: 'When you log in with your Discord account, we receive your Discord ID, username and avatar solely to identify you on the website.',
+                p_sec1_b: 'When you place an order we store your Minecraft name, the cart, the order reference and its status.',
+                p_sec1_c: 'Servers may log IP addresses in technical logs for security and operation purposes.',
+                p_sec2: '2. Use of information', p_sec2_a: 'We use your data to: provide the service (session, tickets, orders), respond to support, prevent abuse or fraud, and improve the website.',
+                p_sec2_b: 'We do not sell or rent your personal data to third parties.',
+                p_sec3: '3. Local storage and cookies', p_sec3_a: 'The website uses the browser local storage to remember your session, language and chosen theme. We do not use third-party tracking cookies.',
+                p_sec4: '4. Sharing with third parties', p_sec4_a: 'Your data is shared only with the Discord API to validate your session. Your orders may be visible to the support staff.',
+                p_sec5: '5. Retention and deletion', p_sec5_a: 'Data is kept for as long as needed for the service. You can log out and request deletion of your information by contacting the staff on Discord.',
+                p_sec6: '6. Your rights', p_sec6_a: 'You may request access, correction or deletion of your personal data at any time. If your request is not addressed, you can get in touch again on Discord.',
+                p_sec7: '7. Security', p_sec7_a: 'We apply reasonable measures to protect your information (encrypted sessions, restricted permissions and access only for authorized staff).',
+                p_sec8: '8. Changes and contact', p_sec8_a: 'We may update this policy and will publish it on this page. For any questions, contact the staff on Discord.',
+                footer_res: 'All rights reserved.', footer_terms: 'Terms & Conditions', footer_privacy: 'Privacy Policy'
+            }
+        };
+
+        function getLang() {
+            return localStorage.getItem('odissey_lang') === 'en' ? 'en' : 'es';
+        }
+
+        function flagIcon(lang) {
+            return '<img class="inline-block w-6 h-4" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+        }
+
+        function applyLang() {
+            const lang = getLang();
+            const dict = I18N[lang];
+            if (!dict) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) langBtn.innerHTML = flagIcon(lang);
+            document.documentElement.lang = lang;
+        }
+
+        function toggleLang() {
+            localStorage.setItem('odissey_lang', getLang() === 'es' ? 'en' : 'es');
+            applyLang();
+        }
+
+        function getTheme() {
+            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+        }
+
+        function applyTheme() {
+            const light = getTheme() === 'light';
+            document.documentElement.classList.toggle('theme-light', light);
+            const sun = document.getElementById('themeSun');
+            const moon = document.getElementById('themeMoon');
+            if (sun) sun.classList.toggle('hidden', !light);
+            if (moon) moon.classList.toggle('hidden', light);
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', light ? '#f8fafc' : '#0f172a');
+        }
+
+        function toggleTheme() {
+            localStorage.setItem('odissey_theme', getTheme() === 'light' ? 'dark' : 'light');
+            applyTheme();
+        }
+
+        applyLang();
+        applyTheme();
+    </script>
+<!-- Aviso de cookies -->
+<style>
+#cookie-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:480px;margin:0 auto;background:linear-gradient(135deg,rgba(var(--od-glass-rgb,10,16,30),.97),rgba(var(--od-marine-darker-rgb,10,16,30),.94));border:1px solid rgba(var(--od-border-rgb,51,65,85),.6);border-radius:14px;padding:16px 18px;box-shadow:0 10px 40px rgba(var(--od-shadow-rgb,10,16,30),.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--od-text-light,#f8fafc);font-family:inherit;opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease;max-height:calc(100vh - 32px);overflow:auto}
+#cookie-banner.show{opacity:1;transform:translateY(0)}
+#cookie-banner .cb-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--od-gold-light,#fde68a);margin-bottom:8px}
+#cookie-banner .cb-text{font-size:13px;line-height:1.55;color:var(--od-text-dark,#cbd5e1);margin-bottom:14px}
+#cookie-banner .cb-text a{color:var(--od-marine-accent,#eab308);text-decoration:underline}
+#cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+</style>
+<div id="cookie-banner" role="dialog" aria-live="polite">
+  <div class="cb-head">🍪</div>
+  <div class="cb-text"></div>
+  <div class="cb-actions">
+    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
+    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+  </div>
+</div>
+<script>
+(function () {
+    var b = document.getElementById('cookie-banner');
+    if (!b) return;
+    var get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    var set = function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } };
+    if (get('odissey_cookie_consent')) return;
+    var en = get('odissey_lang') === 'en';
+    b.querySelector('.cb-head').textContent = en ? '🍪 We use cookies' : '🍪 Usamos cookies';
+    b.querySelector('.cb-text').innerHTML = en
+        ? 'This site uses cookies to remember your preferences (language and theme). We do not sell data to third parties. More info on our <a href="privacidad.html">privacy policy</a>.'
+        : 'Este sitio usa cookies para recordar tus preferencias (idioma y tema). No vendemos datos a terceros. Más información en nuestra <a href="privacidad.html">política de privacidad</a>.';
+    var accept = b.querySelector('[data-cb="accept"]');
+    var decline = b.querySelector('[data-cb="decline"]');
+    accept.textContent = en ? 'Accept' : 'Aceptar';
+    decline.textContent = en ? 'Reject' : 'Rechazar';
+    function pick(v) { set('odissey_cookie_consent', v); b.style.opacity = '0'; b.style.transform = 'translateY(12px)'; setTimeout(function () { b.remove(); }, 350); }
+    accept.addEventListener('click', function () { pick('accepted'); });
+    decline.addEventListener('click', function () { pick('rejected'); });
+    b.classList.add('show');
+})();
+</script>
+</body>
+
+</html>

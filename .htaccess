@@ -1,0 +1,104 @@
+# =============================================================
+#  Odissey - configuracion de Apache (cPanel / LiteSpeed)
+# -------------------------------------------------------------
+#  IMPORTANTE: no tocar la ruta /bot (app Node.js). /bot no esta
+#  en la lista blanca de URLs, asi que este archivo no la afecta.
+# =============================================================
+
+# -------------------------------------------------------------
+# 1. Charset por defecto (los textos tienen acentos y emojis)
+# -------------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# -------------------------------------------------------------
+# 2. Tipo MIME de .webp
+#    Sin esto Apache 2.4 puede servirlo como application/octet-stream
+#    y el <img> no lo muestra. Los .png/.jpg ya los conoce.
+# -------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/jpeg .jpg .jpeg
+</IfModule>
+
+# -------------------------------------------------------------
+# 3. URLs limpias (oculta .html) - SOLO lista blanca
+# -------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Migrar enlaces viejos con .html -> URL limpia (301)
+  RewriteCond %{THE_REQUEST} \.html\s
+  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|admin|privacidad|terminos)\.html$ /$1 [R=301,L]
+
+  # Servir .html en segundo plano para las URLs limpias (solo paginas conocidas)
+  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|admin|privacidad|terminos)/?$ $1.html [L]
+</IfModule>
+
+# -------------------------------------------------------------
+# 4. Compresion
+#    Sin esto cada pagina se envia entera: 178 KB en vez de ~22 KB.
+#    Las imagenes van excluidas: WebP/JPG/PNG ya estan comprimidas y
+#    volver a comprimirlas solo gasta CPU.
+# -------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml font/woff font/woff2
+  # (imagenes fuera a proposito: webp, jpg, png, ico, avif)
+
+  # si el servidor ya tiene brotli (LiteSpeed), no descomprimir de nuevo
+  <IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+  </IfModule>
+</IfModule>
+
+# -------------------------------------------------------------
+# 5. Cache en el navegador
+#    El HTML va sin cache para que los cambios se vean al instante
+#    (el service worker es la capa de cache de verdad).
+# -------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 week"
+
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType application/javascript    "access plus 1 week"
+  ExpiresByType text/css                  "access plus 1 week"
+  ExpiresByType application/json         "access plus 1 day"
+  ExpiresByType image/png                 "access plus 30 days"
+  ExpiresByType image/jpeg                "access plus 30 days"
+  ExpiresByType image/webp                "access plus 30 days"
+  ExpiresByType image/svg+xml             "access plus 30 days"
+  ExpiresByType image/x-icon              "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(png|jpg|jpeg|webp|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|json)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Cabeceras de seguridad basicas
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# -------------------------------------------------------------
+# 6. Pagina de error 404 propia
+# -------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# -------------------------------------------------------------
+# 7. Seguridad basica
+# -------------------------------------------------------------
+Options -Indexes

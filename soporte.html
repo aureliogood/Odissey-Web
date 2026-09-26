@@ -1,0 +1,1746 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var here = location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '/');
+            document.querySelectorAll('.nav-button[href]').forEach(function (a) {
+                var target = new URL(a.getAttribute('href'), location.href).pathname;
+                if (target === here) a.setAttribute('aria-current', 'page');
+            });
+        });
+    </script>
+    <title>Soporte - Odissey</title>
+  <link rel="canonical" href="https://odisseymc.site/soporte">
+    <meta name="description" content="Ayuda, reportes de jugadores y soporte de Odissey.">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.json">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Odissey Minecraft Server">
+    <meta property="og:title" content="Odissey - Servidor de Minecraft Java">
+    <meta property="og:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia odisea en comunidad.">
+    <meta property="og:image" content="https://odisseymc.site/img/og-image.jpg">
+    <meta property="og:url" content="https://odisseymc.site/soporte">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Odissey - Servidor de Minecraft Java">
+    <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia leyenda en Odissey.">
+    <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Odissey Minecraft Server",
+      "description": "Servidor de Minecraft Java Survival Custom. IP: Próximamente",
+      "genre": ["Survival", "Multiplayer", "Custom RPG"],
+      "gamePlatform": ["PC"],
+      "applicationCategory": "Game",
+      "url": "https://odisseymc.site",
+      "operatingSystem": "Minecraft 1.20 - 1.21"
+    }
+    </script>
+    <link rel="stylesheet" href="theme.css?v=26">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'marine-dark': 'var(--od-marine-dark)',
+                        'marine-medium': 'var(--od-marine-medium)',
+                        'marine-light': 'var(--od-marine-light)',
+                        'marine-accent': 'var(--od-marine-accent)',
+                        'gold-light': 'var(--od-gold-light)',
+                        'gold-dark': 'var(--od-gold-dark)',
+                        'text-light': 'var(--od-text-light)',
+                        'text-dark': 'var(--od-text-dark)',
+                        'marine-darker': 'var(--od-marine-darker)',
+                        'always-light': 'var(--od-always-light)',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/soporte.css?v=26">
+</head>
+<body>
+  <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
+    <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
+    <!-- Partículas doradas flotantes -->
+    <div class="page-particles" aria-hidden="true">
+        <span class="page-particle" style="left: 8%; top: 70%; animation-delay: 0s;"></span>
+        <span class="page-particle" style="left: 16%; top: 55%; animation-delay: 1.2s;"></span>
+        <span class="page-particle" style="left: 24%; top: 65%; animation-delay: 2.4s;"></span>
+        <span class="page-particle" style="left: 33%; top: 75%; animation-delay: 0.8s;"></span>
+        <span class="page-particle" style="left: 45%; top: 60%; animation-delay: 3.0s;"></span>
+        <span class="page-particle" style="left: 55%; top: 72%; animation-delay: 1.9s;"></span>
+        <span class="page-particle" style="left: 64%; top: 58%; animation-delay: 2.8s;"></span>
+        <span class="page-particle" style="left: 74%; top: 68%; animation-delay: 0.4s;"></span>
+        <span class="page-particle" style="left: 84%; top: 62%; animation-delay: 3.6s;"></span>
+        <span class="page-particle" style="left: 92%; top: 70%; animation-delay: 2.0s;"></span>
+    </div>
+    <div class="overlay">
+        <!-- Banner de mantenimiento (oculto por defecto) -->
+        <div id="maintenanceBanner"
+            class="hidden w-full bg-gold-dark text-always-light text-center text-sm font-semibold px-4 py-2">
+            <span id="maintenanceMsg"></span>
+        </div>
+        <!-- Sticky Navigation -->
+        <nav class="nav-bar sticky top-0 z-50 w-full">
+            <div class="flex items-center justify-between gap-3 px-6 py-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="flex items-center shrink-0">
+                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+                </a>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <button type="button" id="cartBtn" onclick="openLoginModal()"
+                        class="nav-button nav-button-primary" title="Carrito" aria-label="Carrito">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+                        <span id="cartBadge" class="cart-count">0</span>
+                    </button>
+                    <button type="button" onclick="toggleLang()" id="langBtn"
+                        class="nav-button nav-button-secondary lang-btn" title="Cambiar idioma / Switch language"></button>
+                    <button type="button" onclick="toggleTheme()" id="themeBtn"
+                        class="nav-button nav-button-secondary flex items-center justify-center" title="Cambiar tema / Switch theme" aria-label="Cambiar tema">
+                        <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+                        <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                    <button type="button" id="menuBtn" onclick="toggleMenu()"
+                        class="nav-button nav-button-secondary flex items-center justify-center" title="Menú" aria-label="Abrir menú">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+                    </button>
+                    <button type="button" id="enterNavBtn" onclick="openLoginModal()"
+                        class="nav-button nav-button-primary">
+                        <span id="enterNavText">Entrar</span>
+                        <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
+                    </button>
+                </div>
+            </div>
+            <div id="menuDropdown" class="menu-panel hidden absolute top-full left-0 right-0 z-40 shadow-xl"
+                onclick="closeMenu()">
+                <div class="px-6 py-4 max-w-7xl mx-auto w-full">
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                                                  <a href="staff.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                          <a href="reglas.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                          <a href="noticias.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_noticias">Noticias</span></a>
+                          <a href="eventos.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg><span data-i18n="nav_eventos">Eventos</span></a>
+                          <a href="galeria.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span data-i18n="nav_galeria">Galería</span></a>
+                          <a href="soporte.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                          <a href="tienda.html" class="nav-button nav-button-shop"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                      </div>
+                </div>
+            </div>
+        </nav>
+        <script>
+            function toggleMenu() {
+                const d = document.getElementById('menuDropdown');
+                if (!d) return;
+                if (d.classList.contains('hidden')) d.classList.remove('hidden');
+                else d.classList.add('hidden');
+            }
+            function closeMenu() {
+                const d = document.getElementById('menuDropdown');
+                if (d && !d.classList.contains('hidden')) toggleMenu();
+            }
+            document.addEventListener('click', function (e) {
+                const nav = document.querySelector('nav');
+                const d = document.getElementById('menuDropdown');
+                if (!d || d.classList.contains('hidden')) return;
+                if (nav && !nav.contains(e.target)) closeMenu();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        </script>
+        <main id="contenido" class="flex-grow">
+                        <div class="px-6 pt-6 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-button nav-button-secondary gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                    <span data-i18n="nav_back">Volver al inicio</span>
+                </a>
+            </div>
+<!-- Soporte Section -->
+            <section id="soporte" class="px-4 py-16 scroll-mt-24">
+                <div class="liquid-glass-container max-w-5xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-marine-accent text-center mb-6 reveal" data-i18n="support_title">Soporte</h2>
+                    <p class="text-text-dark text-lg leading-relaxed mb-8 reveal" data-i18n="support_desc">
+                        ¿Necesitas ayuda con una compra, un problema en el servidor, o quieres reportar a un jugador?
+                        Únete a nuestro Discord o usa el formulario de reporte y lo revisaremos lo antes posible.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center gap-4 mb-2 reveal">
+                        <button type="button" id="supportReportBtn" onclick="toggleSupportPanel('report')"
+                            class="btn3d support-btn" data-i18n="support_report_btn">Reportar Jugador</button>
+                        <button type="button" id="supportMyReportsBtn" onclick="toggleSupportPanel('reports')"
+                            class="btn3d support-btn" data-i18n="support_my_reports_btn">Mis reportes</button>
+                    </div>
+                </div>
+                <!-- Panel: Reportar jugador -->
+                <div id="reportPanel" class="support-panel hidden max-w-3xl mx-auto mt-8">
+                    <div class="liquid-glass-container p-6 md:p-8 text-left">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-lg text-2xl font-bold"
+                                style="background: var(--od-marine-accent); color: var(--od-marine-darker);">!</div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-marine-accent" data-i18n="report_title">Reportar un jugador</h3>
+                                <p class="text-sm text-text-dark" data-i18n="report_sub">Tu reporte lo revisará el staff</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-text-dark my-3" data-i18n="report_info">Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).</p>
+                        <div class="input-container mt-4">
+                            <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa">
+                            <input type="text" id="report-target" placeholder="Jugador a reportar" autocomplete="off" maxlength="16">
+                        </div>
+                        <select id="report-reason" class="rating-comment mt-4">
+                            <option value="Trampa / Hacks">Trampa / Hacks</option>
+                            <option value="Spam">Spam</option>
+                            <option value="Acoso">Acoso</option>
+                            <option value="Duplicación">Duplicación</option>
+                            <option value="Griefing">Griefing</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <textarea id="report-detail" class="rating-comment mt-4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
+                        <div class="mt-4">
+                            <span class="text-sm font-semibold text-text-light" data-i18n="report_evidence_label">Evidencia de reporte</span>
+                            <span class="text-xs ml-2" style="color: var(--od-text-dark); opacity:.75;" data-i18n="report_evidence_opt">(foto o video, opcional)</span>
+                            <div class="flex flex-wrap items-center gap-3 mt-2">
+                                <button type="button" class="btn3d btn-sm" onclick="document.getElementById('report-evidence-input').click()" data-i18n="report_evidence_btn">Subir foto / video</button>
+                                <input type="file" id="report-evidence-input" accept="image/*,video/*" class="hidden">
+                                <span id="report-evidence-name" class="text-sm text-text-dark max-w-[12rem] truncate"></span>
+                                <button type="button" id="report-evidence-clear" class="hidden text-sm underline" onclick="clearReportEvidence()" style="color:#ffb74d;" data-i18n="report_evidence_remove">Quitar</button>
+                            </div>
+                            <div id="report-evidence-preview" class="mt-2 hidden">
+                                <img id="report-evidence-img" src="" alt="Vista previa" class="h-20 w-20 object-cover rounded-lg border border-marine-light">
+                                <video id="report-evidence-vid" class="hidden h-20 w-20 object-cover rounded-lg border border-marine-light" controls muted></video>
+                            </div>
+                            <p id="report-evidence-msg" class="text-xs mt-2 min-h-[1em]" style="color:#ffb74d;"></p>
+                        </div>
+                        <input type="hidden" id="report-capture" value="">
+                        <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
+                        <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-i18n="report_submit_btn">Enviar reporte</button>
+                        <p class="text-sm mt-5 text-center leading-relaxed" style="color: var(--od-marine-accent); opacity:.9;" data-i18n="support_note">
+                            Cuando hagas el reporte se abrirá un <strong>ticket en Discord</strong> y un staff te responderá lo antes posible.
+                        </p>
+                    </div>
+                </div>
+                <!-- Panel: Mis reportes -->
+                <div id="myReportsPanel" class="support-panel hidden max-w-3xl mx-auto mt-8">
+                    <div class="liquid-glass-container p-6 md:p-8 text-left">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-lg text-2xl font-bold"
+                                style="background: var(--od-marine-accent); color: var(--od-marine-darker);">#</div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-marine-accent" data-i18n="support_my_reports_title">Mis reportes</h3>
+                                <p class="text-sm text-text-dark">Tus reportes de la web y tus tickets de Discord.</p>
+                            </div>
+                        </div>
+                        <div id="my-reports-panel-box" class="account-lists mt-4">
+                            <p class="no-items" data-i18n="no_reports_tickets">Aún no tienes reportes ni tickets.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer Section -->
+        <footer
+            class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
+            <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
+                <a href="#" aria-label="Odissey" class="shrink-0">
+                    <img src="img/logo-web.webp" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
+                </a>
+                <div class="flex flex-col items-center gap-3">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
+                    <div class="flex items-center gap-3">
+                        <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" title="Discord" class="discord-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
+                            Discord
+                        </a>
+                        <a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" title="TikTok" class="tiktok-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+                            TikTok
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end gap-2 text-right">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_ip">IP del servidor</span>
+                    <span class="font-sans text-marine-accent font-semibold">Proximamente</span>
+                </div>
+                <div id="adminBtn" class="hidden flex-col items-end gap-2 text-right">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_admin">Panel de admin</span>
+                    <a href="admin.html" class="font-sans text-marine-accent font-semibold hover:text-gold-light transition-colors duration-200">Admin</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-text-dark/80 mt-6">&copy; 2026 Odissey. <span data-i18n="footer_res">Todos los derechos reservados.</span></p>
+            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs">
+                <a href="terminos.html" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_terms">Términos y condiciones</a>
+                <a href="privacidad.html" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_privacy">Política de privacidad</a>
+            </div>
+        </footer>
+    </div>
+    <!-- Modal de entrada por nombre de Minecraft -->
+    <div id="loginModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="loginView" class="login-card">
+            <h2 data-i18n="login_title">Conecta con Discord</h2>
+            <p class="subtitle" data-i18n="login_sub">
+                Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito de la web.
+            </p>
+            <button type="button" class="btn3d w-full" onclick="startDiscordLogin()" data-i18n="login_discord_btn">
+                CONECTAR CON DISCORD
+            </button>
+            <button type="button" onclick="closeLoginModal()"
+                class="mt-4 text-xs text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="close">Cerrar</button>
+        </div>
+        <div id="accountView" class="account-card hidden">
+            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <div class="user-header">
+                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head">
+                <div class="user-info">
+                    <h3><span data-i18n="account_title">Cuenta de</span> <span id="username-display"></span></h3>
+                    <div class="user-actions">
+                        <button type="button" id="logout-btn" class="btn3d" onclick="handleLogout()" data-i18n="nav_logout">Cerrar sesión</button>
+                        <div class="currency-selector">
+                            <span data-i18n="currency_label">Moneda:</span>
+                            <select id="currency">
+                                <option value="USD">USD</option>
+                                <option value="COP">COP</option>
+                                <option value="EUR">EUR</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="mc-name-row">
+                <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
+                <input id="mcNameInput" type="text" class="mc-name-input" maxlength="16" autocomplete="off" placeholder="Steve">
+                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
+            </div>
+            <hr class="divider">
+            <div id="cart-content">
+                <div id="cart-list"></div>
+            </div>
+            <div id="cart-footer" class="hidden">
+                <div class="cart-total-row">
+                    <span data-i18n="cart_total">Total:</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+            </div>
+            <hr class="divider">
+            <div class="flex items-center gap-2 mb-2">
+                <h4 class="text-sm font-bold text-text-light text-left" data-i18n="my_reports_tickets_title">Mis reportes / Tickets</h4>
+                <span id="ticketsUnreadPill" class="tickets-unread-pill hidden" data-i18n="new_pill">NUEVO</span>
+            </div>
+            <div id="my-reports-tickets" class="account-lists">
+                <p class="no-items" data-i18n="no_reports_tickets">Aún no tienes reportes ni tickets.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de información del staff -->
+    <div id="staffModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="staffModalContent" class="staff-panel"></div>
+    </div>
+    <!-- Modal de calificación de staff -->
+    <div id="ratingModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="ratingView" class="staff-panel">
+            <button class="close-btn" onclick="closeRatingModal()">&times;</button>
+            <div class="staff-panel-header">
+                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin">
+                <div>
+                    <h3 id="rating-title"><span data-i18n="rating_title_prefix">Calificar a</span> <span id="rating-name">aureliogood</span></h3>
+                    <p class="staff-panel-role" data-i18n="rating_subtitle">Tu opinión nos ayuda a mejorar</p>
+                </div>
+            </div>
+            <hr class="divider">
+            <p class="staff-panel-info" data-i18n="rating_prompt">¿Cómo fue tu experiencia con este miembro del staff?</p>
+            <div class="star-rating" id="star-rating">
+                <button type="button" data-value="1" aria-label="1 estrella">★</button>
+                <button type="button" data-value="2" aria-label="2 estrellas">★</button>
+                <button type="button" data-value="3" aria-label="3 estrellas">★</button>
+                <button type="button" data-value="4" aria-label="4 estrellas">★</button>
+                <button type="button" data-value="5" aria-label="5 estrellas">★</button>
+            </div>
+            <textarea id="rating-comment" class="rating-comment" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
+            <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-i18n="rating_submit_btn">Enviar calificación</button>
+        </div>
+    </div>
+    <!-- Modal Lightbox para la Galería de Builds -->
+    <div id="lightboxModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[10000] hidden items-center justify-center p-4"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
+        <div class="flex flex-col items-center max-w-4xl w-full">
+            <img id="lightboxImg" src="" alt="Build" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
+            <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
+        </div>
+    </div>
+    <!-- Background changing script -->
+    <script>
+        const backgrounds = [
+            'img/backgrounds/background1.jpg',
+            // Add more backgrounds as needed,
+        ];
+        let currentIndex = 0;
+        const bgLayer = document.getElementById('bgLayer');
+        function changeBackground() {
+            if (!bgLayer || backgrounds.length === 0) return;
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+            bgLayer.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+        }
+        // El fondo del hero lo pone el CSS. Si algun dia se anade la capa
+        // #bgLayer, esta linea empieza a rotar sola.
+        if (bgLayer) setInterval(changeBackground, 15000);
+    </script>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+    <script src="site-config.js"></script>
+    <script src="shop-config.js"></script>
+    <script src="staff-config.js"></script>
+    <script src="site-data.js"></script>
+    <script>
+        function copyToClipboard(text, message) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'Copiado' : 'Error al copiar';
+                showNotification(message + " " + msg);
+            } catch (err) {
+                showNotification('Error al copiar: ' + err);
+            }
+            document.body.removeChild(textArea);
+        }
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--od-marine-accent); /* gold */
+                color: var(--od-ink); /* marine-dark */
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 10);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.addEventListener('transitionend', () => notification.remove());
+            }, 3000);
+        }
+        async function updatePlayerCounts() {
+            const config = (window.SITE_CONFIG || {});
+            const serverIp = config.serverIp || 'play.odissey.net';
+            const gamemode = config.gamemode || 'Survival Custom';
+            const gamemodeEl = document.getElementById('serverGamemode');
+            if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
+            const dot = document.getElementById('serverStatusDot');
+            const statusTxt = document.getElementById('serverStatusText');
+            let manualStatus = '';
+            const maintenance = (window.SiteData && SiteData.get('maintenance')) || null;
+            if (maintenance && (maintenance.active || maintenance.status === 'maintenance')) {
+                manualStatus = 'maintenance';
+            } else if (maintenance && maintenance.status === 'online') {
+                manualStatus = 'online';
+            }
+try {
+                const res = await fetch(`https://api.mcstatus.io/v2/status/java/${encodeURIComponent(serverIp)}`);
+                const data = await res.json();
+                const version = (data.version && data.version.name) ? data.version.name : '';
+                document.querySelectorAll('.playerCount').forEach(el => el.textContent = `${data.players ? data.players.online : 0}`);
+                const versionEl = document.getElementById('serverVersion');
+                if (versionEl) {
+                    if (manualStatus === 'maintenance') {
+                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
+                        versionEl.className = 'text-xs text-yellow-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        if (statusTxt) {
+                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                        }
+                    } else if (data.online || manualStatus === 'online') {
+                        versionEl.textContent = (getLang() === 'en' ? 'Version: ' : 'Versión: ') + (version || '1.20 - 1.21');
+                        versionEl.className = 'text-xs text-green-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+                        if (statusTxt) {
+                            statusTxt.textContent = manualStatus === 'online' ? (getLang() === 'en' ? 'Active' : 'Activo') : (getLang() === 'en' ? 'Online' : 'En línea');
+                            statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                        }
+                    } else {
+                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
+                        versionEl.className = 'text-xs text-yellow-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        if (statusTxt) {
+                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                        }
+                    }
+                }
+            } catch (err) {
+                document.querySelectorAll('.playerCount').forEach(el => el.textContent = '0');
+                const versionEl = document.getElementById('serverVersion');
+                if (versionEl) {
+                    versionEl.textContent = getLang() === 'en' ? 'Status: Online' : 'Estado: En línea';
+                    versionEl.className = 'text-xs text-text-dark mt-1';
+                }
+                if (manualStatus === 'online' && statusTxt) {
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+                    statusTxt.textContent = getLang() === 'en' ? 'Active' : 'Activo';
+                    statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                }
+            }
+        }
+        updatePlayerCounts();
+        setInterval(updatePlayerCounts, 45000);
+        const loginModal = document.getElementById('loginModal');
+        const loginView = document.getElementById('loginView');
+        const accountView = document.getElementById('accountView');
+        const userBust = document.getElementById('user-bust');
+        const usernameDisplay = document.getElementById('username-display');
+        const enterNavBtn = document.getElementById('enterNavBtn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const currencySelect = document.getElementById('currency');
+        const mcNameInput = document.getElementById('mcNameInput');
+        const API_BASE = window.API_BASE || 'https://odisseymc.site/bot';
+        function getSessionToken() {
+            return localStorage.getItem('odissey_discord_session');
+        }
+        function getDiscordUser() {
+            try {
+                const u = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
+                return u && u.id ? u : null;
+            } catch (err) { return null; }
+        }
+        function getCurrentUser() {
+            const u = getDiscordUser();
+            return u ? u.id : null;
+        }
+        async function fetchSessionUser() {
+            const token = getSessionToken();
+            if (!token) return false;
+            try {
+                const res = await fetch(API_BASE + '/api/session?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    localStorage.removeItem('odissey_discord_session');
+                    localStorage.removeItem('odissey_discord_user');
+                    return false;
+                }
+                localStorage.setItem('odissey_discord_user', JSON.stringify(data.user));
+                return true;
+            } catch (err) {
+                return !!getDiscordUser();
+            }
+        }
+        async function updateAdminButton() {
+            const btn = document.getElementById('adminBtn');
+            if (!btn) return;
+            const token = getSessionToken();
+            if (!token) { btn.classList.add('hidden'); return; }
+            try {
+                const res = await fetch(API_BASE + '/api/admin/check?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                if (data && data.ok && data.isAdmin) btn.classList.remove('hidden');
+                else btn.classList.add('hidden');
+            } catch (err) {
+                btn.classList.add('hidden');
+            }
+        }
+        function apiErrorText(code) {
+            const es = {
+                unauthorized: 'Sesión expirada. Conecta con Discord de nuevo.',
+                not_in_guild: 'Debes estar dentro del Discord de Odissey para abrir tickets.',
+                existing_ticket: 'Ya tienes un ticket abierto. Ciérralo antes de abrir otro.',
+                category: 'Categoría no válida.',
+                bot_not_ready: 'El bot aún se está conectando. Inténtalo en un momento.',
+                internal: 'Ocurrió un error. Revisa que el bot esté encendido.'
+            };
+            const en = {
+                unauthorized: 'Session expired. Connect with Discord again.',
+                not_in_guild: 'You must be inside the Odissey Discord to open tickets.',
+                existing_ticket: 'You already have an open ticket. Close it before opening another.',
+                category: 'Invalid category.',
+                bot_not_ready: 'The bot is still connecting. Try again in a moment.',
+                internal: 'Something went wrong. Check that the bot is online.'
+            };
+            const dict = getLang() === 'en' ? en : es;
+            return dict[code] || (getLang() === 'en' ? 'Could not open the ticket.' : 'No se pudo abrir el ticket.');
+        }
+        function getJsonList(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (err) { return []; }
+        }
+        function shortDate(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            } catch (err) { return iso; }
+        }
+        function safeLower(value) {
+            return String(value || '').toLowerCase();
+        }
+        let ticketShownCount = -1;
+        async function fetchTicketsData() {
+            const token = getSessionToken();
+            if (!token) return [];
+            try {
+                const res = await fetch(API_BASE + '/api/tickets?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                return (data && data.ok && data.tickets) ? data.tickets : [];
+            } catch (err) { return []; }
+        }
+        async function markTicketsRead() {
+            const token = getSessionToken();
+            if (!token) return;
+            try {
+                await fetch(API_BASE + '/api/tickets/read', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+            } catch (err) { }
+        }
+        function setTicketNotifCount(n) {
+            const badge = document.getElementById('ticketNotifBadge');
+            if (badge) {
+                badge.textContent = n > 9 ? '9+' : String(n || '');
+                badge.classList.toggle('hidden', !n);
+            }
+            const pill = document.getElementById('ticketsUnreadPill');
+            if (pill) pill.classList.toggle('hidden', !n);
+        }
+        function updateTicketNotif(mine) {
+            const n = mine.filter(t => t.unread).length;
+            if (n > ticketShownCount && ticketShownCount !== -1) {
+                const t = mine.filter(x => x.unread)
+                    .sort((a, b) => (b.lastStaffReplyAt || '').localeCompare(a.lastStaffReplyAt || ''))[0];
+                const prefix = getLang() === 'en' ? I18N.en.staff_replied : I18N.es.staff_replied;
+                showNotification(prefix + (t ? t.id : n) + '...');
+            }
+            ticketShownCount = n;
+            setTicketNotifCount(n);
+        }
+        // Lista unificada: reportes de la página (locales) + tickets de Discord, ordenados más reciente primero
+        async function renderMyReportsAndTickets() {
+            const boxes = [document.getElementById('my-reports-tickets'), document.getElementById('my-reports-panel-box')].filter(Boolean);
+            if (boxes.length === 0) return;
+            const token = getSessionToken();
+            if (!token) {
+                boxes.forEach(b => { b.innerHTML = '<p class="no-items">' + (getLang() === 'en' ? 'Log in to see your reports and tickets.' : 'Inicia sesión para ver tus reportes y tickets.') + '</p>'; });
+                setTicketNotifCount(0);
+                return;
+            }
+            const user = getCurrentUser();
+            if (!user) { try { await fetchSessionUser(); } catch (err) { } }
+            const tickets = (await fetchTicketsData()) || [];
+            let reports = SiteData.get('reports') || [];
+            if (!SiteData.myLoaded) {
+                try { await SiteData.reloadMy(token); } catch (err) { }
+                reports = SiteData.get('reports') || [];
+            }
+            // Los reportes web vinculados a un ticket se muestran como reporte (con su nº de ticket),
+            // y su ticket se omite para no duplicar la entrada.
+            const linkedTickets = new Set();
+            reports.forEach(r => {
+                if (r.ticketId && tickets.some(t => String(t.id) === String(r.ticketId))) linkedTickets.add(String(r.ticketId));
+            });
+            const itemPills = { open: 'pill-nuevo', closed: 'pill-proceso', deleted: 'pill-resuelto' };
+            const itemLabels = getLang() === 'en'
+                ? { open: 'Open', closed: 'Closed', deleted: 'Deleted', nuevo: 'New', proceso: 'In progress', resuelto: 'Resolved' }
+                : { open: 'Abierto', closed: 'Cerrado', deleted: 'Eliminado', nuevo: 'Nuevo', proceso: 'En proceso', resuelto: 'Resuelto' };
+            const newPill = getLang() === 'en' ? I18N.en.new_pill : I18N.es.new_pill;
+            const items = [];
+            reports.forEach(r => {
+                const ticket = r.ticketId ? tickets.find(t => String(t.id) === String(r.ticketId)) : null;
+                const webTicket = tickets.find(t => t.source === 'web' && t.category === 'reporte' &&
+                    Math.abs(new Date(t.createdAt).getTime() - new Date(r.date).getTime()) < 90000);
+                const t = ticket || webTicket;
+                const displayStatus = (t && t.status !== 'open') ? t.status : r.status;
+                items.push({
+                    key: 'r' + r.id,
+                    title:  '📢 ' + (r.target || 'Reporte'),
+                    sub: (r.reason || '') + (r.detail ? ' · ' + r.detail : '') + (t ? ' · #' + t.id + ' · Web' : ''),
+                    status: displayStatus,
+                    pill: itemPills[displayStatus] || (displayStatus === 'resuelto' ? 'pill-resuelto' : (displayStatus === 'proceso' ? 'pill-proceso' : 'pill-nuevo')),
+                    date: r.date,
+                    unread: !!(t && t.unread)
+                });
+            });
+            tickets.forEach(t => {
+                if (linkedTickets.has(String(t.id))) return;
+                items.push({
+                    key: 't' + t.id,
+                    title: '📢 ' + t.categoryLabel,
+                    sub: '#' + t.id + (t.source === 'web' ? ' · Web' : ' · Discord'),
+                    status: t.status,
+                    pill: itemPills[t.status] || 'pill-nuevo',
+                    date: t.createdAt,
+                    unread: !!t.unread
+                });
+            });
+            items.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const html = items.length === 0
+                ? '<p class="no-items">' + (getLang() === 'en' ? 'You have no reports or tickets yet.' : 'Aún no tienes reportes ni tickets.') + '</p>'
+                : items.slice(0, 15).map(it => `
+                    <div class="account-item">
+                        <div class="top">
+                            <span class="name">${escapeHtml(it.title)}${it.unread ? `<span class="tickets-unread-pill">${newPill}</span>` : ''}</span>
+                            <span class="mini pill ${it.pill}">${itemLabels[it.status] || escapeHtml(it.status)}</span>
+                        </div>
+                        <div class="sub">${escapeHtml(it.sub)}</div>
+                        <div class="date">${shortDate(it.date)}</div>
+                    </div>`).join('');
+            boxes.forEach(b => { b.innerHTML = html; });
+            updateTicketNotif(tickets);
+        }
+        async function refreshTickets() {
+            await renderMyReportsAndTickets();
+        }
+        function renderAccountView() {
+            const info = getDiscordUser();
+            usernameDisplay.textContent = info ? (info.username || getCurrentUser()) : '';
+            userBust.src = info && info.avatar
+                ? `https://cdn.discordapp.com/avatars/${info.id}/${info.avatar}.png?size=128`
+                : 'https://mc-heads.net/avatar/steve/100';
+            if (mcNameInput) mcNameInput.value = (info && info.mcName) || '';
+            if (currencySelect) currencySelect.value = getCurrency();
+            renderCart();
+            renderMyReportsAndTickets();
+        }
+        function updateNavButton() {
+            const u = getDiscordUser();
+            const label = u ? (u.username || '') : (getLang() === 'en' ? 'Log in' : 'Entrar');
+            const txt = document.getElementById('enterNavText');
+            if (txt) txt.textContent = label;
+        }
+        function openAccountOrLoginModal() {
+            const loggedIn = !!getCurrentUser();
+            loginView.classList.toggle('hidden', loggedIn);
+            accountView.classList.toggle('hidden', !loggedIn);
+            if (loggedIn) {
+                renderAccountView();
+                fetchSessionUser().then(renderAccountView);
+                // Al abrir la cuenta se marcan los avisos como leídos
+                markTicketsRead().then(() => {
+                    ticketShownCount = 0;
+                    setTicketNotifCount(0);
+                    renderMyReportsAndTickets();
+                });
+            }
+        }
+        function openLoginModal() {
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+            openAccountOrLoginModal();
+        }
+        function closeLoginModal() {
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+        }
+        function getCurrency() {
+            return localStorage.getItem('odissey_currency') || 'USD';
+        }
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeLoginModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !loginModal.classList.contains('hidden')) closeLoginModal();
+            if (e.key === 'Escape' && staffModal && !staffModal.classList.contains('hidden')) closeStaffModal();
+            if (e.key === 'Escape' && ratingModal && !ratingModal.classList.contains('hidden')) closeRatingModal();
+            if (e.key === 'Escape' && !document.getElementById('lightboxModal').classList.contains('hidden')) closeLightbox();
+        });
+        function startDiscordLogin() {
+            window.location.href = API_BASE + '/discord/login';
+        }
+        async function saveMcName() {
+            const token = getSessionToken();
+            if (!token) return;
+            const name = (mcNameInput.value || '').trim();
+            try {
+                const res = await fetch(API_BASE + '/api/mcname', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, mcName: name })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    showNotification(data.error === 'unauthorized'
+                        ? apiErrorText('unauthorized')
+                        : (getLang() === 'en' ? 'Could not save the name.' : 'No se pudo guardar el nombre.'));
+                    return;
+                }
+                const u = getDiscordUser();
+                if (u) {
+                    u.mcName = data.mcName || '';
+                    localStorage.setItem('odissey_discord_user', JSON.stringify(u));
+                }
+                showNotification(getLang() === 'en' ? 'Name saved!' : 'Nombre guardado.');
+            } catch (err) {
+                showNotification(getLang() === 'en' ? 'The bot seems to be offline.' : 'El bot parece estar apagado.');
+            }
+        }
+        async function handleLogout() {
+            const token = getSessionToken();
+            if (token) {
+                try {
+                    await fetch(API_BASE + '/api/logout', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: token })
+                    });
+                } catch (err) { }
+            }
+            localStorage.removeItem('odissey_discord_session');
+            localStorage.removeItem('odissey_discord_user');
+            ticketShownCount = -1;
+            setTicketNotifCount(0);
+            updateNavButton();
+            openAccountOrLoginModal();
+            showNotification('Sesión cerrada correctamente.');
+        }
+        if (currencySelect) {
+            currencySelect.addEventListener('change', () => {
+                localStorage.setItem('odissey_currency', currencySelect.value);
+                renderCart();
+            });
+        }
+        function handleDiscordCallback() {
+            const params = new URLSearchParams(location.search);
+            const token = params.get('discord_session');
+            const error = params.get('discord_error');
+            if (params.has('discord_session') || params.has('discord_error')) {
+                history.replaceState({}, '', location.pathname + location.hash);
+            }
+            if (token) {
+                localStorage.setItem('odissey_discord_session', token);
+                fetchSessionUser().then(() => {
+                    updateNavButton();
+                    updateAdminButton();
+                    openAccountOrLoginModal();
+                    SiteData.loadMy(token).then(() => renderMyReportsAndTickets());
+                    showNotification(getLang() === 'en' ? 'Connected with Discord!' : '¡Conectado con Discord!');
+                });
+            } else if (error) {
+                showNotification(getLang() === 'en'
+                    ? 'Could not connect with Discord. Please try again.'
+                    : 'No se pudo conectar con Discord. Vuelve a intentarlo.');
+            }
+        }
+        updateNavButton();
+        handleDiscordCallback();
+        fetchSessionUser();
+        updateAdminButton();
+        // Aviso de respuesta en tickets: escucha cada 30 s
+        setTimeout(refreshTickets, 2000);
+        setInterval(refreshTickets, 30000);
+        // ===== Carrito (compartido con la tienda) =====
+        function getProducts() {
+            const dbProducts = (window.SiteData && SiteData.get('products')) || [];
+            if (window.SiteData && SiteData.publicLoaded) {
+                if (SiteData.configured.products || SiteData.configured.productsEmpty || dbProducts.length > 0) return dbProducts;
+            }
+            return (window.SHOP_PRODUCTS || []);
+        }
+        function getCart() {
+            return getJsonList('odissey_cart');
+        }
+        function saveCart(cart) {
+            localStorage.setItem('odissey_cart', JSON.stringify(cart));
+        }
+        function cartCount() {
+            return getCart().reduce(function (s, it) { return s + Number(it.qty || 0); }, 0);
+        }
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (!badge) return;
+            badge.textContent = cartCount() > 9 ? '9+' : String(cartCount());
+        }
+        const fallbackRates = { USD: 1, COP: 4000, EUR: 0.92 };
+        let rates = fallbackRates;
+        async function loadRates() {
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/USD');
+                const data = await res.json();
+                if (data && data.result === 'success') {
+                    rates = { USD: 1, COP: data.rates.COP, EUR: data.rates.EUR };
+                }
+            } catch (err) { }
+            renderCart();
+        }
+        function formatPrice(usd) {
+            const cur = getCurrency();
+            const amount = usd * (rates[cur] || 1);
+            if (cur === 'COP') {
+                return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
+            }
+            if (cur === 'EUR') {
+                return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+            }
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        }
+        function renderCart() {
+            const cart = getCart();
+            const list = document.getElementById('cart-list');
+            const footer = document.getElementById('cart-footer');
+            const totalEl = document.getElementById('cart-total');
+            if (!list) return;
+            if (cart.length === 0) {
+                list.innerHTML = '<div class="cart-empty"><h2>' + (getLang() === 'en' ? 'Your cart is empty' : 'Tu carrito está vacío') + '</h2><p>' + (getLang() === 'en' ? 'Go to the shop and add some kits!' : 'Ve a la tienda y añade algunos kits.') + '</p></div>';
+                if (footer) footer.classList.add('hidden');
+                return;
+            }
+            const products = getProducts();
+            list.innerHTML = cart.map(item => {
+                const p = products.find(x => x.id === item.id);
+                if (!p) return '';
+                const qty = Number(item.qty || 1);
+                return '<div class="account-item">' +
+                    '<div class="top">' +
+                        '<span class="name">' + escapeHtml(p.name) + ' <span class="text-text-dark">× ' + qty + '</span></span>' +
+                        '<span class="sub">' + formatPrice(Number(p.price) * qty) + '</span>' +
+                    '</div>' +
+                    '<div class="sub">' + formatPrice(Number(p.price)) + ' ' + (getLang() === 'en' ? 'per unit' : 'por unidad') + '</div>' +
+                    '<div class="cart-actions">' +
+                        '<button type="button" onclick="setQty(\'' + escapeHtml(item.id) + '\', -1)" class="cart-qty-btn" aria-label="Menos">-</button>' +
+                        '<button type="button" onclick="setQty(\'' + escapeHtml(item.id) + '\', 1)" class="cart-qty-btn" aria-label="Más">+</button>' +
+                        '<button type="button" onclick="removeCartItem(\'' + escapeHtml(item.id) + '\')" class="cart-qty-btn cart-remove" aria-label="Eliminar">🗑️</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            const total = cart.reduce(function (s, it) {
+                const p = products.find(x => x.id === it.id);
+                return s + (p ? Number(p.price) * Number(it.qty || 0) : 0);
+            }, 0);
+            if (totalEl) totalEl.textContent = formatPrice(total);
+            if (footer) footer.classList.remove('hidden');
+        }
+        function setQty(productId, delta) {
+            const cart = getCart();
+            const item = cart.find(it => it.id === productId);
+            if (!item) return;
+            item.qty = Number(item.qty || 0) + delta;
+            if (item.qty <= 0) cart.splice(cart.indexOf(item), 1);
+            saveCart(cart);
+            updateCartBadge();
+            renderCart();
+        }
+        function removeCartItem(productId) {
+            saveCart(getCart().filter(it => it.id !== productId));
+            updateCartBadge();
+            renderCart();
+        }
+        async function checkoutCart() {
+            const user = getCurrentUser();
+            if (!user) {
+                showNotification(getLang() === 'en' ? 'Log in first.' : 'Inicia sesión primero.');
+                openLoginModal();
+                return;
+            }
+            const cart = getCart();
+            if (cart.length === 0) return;
+            const token = getSessionToken();
+            if (!token) {
+                showNotification(getLang() === 'en' ? 'Your session expired. Log in again.' : 'Tu sesión expiró. Vuelve a iniciar sesión.');
+                openLoginModal();
+                return;
+            }
+            const products = getProducts();
+            const items = cart.map(item => {
+                const p = products.find(x => x.id === item.id);
+                const qty = Math.max(1, Number(item.qty || 1));
+                return {
+                    id: item.id,
+                    product: p ? p.name : item.id,
+                    usd: p ? Number(p.price) * qty : 0,
+                    qty: qty
+                };
+            });
+            const result = await SiteData.post('/api/orders', { token: token, items: items });
+            if (!result.ok) {
+                showNotification(getLang() === 'en' ? 'Could not register the order.' : 'No se pudo registrar el pedido.');
+                return;
+            }
+            saveCart([]);
+            updateCartBadge();
+            renderCart();
+            showNotification('📦 ' + (getLang() === 'en' ? 'Order registered!' : '¡Pedido registrado!'));
+            SiteData.reloadMy(token);
+        }
+        updateCartBadge();
+        loadRates();
+        const staffModal = document.getElementById('staffModal');
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+        function getStaff() {
+            const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
+            if (window.SiteData && SiteData.publicLoaded) {
+                if (SiteData.configured.staff || SiteData.configured.staffEmpty || dbStaff.length > 0) return dbStaff;
+            }
+            return (window.STAFF || []);
+        }
+        function renderStaff() {
+            const staff = getStaff();
+            const grid = document.getElementById('staff-grid');
+            if (!grid) return;
+            grid.innerHTML = staff.map((member, i) => `
+                <div class="staff-card reveal" style="transition-delay: ${i * 0.1}s;">
+                    <button type="button" class="staff-trigger" data-staff-name="${escapeHtml(member.name)}" title="Ver información" aria-label="Ver información de ${escapeHtml(member.name)}">
+                        <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" class="staff-skin" onerror="this.onerror=null;this.src='https://placehold.co/128x128/334155/ffffff?text=Error';">
+                    </button>
+                    <h3 class="text-xl font-bold text-text-light">${escapeHtml(member.name)}</h3>
+                    <p class="text-marine-accent text-lg">${escapeHtml(member.role)}</p>
+                    <p class="text-text-dark mt-2 text-sm">${escapeHtml(member.bio || member.description)}</p>
+                </div>`).join('');
+            grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            grid.querySelectorAll('.staff-trigger').forEach(button => {
+                button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
+            });
+        }
+        function openStaffModal(name) {
+            const member = getStaff().find(m => m.name === name);
+            const content = document.getElementById('staffModalContent');
+            if (!member || !content) return;
+            content.innerHTML = `
+                <button class="close-btn" onclick="closeStaffModal()">&times;</button>
+                <div class="staff-panel-header">
+                    <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin">
+                    <div>
+                        <h3>${escapeHtml(member.name)}</h3>
+                        <p class="staff-panel-role">${escapeHtml(member.role)}</p>
+                    </div>
+                </div>
+                <hr class="divider">
+                <p class="staff-panel-info">${escapeHtml(member.description)}</p>
+                <button type="button" class="rating-btn" data-staff-name="${escapeHtml(member.name)}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M381.2 150.3L524.9 171.5c18.2 2.6 25.5 25.1 12 37.9l-106.6 100.4 25.2 146.7c3.1 18.2-16 32.1-32.3 23.5l-131.3-69.2-131.3 69.2c-16.3 8.6-35.4-5.3-32.3-23.5l25.2-146.7L39.1 209.4c-13.5-12.8-6.2-35.3 12-37.9L194.8 150.3l58.8-119.1c8.2-16.5 31.3-16.5 39.5 0l88.1 119.1z"/></svg>
+                    Calificar staff
+                </button>`;
+            content.querySelector('.rating-btn').addEventListener('click', () => openRatingModal(member.name));
+            staffModal.classList.remove('hidden');
+            staffModal.classList.add('flex');
+        }
+        function closeStaffModal() {
+            staffModal.classList.add('hidden');
+            staffModal.classList.remove('flex');
+        }
+        staffModal.addEventListener('click', (e) => {
+            if (e.target === staffModal) closeStaffModal();
+        });
+        const ratingModal = document.getElementById('ratingModal');
+        const ratingName = document.getElementById('rating-name');
+        const ratingSkin = document.getElementById('rating-skin');
+        const ratingStars = document.querySelectorAll('#star-rating button');
+        const ratingComment = document.getElementById('rating-comment');
+        const ratingMsg = document.getElementById('rating-msg');
+        let selectedRating = 0;
+        let ratingTarget = '';
+        function getDeviceId() {
+            try {
+                let id = localStorage.getItem('odissey_device_id');
+                if (!id) {
+                    id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem('odissey_device_id', id);
+                }
+                return id;
+            } catch (err) {
+                return 'anon_' + Date.now().toString(36);
+            }
+        }
+        function openRatingModal(name) {
+            ratingTarget = name;
+            selectedRating = 0;
+            ratingName.textContent = name;
+            ratingSkin.src = `https://mc-heads.net/head/${encodeURIComponent(name)}/128`;
+            ratingComment.value = '';
+            if (ratingMsg) ratingMsg.textContent = '';
+            updateStars();
+            closeStaffModal();
+            const ratingView = document.getElementById('ratingView');
+            ratingView.classList.remove('hidden');
+            ratingModal.classList.remove('hidden');
+            ratingModal.classList.add('flex');
+        }
+        function closeRatingModal() {
+            ratingModal.classList.add('hidden');
+            ratingModal.classList.remove('flex');
+        }
+        function updateStars() {
+            ratingStars.forEach(star => {
+                star.classList.toggle('on', parseInt(star.dataset.value) <= selectedRating);
+            });
+        }
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.value);
+                updateStars();
+            });
+        });
+        ratingModal.addEventListener('click', (e) => {
+            if (e.target === ratingModal) closeRatingModal();
+        });
+        async function submitRating() {
+            if (selectedRating === 0) {
+                showNotification('Selecciona una cantidad de estrellas antes de enviar.');
+                return;
+            }
+            const device = getDeviceId();
+            const token = getSessionToken() || '';
+            const result = await SiteData.post('/api/ratings', {
+                token: token || undefined,
+                staff: ratingTarget,
+                stars: selectedRating,
+                comment: ratingComment.value.trim(),
+                deviceId: device
+            });
+            if (!result.ok) {
+                let msg;
+                if (result.status === 409) {
+                    msg = 'Ya has calificado a ' + ratingTarget + '. Solo se permite un voto por miembro del staff en este dispositivo.';
+                } else if (result.status === 400) {
+                    msg = 'Datos de valoración inválidos.';
+                } else {
+                    msg = getLang() === 'en' ? 'Could not save the rating.' : 'No se pudo guardar la valoración.';
+                }
+                if (ratingMsg) ratingMsg.textContent = msg;
+                showNotification(msg);
+                return;
+            }
+            showNotification('¡Gracias por calificar a ' + ratingTarget + ' con ' + selectedRating + (selectedRating === 1 ? ' estrella!' : ' estrellas!'));
+            closeRatingModal();
+            await SiteData.reloadPublic();
+            renderTestimonials();
+            const u = getCurrentUser();
+            if (u) renderAccountView();
+        }
+        const reportTarget = document.getElementById('report-target');
+        const reportHeadPreview = document.getElementById('report-head-preview');
+        const reportReason = document.getElementById('report-reason');
+        const reportDetail = document.getElementById('report-detail');
+        const reportCapture = document.getElementById('report-capture');
+        const reportMsg = document.getElementById('report-msg');
+        function toggleSupportPanel(name) {
+            const panel = document.getElementById(name === 'report' ? 'reportPanel' : 'myReportsPanel');
+            const btn = document.getElementById(name === 'report' ? 'supportReportBtn' : 'supportMyReportsBtn');
+            const other = document.getElementById(name === 'report' ? 'myReportsPanel' : 'reportPanel');
+            const otherBtn = document.getElementById(name === 'report' ? 'supportMyReportsBtn' : 'supportReportBtn');
+            if (!panel) return;
+            const isOpen = !panel.classList.contains('hidden');
+            other.classList.add('hidden');
+            other.classList.remove('open');
+            other.style.opacity = '0';
+            otherBtn.classList.remove('btn-active');
+            if (isOpen) {
+                panel.classList.add('hidden');
+                panel.classList.remove('open');
+                panel.style.opacity = '0';
+                btn.classList.remove('btn-active');
+                return;
+            }
+            panel.classList.remove('hidden');
+            btn.classList.add('btn-active');
+            requestAnimationFrame(() => {
+                panel.style.opacity = '1';
+                panel.classList.add('open');
+            });
+            if (name === 'report') {
+                reportDetail.value = '';
+                reportCapture.value = '';
+                reportMsg.textContent = '';
+            } else {
+                loadMyReportsPanel();
+            }
+        }
+        function loadMyReportsPanel() {
+            const box = document.getElementById('my-reports-panel-box');
+            if (!box) return;
+            if (!getSessionToken()) {
+                const en = getLang() === 'en';
+                box.innerHTML = `
+                    <div class="text-center py-6">
+                        <div class="text-3xl mb-3" style="opacity:.55">#</div>
+                        <p class="font-semibold text-text-light mb-1">${en ? 'Connect with Discord to see your reports.' : 'Conecta con Discord para ver tus reportes.'}</p>
+                        <p class="text-sm text-text-dark mb-4">${en ? 'Reports and tickets are linked to your Discord account.' : 'Los reportes y tickets se vinculan a tu cuenta de Discord.'}</p>
+                        <button type="button" class="btn3d" onclick="openLoginModal()">${en ? 'Connect with Discord' : 'Conectar con Discord'}</button>
+                    </div>`;
+                return;
+            }
+            if (!getCurrentUser()) {
+                fetchSessionUser().then(() => renderMyReportsAndTickets());
+            } else {
+                renderMyReportsAndTickets();
+            }
+        }
+        reportTarget.addEventListener('input', () => {
+            reportMsg.textContent = '';
+            clearTimeout(window.__reportHeadTimer);
+            window.__reportHeadTimer = setTimeout(() => {
+                const target = reportTarget.value.trim();
+                reportHeadPreview.src = target.length > 0
+                    ? `https://mc-heads.net/head/${target}/40`
+                    : 'https://mc-heads.net/head/steve/40';
+            }, 400);
+        });
+        const reportEvidenceInput = document.getElementById('report-evidence-input');
+        if (reportEvidenceInput) {
+            reportEvidenceInput.addEventListener('change', () => {
+                const file = reportEvidenceInput.files && reportEvidenceInput.files[0];
+                if (!file) return;
+                uploadReportEvidence(file);
+            });
+        }
+        async function uploadReportEvidence(file) {
+            const nameEl = document.getElementById('report-evidence-name');
+            const imgEl = document.getElementById('report-evidence-img');
+            const vidEl = document.getElementById('report-evidence-vid');
+            const msg = document.getElementById('report-evidence-msg');
+            const clearBtn = document.getElementById('report-evidence-clear');
+            if (msg) msg.textContent = '';
+            const token = getSessionToken();
+            if (!token) {
+                msg.textContent = getLang() === 'en' ? 'Connect with Discord to upload evidence.' : 'Conecta con Discord para poder subir evidencia.';
+                openLoginModal();
+                return;
+            }
+            if (file.size > 25 * 1024 * 1024) {
+                msg.textContent = getLang() === 'en' ? 'The file is too large (max 25 MB).' : 'El archivo es muy grande (máx. 25 MB).';
+                return;
+            }
+            const name = file.name.replace(/[^A-Za-z0-9_.\-]+/g, '_');
+            if (nameEl) nameEl.textContent = (getLang() === 'en' ? 'Uploading...' : 'Subiendo...');
+            try {
+                const res = await fetch(API_BASE + '/api/upload?token=' + encodeURIComponent(token) + '&name=' + encodeURIComponent(name), { method: 'POST', body: file });
+                if (res.status === 401) {
+                    msg.textContent = getLang() === 'en' ? 'Your session expired. Connect with Discord again.' : 'Tu sesión expiró. Conecta con Discord de nuevo.';
+                    if (nameEl) nameEl.textContent = '';
+                    openLoginModal();
+                    return;
+                }
+                const j = await res.json();
+                if (!j.ok) {
+                    msg.textContent = getLang() === 'en' ? 'Could not upload the file.' : 'No se pudo subir el archivo.';
+                    if (nameEl) nameEl.textContent = '';
+                    return;
+                }
+                reportCapture.value = j.url;
+                if (!getCurrentUser()) { try { await fetchSessionUser(); } catch (err) { } }
+                if (nameEl) nameEl.textContent = (getLang() === 'en' ? 'Uploaded: ' : 'Subido: ') + name;
+                if (file.type.indexOf('image') === 0) {
+                    imgEl.src = j.url;
+                    imgEl.classList.remove('hidden');
+                    vidEl.classList.add('hidden');
+                    document.getElementById('report-evidence-preview').classList.remove('hidden');
+                } else {
+                    vidEl.src = j.url;
+                    vidEl.classList.remove('hidden');
+                    imgEl.classList.add('hidden');
+                    document.getElementById('report-evidence-preview').classList.remove('hidden');
+                }
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            } catch (err) {
+                msg.textContent = getLang() === 'en' ? 'Could not upload the file.' : 'No se pudo subir el archivo.';
+                if (nameEl) nameEl.textContent = '';
+            }
+        }
+        function clearReportEvidence() {
+            reportCapture.value = '';
+            const i = document.getElementById('report-evidence-input'); if (i) i.value = '';
+            const p = document.getElementById('report-evidence-preview'); if (p) p.classList.add('hidden');
+            const n = document.getElementById('report-evidence-name'); if (n) n.textContent = '';
+            const c = document.getElementById('report-evidence-clear'); if (c) c.classList.add('hidden');
+            const m = document.getElementById('report-evidence-msg'); if (m) m.textContent = '';
+        }
+        async function submitReport() {
+            const target = reportTarget.value.trim();
+            if (!/^[A-Za-z0-9_]{1,16}$/.test(target)) {
+                showNotification('Escribe el nombre del jugador a reportar (letras, números y _).');
+                return;
+            }
+            const token = getSessionToken();
+            if (!token) {
+                showNotification(getLang() === 'en'
+                    ? 'Connect with Discord to submit reports.'
+                    : 'Conecta con Discord para poder enviar reportes.');
+                openLoginModal();
+                return;
+            }
+            const mine = SiteData.get('reports') || [];
+            const ended = new Set((await fetchTicketsData()).filter(t => t.status === 'closed' || t.status === 'deleted').map(t => String(t.id)));
+            const alreadyReported = mine.some(r =>
+                String(r.target).toLowerCase() === target.toLowerCase() &&
+                (r.status === 'nuevo' || r.status === 'proceso') &&
+                !(r.ticketId && ended.has(String(r.ticketId)))
+            );
+            if (alreadyReported) {
+                reportMsg.textContent = 'Ya has reportado esta cuenta. Espera a que un staff responda antes de volver a reportarla.';
+                showNotification('Ya has reportado esta cuenta. Espera a que un staff responda.');
+                return;
+            }
+            const reason = reportReason.value || 'Reporte';
+            const detail = reportDetail.value.trim();
+            const capture = reportCapture.value.trim();
+            const result = await SiteData.post('/api/reports', { token: token, target: target, reason: reason, detail: detail, capture: capture });
+            if (!result.ok) {
+                const msg = result.status === 401
+                    ? (getLang() === 'en' ? 'Your session expired. Log in again.' : 'Tu sesión expiró. Vuelve a iniciar sesión.')
+                    : (getLang() === 'en' ? 'Could not submit the report.' : 'No se pudo enviar el reporte.');
+                if (reportMsg) reportMsg.textContent = msg;
+                showNotification(msg);
+                return;
+            }
+            const reportId = result.json && result.json.report ? result.json.report.id : null;
+            reportTarget.value = '';
+            reportDetail.value = '';
+            reportCapture.value = '';
+            clearReportEvidence();
+            const message = `**Jugador reportado:** ${target}\n**Motivo:** ${reason}` +
+                (detail ? `\n**Detalles:** ${detail}` : '') +
+                (capture ? `\n**Captura:** ${capture}` : '');
+            let ticketResult = null;
+            try {
+                const r = await fetch(API_BASE + '/api/tickets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, category: 'reporte', message: message })
+                });
+                ticketResult = await r.json();
+            } catch (err) { ticketResult = null; }
+            if (ticketResult && ticketResult.ok) {
+                if (reportId) {
+                    SiteData.post('/api/reports/ticket', { token: token, id: reportId, ticketId: String(ticketResult.ticket.id) });
+                }
+                reportMsg.textContent = getLang() === 'en'
+                    ? 'Report sent. Ticket #' + ticketResult.ticket.id + ' opened in Discord.'
+                    : 'Reporte enviado. Ticket #' + ticketResult.ticket.id + ' abierto en Discord.';
+                showNotification('📩 Reporte enviado. Ticket #' + ticketResult.ticket.id + ' abierto en Discord.');
+            } else {
+                reportMsg.textContent = getLang() === 'en'
+                    ? 'Report saved. Opening the ticket failed.'
+                    : 'Reporte guardado. No se pudo abrir el ticket.';
+                showNotification(getLang() === 'en'
+                    ? 'Report saved. Opening the ticket failed.'
+                    : 'Reporte guardado. No se pudo abrir el ticket.');
+            }
+            SiteData.reloadMy(token).then(() => renderMyReportsAndTickets());
+        }
+        renderStaff();
+        // ================= Nuevas secciones de contenido =================
+        function toggleFaq(button) {
+            button.closest('.faq-item').classList.toggle('open');
+        }
+        function renderMaintenance() {
+            const banner = document.getElementById('maintenanceBanner');
+            const msg = document.getElementById('maintenanceMsg');
+            if (!banner || !msg) return;
+            const maintenance = (window.SiteData && SiteData.get('maintenance')) || null;
+            if (maintenance && maintenance.active && maintenance.message) {
+                msg.textContent = '🛠️ ' + maintenance.message;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+        function renderDiscordWidget() {
+            const container = document.getElementById('discord-widget');
+            if (!container) return;
+            const config = (window.SITE_CONFIG || {});
+            const serverId = config.discordServerId || '';
+            const invite = config.discordInvite || 'https://dc.gg/odisseymc';
+            container.classList.remove('hidden');
+            if (serverId) {
+                container.innerHTML = `<iframe src="https://discord.com/widget?id=${encodeURIComponent(serverId)}&theme=dark"
+                    width="350" height="500" class="mx-auto rounded-xl border border-marine-light shadow-2xl"
+                    allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`;
+            } else {
+                container.innerHTML = `
+                    <div class="max-w-md mx-auto p-6 rounded bg-marine-medium border-2 border-marine-light text-center shadow-[4px_4px_0_var(--od-marine-darker)]">
+                        <div class="text-4xl mb-3">💬</div>
+                        <h4 class="text-lg font-bold text-text-light mb-1" data-i18n="discord_box_title">Comunidad activa en Discord</h4>
+                        <p class="text-sm text-text-dark mb-4" data-i18n="discord_box_sub">Únete a cientos de jugadores en tiempo real para enterarte de eventos, sorteos y recibir ayuda del staff.</p>
+                        <a href="${escapeHtml(invite)}" target="_blank" rel="noopener noreferrer" class="btn3d" data-i18n="discord_box_btn">Abrir Discord</a>
+                    </div>`;
+            }
+        }
+        let activeNewsFilter = 'all';
+        function renderNews() {
+            const grid = document.getElementById('news-grid');
+            if (!grid) return;
+            const news = (window.SiteData && SiteData.get('news')) || [];
+            const visibleNews = activeNewsFilter === 'all'
+                ? news
+                : news.filter(item => item.category === activeNewsFilter);
+            if (visibleNews.length === 0) {
+                grid.innerHTML = '<div class="content-empty md:col-span-2 lg:col-span-3"><span class="text-3xl mb-3">📰</span><p class="font-semibold text-text-light">Aún no hay noticias publicadas.</p><p class="text-sm mt-1">Vuelve pronto para conocer las novedades de Odissey.</p></div>';
+                return;
+            }
+            grid.innerHTML = visibleNews.slice().reverse().map(n => `
+                <div class="news-card">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <span class="news-badge">${escapeHtml(n.category || 'Noticia')}</span>
+                        <span class="text-xs text-text-dark">${shortDate(n.date)}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-text-light mb-2">${escapeHtml(n.title)}</h3>
+                    <p class="text-text-dark text-sm leading-relaxed">${escapeHtml(n.text)}</p>
+                </div>`).join('');
+        }
+        function filterNews(category, button) {
+            activeNewsFilter = category;
+            document.querySelectorAll('.news-filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (button) button.classList.add('active');
+            renderNews();
+        }
+        function renderEvents() {
+            const container = document.getElementById('events-list');
+            if (!container) return;
+            const events = (window.SiteData && SiteData.get('events')) || [];
+            if (events.length === 0) {
+                container.innerHTML = '<div class="content-empty"><span class="text-3xl mb-3">📅</span><p class="font-semibold text-text-light">No hay eventos programados todavía.</p><p class="text-sm mt-1">Pronto anunciaremos nuevas actividades.</p></div>';
+                return;
+            }
+            container.innerHTML = events
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map(e => {
+                    const d = new Date(e.date + 'T12:00:00');
+                    const day = isNaN(d.getDate()) ? '26' : d.getDate();
+                    const month = isNaN(d.getDate()) ? 'SEP' : d.toLocaleDateString('es-ES', { month: 'short' }).toUpperCase();
+                    return `
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="day">${day}</div>
+                            <div class="month">${month}</div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-text-light">${escapeHtml(e.title)}</h3>
+                            <p class="text-text-dark text-sm mt-1">${escapeHtml(e.description || '')}</p>
+                        </div>
+                    </div>`;
+                }).join('');
+        }
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
+            const items = (window.SiteData && SiteData.get('gallery')) || [];
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="content-empty sm:col-span-2 lg:col-span-3"><span class="text-3xl mb-3">🖼️</span><p class="font-semibold text-text-light">La galería está lista para tus construcciones.</p><p class="text-sm mt-1">Comparte una captura en Discord y agrégala desde el panel de administración.</p></div>';
+                return;
+            }
+            grid.innerHTML = items.map(g => `
+                <a href="${escapeHtml(g.image)}" class="gallery-item block group" data-gallery-image="${escapeHtml(g.image)}" data-gallery-caption="${escapeHtml(g.caption || '')}">
+                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" loading="lazy" decoding="async" loading="lazy" class="transition-transform duration-300 group-hover:scale-105" onerror="this.closest('.gallery-item').remove();">
+                    ${g.caption ? `<div class="cap">${escapeHtml(g.caption)}</div>` : ''}
+                </a>`).join('');
+            grid.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    openLightbox(item.dataset.galleryImage, item.dataset.galleryCaption);
+                });
+            });
+        }
+        function openLightbox(image, caption) {
+            const modal = document.getElementById('lightboxModal');
+            document.getElementById('lightboxImg').src = image;
+            document.getElementById('lightboxCap').textContent = caption || '';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        function renderTestimonials() {
+            const grid = document.getElementById('testimonials-grid');
+            if (!grid) return;
+            const all = (window.SiteData && SiteData.get('ratings')) || [];
+            const qualified = all.filter(r => r.stars >= 4 && r.comment);
+            if (qualified.length === 0) {
+                grid.innerHTML = '<div class="content-empty md:col-span-2 lg:col-span-3"><span class="text-3xl mb-3">💬</span><p class="font-semibold text-text-light">Todavía no hay valoraciones.</p><p class="text-sm mt-1">Puedes calificar a un miembro del staff desde su perfil.</p></div>';
+                return;
+            }
+            const picks = qualified.slice(0, 6).map(r => ({ r, idx: all.indexOf(r) }));
+            const stars = (n) => '★'.repeat(n) + '<span style="color:var(--od-marine-light);">' + '☆'.repeat(Math.max(0, 5 - n)) + '</span>';
+            const viewerId = (getDiscordUser() || {}).id || '';
+            const delTitle = getLang() === 'en' ? 'Delete rating' : 'Eliminar valoración';
+            grid.innerHTML = picks.map(({ r, idx }) => {
+                const canDelete = viewerId && r.userId && String(r.userId) === String(viewerId);
+                return `
+                <div class="testimonial-card">
+                    <div class="t-card-head">
+                        <div class="stars-mini">${stars(r.stars)}</div>
+                        ${canDelete ? `<button type="button" class="btn-delete-mini" onclick="removeRatingAt(${idx})" title="${delTitle}" aria-label="${delTitle}">❌</button>` : ''}
+                    </div>
+                    <p class="quote">"${escapeHtml(r.comment)}"</p>
+                    <div class="who">${escapeHtml(r.userName || r.user || 'Desconocido')} — Staff valorado: ${escapeHtml(r.staff)}</div>
+                </div>`;
+            }).join('');
+        }
+        async function removeRatingAt(idx) {
+            const viewerId = (getDiscordUser() || {}).id || '';
+            const ratings = (window.SiteData && SiteData.get('ratings')) || [];
+            const target = ratings[idx];
+            if (!target) {
+                showNotification('No se encontró la valoración.');
+                return;
+            }
+            if (!viewerId || !target.userId || String(target.userId) !== String(viewerId)) {
+                showNotification(getLang() === 'en' ? 'Only the author can delete this rating.' : 'Solo el autor puede eliminar esta valoración.');
+                return;
+            }
+            if (!confirm(getLang() === 'en' ? 'Delete this rating?' : '¿Eliminar esta valoración?')) return;
+            const token = getSessionToken();
+            const result = await SiteData.del('/api/ratings/' + encodeURIComponent(target.id) + '?token=' + encodeURIComponent(token || ''));
+            if (!result.ok) {
+                showNotification(getLang() === 'en' ? 'Could not delete the rating.' : 'No se pudo eliminar la valoración.');
+                return;
+            }
+            showNotification(getLang() === 'en' ? 'Rating deleted.' : 'Valoración eliminada.');
+            await SiteData.reloadPublic();
+            renderTestimonials();
+            const u = getCurrentUser();
+            if (u) renderAccountView();
+        }
+        function openTestimonialPrompt() {
+            document.getElementById('staff').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showNotification('Elige un miembro del staff para dejar tu valoración.');
+        }
+        // ================= Cambio de idioma (ES/EN) =================
+        const I18N = {
+            es: {
+nav_eventos: 'Eventos',
+nav_galeria: 'Galería',
+support_title: 'Soporte',
+support_desc: '¿Necesitas ayuda con una compra, un problema en el servidor, o quieres reportar a un jugador? Únete a nuestro Discord o usa el formulario de reporte y lo revisaremos lo antes posible.',
+support_report_btn: 'Reportar jugador',
+report_title: 'Reportar un jugador',
+report_sub: 'Tu reporte lo revisará el staff',
+report_info: 'Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).',
+report_submit_btn: 'Enviar reporte',
+rating_title_prefix: 'Calificar a',
+rating_subtitle: 'Tu opinión nos ayuda a mejorar',
+rating_prompt: '¿Cómo fue tu experiencia con este miembro del staff?',
+rating_submit_btn: 'Enviar calificación',
+cb_decline: 'Rechazar',
+cb_accept: 'Aceptar',
+    skip_link: 'Ir al contenido',
+                nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_noticias: 'Noticias',
+                nav_soporte: 'Soporte', nav_tienda: 'Tienda', nav_back: 'Volver al inicio', nav_entrar: 'Entrar',
+                faq_title: 'Preguntas frecuentes', guide_title: 'Cómo entrar al servidor',
+                hero_click_copy: 'haz click para copiar',
+                footer_res: 'Todos los derechos reservados.', footer_admin: 'Panel de admin', footer_follow: 'Síguenos', footer_ip: 'IP del servidor',
+                footer_terms: 'Términos y condiciones', footer_privacy: 'Política de privacidad',
+                discord_box_title: 'Comunidad activa en Discord',
+                discord_box_sub: 'Únete a cientos de jugadores en tiempo real para enterarte de eventos, sorteos y recibir ayuda del staff.',
+                discord_box_btn: 'Abrir Discord',
+                login_title: 'Conecta con Discord',
+                login_sub: 'Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito. Debes estar dentro del Discord de Odissey.',
+                login_discord_btn: 'CONECTAR CON DISCORD', close: 'Cerrar',
+                account_title: 'Cuenta de', nav_logout: 'Cerrar sesión', currency_label: 'Moneda:',
+                cart_total: 'Total:', cart_checkout: 'REALIZAR PEDIDO',
+                my_orders_title: 'Mis pedidos', no_orders: 'Aún no tienes pedidos.',
+                my_reports_tickets_title: 'Mis reportes / Tickets', support_my_reports_btn: 'Mis reportes', support_my_reports_title: 'Mis reportes', support_note: 'Cuando hagas el reporte se abrirá un ticket en Discord y un staff te responderá lo antes posible.', report_evidence_label: 'Evidencia de reporte', report_evidence_opt: '(foto o video, opcional)', report_evidence_btn: 'Subir foto / video', report_evidence_remove: 'Quitar', no_reports_tickets: 'Aún no tienes reportes ni tickets.',
+                mc_name: 'Nombre MC para compras in-game', mc_save: 'Guardar',
+                new_pill: 'NUEVO', staff_replied: 'El staff respondió a tu ticket #',
+            },
+            en: {
+nav_eventos: 'Events',
+nav_galeria: 'Gallery',
+support_title: 'Support',
+support_desc: 'Need help with a purchase, a problem on the server, or want to report a player? Join our Discord or use the report form and we will review it as soon as possible.',
+support_report_btn: 'Report player',
+report_title: 'Report a player',
+report_sub: 'Our staff will review your report',
+report_info: 'Tell us which player you want to report and why. If you have a screenshot, paste its link (optional).',
+report_submit_btn: 'Submit report',
+rating_title_prefix: 'Rate',
+rating_subtitle: 'Your feedback helps us improve',
+rating_prompt: 'How was your experience with this staff member?',
+rating_submit_btn: 'Submit rating',
+cb_decline: 'Reject',
+cb_accept: 'Accept',
+    skip_link: 'Skip to content',
+                nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_noticias: 'News',
+                nav_soporte: 'Support', nav_tienda: 'Shop', nav_back: 'Back to home', nav_entrar: 'Log in',
+                faq_title: 'Frequently asked questions', guide_title: 'How to join the server',
+                hero_click_copy: 'click to copy IP',
+                footer_res: 'All rights reserved.', footer_admin: 'Admin panel', footer_follow: 'Follow us', footer_ip: 'Server IP',
+                footer_terms: 'Terms & Conditions', footer_privacy: 'Privacy Policy',
+                discord_box_title: 'Active Discord Community',
+                discord_box_sub: 'Join hundreds of players in real-time for events, giveaways, and staff support.',
+                discord_box_btn: 'Open Discord',
+                login_title: 'Connect with Discord',
+                login_sub: 'Link your Discord account to manage your tickets, reports and cart. You must be inside the Odissey Discord.',
+                login_discord_btn: 'CONNECT WITH DISCORD', close: 'Close',
+                account_title: 'Account of', nav_logout: 'Log out', currency_label: 'Currency:',
+                cart_total: 'Total:', cart_checkout: 'CHECKOUT',
+                my_orders_title: 'My orders', no_orders: 'You have no orders yet.',
+                my_reports_tickets_title: 'My reports / Tickets', support_my_reports_btn: 'My reports', support_my_reports_title: 'My reports', support_note: 'When you submit a report, a ticket is opened in Discord and a staff member will reply as soon as possible.', report_evidence_label: 'Report evidence', report_evidence_opt: '(photo or video, optional)', report_evidence_btn: 'Upload photo / video', report_evidence_remove: 'Remove', no_reports_tickets: 'You have no reports or tickets yet.',
+                mc_name: 'MC name for in-game purchases', mc_save: 'Save',
+                new_pill: 'NEW', staff_replied: 'The staff replied to your ticket #',
+            }
+        };
+        function getLang() {
+            return localStorage.getItem('odissey_lang') === 'en' ? 'en' : 'es';
+        }
+        function flagIcon(lang) {
+            return '<img class="lang-flag-img" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+        }
+        function applyLang() {
+            const lang = getLang();
+            const dict = I18N[lang];
+            if (!dict) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) langBtn.innerHTML = flagIcon(lang);
+            updateNavButton();
+            document.documentElement.lang = lang;
+        }
+        function toggleLang() {
+            localStorage.setItem('odissey_lang', getLang() === 'es' ? 'en' : 'es');
+            applyLang();
+        }
+        function getTheme() {
+            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+        }
+        function applyTheme() {
+            const light = getTheme() === 'light';
+            document.documentElement.classList.toggle('theme-light', light);
+            const sun = document.getElementById('themeSun');
+            const moon = document.getElementById('themeMoon');
+            if (sun) sun.classList.toggle('hidden', !light);
+            if (moon) moon.classList.toggle('hidden', light);
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', light ? '#f8fafc' : '#0f172a');
+        }
+        function toggleTheme() {
+            localStorage.setItem('odissey_theme', getTheme() === 'light' ? 'dark' : 'light');
+            applyTheme();
+        }
+        applyLang();
+        applyTheme();
+        renderMaintenance();
+        renderDiscordWidget();
+        renderNews();
+        renderEvents();
+        renderGallery();
+        renderTestimonials();
+        // Escucha el evento de ajustes cargados desde la API para refrescar el widget y el estado
+        document.addEventListener('siteconfig-loaded', function () {
+            renderDiscordWidget();
+            updatePlayerCounts();
+        });
+        // Cargar contenido desde la API del bot y volver a pintar
+        SiteData.loadPublic().then(function () {
+            renderStaff();
+            renderMaintenance();
+            renderDiscordWidget();
+            renderNews();
+            renderEvents();
+            renderGallery();
+            renderTestimonials();
+            renderCart();
+            updatePlayerCounts();
+            const token = getSessionToken();
+            if (token) {
+                SiteData.loadMy(token).then(function () {
+                    const u = getCurrentUser();
+                    if (u) renderAccountView();
+                });
+            }
+        });
+        if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            navigator.serviceWorker.register('service-worker.js?v=26').catch(() => { });
+        }
+    </script>
+<!-- Aviso de cookies -->
+<style>
+#cookie-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:480px;margin:0 auto;background:linear-gradient(135deg,rgba(var(--od-glass-rgb,10,16,30),.97),rgba(var(--od-marine-darker-rgb,10,16,30),.94));border:1px solid rgba(var(--od-border-rgb,51,65,85),.6);border-radius:14px;padding:16px 18px;box-shadow:0 10px 40px rgba(var(--od-shadow-rgb,10,16,30),.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--od-text-light,#f8fafc);font-family:inherit;opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease;max-height:calc(100vh - 32px);overflow:auto}
+#cookie-banner.show{opacity:1;transform:translateY(0)}
+#cookie-banner .cb-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--od-gold-light,#fde68a);margin-bottom:8px}
+#cookie-banner .cb-text{font-size:13px;line-height:1.55;color:var(--od-text-dark,#cbd5e1);margin-bottom:14px}
+#cookie-banner .cb-text a{color:var(--od-marine-accent,#eab308);text-decoration:underline}
+#cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+</style>
+<div id="cookie-banner" role="dialog" aria-live="polite">
+  <div class="cb-head">🍪</div>
+  <div class="cb-text"></div>
+  <div class="cb-actions">
+    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
+    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+  </div>
+</div>
+<script>
+(function () {
+    var b = document.getElementById('cookie-banner');
+    if (!b) return;
+    var get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    var set = function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } };
+    if (get('odissey_cookie_consent')) return;
+    var en = get('odissey_lang') === 'en';
+    b.querySelector('.cb-head').textContent = en ? '🍪 We use cookies' : '🍪 Usamos cookies';
+    b.querySelector('.cb-text').innerHTML = en
+        ? 'This site uses cookies to remember your preferences (language and theme). We do not sell data to third parties. More info on our <a href="privacidad.html">privacy policy</a>.'
+        : 'Este sitio usa cookies para recordar tus preferencias (idioma y tema). No vendemos datos a terceros. Más información en nuestra <a href="privacidad.html">política de privacidad</a>.';
+    var accept = b.querySelector('[data-cb="accept"]');
+    var decline = b.querySelector('[data-cb="decline"]');
+    accept.textContent = en ? 'Accept' : 'Aceptar';
+    decline.textContent = en ? 'Reject' : 'Rechazar';
+    function pick(v) { set('odissey_cookie_consent', v); b.style.opacity = '0'; b.style.transform = 'translateY(12px)'; setTimeout(function () { b.remove(); }, 350); }
+    accept.addEventListener('click', function () { pick('accepted'); });
+    decline.addEventListener('click', function () { pick('rejected'); });
+    b.classList.add('show');
+})();
+</script>
+</body>
+</html>

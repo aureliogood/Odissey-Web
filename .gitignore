@@ -1,0 +1,19 @@
+# Archivos que no aportan al sitio publicado.
+# Todo lo de desarrollo queda fuera del control de versiones, pero se puede
+# regenerar con package.bat.
+
+# Node / dependencias
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Servidor de desarrollo (opcional, solo para probar URLs limpias)
+dev-server.js
+
+# Paquetes de despliegue generados
+*.zip
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

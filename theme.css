@@ -1,0 +1,352 @@
+/* ============================================================
+   Tema Odissey: paleta por variables (oscuro por defecto) + claro
+   Se enlaza desde todas las páginas (index, tienda, admin, legales)
+   ============================================================ */
+:root {
+  --od-marine-dark: #0f172a;
+  --od-marine-medium: #1e293b;
+  --od-marine-light: #334155;
+  --od-marine-darker: #0a101e;
+  --od-marine-accent: #eab308;
+  --od-gold-light: #fde68a;
+  --od-gold-dark: #b45309;
+  --od-text-light: #f8fafc;
+  --od-text-dark: #cbd5e1;
+  --od-marine-darker-rgb: 10, 16, 30;
+  --od-glass-rgb: 10, 16, 30;
+  --od-border-rgb: 51, 65, 85;
+  --od-shadow-rgb: 10, 16, 30;
+  /* Superficie elevada: un pelín más clara que el fondo, para que una caja
+     como el modal de perfil se despegue en vez de fundirse con el fondo. */
+  --od-marine-medium-rgb: 30, 41, 59;
+  /* Chips claros sobre esa superficie (tarjetas de estadísticas, etc.) */
+  --od-chip-rgb: 255, 255, 255;
+  --od-chip-alpha: 0.06;
+  --od-ink: #0f172a;
+  --od-always-light: #f8fafc;
+  color-scheme: dark;
+}
+
+html.theme-light {
+  --od-marine-dark: #f8fafc;
+  --od-marine-medium: #eef2f7;
+  --od-marine-light: #cbd5e1;
+  --od-marine-darker: #e2e8f0;
+  --od-marine-accent: #eab308;
+  --od-gold-light: #b45309;
+  --od-gold-dark: #92400e;
+  --od-text-light: #0f172a;
+  --od-text-dark: #475569;
+  --od-marine-darker-rgb: 226, 232, 240;
+  --od-glass-rgb: 226, 232, 240;
+  --od-border-rgb: 148, 163, 184;
+  --od-shadow-rgb: 10, 16, 30;
+  --od-marine-medium-rgb: 226, 232, 240;
+  /* en tema claro el chip va blanco practico sobre gris, no blanco al 6% */
+  --od-chip-rgb: 255, 255, 255;
+  --od-chip-alpha: 0.8;
+  --od-ink: #0f172a;
+  --od-always-light: #f8fafc;
+  color-scheme: light;
+}
+
+/* Transiciones suaves al cambiar de tema */
+body,
+.liquid-glass-container,
+.modal-overlay,
+.login-form-card,
+.panel-card {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* En modo claro, texto oscuro legible sobre fondos dorados */
+.theme-light .playerCount {
+  color: var(--od-ink) !important;
+}
+
+/* Scrollbar coherente con el tema */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--od-marine-darker);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--od-marine-light);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--od-marine-accent);
+}
+
+/* ============================================================
+   RESPONSIVE MÓVIL / TABLET (se carga en todas las páginas)
+   Usa !important para ganar a los <style> inline de cada página
+   ============================================================ */
+
+/* Contenido: evitar desbordamientos por anchos/imágenes fijos */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.liquid-glass-container {
+  max-width: 100% !important;
+}
+
+/* Recuadros glass de la portada: ancho de lectura cómodo en escritorio
+   (en móvil se mantienen al 100% para no dañar la estructura) */
+@media (min-width: 768px) {
+  #guia .liquid-glass-container,
+  #porque-odissey .liquid-glass-container,
+  #testimonios .liquid-glass-container,
+  #discord-widget-section .liquid-glass-container {
+    max-width: 56rem !important;
+  }
+}
+
+/* Navegación en pantallas pequeñas */
+@media (max-width: 767px) {
+  nav > div:first-of-type {
+    gap: 4px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  nav .nav-button {
+    padding: 7px 10px !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap;
+  }
+  nav .lang-flag-img {
+    width: 20px !important;
+    height: 15px !important;
+  }
+  nav img[alt="Odissey Logo"] {
+    height: 30px !important;
+  }
+  #menuDropdown .nav-button {
+    padding: 8px 12px !important;
+  }
+  #menuDropdown > div {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* Ajustes generales de espaciado en móvil */
+@media (max-width: 767px) {
+  img, video, canvas, svg {
+    max-width: 100%;
+  }
+  main > section,
+  main section[class*="px-"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .liquid-glass-container {
+    padding: 1.4rem 1.1rem !important;
+    border-radius: 1.1rem !important;
+  }
+  .orb {
+    opacity: 0.28 !important;
+  }
+  .orb-1 {
+    width: 260px !important;
+    height: 260px !important;
+  }
+  .orb-2 {
+    width: 220px !important;
+    height: 220px !important;
+  }
+}
+
+/* Hero: apilar/centrar en móvil */
+@media (max-width: 767px) {
+  .hero-logo {
+    max-width: 72% !important;
+  }
+  main > section:first-of-type > div > div[class*="grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Tarjetas y paneles */
+@media (max-width: 767px) {
+  .staff-panel,
+  .login-card,
+  .account-card {
+    max-width: 100% !important;
+    padding: 20px !important;
+  }
+  .staff-panel-header {
+    flex-wrap: wrap !important;
+  }
+  .staff-panel-header img {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .staff-card {
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+  .staff-skin {
+    width: 92px !important;
+    height: 92px !important;
+    border-width: 3px !important;
+  }
+  .guide-card {
+    padding: 16px !important;
+  }
+  .guide-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .btn3d {
+    padding: 0.8em 1.2em !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Ordenar elementos del hero uno debajo del otro y centrados */
+@media (max-width: 767px) {
+  .playerCount {
+    min-width: 2rem !important;
+    font-size: 0.85rem !important;
+    padding: 4px 10px !important;
+  }
+  .gold-btn {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* Tipografía de títulos */
+@media (max-width: 767px) {
+  h1 {
+    font-size: 1.6rem !important;
+  }
+  h2 {
+    font-size: 1.35rem !important;
+  }
+  h3 {
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Footer: logo y columnas en móvil */
+@media (max-width: 767px) {
+  footer img[alt="Odissey Logo"] {
+    width: 120px !important;
+  }
+}
+
+/* Tablas: permitir scroll horizontal dentro de un contenedor */
+@media (max-width: 767px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+}
+
+/* Navegación en pantallas muy estrechas (<=360px) */
+@media (max-width: 380px) {
+  nav > div:first-of-type {
+    gap: 2px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  nav img[alt="Odissey Logo"] {
+    height: 24px !important;
+  }
+  nav .nav-button {
+    padding: 6px 6px !important;
+    font-size: 0.7rem !important;
+    min-width: 0 !important;
+  }
+  nav .nav-button svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  nav .lang-flag-img {
+    width: 16px !important;
+    height: 12px !important;
+  }
+  #enterNavText {
+    max-width: 48px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+  .orb {
+    max-width: 45vw !important;
+  }
+}
+
+/* Modales en pantallas pequeñas */
+@media (max-width: 767px) {
+  .modal-box,
+  [id$="Modal"] > div[class*="panel"],
+  [id$="Modal"] > div[class*="card"] {
+    max-height: 88vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Evitar que el botón TikTok/anchas fijas desborden */
+@media (max-width: 767px) {
+  .tiktok-btn {
+    width: 120px !important;
+  }
+}
+
+/* ============================================================
+   ACCESIBILIDAD
+   ============================================================ */
+
+/* Enlace de salto al contenido: oculto hasta que recibe el foco
+   (tabulador). Antes de esto, saltar al contenido obliga a recorrer
+   todos los botones del menu. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  background: var(--od-marine-accent);
+  color: var(--od-ink);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-bottom-right-radius: 10px;
+  text-decoration: none;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* Quien prefiera menos movimiento no ve partículas ni animaciones
+   de entrada. Las transiciones se ponen a 0 en lugar de quitarse,
+   para que nada cambie de tamaño al interactuar. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .page-particles,
+  .orb {
+    display: none !important;
+  }
+
+  /* el .reveal se queda visible en vez de esperar al IntersectionObserver */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,734 @@
+body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--od-marine-dark);
+            color: var(--od-text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: url('../img/backgrounds/background1.jpg');
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .overlay {
+            background: linear-gradient(180deg, rgba(var(--od-marine-darker-rgb), 0.55) 0%, rgba(var(--od-marine-darker-rgb), 0.85) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .panel-card {
+            background-color: rgba(var(--od-glass-rgb), 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .login-form-card {
+            background-color: var(--od-marine-medium);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .login-form-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .login-form-card .subtitle {
+            font-size: 0.85rem;
+            color: var(--od-text-dark);
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .login-form-card input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--od-marine-darker);
+            border: 1px solid var(--od-marine-light);
+            border-radius: 6px;
+            color: var(--od-text-light);
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-form-card input:focus {
+            border-color: var(--od-marine-accent);
+        }
+
+
+
+        .error-msg {
+            color: #ff5252;
+            font-size: 0.85rem;
+            min-height: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            background-color: var(--od-marine-medium);
+            border: 1px solid var(--od-marine-light);
+            color: var(--od-text-dark);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            font-family: 'Poppins', sans-serif;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--od-marine-accent) 0%, var(--od-gold-dark) 100%);
+            color: var(--od-ink);
+            border-color: transparent;
+        }
+
+        .tab-btn:not(.active):hover {
+            background-color: var(--od-marine-light);
+            color: var(--od-text-light);
+        }
+
+        .staff-rating-card {
+            background-color: var(--od-marine-medium);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(234, 179, 8, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .staff-rating-card .head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .staff-rating-card .head img {
+            width: 56px;
+            height: 56px;
+            border-radius: 9999px;
+            border: 3px solid rgba(234, 179, 8, 0.65);
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .staff-rating-card .head h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .staff-rating-card .head .role {
+            color: var(--od-marine-accent);
+            font-size: 0.85rem;
+        }
+
+        .rating-item {
+            position: relative;
+            background-color: var(--od-marine-darker);
+            border: 1px solid var(--od-marine-light);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 0.9rem;
+        }
+
+        .rating-item-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+
+        .rating-item .stars {
+            color: var(--od-marine-accent);
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+        }
+
+        .rating-item .stars .off {
+            color: var(--od-marine-light);
+        }
+
+        .rating-item .comment {
+            color: var(--od-text-dark);
+            margin-top: 6px;
+            font-size: 0.88rem;
+            font-style: italic;
+        }
+
+        .rating-item .meta {
+            color: #64748b;
+            font-size: 0.78rem;
+            margin-top: 6px;
+        }
+
+        .no-ratings {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        .admin-input,
+        .admin-select,
+        .admin-textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--od-marine-darker);
+            border: 1px solid var(--od-marine-light);
+            border-radius: 6px;
+            color: var(--od-text-light);
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .admin-input:focus,
+        .admin-select:focus,
+        .admin-textarea:focus {
+            border-color: var(--od-marine-accent);
+        }
+
+        .admin-textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+
+        .list-item {
+            background-color: var(--od-marine-medium);
+            border: 1px solid var(--od-marine-light);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .list-item .title {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .list-item .sub {
+            color: var(--od-text-dark);
+            font-size: 0.82rem;
+        }
+
+        .list-item .meta {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-nuevo {
+            background-color: #3b2d0f;
+            color: var(--od-gold-light);
+        }
+
+        .status-proceso {
+            background-color: #16324f;
+            color: #7dd3fc;
+        }
+
+        .status-resuelto {
+            background-color: #0f3322;
+            color: #86efac;
+        }
+
+        .stat-card {
+            background-color: var(--od-marine-medium);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat-card .num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--od-marine-accent);
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: var(--od-text-dark);
+            margin-top: 4px;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--od-marine-medium);
+            font-size: 0.85rem;
+        }
+
+        .log-item .time {
+            color: #64748b;
+            min-width: 130px;
+            font-size: 0.75rem;
+        }
+
+        .quick-btn {
+            background-color: var(--od-marine-medium);
+            border: 1px solid var(--od-marine-light);
+            color: var(--od-text-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            font-family: 'Poppins', sans-serif;
+            text-align: left;
+        }
+
+        .quick-btn:hover {
+            background-color: var(--od-marine-light);
+            border-color: var(--od-marine-accent);
+        }
+
+        /* ===== Modo "cristal": recuadros translúcidos sobre el fondo =====
+           Misma transparencia que la web principal (index / tienda).
+           Ajusta el alfa y el blur cambiando estas variables. */
+:root {
+            --glass-bg: rgba(var(--od-glass-rgb), 0.22);
+            --glass-bg-soft: rgba(var(--od-glass-rgb), 0.16);
+            --glass-blur: 14px;
+        }
+
+                        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 18px;
+            border-radius: 999px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            line-height: 1;
+            white-space: nowrap;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid rgba(var(--od-border-rgb), 0.45);
+            background: rgba(var(--od-glass-rgb), 0.28);
+            color: var(--od-text-dark);
+            backdrop-filter: blur(12px) saturate(140%);
+            -webkit-backdrop-filter: blur(12px) saturate(140%);
+            box-shadow: 0 1px 2px rgba(var(--od-shadow-rgb), 0.16);
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.18s ease, border-color 0.18s ease,
+                color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .nav-button:hover {
+            background: rgba(var(--od-glass-rgb), 0.5);
+            border-color: rgba(var(--od-border-rgb), 0.8);
+            color: var(--od-text-light);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 16px rgba(var(--od-shadow-rgb), 0.3);
+        }
+        .nav-button:active {
+            transform: translateY(0) scale(0.97);
+        }
+        .nav-button:focus-visible {
+            outline: 2px solid var(--od-marine-accent);
+            outline-offset: 2px;
+        }
+                .nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 14px;
+            border-radius: 999px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            line-height: 1;
+            white-space: nowrap;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid rgba(var(--od-border-rgb), 0.45);
+            background: rgba(var(--od-glass-rgb), 0.28);
+            color: var(--od-text-dark);
+            box-shadow: 0 1px 2px rgba(var(--od-shadow-rgb), 0.16);
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.18s ease, border-color 0.18s ease,
+                color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .nav-button:hover {
+            background: rgba(var(--od-glass-rgb), 0.5);
+            border-color: rgba(var(--od-border-rgb), 0.8);
+            color: var(--od-text-light);
+            transform: translateY(-1px);
+        }
+        .nav-button:active {
+            transform: translateY(0) scale(0.97);
+        }
+        .nav-button-secondary {
+            background: rgba(var(--od-glass-rgb), 0.28);
+            border-color: rgba(var(--od-border-rgb), 0.45);
+            color: var(--od-text-dark);
+        }
+        .nav-button-secondary:hover {
+            background: rgba(var(--od-glass-rgb), 0.5);
+            border-color: rgba(var(--od-border-rgb), 0.8);
+            color: var(--od-text-light);
+        }
+
+        .bg-marine-dark,
+        .bg-marine-medium {
+            background-color: rgba(var(--od-glass-rgb), 0.72) !important;
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .panel-card,
+        .login-form-card {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .staff-rating-card,
+        .stat-card,
+        .list-item,
+        .quick-btn {
+            background-color: rgba(var(--od-glass-rgb), 0.25);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+
+        /* Quitar el recuadro (borde + sombra dura) a las tarjetas */
+        .panel-card,
+        .login-form-card,
+        .staff-rating-card,
+        .stat-card,
+        .list-item,
+        .quick-btn {
+            border-color: transparent;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .admin-input,
+        .admin-select,
+        .admin-textarea,
+        .login-form-card input {
+            background-color: rgba(var(--od-glass-rgb), 0.35);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+            /* =============================================================
+           Botones de la web
+           Un solo bloque para todos: pastilla, fondo translucido, sin
+           contorno y hover que solo levanta el fondo. Antes cada boton
+           tenia reglas propias que competian entre si.
+           ============================================================= */
+        .news-filter-btn,
+        .lang-btn,
+        .rating-btn,
+        .rating-submit,
+        .cb-btn,
+        .btn-copy-tag,
+        .gold-btn,
+        .btn-delete-mini,
+        .btn-danger,
+        .btn-logout,
+        .btn-action,
+        .btn-continue,
+        .btn-gold,
+        .btn-online,
+        .btn-rating-del {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(253, 230, 138, 0.6);
+            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            color: var(--od-ink);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            line-height: 1;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+                0 4px 14px rgba(234, 179, 8, 0.24);
+            transition: background-color 0.18s ease, border-color 0.18s ease,
+                color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease,
+                filter 0.18s ease;
+        }
+        .nav-button svg),
+        .news-filter-btn svg,
+        .cb-btn svg,
+        .btn-copy-tag svg,
+        .gold-btn svg,
+        .rating-btn svg,
+        .btn-delete-mini svg,
+        .btn-danger svg,
+        .btn-logout svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+        }
+        .news-filter-btn:hover,
+        .lang-btn:hover,
+        .rating-btn:hover,
+        .rating-submit:hover,
+        .cb-btn:hover,
+        .btn-copy-tag:hover,
+        .gold-btn:hover,
+        .btn-delete-mini:hover,
+        .btn-danger:hover,
+        .btn-logout:hover,
+        .btn-action:hover,
+        .btn-continue:hover,
+        .btn-gold:hover,
+        .btn-online:hover,
+        .btn-rating-del:hover {
+            background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+            transform: translateY(-1px);
+            color: var(--od-ink);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
+                0 9px 22px rgba(234, 179, 8, 0.34);
+        }
+        .news-filter-btn:active,
+        .lang-btn:active,
+        .rating-btn:active,
+        .rating-submit:active,
+        .cb-btn:active,
+        .btn-copy-tag:active,
+        .gold-btn:active,
+        .btn-delete-mini:active,
+        .btn-danger:active,
+        .btn-logout:active,
+        .btn-action:active,
+        .btn-continue:active,
+        .btn-gold:active,
+        .btn-online:active,
+        .btn-rating-del:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .news-filter-btn:focus-visible,
+        .lang-btn:focus-visible,
+        .rating-btn:focus-visible,
+        .rating-submit:focus-visible,
+        .cb-btn:focus-visible,
+        .btn-copy-tag:focus-visible,
+        .gold-btn:focus-visible,
+        .btn-delete-mini:focus-visible,
+        .btn-danger:focus-visible,
+        .btn-logout:focus-visible,
+        .btn-action:focus-visible,
+        .btn-continue:focus-visible,
+        .btn-gold:focus-visible,
+        .btn-online:focus-visible,
+        .btn-rating-del:focus-visible {
+            outline: 2px solid var(--od-marine-accent);
+            outline-offset: 2px;
+        }
+        /* Estado activo: se invierte a oscuro con texto dorado, para que
+           se distinga de los botones dorados de alrededor. */
+        .news-filter-btn.active {
+            background: var(--od-ink);
+            border-color: rgba(253, 230, 138, 0.75);
+            color: var(--od-gold-light);
+            font-weight: 700;
+            box-shadow: 0 0 0 1px rgba(253, 230, 138, 0.35) inset,
+                0 4px 16px rgba(0, 0, 0, 0.35);
+        }
+        .news-filter-btn.active:hover {
+            background: #16203a;
+            color: var(--od-gold-light);
+        }
+        /* Accion positiva: el boton de aceptar. */
+        .cb-accept {
+            background: linear-gradient(180deg, #fef3c7 0%, #eab308 100%);
+            color: var(--od-ink);
+        }
+        /* Peligro: borrar, banear, cerrar. */
+        .btn-danger,
+        .btn-rating-del,
+        .cb-decline {
+            background: rgba(220, 38, 38, 0.16);
+            color: #fca5a5;
+        }
+        .btn-danger:hover,
+        .btn-rating-del:hover,
+        .cb-decline:hover {
+            background: rgba(220, 38, 38, 0.34);
+            color: #fee2e2;
+        }
+        /* Cerrar: boton redondo de icono, sin texto. */
+        .close-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            min-height: 0;
+            padding: 0;
+            border-radius: 999px;
+            border: 1px solid rgba(253, 230, 138, 0.6);
+            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            color: var(--od-ink);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+                0 3px 10px rgba(234, 179, 8, 0.24);
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.18s ease, color 0.18s ease,
+                transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .close-btn:hover) {
+            background: rgba(220, 38, 38, 0.3);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .close-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+        /* Cantidad del carrito: botones pequenos y cuadrados. */
+        .cart-qty-btn,
+        .cart-remove {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            min-height: 0;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            border-color: rgba(253, 230, 138, 0.6);
+            color: var(--od-ink);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+        }
+        .cart-qty-btn:hover,
+        .cart-remove:hover {
+            background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+            transform: translateY(-1px);
+        }
+        .cart-qty-btn:active,
+        .cart-remove:active {
+            transform: translateY(0) scale(0.95);
+        }
+        /* El menu desplegable no va en dorado: son filas de icono y
+           texto sobre fondo translucido, como en la referencia. */
+        .nav-button {
+              background: transparent;
+              border: 1px solid transparent;
+              color: var(--od-text-dark);
+              box-shadow: none;
+          }
+        .nav-button:hover {
+              background: rgba(var(--od-glass-rgb), 0.28);
+              color: var(--od-text-light);
+          }
+        /* La pagina actual si es la unica pastilla dorada del menu. */
+        .nav-button[aria-current='page'] {
+            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            border-color: rgba(253, 230, 138, 0.6);
+            color: var(--od-ink);
+            font-weight: 600;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+                0 4px 14px rgba(234, 179, 8, 0.24);
+        }
+        .nav-button[aria-current='page']:hover {
+            background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+            color: var(--od-ink);
+        }
+        /* Contorno dorado: fondo transparente, borde y texto dorados.
+           Los del hero (Discord y Proximamente, con el contador de
+           jugadores encima) y los del pie (Discord y TikTok). */
+        .discord-btn,
+        .tiktok-btn,
+        .gold-btn,
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(234, 179, 8, 0.7);
+            color: var(--od-marine-accent);
+            box-shadow: none;
+        }
+        .discord-btn:hover,
+        .tiktok-btn:hover,
+        .gold-btn:hover,
+        .btn-ghost:hover {
+            background: rgba(234, 179, 8, 0.14);
+            border-color: var(--od-marine-accent);
+            color: var(--od-gold-light);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(234, 179, 8, 0.2);
+        }
+        .discord-btn:active,
+        .tiktok-btn:active,
+        .gold-btn:active,
+        .btn-ghost:active {
+            transform: translateY(0) scale(0.98);
+        }
