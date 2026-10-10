@@ -2820,7 +2820,22 @@ Antes era un div: Enter no hacia nada y un
     setTimeout(aplicar, 1200);
 })();
 </script>
-    <script src="js/analitica.js?v=144"></script>
+        <!-- El panel de admin no carga auth.js (no tiene login), pero si necesita
+         Supabase y la capa de datos: sin ellas, /api/admin/data salia a la
+         red y el panel se quedaba vacio. -->
+    <script src="js/supabase.js?v=144" defer></script>
+    <script src="js/datos.js?v=144" defer></script>
+    <script>
+      /* La capa se instala aqui porque admin.html no pasa por alCargar() de
+         auth.js, que es quien la montaba en el resto de paginas. */
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.OdisseyDatos || !window.OdisseySupabase) return;
+        Promise.resolve(window.OdisseySupabase.obtener({ esperarSesion: false }))
+          .then(function () { return window.OdisseyDatos.instalar(); })
+          .then(function () { window.OdisseyDatos.instalado = true; })
+          .catch(function () { /* sin Supabase, las /api/ fallaran limpias */ });
+      });
+    </script><script src="js/analitica.js?v=144"></script>
 <script src="js/formulario.js?v=144"></script>
     <script src="js/dala-art.js?v=144"></script>
     <script src="js/dala-bg.js?v=144"></script>
