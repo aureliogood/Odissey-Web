@@ -1,12 +1,22 @@
 /* ============================================================
    site-data.js — Capa compartida de datos del sitio.
    Lee el contenido web (noticias, tienda, staff, reportes...)
-   desde la API del bot (API_BASE) en vez de localStorage.
+   desde Supabase, a traves de js/datos.js.
+
+   QUE CAMBIO
+   Antes estas llamadas iban a la mini API del bot:
+       fetch(API_BASE + '/api/content')
+   El bot ya no existe y esa URL devolvia 404 en silencio. Ahora se pide
+   a la ruta /api/content del propio dominio, que es la misma llamada de
+   siempre, pero js/datos.js la intercepta y la responde leyendo de
+   Supabase. Por eso el codigo de abajo sigue igual de arriba abajo.
    ============================================================ */
 (function () {
   'use strict';
 
-  const API_BASE = (typeof window !== 'undefined' && window.API_BASE) || 'https://odisseymc.site/bot';
+  /* API_BASE ya no existe: no hay servidor propio al que apuntar. La web
+     es estatica y todo se resuelve contra Supabase desde el navegador. */
+  const API_BASE = '';
 
   const SiteData = {
     data: {

@@ -141,6 +141,21 @@
     };
   }
 
+  /* Las fechas venían como texto ("2026-10-10") y Postgres las devuelve
+     como timestamptz ("2026-10-10T00:00:00+00"). El codigo de la web las
+     compara y las pinta con el formato corto, así que se vuelve a dejar
+     como texto con la parte de la fecha, que es lo que esperaba. */
+  function normaliza(campoFecha) {
+    return function (fila) {
+      if (!fila) return fila;
+      const v = fila[campoFecha];
+      if (typeof v === 'string' && v.includes('T')) {
+        fila[campoFecha] = v.slice(0, 10);
+      }
+      return fila;
+    };
+  }
+
   async function manejar(ruta, query, cuerpo, metodo, sb) {
     const u = await usuario(sb);
 
@@ -205,11 +220,83 @@
 
     // ---- contenido publico ----
     if (ruta === '/api/content') {
-      const [ajustes, mantenimiento] = await Promise.all([
-        sb.from('site_settings').select('*').maybeSingle(),
-        sb.from('maintenance').select('*').maybeSingle(),
+      /* Devuelve todo el contenido publico de una vez. Es lo que pide
+         site-data.js al cargar cada pagina. */
+      const [ajustes, mantenimiento, news, events, gallery, products, staff, ratings] =
+        await Promise.all([
+          sb.from('site_settings').select('*').maybeSingle(),
+          sb.from('maintenance').select('*').maybeSingle(),
+          sb.from('news').select('*'),
+          sb.from('events').select('*'),
+          sb.from('gallery').select('*'),
+          sb.from('products').select('*').order('sort_order'),
+          sb.from('staff_members').select('*').order('sort_order'),
+          sb.from('ratings').select('*'),
+        ]);
+      return responder({
+        ok: true,
+        news: (news.data || []).map(normaliza('date')),
+        events: (events.data || []).map(normaliza('date')),
+        gallery: gallery.data || [],
+        products: products.data || [],
+        staff: staff.data || [],
+        ratings: ratings.data || [],
+        settings: ajustes.data || null,
+        maintenance: mantenimiento.data || null,
+        productsConfigured: true,
+        productsEmpty: !(products.data || []).length,
+        staffConfigured: true,
+        staffEmpty: !(staff.data || []).length,
+      });
+    }
+
+    /* Lo del usuario que ha entrado: sus reportes y sus pedidos. La RLS
+       ya limita a que vea solo los suyos, asi que aqui no se filtra nada
+       a mano. */
+    if (ruta === '/api/my/data') {
+      if (!u) return responder({ ok: false }, 401);
+      const [reports, orders] = await Promise.all([
+        sb.from('reports').select('*').order('created_at', { ascending: false }),
+        sb.from('orders').select('*').order('created_at', { ascending: false }),
       ]);
-      return responder({ ok: true, settings: ajustes.data, maintenance: mantenimiento.data });
+      return responder({ ok: true, reports: reports.data || [], orders: orders.data || [] });
+    }
+
+    /* Lo que ve el panel de admin. La RLS no deja ni leer ni escribir a
+       quien no sea staff: si la consulta falla, se devuelve el error en
+       vez de inventarse una respuesta vacia. */
+    if (ruta === '/api/admin/data') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const p = await perfilDe(sb, u.id);
+      if (!p || (p.rol !== 'admin' && p.rol !== 'staff')) {
+        return responder({ ok: false, error: 'sin_permiso' }, 403);
+      }
+      const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log] =
+        await Promise.all([
+          sb.from('news').select('*'),
+          sb.from('events').select('*'),
+          sb.from('gallery').select('*'),
+          sb.from('products').select('*').order('sort_order'),
+          sb.from('staff_members').select('*').order('sort_order'),
+          sb.from('ratings').select('*'),
+          sb.from('reports').select('*').order('created_at', { ascending: false }),
+          sb.from('orders').select('*').order('created_at', { ascending: false }),
+          sb.from('site_settings').select('*').maybeSingle(),
+          sb.from('admin_log').select('*').order('creado', { ascending: false }).limit(200),
+        ]);
+      return responder({
+        ok: true,
+        news: (news.data || []).map(normaliza('date')),
+        events: (events.data || []).map(normaliza('date')),
+        gallery: gallery.data || [],
+        products: products.data || [],
+        staff: staff.data || [],
+        ratings: ratings.data || [],
+        reports: reports.data || [],
+        orders: orders.data || [],
+        settings: ajustes.data || null,
+        log: log.data || [],
+      });
     }
 
     if (ruta === '/api/mcname') {
