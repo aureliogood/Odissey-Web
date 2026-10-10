@@ -1,117 +1,39 @@
-/* ============================================================================
-   css/turnstile.css
-   Cloudflare Turnstile: hueco y avisos del captcha.
 
-   El widget en si lo dibuja Cloudflare dentro de un iframe y no se puede
-   cambiar con CSS. Lo de aqui es solo lo que lo rodea: el hueco, los
-   avisos de caducidad y de error.
+/* --- reintentar ------------------------------------------------------------
 
-   Se carga DESPUES de css/dala.css por el mismo motivo que auth.css:
-   dala.css pone "!important" en casi todo y gana por especificidad.
-   ============================================================================ */
-
-/* El hueco entre el reto y el boton de enviar. Sin esto el boton queda
-   pegado al iframe, que visualmente flota. */
-.auth-turnstile,
-.ts-zona {
-  margin: 1.1rem 0 0;
-  min-height: 0;
+   Aparece cuando el reto no se resuelve ni falla (la red o un bloqueador
+   lo han dejado atascado). Sin el, el visitante se queda mirando un
+   mensaje sin hacer nada posible. */
+.ts-reintentar {
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  min-height: 36px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  color: #fde68a;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.45);
+  border-radius: 999px;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.ts-widget {
-  /* El contenedor tiene que estar en el DOM y vacio para que
-     Turnstile lo pinte. Si se oculta con display:none, el script no
-     encuentra el sitio y falla sin avisar. */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 65px;
+.ts-reintentar:hover {
+  background: rgba(234, 179, 8, 0.22);
 }
 
-/* Cloudflare mete dentro un <div> de 300px fijos. Se centra con flex
-   en el contenedor de arriba en vez de con margin:auto en el hijo,
-   porque la estructura interna depende de como Cloudflare construya el
-   widget y puede cambiar sin avisar; el flex del padre no. */
-
-.ts-widget[hidden] {
-  /* hidden gana, pero se deja explicito por si alguien cambia el
-     atributo por una clase de display. */
-  display: none !important;
+.ts-reintentar:focus-visible {
+  outline: 2px solid #eab308;
+  outline-offset: 2px;
 }
 
-/* --- avisos ------------------------------------------------------------- */
-
-.ts-aviso,
-.ts-error {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  margin: 0.5rem 0 0;
-  text-align: center;
-}
-
-/* Caducado: aviso, no error. El visitante no ha hecho nada mal, el
-   token simplemente se quedo viejo. */
-.ts-aviso {
-  color: rgba(203, 213, 225, 0.75);
-}
-
-/* Error: aqui si hay algo que resolver (bloqueador de anuncios, sin
-   conexion). role="alert" ya lo anuncia el lector de pantalla. */
-.ts-error {
-  color: #fecaca;
-  background: rgba(127, 29, 29, 0.32);
-  border: 1px solid rgba(248, 113, 113, 0.35);
-  border-radius: 10px;
-  padding: 0.5rem 0.65rem;
-  text-align: left;
-}
-
-.ts-aviso[hidden] {
-  display: none !important;
-}
-
-/* --- accesibilidad ------------------------------------------------------ */
-
-/* El iframe de Turnstile va dentro de un contenedor con role y
-   aria-label (puesto en auth.js). Sin esto, el lector de pantalla
-   anuncia "iframe" a secas y el visitante no sabe que hay que
-   comprobar algo. */
-.ts-widget iframe {
-  max-width: 100%;
-}
-
-/* Con reduced motion el widget no hace animaciones propias, pero el
-   reseteo al caducar puede hacer un salto de disposicion. No hay nada que
-   animar aqui, asi que este bloque solo deja constancia de que se ha
-   revisado: los avisos no tienen transicion. */
 @media (prefers-reduced-motion: reduce) {
-  .ts-aviso,
-  .ts-error {
-    transition: none !important;
-  }
+  .ts-reintentar { transition: none !important; }
 }
 
-/* --- pantallas estrechas ------------------------------------------------ */
-
-@media (max-width: 400px) {
-  /* Turnstile ofrece un tamano "compact" (150px de alto) pero en
-     vertical deja el reto roto. Se deja el normal y se reduce el
-     margen: cabe sin problema porque el iframe se adapta al ancho. */
-  .auth-turnstile,
-  .ts-zona {
-    margin-top: 0.9rem;
-  }
-}
-
-/* --- modo claro --------------------------------------------------------- */
-
-html.theme-light .ts-aviso {
-  color: rgba(51, 65, 85, 0.8);
-}
-
-html.theme-light .ts-error {
-  color: #991b1b;
-  background: rgba(254, 226, 226, 0.55);
-  border-color: rgba(220, 38, 38, 0.35);
+html.theme-light .ts-reintentar {
+  color: #92400e;
+  background: rgba(202, 138, 4, 0.12);
+  border-color: rgba(202, 138, 4, 0.5);
 }

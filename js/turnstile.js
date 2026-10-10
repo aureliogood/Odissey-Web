@@ -47,6 +47,22 @@
      le de tiempo a enviar sin quedarse con el widget en error. */
   var CADUCA_EN_MS = 4 * 60 * 1000;
 
+  /* Tiempo máximo para que el reto se resuelva.
+     Cloudflare dice que en condiciones normales se resuelve en 2-3
+     segundos. Aquí, no siempre.
+
+     Lo que pasaba (y se vio en la web real): el script se carga bien,
+     Cloudflare monta el hueco del widget y el token no llega NUNCA, sin
+     lanzar error ni un solo callback. Puede pasar si los subdominios del
+     challenge no resuelven por DNS, que es justo lo que pasaba en la red
+     de quien probó.
+
+     Sin este reloj el visitante se quedaba en "Espera un momento"
+     indefinidamente, para siempre, sin forma de seguir. Con el, a los
+     20 segundos se le dice que la comprobación no ha podido hacerse y se
+     le da un botón para reintentarla. */
+  var RESUELVE_EN_MS = 20 * 1000;
+
   function config() {
     var c = global.SITE_CONFIG || {};
     return {
@@ -181,7 +197,13 @@
         size: 'normal',
         callback: function (token) {
           widgets[id].expirado = false;
+          widgets[id].fallido = false;
+          if (widgets[id].relojResolver) { clearTimeout(widgets[id].relojResolver); widgets[id].relojResolver = null; }
           if (aviso) aviso.hidden = true;
+          if (widgets[id].botonReintentar) {
+            widgets[id].botonReintentar.remove();
+            widgets[id].botonReintentar = null;
+          }
           if (widgets[id].alResolver) widgets[id].alResolver(token);
         },
         'expired-callback': function () {
@@ -197,13 +219,11 @@
              dominio no está en la lista del widget, o si un bloqueador
              ha interfered con el iframe. */
           widgets[id].fallido = true;
+          if (widgets[id].relojResolver) { clearTimeout(widgets[id].relojResolver); widgets[id].relojResolver = null; }
           if (widgets[id].temporizador) { clearTimeout(widgets[id].temporizador); widgets[id].temporizador = null; }
           if (aviso) aviso.hidden = true;
-          var e = document.createElement('p');
-          e.className = 'ts-error';
-          e.setAttribute('role', 'alert');
-          e.textContent = 'No se ha podido comprobar que no eres un robot. Recarga la pagina e intentalo de nuevo.';
-          if (aviso && aviso.nextSibling !== e) el.parentNode.insertBefore(e, aviso);
+          errorConReintento(widgets[id], el, aviso,
+            'No se ha podido comprobar que no eres un robot.');
         },
         'timeout-callback': function () {
           avisoCaducado(widgets[id]);
@@ -222,6 +242,20 @@
         avisoCaducado(widgets[id]);
       }, CADUCA_EN_MS);
 
+      /* El reloj que faltaba: si en 20 s no hay token y no hay error,
+         algo se ha quedado atascado en Cloudflare y no va a llegar. Se
+         marca como fallido y se ofrece reintentar, para que el visitante
+         no se quede esperando indefinidamente. */
+      widgets[id].relojResolver = global.setTimeout(function () {
+        if (!widgets[id].fallido && !widgets[id].expirado && !token(id)) {
+          widgets[id].fallido = true;
+          if (widgets[id].temporizador) { clearTimeout(widgets[id].temporizador); widgets[id].temporizador = null; }
+          if (aviso) aviso.hidden = true;
+          errorConReintento(widgets[id], el, aviso,
+            'La comprobacion no ha podido terminar. Puede ser que tu conexion o un bloqueador la esten parando.');
+        }
+      }, RESUELVE_EN_MS);
+
       return widgetId;
     }).catch(function (err) {
       var e = document.createElement('p');
@@ -234,6 +268,53 @@
       // formulario lo note y no finja que ha ido bien.
       throw err;
     });
+  }
+
+  /** Pinta el error y un boton para reintentarlo.
+        Un boton y no solo un texto: si el problema es la red o un
+        bloqueador, recargar la pagina entera a veces lo arregla y otras
+        no. Resetear el widget es lo barato, y si tampoco, al menos el
+        visitante tiene algo que hacer en vez de mirar una pantalla
+        bloqueada. */
+  function errorConReintento(w, cajaWidget, aviso, texto) {
+    if (!w) return;
+    if (w.mensajeError && w.mensajeError.parentNode) w.mensajeError.remove();
+
+    var e = document.createElement('p');
+    e.className = 'ts-error';
+    e.setAttribute('role', 'alert');
+    e.textContent = texto;
+    w.mensajeError = e;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ts-reintentar';
+    b.textContent = 'Reintentar';
+    b.addEventListener('click', function () {
+      e.remove();
+      if (b.parentNode) b.remove();
+      w.fallido = false;
+      w.expirado = false;
+      if (aviso) aviso.hidden = true;
+      reset(w);
+      // El mismo reloj de 20 s, otra vez: si tampoco funciona esta vez,
+      // vuelve a salir el boton.
+      w.relojResolver = global.setTimeout(function () {
+        if (!w.fallido && !w.expirado && !token(w.id)) {
+          w.fallido = true;
+          if (aviso) aviso.hidden = true;
+          errorConReintento(w, cajaWidget, aviso, texto);
+        }
+      }, RESUELVE_EN_MS);
+    });
+    e.appendChild(document.createTextNode(' '));
+    e.appendChild(b);
+    w.botonReintentar = b;
+
+    if (cajaWidget && cajaWidget.parentNode) {
+      if (aviso && aviso.nextSibling) cajaWidget.parentNode.insertBefore(e, aviso);
+      else cajaWidget.parentNode.insertBefore(e, cajaWidget.nextSibling);
+    }
   }
 
   function avisoCaducado(w) {

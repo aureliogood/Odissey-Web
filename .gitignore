@@ -17,3 +17,16 @@ dev-server.js
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Scripts de comprobacion. Empiezan por guion bajo y NO son parte del
+# sitio: miden el login, el contraste y la geometria con un navegador
+# real. Estaban en el repositorio publico y no deberian: enseyan como
+# esta hecho el sitio sin aportar nada.
+_*.cjs
+!_comprobar-visible.cjs
+
+# Comprobaciones propias de la migracion a Supabase.
+# OJO: la carpeta supabase/ NO se ignora a proposito. Los SQL son la
+# documentacion del esquema y conviene que esten en el repo. Lo que no
+# va al hosting es otra cosa (eso lo decide package.js).
+ver-supabase.ps1
