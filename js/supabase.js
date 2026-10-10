@@ -40,6 +40,7 @@
 
   let cargando = null;
   let cliente = null;
+  let creando = null;
 
   function hayConfig() {
     return !!(URL_SUPABASE && CLAVE);
@@ -81,29 +82,53 @@
    */
   async function obtener(opciones) {
     const opts = opciones || {};
-    if (cliente && opts.esperarSesion === false) return cliente;
     if (cliente) return cliente;
+    if (opts.esperarSesion === false && creando) return creando;
 
     if (!hayConfig()) {
       throw new Error('Supabase no esta configurado (falta supabaseUrl o supabaseKey en site-config.js).');
     }
 
-    await cargarLibreria();
+    /* Varias partes de la pagina piden el cliente a la vez: auth.js al
+       arrancar, js/datos.js al montarse, cada pagina al pintar su
+       contenido. Si dos de ellas pasan por aqui en el mismo instante,
+       las dos ven "cliente === null" y crean dos clientes.
 
-    cliente = global.supabase.createClient(URL_SUPABASE, CLAVE, {
-      auth: {
-        // La sesion se guarda en localStorage. Es lo que hace que entrar en
-        // una pagina y saltar a otra siga con la sesion puesta.
-        persistSession: true,
-        autoRefreshToken: true,
-        // Si otra pestana inicia o cierra sesion, esta se entera. Sin esto,
-        // se cierra sesion en una pestana y en las demas sigue creyendose
-        // que se esta dentro.
-        detectSessionInUrl: true,
-      },
-    });
+       Y eso no es solo memoria de mas: Supabase avisa con "Multiple
+       GoTrueClient instances detected" y las dos instancias se pelean
+       por la sesion en localStorage. Una actualiza el token y la otra lo
+       sobrescribe con el suyo, y el visitante ve como se le cae la
+       sesion al saltar entre paginas.
 
-    return cliente;
+       Por eso se guarda la PROMESA, no el cliente: la segunda llamada
+       espera a la primera en vez de crear la suya. */
+    if (creando) return creando;
+
+    creando = (async function () {
+      await cargarLibreria();
+      const nuevo = global.supabase.createClient(URL_SUPABASE, CLAVE, {
+        auth: {
+          // La sesion se guarda en localStorage. Es lo que hace que entrar en
+          // una pagina y saltar a otra siga con la sesion puesta.
+          persistSession: true,
+          autoRefreshToken: true,
+          // Si otra pestana inicia o cierra sesion, esta se entera. Sin esto,
+          // se cierra sesion en una pestana y en las demas sigue creyendose
+          // que se esta dentro.
+          detectSessionInUrl: true,
+        },
+      });
+      cliente = nuevo;
+      return nuevo;
+    })();
+
+    try {
+      return await creando;
+    } finally {
+      // Se suela aunque falle: si el siguiente lo intenta otra vez, tiene
+      // que poder intentarlo, no quedarse con una promesa muerta.
+      creando = null;
+    }
   }
 
   /** Cliente sin esperar: para cuando solo se hacen consultas publicas. */
@@ -148,7 +173,7 @@
     URL: URL_SUPABASE,
     // Para las pruebas: poder Resetear entre casos.
     _interno: {
-      limpiar: function () { cliente = null; cargando = null; },
+      limpiar: function () { cliente = null; cargando = null; creando = null; },
     },
   };
 
