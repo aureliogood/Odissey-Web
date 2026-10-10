@@ -392,4 +392,27 @@
     origen: origen,
   };
 
+  /* Se instala en cuanto se carga este archivo, no cuando lo diga
+     alCargar() de auth.js.
+
+     site-data.js llama a loadPublic() nada más entrar, al principio de la
+     pagina. Si la capa se montara después, esa primera llamada ya habria
+     salido a la red, GitHub Pages respondería 404 y el contenido
+     (noticias, eventos, tienda, staff) se quedaría vacío para siempre,
+     sin reintentar. Es una carrera, y se perdia siempre.
+
+     Que se instale aquí no necesita a Supabase: el interceptor solo
+     intercepta y devuelve una promesa. El cliente se pide dentro, que es
+     asíncrono de todas formas. Por eso puede montarse sin esperar a nada.
+
+     Este archivo tiene que cargarse antes que site-data.js (y antes que
+     auth.js, que alCargar también lo montaba). */
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { instalar(); });
+    } else {
+      instalar();
+    }
+  }
+
 })(window);

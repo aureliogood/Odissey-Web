@@ -593,7 +593,17 @@ Antes era un div: Enter no hacia nada y un
     <script src="site-config.js?v=144"></script>
     <script src="shop-config.js?v=144"></script>
     <script src="staff-config.js?v=144"></script>
-    <script src="site-data.js?v=144"></script>
+        <!-- Supabase y la capa de datos van PRIMERO, antes de site-data.js:
+         site-data.js pide el contenido nada más entrar y, si la capa no
+         está montada todavía, esa petición sale a la red y el contenido
+         se queda vacío sin reintentar. -->
+    <!-- Supabase y la capa de datos van PRIMERO, antes de site-data.js:
+         site-data.js pide el contenido nada mas entrar y, si la capa no esta
+         montada todavia, esa peticion sale a la red y el contenido se queda
+         vacio sin reintentar. -->
+    <script src="js/supabase.js?v=144" defer></script>
+    <script src="js/datos.js?v=144" defer></script>
+<script src="site-data.js?v=144"></script>
     <script>
         const loginView = document.getElementById('loginView');
         const dashboardView = document.getElementById('dashboardView');
@@ -2820,12 +2830,7 @@ Antes era un div: Enter no hacia nada y un
     setTimeout(aplicar, 1200);
 })();
 </script>
-        <!-- El panel de admin no carga auth.js (no tiene login), pero si necesita
-         Supabase y la capa de datos: sin ellas, /api/admin/data salia a la
-         red y el panel se quedaba vacio. -->
-    <script src="js/supabase.js?v=144" defer></script>
-    <script src="js/datos.js?v=144" defer></script>
-    <script>
+<script>
       /* La capa se instala aqui porque admin.html no pasa por alCargar() de
          auth.js, que es quien la montaba en el resto de paginas. */
       document.addEventListener('DOMContentLoaded', function () {

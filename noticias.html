@@ -413,7 +413,13 @@
     <script src="site-config.js?v=144"></script>
     <script src="shop-config.js?v=144"></script>
     <script src="staff-config.js?v=144"></script>
-    <script src="site-data.js?v=144"></script>
+        <!-- Supabase y la capa de datos van PRIMERO, antes de site-data.js:
+         site-data.js pide el contenido nada mas entrar y, si la capa no esta
+         montada todavia, esa peticion sale a la red y el contenido se queda
+         vacio sin reintentar. -->
+    <script src="js/supabase.js?v=144" defer></script>
+    <script src="js/datos.js?v=144" defer></script>
+<script src="site-data.js?v=144"></script>
     <script>
         function copyToClipboard(text, message) {
             const textArea = document.createElement("textarea");
@@ -1794,21 +1800,3 @@ cb_accept: 'Accept',
      auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
      no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=144" defer></script>
-        <!-- Supabase: aporta OdisseySupabase. Va antes de auth.js porque
-         el login lo necesita desde el primer momento. Solo lleva la
-         publishable key, que es publica; la secret va en el servidor. -->
-        <!-- Capa de datos: atiende las llamadas a /api/... desde Supabase,
-         que es lo que hacia el bot. Se carga despues de supabase.js porque
-         necesita el cliente. -->
-    <script src="js/datos.js?v=144" defer></script>
-    <script src="js/supabase.js?v=144" defer></script>
-    <script src="auth.js?v=144"></script>
-    <script src="js/analitica.js?v=144"></script>
-<script src="js/formulario.js?v=144"></script>
-<script src="js/dala-art.js?v=144"></script>
-    <script src="js/dala-bg.js?v=144"></script>
-    <script src="js/dala-menu.js?v=144"></script>
-    <script src="js/dala-auth-steve.js?v=144"></script>
-        <script src="js/dala-nav.js?v=144"></script>
-    </body>
-</html>
