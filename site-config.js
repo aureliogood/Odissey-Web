@@ -49,8 +49,22 @@ window.DEFAULT_SITE_CONFIG = {
     //  carpeta. Va unicamente en el bot, como variable de entorno
     //  TURNSTILE_SECRET_KEY.
     turnstileSiteKey: '0x4AAAAAAFTE6vKiwo7EJnPL',
-    // false = apagado sin tocar la clave. Utíl mientras se configura.
-    turnstileActivo: true,
+    // APAGADO a proposito, y no es un descuido.
+    //
+    // Ponerlo a true vuelve a pintar el widget, pero el token ya no lo
+    // comprueba nadie: el backend era el bot y el bot ya no esta, y
+    // supabase.auth.signInWithPassword() construye el POST sola y no
+    // admite campos extra. El visitante resolveria el reto para que su
+    // token se tirase a la basura.
+    //
+    // Mientras tanto solo estorba: en redes donde los subdominios del
+    // challenge de Cloudflare no resuelven, el reto no se completa nunca
+    // y el login se queda bloqueado. Asi paso al probarlo.
+    //
+    // Lo correcto cuando se reenganche es la captcha NATIVA de Supabase
+    // (Authentication > Sign In / Providers > Bot Detection), que si
+    // valida, porque va dentro del propio flujo de Supabase.
+    turnstileActivo: false,
 };
 
 // La configuración se guarda ahora en la base de datos del bot
