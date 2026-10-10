@@ -29,6 +29,7 @@
     adminLoaded: false,
 
     loadPublic() {
+      return esperarCapa().then(function () {
       return fetch(API_BASE + '/api/content')
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -51,10 +52,12 @@
           return SiteData.data;
         })
         .catch(function () { return SiteData.data; });
+      });
     },
 
     loadMy(token) {
       if (!token) return Promise.resolve(SiteData.data);
+      return esperarCapa().then(function () {
       return fetch(API_BASE + '/api/my/data?token=' + encodeURIComponent(token))
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -67,9 +70,11 @@
           return SiteData.data;
         })
         .catch(function () { return SiteData.data; });
+      });
     },
 
     loadAdmin(token) {
+      return esperarCapa().then(function () {
       return fetch(API_BASE + '/api/admin/data?token=' + encodeURIComponent(token))
         .then(function (res) { return res.json(); })
         .then(function (json) {
@@ -106,6 +111,7 @@
           return true;
         })
         .catch(function () { return false; });
+      });
     },
 
     get(key) { return SiteData.data[key]; },
