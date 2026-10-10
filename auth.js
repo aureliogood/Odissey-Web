@@ -779,7 +779,16 @@ function mostrarVista(vista) {
     if (tok) return true;
 
     var caja = document.getElementById('ts-' + accion);
-    var caido = caja && caja.dataset.fallido === '1';
+    /* T.fallido() pregunta al modulo, no solo al atributo del HTML. El
+       atributo lo pone montarTurnstile cuando falla la CARGA del script,
+       pero el reloj de 20 s de js/turnstile.js marca el widget como
+       fallido desde dentro, y ahi no hay ningun atributo que mirar.
+       Sin esta linea, un reto que se queda atascado (que es lo que pasa
+       si los subdominios de Cloudflare no resuelven) mostraba "espera un
+       momento" para siempre, aunque el boton de Reintentar ya estaba
+       en pantalla diciendo que habia fallado. */
+    var caido = (caja && caja.dataset.fallido === '1') ||
+      (typeof T.fallido === 'function' && T.fallido());
     mostrarError('authError' + (accion === 'login' ? 'Login' : 'Registro'),
       t(caido ? 'captchaCaido' : 'captchaPendiente'));
     return false;
