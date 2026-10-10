@@ -13,7 +13,7 @@
 (function () {
   'use strict';
 
-  const API = window.API_BASE || 'https://odisseymc.site/bot';
+  const API = window.API_BASE || '';
   const CLAVE_TOKEN = 'odissey_discord_session';
   const CLAVE_USUARIO = 'odissey_discord_user';
 
@@ -1222,6 +1222,17 @@ function conectarBotonPerfil() {
   }
 
 function alCargar() {
+    /* La capa de datos se instala lo primero, antes de que nada pida nada.
+       Es lo que hace que las llamadas a /api/... dejen de ir al bot: se
+       atienden desde Supabase. Sin esto, cada pagina intentaria hablar
+       con un servidor que ya no existe. */
+    if (window.OdisseyDatos && !window.OdisseyDatos.instalado) {
+      Promise.resolve(window.OdisseySupabase && window.OdisseySupabase.obtener({ esperarSesion: false }))
+        .then(function () { return window.OdisseyDatos.instalar(); })
+        .then(function () { window.OdisseyDatos.instalado = true; })
+        .catch(function () { /* si Supabase no llega, las /api/ fallaran de forma limpia */ });
+    }
+
     // Los formularios sustituyen al botón de Discord que había antes.
     const loginView = document.getElementById('loginView');
     if (loginView) {

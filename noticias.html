@@ -532,7 +532,7 @@ try {
         const logoutBtn = document.getElementById('logout-btn');
         const currencySelect = document.getElementById('currency');
         const mcNameInput = document.getElementById('mcNameInput');
-        const API_BASE = window.API_BASE || 'https://odisseymc.site/bot';
+        const API_BASE = window.API_BASE || '';
         function getSessionToken() {
             return localStorage.getItem('odissey_discord_session');
         }
@@ -1792,11 +1792,15 @@ cb_accept: 'Accept',
     <script src="js/search.js?v=144"></script>
     <!-- Cloudflare Turnstile: aporta OdisseyTurnstile. Va antes de auth.js porque
      auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
-     no esta aqui, vive en el bot (odisseymc.site/bot). -->
+     no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=144" defer></script>
         <!-- Supabase: aporta OdisseySupabase. Va antes de auth.js porque
          el login lo necesita desde el primer momento. Solo lleva la
          publishable key, que es publica; la secret va en el servidor. -->
+        <!-- Capa de datos: atiende las llamadas a /api/... desde Supabase,
+         que es lo que hacia el bot. Se carga despues de supabase.js porque
+         necesita el cliente. -->
+    <script src="js/datos.js?v=144" defer></script>
     <script src="js/supabase.js?v=144" defer></script>
     <script src="auth.js?v=144"></script>
     <script src="js/analitica.js?v=144"></script>

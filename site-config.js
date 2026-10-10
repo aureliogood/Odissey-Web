@@ -67,24 +67,16 @@ window.DEFAULT_SITE_CONFIG = {
     turnstileActivo: false,
 };
 
-// La configuración se guarda ahora en la base de datos del bot
-// (tabla site_settings) y se sirve por la API. Aquí cargamos lo
-// guardado y lo mezclamos con los valores por defecto.
+// Los ajustes se guardan ahora en la base de datos (tabla site_settings) y
+// los trae js/datos.js desde Supabase. Aquí solo están los valores por
+// defecto, que se usan hasta que llegan los guardados.
 window.SITE_CONFIG = Object.assign({}, window.DEFAULT_SITE_CONFIG);
 
-// URL de la mini API del bot de tickets (cuentas, tickets, contenido).
-//
-// En producción es la de siempre, pero si la web se abre desde localhost se
-// usa la API del bot que tengas corriendo en tu ordenador. Sin esto, al
-// probar en local la web nueva hablaba con el bot de producción: si el bot de
-// producción es una versión antigua, /api/auth/register devolvía 404 y el
-// registro fallaba con un error que no decía por qué.
-(function () {
-  var esLocal = /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname);
-  window.API_BASE = esLocal
-    ? 'http://127.0.0.1:' + (window.LOCAL_API_PORT || 3000) + '/bot'
-    : 'https://odisseymc.site/bot';
-})();
+// Ya no existe API_BASE. La web ya no habla con ningún servidor propio:
+// todo lo que antes pedía a la mini API del bot lo atiende js/datos.js
+// contra Supabase, interceptando las llamadas a /api/... del propio
+// dominio. Por eso no hace falta ninguna URL aqui, ni en local ni en
+// produccion: la web es estatica y no depende de ningun backend propio.
 
 (function () {
     function mergeAndApply(cfg) {

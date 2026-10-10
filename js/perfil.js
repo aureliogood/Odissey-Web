@@ -11,7 +11,7 @@
 (function () {
   'use strict';
 
-  const API = window.API_BASE || 'https://odisseymc.site/bot';
+  const API = window.API_BASE || '';
   const MAX_IMG = 10 * 1024 * 1024;
   const TIPOS_OK = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'image/avif'];
   const EXT_OK = ['png', 'jpg', 'gif', 'webp', 'avif'];

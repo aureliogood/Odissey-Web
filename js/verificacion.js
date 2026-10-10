@@ -16,7 +16,7 @@
 (function () {
   'use strict';
 
-  const API = window.API_BASE || 'https://odisseymc.site/bot';
+  const API = window.API_BASE || '';
 
   const T = {
     es: {
