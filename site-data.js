@@ -18,6 +18,35 @@
      es estatica y todo se resuelve contra Supabase desde el navegador. */
   const API_BASE = '';
 
+  /* Espera a que la capa de datos este montada antes de pedir nada.
+
+     Este archivo va SIN defer a proposito: lo usan los scripts en linea de
+     cada pagina, que se ejecutan durante el parseo y lo necesitan existir
+     ya. Con defer se ejecutaba despues y todos esos scripts fallaban con
+     "SiteData is not defined".
+
+     La capa (js/datos.js) si va con defer, asi que llega mas tarde. Si se
+     pidiera sin esperar, esa peticion se escaparia a la red y GitHub
+     Pages responderia 404: noticias, eventos, galeria, tienda y staff se
+     quedarian vacios y sin reintento.
+
+     Con tope de 5 s: si la capa no llega, se sigue adelante y la peticion
+     falla sola, que ya lo contempla el .catch. Nunca se espera para
+     siempre. */
+  function esperarCapa() {
+    return new Promise(function (resolver) {
+      if (window.OdisseyDatos && window.OdisseyDatos.instalado) { resolver(); return; }
+      var intentos = 0;
+      var reloj = setInterval(function () {
+        intentos++;
+        if ((window.OdisseyDatos && window.OdisseyDatos.instalado) || intentos > 100) {
+          clearInterval(reloj);
+          resolver();
+        }
+      }, 50);
+    });
+  }
+
   const SiteData = {
     data: {
       news: [], events: [], gallery: [], products: [], staff: [], ratings: [],

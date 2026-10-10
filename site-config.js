@@ -90,7 +90,12 @@ window.SITE_CONFIG = Object.assign({}, window.DEFAULT_SITE_CONFIG);
         mergeAndApply(window.SiteData.get('settings'));
         return;
     }
-    fetch(window.API_BASE + '/api/content')
+    /* Ruta relativa a proposito. Antes era window.API_BASE + '/api/content',
+       pero API_BASE ya no existe (no hay servidor propio al que apuntar) y
+       el resultado era "undefined/api/content": una peticion a una ruta
+       que no existe, en vez de a la nuestra que responde la capa de
+       datos. */
+    fetch('/api/content')
         .then(function (r) { return r.json(); })
         .then(function (data) {
             if (data && data.ok && data.settings) mergeAndApply(data.settings);
