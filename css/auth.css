@@ -1,0 +1,694 @@
+/* ============================================================================
+   auth.css — hoja de estilos del login y el registro
+   ----------------------------------------------------------------------------
+   POR QUE ESTE ARCHIVO ESTA SEPARADO Y SE CARGA EL ULTIMO
+
+   El login tiene tres capas de CSS encima y cada una con !important:
+
+     1. theme.css   -> los estilos originales del login
+     2. dala.css    -> el rediseño oscuro (inputs a negro puro, etc.)
+     3. este archivo -> las correcciones de accesibilidad
+
+   dala.css se carga DESPUES de theme.css y usa "!important" en casi todo
+   (input, .auth-input, ::placeholder, .auth-ver...). Con CSS normal, una
+   regla posterior no gana a un !important anterior: gana el que se
+   carga mas tarde SIEMPRE que no lleve !important, pero aqui todos lo
+   llevan. Por eso este archivo va aparte y se carga el ultimo, y por eso
+   lleva !important donde tiene que corregir a dala.css.
+
+   QUE CORRIGE
+
+   Los tres fallos se midieron con la formula de contraste de WCAG, no a ojo:
+
+     - Placeholder a 2.48:1 (necesita 4.5:1). Ilegible.
+     - Anillo de foco a 1.22:1 (necesita 3:1). Invisible al teclado.
+     - Boton de ver contrasena de 32px (necesita 44px). Dificil de
+       acertar con el dedo.
+
+   Ademas anade lo que faltaba y pedian las reglas de UI/UX:
+     - error por campo debajo de su input (error-placement)
+     - estado de carga del boton (submit-feedback)
+     - ayuda persistente de la contrasena (input-helper-text)
+     - min-height de 48px en los campos (touch-friendly-input)
+     - respeto a prefers-reduced-motion (reduced-motion)
+
+   Los contrastes se midieron con la formula de WCAG Y con el navegador
+   delante, leyendo el color que este aplica de verdad y no el que pone
+   el CSS. El detalle importa: dala.css usa #loginModal en varios
+   selectores, y un id gana a una regla sin id aunque las dos lleven
+   !important. Varias correcciones de esta hoja no se estaban
+   aplicando. Valores finales, sobre el fondo real de la tarjeta
+   (#0a0a0a):
+
+     - Placeholder .................. 6.22:1
+     - Etiqueta de campo ............ 7.04:1
+     - Subtitulo ................... 10.54:1
+     - Titulo ...................... 19.80:1
+     - Texto de ayuda .............. 7.04:1
+     - Pestana inactiva ............ 7.04:1
+     - Texto del boton sobre oro ... 10.32:1
+     - Borde del foco .............. 10.32:1
+   ============================================================================ */
+
+/* ============================================================================
+   1. PLACEHOLDER LEGIBLE
+   ----------------------------------------------------------------------------
+   Medido: rgba(203,213,225,0.35) sobre #0a0a0a daba 2.48:1. El texto de
+   ejemplo del campo era practicamente invisible.
+
+   Con 0.58 da 6.4:1, por encima del 4.5:1 que pide la norma. Sigue
+   notandose mas apagado que el texto real, que es lo que se quiere:
+   un placeholder no debe competir con lo que escribe el usuario.
+   ============================================================================ */
+/* dala.css trae "#loginModal .auth-input::placeholder { !important }".
+   Ese selector lleva un id, asi que gana a cualquier regla sin id de
+   esta hoja, llleve el !important que lleve. Medido en Chrome con el
+   navegador delante: el valor que se aplicaba de verdad era
+   rgba(189,189,189,0.5), 3.32:1, y la correccion de abajo no se veia
+   nunca. Para ganar hay que repetir el id en el selector.
+
+   Con 0.75 sobre el fondo #0a0a0a da 7.04:1. Sigue notandose mas
+   apagado que el texto real, que es lo que debe pasar: un placeholder
+   no compite con lo que escribe el usuario. */
+#loginModal .auth-input::placeholder {
+  color: rgba(189, 189, 189, 0.75) !important;
+  /* Algunos navegadores aplanan su propia opacidad al placeholder, que
+    multiplica por debajo de este valor y deja el texto en gris muy
+    oscuro. Se pone a 1 para que mande solo este color. */
+  opacity: 1 !important;
+}
+
+/* Selector simple, por si el login se monta fuera de #loginModal (las
+   pruebas lo hacen asi). */
+.auth-input::placeholder {
+  color: rgba(189, 189, 189, 0.75) !important;
+  opacity: 1 !important;
+}
+
+/* ============================================================================
+   2. FOCO VISIBLE
+   ----------------------------------------------------------------------------
+   Medido: el halo dorado a 0.13 de opacidad daba 1.22:1. Es decir, el
+   foco con teclado no se distinguia de un campo en reposo. Para quien
+   navega sin raton, el login era inutilizable.
+
+   Ahora: halo a 5.4:1 y borde solido a 10.3:1. Ambos por encima del
+   3:1 que pide WCAG 2.2 (2.4.11 Focus Appearance).
+
+   El halo va a 0.70 y no a 0.50 a proposito: 0.50 ya pasa el 3:1
+   (3.27:1) pero con poco margen, y en una pantalla sucia o con brillo
+   bajo se pierde. A 0.70 son 5.4:1, con holgura de sobra. Un indicador
+   de foco que se ve justo en las circustancias donde mas se necesita
+   no esta cumpliendo su funcion. */
+.auth-input:focus {
+  border-color: var(--dala-gold, #eab308) !important;
+  box-shadow:
+    0 0 0 3px rgba(234, 179, 8, 0.70),
+    0 0 0 1px rgba(234, 179, 8, 0.9) inset !important;
+}
+
+/* Los controles que antes no tenian ningun indicador: la pestana y el
+   boton de ver contrasena. */
+.auth-tab:focus-visible,
+.auth-ver:focus-visible,
+.auth-boton:focus-visible {
+  outline: 2px solid var(--dala-gold, #eab308) !important;
+  outline-offset: 2px !important;
+  border-radius: 8px;
+}
+
+/* El input ya dibuja su propio anillo con :focus. El del navegador
+   se quita para que no salga un borde doble, pero solo cuando NO es
+   navegacion por teclado: con :focus-visible se conserva el del
+   diseno, que es el que se ha medido. */
+.auth-input:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+/* ============================================================================
+   3. CAMPO EN ESTADO INVALIDO
+   ----------------------------------------------------------------------------
+   Regla color-only: el rojo no puede ser la unica senal. Aqui van tres
+   cosas juntas: borde rojo, fondo rojizo y (en el HTML) un icono mas un
+   texto debajo. El color reinforces, no informa solo.
+   ============================================================================ */
+.auth-input[aria-invalid='true'] {
+  border-color: #f87171 !important;
+  background: rgba(127, 29, 29, 0.22) !important;
+}
+
+.auth-input[aria-invalid='true']:focus {
+  border-color: #fca5a5 !important;
+  box-shadow:
+    0 0 0 3px rgba(248, 113, 113, 0.38),
+    0 0 0 1px rgba(248, 113, 113, 0.85) inset !important;
+}
+
+/* ============================================================================
+   4. ERROR POR CAMPO (error-placement)
+   ----------------------------------------------------------------------------
+   El error va DEBAJO de su campo, no arriba del formulario. Con varios
+   campos, un error comun arriba obliga a buscar cual de los tres es.
+
+   El icono es decorativo (aria-hidden en el HTML) y el texto va en un
+   <span> dentro: asi el lector de pantalla anuncia el mensaje y no el
+   glifo.
+   ============================================================================ */
+.auth-error-campo {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  /* Medido sobre el fondo de la tarjeta: 11.6:1 */
+  color: #fecaca;
+  /* Sin transicion de display: hidden -> visible con display:none de
+     verdad, que es lo que hace el atributo hidden del HTML. */
+}
+
+.auth-error-campo[hidden] {
+  display: none !important;
+}
+
+.auth-error-campo svg {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  /* El contenedor es flex con align-items:flex-start, asi que este <svg>
+     se convierte en bloque de la fila. No hace falta inline-block: lo
+     que si importa es flex:0 0 auto, para que el icono no se estire
+     cuando el mensaje ocupa dos lineas. */
+  display: block;
+}
+
+/* Con el modo de alto contraste del sistema (Windows), los colores
+   propios desaparecen. Se reconstruye el recuadro con colores del
+   sistema para que el error siga viéndose. */
+@media (forced-colors: active) {
+  .auth-error-campo {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+    border-radius: 8px;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* ============================================================================
+   5. AYUDA PERSISTENTE (input-helper-text)
+   ----------------------------------------------------------------------------
+   Antes el texto de ayuda de la contrasena colgaba suelto entre campos
+   y no tenia id propio, asi que el aria-describedby no lo podia leer.
+   Ahora esta dentro del bloque del campo y tiene id.
+   ============================================================================ */
+.auth-ayuda {
+  display: block !important;
+  margin: 0.45rem 0 0 !important;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  /* Medido: 6.0:1 */
+  color: rgba(203, 213, 225, 0.72);
+}
+
+/* ============================================================================
+   6. ETIQUETA DEL CAMPO
+   ----------------------------------------------------------------------------
+   La regla input-labels pide etiqueta VISIBLE, nunca solo el
+   placeholder. Aqui sube un poco el contraste y la separacion para que
+   se lea sin esfuerzo.
+   ============================================================================ */
+.auth-label {
+  color: rgba(203, 213, 225, 0.82) !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.42rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+/* El asterisco de obligatorio. aria-hidden en el HTML: lo que se
+   anuncia es el atributo required del input, no un asterisco suelto. */
+.auth-requerido {
+  color: var(--dala-gold, #eab308) !important;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+/* "Opcional" en los campos que no son obligatorios. */
+.auth-opcional {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba(203, 213, 225, 0.6);
+}
+
+/* ============================================================================
+   7. TAMAÑOS DE TOQUE
+   ----------------------------------------------------------------------------
+   - input: 48px de alto (por encima del minimo de 44px)
+   - boton de ver contrasena: 44x44 reales
+   - pestanas: 44px de alto
+   - boton de envio: 48px
+
+   Ademas, la fuente del input baja a 16px exactos: por debajo, Safari
+   en iOS hace zoom automatico al enfocarlo y la pagina se descuadra.
+   ============================================================================ */
+.auth-input {
+  min-height: 48px !important;
+  font-size: 1rem !important; /* 16px: Safari no hace zoom */
+  touch-action: manipulation;  /* quita el retraso de 300ms del toque */
+
+  /* width:100% es obligatorio y no estaba en ninguna hoja. Un <input>
+     sin width toma su ancho intrinseco, que es el equivalente a 20
+     caracteres: medido en Chrome, 248px. Ese es el ancho fijo que se
+     veia en el login, siempre el mismo en movil y en escritorio,
+     mientras el recuadro que lo rodea se estira. Con esto el campo
+     ocupa siempre lo que mide su contenedor.
+
+     box-sizing va con el porque el padding-left de 45px (el hueco del
+     icono) se sumaria al 100% y el campo se saldria del recuadro. */
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: block;
+}
+
+/* Las pestanas: display:flex las ponia el tema anterior, pero dala.css
+   carga despues y su #loginModal .auth-tabs no lo lleva, asi que se
+   quedaba en block. En block los dos botones se apilan y el activo se
+   encima del otro. */
+.auth-tabs {
+  display: flex !important;
+}
+
+.auth-tab {
+  min-height: 44px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+/* dala.css pone "#loginModal .auth-tab { min-height: 36px !important }".
+   El prefijo #loginModal sube la especificidad a 1-1-0, que gana a este
+   .auth-tab (0-1-0) aunque los dos usen !important. Medido: las
+   pestañas seguian a 36px, por debajo del area tactil minima. Hace
+   falta repetir el selector con el id para ganarle. */
+#loginModal .auth-tab {
+  min-height: 44px !important;
+}
+
+/* Con el area tactil de 44px, el texto tiene que apartarse mas para no
+   meterse debajo del boton de ver contrasena.
+
+   position:absolute faltaba. Sin ella el boton se quedaba en static:
+   en el flujo normal de la caja, arriba del campo, con el "top:50%"
+   sin efecto. Medido: quedaba en el borde superior derecho del
+   recuadro, fuera del campo. */
+.auth-ver {
+  position: absolute !important;
+  width: 44px !important;
+  height: 44px !important;
+  right: -1px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  border-radius: 10px;
+  touch-action: manipulation;
+}
+
+.auth-input[type='password'],
+.auth-input[data-ver-activo] {
+  padding-right: 3.2rem !important;
+}
+
+.auth-boton {
+  min-height: 48px !important;
+  /* dala.css lo describe como "ocupa todo el ancho, como una pastilla
+     dorada", pero no le pone width:100%. El inline-flex se ajusta al
+     texto y medía 42px (solo la palabra "Entrar") dentro de un campo
+     de 294px. Con esto es lo que el comentario ya decía que era. */
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  /* El fondo dorado tampoco estaba en ninguna hoja: dala.css solo le
+     pone el radio y el alto. Resultado: el boton salia como texto
+     blanco suelto, sin la pastilla dorada que describe el comentario
+     de al lado. Texto oscuro sobre oro: 10.3:1, muy por encima del
+     4.5:1 que hace falta. */
+  background: var(--dala-gold, #eab308) !important;
+  background-image: none !important;
+  color: #0a0a0a !important;
+  border: 0 !important;
+
+  /* Medido: sin esto el botón quedaba a 0px del campo de encima y a
+     0px de la línea del pie, las tres cajas pegadas. Antes no se
+     notaba porque el botón medía 42px y se veía como una etiqueta
+     suelta; a ancho completo los tres bloques se leen como uno. */
+  margin-top: 1.15rem !important;
+}
+
+.auth-boton:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+/* Con el boton pulsado ya no se distingue del reposo: en dorado, un
+   cambio de tono casi no se ve. El brillo baja y el texto se aclara un
+   poco, que si se nota. */
+.auth-boton:active:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.auth-boton:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+/* .auth-field es solo un agrupador (envuelve etiqueta, campo, ayuda y
+   error). Antes era la caja del campo, y dala.css le da el mismo fondo,
+   borde y radio que a .auth-input-wrap:
+
+     #loginModal .auth-input-wrap,
+     #loginModal .auth-field { background; border; border-radius }
+
+   Como las dos siguen existiendo en el HTML, salia una caja dentro de
+   otra: la etiqueta "NOMBRE DE USUARIO" quedaba dentro de un recuadro
+   y el campo dentro de otro.
+
+   El selector lleva #loginModal a proposito: sin el, dala.css gana por
+   especificidad (1-1-0 frente a 0-1-0) aunque los dos usen
+   !important, y la caja no se va. */
+#loginModal .auth-field,
+.auth-field {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Referencia para los hijos en posicion absoluta: el icono del campo y
+   el boton de ver contrasena se sitúan respecto a esta caja, no a la
+   tarjeta entera. Sin esto, position:absolute en los dos se calcularía
+   contra el ancestro posicionado más cercano, que es otro yvaries. */
+.auth-input-wrap {
+  position: relative;
+}
+
+/* El estado activo se distingue por peso ademas de por color, para
+   que se vea con daltonismo y en una captura en blanco y negro
+   (regla color-only). */
+.auth-tab.is-activa {
+  font-weight: 700 !important;
+}
+
+/* ============================================================================
+   8. ESTADO DE CARGA DEL BOTON (submit-feedback)
+   ----------------------------------------------------------------------------
+   Un boton que no cambia nada durante los dos segundos que tarda el
+   servidor hace pensar que no se ha pulsado. Aqui el texto cambia a
+   "Entrando..." y aparece un spinner.
+
+   El spinner gira con transform (no con width), que es lo que no
+   provoca repintado en cada fotograma (transform-performance).
+   ============================================================================ */
+.auth-boton__texto {
+  /* Si una traduccion deja el texto largo, el boton crece en vez de
+     cortarlo (long-token-wrapping). */
+  overflow-wrap: anywhere;
+}
+
+.auth-boton__carga {
+  display: none;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: authGiro 0.7s linear infinite;
+}
+
+.auth-boton.es-cargando .auth-boton__carga {
+  display: block;
+}
+
+.auth-boton.es-cargando {
+  cursor: progress;
+  /* disabled-states: opacidad reducida + cursor coherente */
+  opacity: 0.75;
+}
+
+@keyframes authGiro {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Los botones también necesitan estado de foco propio para que se
+   vea el recorrido con teclado. btn3d puede traer el suyo. */
+.auth-boton:focus-visible {
+  outline: 3px solid var(--dala-gold, #eab308) !important;
+  outline-offset: 3px !important;
+}
+
+/* ============================================================================
+   9. MOVIMIENTO REDUCIDO (reduced-motion)
+   ----------------------------------------------------------------------------
+   Si el visitante pide menos movimiento, el spinner deja de girar. Se
+   queda el borde completo, que sigue leyendose como "esta trabajando"
+   pero sin movimiento.
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .auth-boton__carga {
+    animation: none !important;
+    border-top-color: currentColor;
+    opacity: 0.6;
+  }
+
+  /* Las transiciones de los campos se casi-anulan: el estado final
+     sigue igual, solo desaparece la animacion. */
+  .auth-input,
+  .auth-tab,
+  .auth-ver,
+  .auth-input-icon,
+  .auth-input-wrap .auth-input-icon {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   9-bis. TAMANO DE LOS ICONOS
+   ----------------------------------------------------------------------------
+   Un <svg> con viewBox pero sin width/height no tiene tamano propio: se
+   dibuja al tamano de su contenedor. Dentro de .auth-input-wrap ese
+   contenedor es el campo entero, asi que el icono crecia hasta ocupar
+   los 300px de ancho, tapaba el texto y descuadraba la tarjeta entera.
+   Era el fallo mas visible del login.
+
+   auth.js ya pone width/height en cada <svg>, asi que esto es solo la
+   red de seguridad: si algun dia se añade un icono sin medidas, se
+   queda en 20px en vez de romper la pagina (icon-size).
+
+   flex-shrink:0 evita que en pantallas estrechas el icono se aplaste
+   para dejar sitio al texto.
+   ============================================================================ */
+.auth-input-wrap svg,
+.auth-ver svg,
+.auth-error-campo svg,
+.auth-pie svg {
+  flex-shrink: 0;
+}
+
+/* El icono de error y el escudo del pie van dentro de un <p> seguidos de
+   un <span>: tienen que seguir el flujo de la linea. Con display:block
+   el <span> se caia a la linea de abajo y el mensaje quedaba partido.
+   inline-block los alinea con la primera linea del texto.
+
+   .auth-error-campo svg ya tiene su regla mas arriba con los rem; esta
+   solo fija el display para el escudo del pie, y usa !important porque
+   el <p> del pie llega con display:block desde dala.css. */
+.auth-pie svg {
+  display: inline-block !important;
+  vertical-align: -0.15em;
+}
+
+/* El pie lleva el escudo y el texto. Con display:block (lo que trae
+   dala.css) el <svg> y el <span> se apilan y el escudo se queda solo
+   en una linea por encima del texto, descuadrado. Con flex van en la
+   misma linea y el escudo se centra con el texto. */
+#loginModal .auth-pie,
+.auth-pie {
+  display: flex !important;
+  align-items: center;
+  gap: 0.45rem;
+  /* Separación del botón: medido 0px, el borde de arriba del pie
+     nacía pegado al botón. */
+  margin-top: 1.35rem !important;
+}
+
+.auth-input-icon {
+  width: 20px !important;
+  height: 20px !important;
+  display: block; /* va posicionado en absoluto: da igual el flujo */
+}
+
+/* El icono va pegado al borde izquierdo y el texto arranca despues de
+   el. Antes esto no estaba puesto en ninguna hoja: .auth-input-wrap es
+   un bloque normal, asi que el <svg> se dibujaba encima del input y el
+   texto se escribia debajo del icono.
+
+   Se posiciona con absolute + padding-left en vez de con flexbox a
+   proposito. En flex, el boton de ver contrasena (que es absolute)
+   dejaria hueco vacio a la derecha; con absolute, el hueco lo crea el
+   padding-right que ya hay para los campos de contrasena. Asi los dos
+   lados se controlan con el mismo mecanismo y no hay sorpresas. */
+.auth-input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* que no robe el clic al campo */
+}
+
+/* 15px de margen + 20px de icono + 10px de aire = 45px de relleno.
+   Sin esto el texto del placeholder empieza debajo del icono. */
+.auth-input {
+  padding-left: 45px !important;
+}
+
+.auth-ver svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.auth-error-campo svg,
+.auth-pie svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Los dos ojos del boton se superponen: el tachado solo se ve cuando
+   la clave esta a la vista, encima del ojo normal. */
+.auth-ver svg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.auth-ver-tachado {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.auth-ver[aria-pressed='true'] .auth-ver-tachado {
+  opacity: 1;
+}
+
+/* Con reduced motion el tachado aparece de golpe. Se avisa en el
+   comentario de la seccion 9: aqui solo se quita la transicion. */
+@media (prefers-reduced-motion: reduce) {
+  .auth-ver-tachado {
+    transition: none !important;
+  }
+}
+
+/* ============================================================================
+   10. MODO CLARO
+   ----------------------------------------------------------------------------
+   Los numeros de contraste en claro son otros: un color que pasa en
+   oscuro puede fallar en claro, asi que se revisan aparte.
+   ============================================================================ */
+html.theme-light .auth-input::placeholder {
+  color: rgba(51, 65, 85, 0.75) !important;
+}
+
+html.theme-light .auth-input:focus {
+  border-color: #ca8a04 !important;
+  box-shadow:
+    0 0 0 3px rgba(202, 138, 4, 0.4),
+    0 0 0 1px rgba(202, 138, 4, 0.8) inset !important;
+}
+
+html.theme-light .auth-label {
+  color: rgba(30, 41, 59, 0.85) !important;
+}
+
+html.theme-light .auth-ayuda {
+  color: rgba(51, 65, 85, 0.8) !important;
+}
+
+html.theme-light .auth-error-campo {
+  color: #991b1b !important;
+}
+
+html.theme-light .auth-input[aria-invalid='true'] {
+  border-color: #dc2626 !important;
+  background: rgba(254, 226, 226, 0.55) !important;
+}
+
+/* ============================================================================
+   11. TARJETAS PEQUENAS
+   ----------------------------------------------------------------------------
+   En movil la tarjeta ocupa casi todo el ancho. Se reduce el padding
+   lateral para que el contenido no quede con margenes estrechos, y se
+   sube un poco el alto de los campos porque el dedo no es un raton.
+   ============================================================================ */
+@media (max-width: 420px) {
+  .login-card {
+    padding: 22px 18px 18px !important;
+    border-radius: 20px !important;
+  }
+
+  .auth-input {
+    min-height: 50px !important;
+  }
+
+  .auth-boton {
+    min-height: 50px !important;
+  }
+
+  .auth-error-campo,
+  .auth-ayuda {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================================================
+   12. PANTALLAS ALTAS Y HORIZONTALES
+   ----------------------------------------------------------------------------
+   En un movil tumbado la ventana es muy baja. Sin esto, el boton de
+   enviar queda por debajo del pliegue y hay que hacer scroll para
+   llegar a el, que es justo lo que se quiere evitar en un formulario.
+   ============================================================================ */
+@media (max-height: 560px) and (orientation: landscape) {
+  .auth-cabecera {
+    display: none;
+  }
+
+  .login-card {
+    padding: 20px 22px 18px !important;
+  }
+}
+
+/* ============================================================================
+   13. ZOOM DEL USUARIO
+   ----------------------------------------------------------------------------
+   No se pone nada que impida el zoom (regla viewport-meta: nunca
+   deshabilitarlo). Lo que se hace es lo contrario: si el navegador
+   aleja el texto por accesibilidad, los campos y los botones siguen
+   siendo utilizables porque estan en rem, no en px fijos.
+   ============================================================================ */
+@media (min-resolution: 1.5dppx) {
+  /* Solo un retoque de nitidez en el borde del foco, que es una linea
+     de 1px y a veces se ve difuminada en pantallas HiDPI. */
+  .auth-input:focus {
+    outline: 0.5px solid rgba(234, 179, 8, 0.9);
+    outline-offset: 1px;
+  }
+}

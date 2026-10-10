@@ -1,0 +1,124 @@
+/* =============================================================
+   ORBE LÍQUIDO PARA EL LOGIN
+   -------------------------------------------------------------
+   El orbe es un gradiente radial al que un filtro SVG de
+   turbulencia le deforma el contorno, así que parece una gota de
+   metal líquido en vez de una bola. Las bolas de dentro (metaballs)
+   se mueven con requestAnimationFrame y son las que dan el vaiven.
+
+   Va en los colores del sitio: dorado y ámbar, no azul.
+   ============================================================= */
+
+/* El SVG del filtro. hidden para que no ocupe espacio ni se vea. */
+#dala-liquid-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.dala-liquid {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  /* el hueco que ocupa el orbe dentro de la tarjeta */
+  height: 168px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  /* la tarjeta ya es oscura; aqui solo un halo dorado muy suave */
+  background:
+    radial-gradient(60% 80% at 50% 42%, rgba(234, 179, 8, 0.10), transparent 70%);
+}
+
+/* El orbe en si. La deformacion viene del filtro SVG, y detras un blur
+   muy leve: sin el, feDisplacementMap deja el contorno en escalones y el
+   orbe parece una piedra facetada en vez de una gota de liquido.
+   Los dos filtros se encadenan con espacio: primero deforma, luego suaviza. */
+.dala-liquid__orb {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  filter: url(#dala-liquid-distort) blur(0.6px);
+  will-change: filter;
+}
+
+/* El "cuerpo" de liquido: un gradiente radial dorado. Las capas
+   interiores (span) son las metaballs que se mueven dentro. */
+.dala-liquid__body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 30%,
+      #fffdf5 0%,
+      #fef3c7 10%,
+      #fcd34d 26%,
+      #eab308 44%,
+      #b45309 68%,
+      #78350f 88%,
+      #3b1d05 100%);
+  box-shadow:
+    0 0 30px rgba(234, 179, 8, 0.34),
+    0 0 70px rgba(234, 179, 8, 0.16),
+    inset -7px -9px 22px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+
+
+/* Las metaballs: se mueven dentro del cuerpo y deforman el liquido.
+   Cada una lleva su propio gradiente y se anima con WAAPI desde el
+   JS, asi que aqui solo se pinta. */
+.dala-liquid__ball {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fffbeb, #fbbf24 45%, #92400e 100%);
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* El brillo de arriba: da la sensacion de que es metal mojado. */
+.dala-liquid__body::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 22%;
+  width: 46%;
+  height: 26%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.9), transparent 72%);
+  filter: blur(1px);
+  transform: rotate(-24deg);
+}
+
+/* ------------------------------ */
+/* Version en modales pequenos   */
+/* ------------------------------ */
+@media (max-width: 480px) {
+  .dala-liquid {
+    height: 132px;
+  }
+  .dala-liquid__orb {
+    width: 64px;
+    height: 64px;
+  }
+  .dala-liquid__ball {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Si el usuario no quiere animaciones, el orbe se queda quieto
+   pero sigue viéndose bien. */
+@media (prefers-reduced-motion: reduce) {
+  .dala-liquid__orb {
+    filter: none;
+  }
+  .dala-liquid__ball {
+    animation: none !important;
+  }
+}

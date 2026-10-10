@@ -3,51 +3,68 @@
    Se enlaza desde todas las páginas (index, tienda, admin, legales)
    ============================================================ */
 :root {
-  --od-marine-dark: #0f172a;
-  --od-marine-medium: #1e293b;
-  --od-marine-light: #334155;
-  --od-marine-darker: #0a101e;
-  --od-marine-accent: #eab308;
+  /* ============================================================
+     Tema Odissey — "void" estilo Dala.
+     Canvas negro puro, tipografía blanca y un único acento dorado.
+     ============================================================ */
+  --od-void: #000000;
+  --od-marine-dark: #000000;      /* fondo de página */
+  --od-marine-darker: #000000;    /* fondo profundo */
+  --od-marine-medium: #0a0a0a;    /* superficie apenas elevada */
+  --od-marine-light: #2a2a2a;     /* separadores mínimos */
+  --od-marine-accent: #eab308;    /* dorado: acción / marca */
   --od-gold-light: #fde68a;
-  --od-gold-dark: #b45309;
-  --od-text-light: #f8fafc;
-  --od-text-dark: #cbd5e1;
-  --od-marine-darker-rgb: 10, 16, 30;
-  --od-glass-rgb: 10, 16, 30;
-  --od-border-rgb: 51, 65, 85;
-  --od-shadow-rgb: 10, 16, 30;
-  /* Superficie elevada: un pelín más clara que el fondo, para que una caja
-     como el modal de perfil se despegue en vez de fundirse con el fondo. */
-  --od-marine-medium-rgb: 30, 41, 59;
-  /* Chips claros sobre esa superficie (tarjetas de estadísticas, etc.) */
+  --od-gold-dark: #a16207;
+  --od-saffron: #ffb829;          /* ámbar de énfasis (estilo Dala) */
+  --od-text-light: #ffffff;
+  --od-text-dark: #bdbdbd;        /* texto de apoyo (silver mist) */
+  --od-text-muted: #9a9a9a;       /* nav inactiva / ghost links */
+  --od-marine-darker-rgb: 0, 0, 0;
+  --od-glass-rgb: 0, 0, 0;
+  --od-border-rgb: 42, 42, 42;
+  --od-shadow-rgb: 0, 0, 0;
+  --od-marine-medium-rgb: 10, 10, 10;
   --od-chip-rgb: 255, 255, 255;
-  --od-chip-alpha: 0.06;
-  --od-ink: #0f172a;
-  --od-always-light: #f8fafc;
+  --od-chip-alpha: 0.05;
+  --od-ink: #0a0a0a;
+  --od-always-light: #ffffff;
+  /* Los colores en tripleta RGB hacen falta para aplicar opacidad
+     (Tailwind no la soporta sobre un color definido como var() plano). */
+  --od-text-light-rgb: 255, 255, 255;
+  --od-text-dark-rgb: 189, 189, 189;
+  --od-marine-dark-rgb: 0, 0, 0;
+  --od-marine-accent-rgb: 234, 179, 8;
+  --od-gold-light-rgb: 253, 230, 138;
   color-scheme: dark;
 }
 
+/* Tema claro desactivado: el diseño Dala vive solo sobre negro.
+   Se fuerza a los mismos valores oscuros por si queda la clase puesta. */
 html.theme-light {
-  --od-marine-dark: #f8fafc;
-  --od-marine-medium: #eef2f7;
-  --od-marine-light: #cbd5e1;
-  --od-marine-darker: #e2e8f0;
+  --od-marine-dark: #000000;
+  --od-marine-darker: #000000;
+  --od-marine-medium: #0a0a0a;
+  --od-marine-light: #2a2a2a;
   --od-marine-accent: #eab308;
-  --od-gold-light: #b45309;
-  --od-gold-dark: #92400e;
-  --od-text-light: #0f172a;
-  --od-text-dark: #475569;
-  --od-marine-darker-rgb: 226, 232, 240;
-  --od-glass-rgb: 226, 232, 240;
-  --od-border-rgb: 148, 163, 184;
-  --od-shadow-rgb: 10, 16, 30;
-  --od-marine-medium-rgb: 226, 232, 240;
-  /* en tema claro el chip va blanco practico sobre gris, no blanco al 6% */
+  --od-gold-light: #fde68a;
+  --od-gold-dark: #a16207;
+  --od-text-light: #ffffff;
+  --od-text-dark: #bdbdbd;
+  --od-marine-darker-rgb: 0, 0, 0;
+  --od-glass-rgb: 0, 0, 0;
+  --od-border-rgb: 42, 42, 42;
+  --od-shadow-rgb: 0, 0, 0;
+  --od-marine-medium-rgb: 10, 10, 10;
   --od-chip-rgb: 255, 255, 255;
-  --od-chip-alpha: 0.8;
-  --od-ink: #0f172a;
-  --od-always-light: #f8fafc;
-  color-scheme: light;
+  --od-chip-alpha: 0.05;
+  --od-ink: #0a0a0a;
+  --od-always-light: #ffffff;
+  --od-text-light-rgb: 255, 255, 255;
+  --od-text-dark-rgb: 189, 189, 189;
+  --od-marine-dark-rgb: 0, 0, 0;
+  --od-marine-accent-rgb: 234, 179, 8;
+  --od-gold-light-rgb: 253, 230, 138;
+  color-scheme: dark;
 }
 
 /* Transiciones suaves al cambiar de tema */
@@ -85,10 +102,15 @@ body,
    Usa !important para ganar a los <style> inline de cada página
    ============================================================ */
 
-/* Contenido: evitar desbordamientos por anchos/imágenes fijos */
+/* Contenido: evitar desbordamientos por anchos/imágenes fijos
+   OJO: overflow-x:hidden convierte al body en contenedor de scroll y rompe
+   el position:sticky de los hijos (p. ej. el índice lateral de la wiki).
+   clip recorta igual pero NO crea contenedor de scroll, así que sticky sigue
+   funcionando. Se deja hidden antes por navegadores sin soporte de clip. */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 .liquid-glass-container {
   max-width: 100% !important;
@@ -99,8 +121,7 @@ html, body {
 @media (min-width: 768px) {
   #guia .liquid-glass-container,
   #porque-odissey .liquid-glass-container,
-  #testimonios .liquid-glass-container,
-  #discord-widget-section .liquid-glass-container {
+  #testimonios .liquid-glass-container {
     max-width: 56rem !important;
   }
 }
@@ -326,6 +347,39 @@ html, body {
   left: 0;
 }
 
+/* Icono de "hecho" de la pagina de gracias (gracias.html).
+   Se dibuja con CSS en vez de con una imagen: pesa 200 bytes y se ve
+   igual de bien a cualquier tamano. */
+.gracias-icono {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--od-marine-accent-rgb), .12);
+  border: 2px solid rgba(var(--od-marine-accent-rgb), .55);
+  color: var(--od-marine-accent);
+}
+.gracias-icono svg { width: 44px; height: 44px; }
+
+/* Campo trampa anti-spam.
+   Tiene que estar OCULTO pero no ausente: si se usa display:none,
+   algunos robots lo saltan sin leer; si se usa type="hidden" igual.
+   La tecnica correcta es moverlo fuera de la pantalla y quitarlo
+   del recorrido del tabulador, de forma que ni una persona ni un
+   lector de pantalla lo alcancen.
+   left:-9999px y no top:-9999px: moverlo en horizontal evita que
+   aparezca una barra de desplazamiento horizontal en el movil. */
+.form-trampa {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* Quien prefiera menos movimiento no ve partículas ni animaciones
    de entrada. Las transiciones se ponen a 0 en lugar de quitarse,
    para que nada cambie de tamaño al interactuar. */
@@ -350,3 +404,827 @@ html, body {
     transform: none !important;
   }
 }
+/* ============================================================
+   BLOQUEO DE SCROLL CON UN MODAL ABIERTO.
+   Antes, al abrir el perfil, el carrito, un ticket o el login, la
+   pagina de detras seguia desplazandose. Se bloquea el <body> y se
+   guarda el desplazamiento para devolverlo al cerrar.
+   ============================================================ */
+body.od-scroll-locked {
+    overflow: hidden !important;
+    touch-action: none;
+}
+body.od-scroll-locked .overlay-fixed,
+body.od-scroll-locked [class*="fixed"][style*="backdrop"] {
+    overscroll-behavior: contain;
+}
+
+/* ============================================================
+   UTILIDADES CON OPACIDAD QUE TAILWIND NO PUEDE GENERAR.
+   Estas cinco usan /80, /90, /60 y /40 sobre colores definidos como
+   var() plano. Tailwind no puede meter el canal alfa en eso, asi que las
+   omite al compilar. Con el CDN nunca se notaba; al pasar a CSS estatico
+   hay que definirlas a mano. Se usan selectores de atributo porque el
+   nombre lleva "/" y como clase habria que escaparlo.
+   ============================================================ */
+[class~="text-text-light/80"] {
+    color: rgb(var(--od-text-light-rgb) / 0.8);
+}
+[class~="text-text-dark/80"] {
+    color: rgb(var(--od-text-dark-rgb) / 0.8);
+}
+[class~="bg-marine-dark/90"] {
+    background-color: rgb(var(--od-marine-dark-rgb) / 0.9);
+}
+[class~="border-marine-accent/60"] {
+    border-color: rgb(var(--od-marine-accent-rgb) / 0.6);
+}
+[class~="border-gold-light/40"] {
+    border-color: rgb(var(--od-gold-light-rgb) / 0.4);
+}
+
+/* ============================================================
+   PLANTILLA COMPARTIDA DE TARJETAS Y TITULOS.
+   Estas reglas vivian solo en css/index.css, con lo que en el resto de
+   paginas las clases estaban en el HTML pero sin estilo: sin fondo, sin
+   flex, sin padding y sin bordes. Al estar aqui, que se carga en todas
+   las paginas, la plantilla funciona en cualquier sitio. En index.css
+   siguen mandando las suyas, que se cargan despues.
+   ============================================================ */
+
+.section-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    font-weight: 800;
+    color: var(--od-marine-accent);
+    position: relative;
+    padding-bottom: 0.6rem;
+}
+.section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3rem;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--od-marine-accent), rgba(234, 179, 8, 0));
+}
+.section-title--lead {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+}
+.section-title--lead::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5rem;
+}
+
+.why-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.5rem 1.35rem;
+    border-radius: 1rem;
+    background: rgba(0, 0, 0, 0.72);
+    border: 1px solid rgba(42, 42, 42, 0.55);
+    -webkit-backdrop-filter: blur(12px) saturate(115%);
+    backdrop-filter: blur(12px) saturate(115%);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+.why-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(234, 179, 8, 0.4);
+}
+.why-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: var(--od-marine-accent);
+    background: rgba(234, 179, 8, 0.12);
+    border: 1px solid rgba(234, 179, 8, 0.28);
+}
+.why-card-icon svg { width: 22px; height: 22px; }
+.why-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--od-gold-light);
+}
+.why-card-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--od-text-dark);
+}
+.why-card-text strong { color: var(--od-marine-accent); font-weight: 700; }
+
+/* Tema claro: la tarjeta tiene que ser clara, no el azul oscuro. */
+html.theme-light .why-card {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+html.theme-light .why-card-title { color: #b45309; }
+html.theme-light .why-card-text { color: #1f1f1f; }
+html.theme-light .why-card-text strong { color: #b45309; }
+
+@media (min-width: 768px) {
+    .section-title { font-size: 2rem; }
+    .section-title--lead { font-size: 2.75rem; }
+}
+@media (max-width: 767px) {
+    .section-title { font-size: 1.4rem; padding-bottom: 0.5rem; }
+    .section-title--lead { font-size: 1.7rem; }
+    .why-card { padding: 1.25rem 1.1rem; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* BARRA DE NAVEGACION, IGUAL EN TODAS LAS PAGINAS.                         */
+/* Sin fondo, sin sombra y sin desenfoque: se ve la imagen del sitio, como el  */
+/* resto. Es el mismo criterio que .menu-panel.                              */
+/* El selector es "nav.nav-bar" a proposito: tiene mas especificidad que el   */
+/* ".nav-bar" de css/<pagina>.css, y ese se carga despues, asi que sin esto  */
+/* la barra se veria distinta pagina a pagina.                               */
+/* -------------------------------------------------------------------------- */
+nav.nav-bar {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* BOTON PRINCIPAL DE LA WEB (.btn3d).                                      */
+/* Aqui vive la unica definicion: antes estaba repetida en 10 ficheros de    */
+/* css/, y por eso cualquier retoque habia que hacer diez veces.             */
+/*                                                                         */
+/* Oro plano a proposito: degradado corto de dos tonos, sin el tono ambar    */
+/* oscuro de antes que hacia el labio de volumen, sin halo dorado y con     */
+/* sombra neutra. Radio corto en vez de pildora, y texto en 600 con menos    */
+/* espaciado, que con 700 en mayusulas se hacia demasiado pesado.            */
+/* Los colores van en hexadecimal y no en --od-gold-* a proposito: esas      */
+/* variables giran a marron en el tema claro y el boton tiene que seguir     */
+/* siendo dorado en los dos temas.                                           */
+/* -------------------------------------------------------------------------- */
+.btn3d {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 24px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    vertical-align: middle;
+    color: var(--od-ink);
+    background: linear-gradient(180deg, #fcd34d 0%, #efb420 100%);
+    border: 1px solid rgba(146, 64, 14, 0.35);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+        filter 0.18s ease, border-color 0.18s ease;
+}
+.btn3d:hover {
+    filter: brightness(1.04);
+    transform: translateY(-1px);
+    border-color: rgba(146, 64, 14, 0.55);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+}
+.btn3d:active {
+    transform: translateY(0);
+    filter: brightness(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.btn3d:focus-visible {
+    outline: 2px solid var(--od-marine-accent);
+    outline-offset: 3px;
+}
+.btn3d.btn-sm {
+    min-height: 34px;
+    padding: 0 14px;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* VENTANA DE CONEXION (.login-card) Y BOTON DE CERRAR (.close-btn).           */
+/* Antes estaba repartido en 10 css de pagina, y tres reglas de grupo le      */
+/* imponian border-radius 3px con borde de 2px, que al ir despues ganaba y    */
+/* hacia que se viera como una caja en vez de una ventana. Ademas             */
+/* .close-btn:hover) tenia un parentesis de mas y la regla se descartaba.     */
+/* Ahora hay una sola definicion. Los colores van por variables para que el   */
+/* tema claro siga funcionando sin reglas aparte.                             */
+/* -------------------------------------------------------------------------- */
+
+/* Cerrar: pastilla discreta. Antes era dorada y competia con el boton        */
+/* principal del modal, que es justo lo que debe llamar la atencion.         */
+.close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    min-height: 0;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.32);
+    background: rgba(var(--od-marine-darker-rgb), 0.5);
+    color: var(--od-text-dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.18s ease, border-color 0.18s ease,
+        color 0.18s ease, transform 0.18s ease;
+}
+.close-btn:hover {
+    background: rgba(220, 38, 38, 0.28);
+    border-color: rgba(248, 113, 113, 0.55);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+.close-btn:active {
+    transform: translateY(0) scale(0.95);
+}
+.close-btn:focus-visible {
+    outline: 2px solid var(--od-marine-accent);
+    outline-offset: 2px;
+}
+
+.login-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 28px 24px;
+    text-align: left;
+    border-radius: 18px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.22);
+    background: linear-gradient(180deg,
+        rgba(var(--od-marine-medium-rgb), 0.97) 0%,
+        rgba(var(--od-marine-darker-rgb), 0.98) 100%);
+    box-shadow: 0 24px 60px rgba(var(--od-shadow-rgb), 0.45),
+        0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    color: var(--od-text-light);
+    animation: loginCardIn 0.22s ease-out;
+}
+@keyframes loginCardIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .login-card { animation: none; }
+}
+
+/* El margen a la derecha deja sitio a la X de la esquina. */
+.login-card h2 {
+    margin: 0 44px 8px 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--od-text-light);
+}
+.login-card .subtitle {
+    margin: 0 0 24px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--od-text-dark);
+}
+
+.login-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+}
+/* Sin w-full: estirado a todo el ancho el boton pesaba muchisimo. */
+.login-actions .btn3d {
+    width: auto;
+    min-height: 46px;
+    padding: 0 22px;
+}
+.discord-cta-icon {
+    width: 18px;
+    height: 18px;
+    flex: none;
+}
+.login-cancel {
+    padding: 4px 0;
+    background: none;
+    border: 0;
+    color: var(--od-text-dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.18s ease;
+}
+.login-cancel:hover {
+    color: var(--od-marine-accent);
+}
+.login-cancel:focus-visible {
+    outline: 2px solid var(--od-marine-accent);
+    outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOTO DE DISCORD EN LA BARRA.                                              */
+/* Con sesion iniciada el boton deja de ser la pastilla dorada con el nombre  */
+/* y pasa a ser un circulo con la foto. El nombre se conserva en title y     */
+/* aria-label.                                                              */
+/* El selector lleva dos clases a proposito: theme.css se carga antes que   */
+/* css/<pagina>.css, y alli hay .nav-button y .nav-button-primary, asi que   */
+/* con una sola clase perderiamos por orden de carga.                       */
+/* -------------------------------------------------------------------------- */
+/* El display va con :not(.hidden) a proposito: theme.css se carga despues de
+   tailwind.css, y un "display: block" a secas empataria en especificidad con
+   .hidden y la ganaria por orden, dejando el avatar visible sin sesion. */
+.nav-avatar:not(.hidden) {
+    display: block;
+}
+.nav-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    object-fit: cover;
+    flex: none;
+    background: rgba(var(--od-marine-darker-rgb), 0.6);
+    transition: transform 0.18s ease;
+}
+.nav-button-primary.nav-button--avatar {
+    padding: 0;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    background: rgba(var(--od-marine-darker-rgb), 0.55);
+    border-color: rgba(var(--od-border-rgb), 0.45);
+    box-shadow: none;
+    overflow: visible;
+}
+.nav-button-primary.nav-button--avatar:hover {
+    background: rgba(var(--od-marine-darker-rgb), 0.85);
+    border-color: rgba(253, 230, 138, 0.6);
+    box-shadow: 0 0 0 3px rgba(253, 230, 138, 0.12);
+    transform: none;
+}
+.nav-button-primary.nav-button--avatar:hover .nav-avatar {
+    transform: scale(1.06);
+}
+.nav-button-primary.nav-button--avatar:focus-visible {
+    outline: 2px solid var(--od-marine-accent);
+    outline-offset: 3px;
+}
+
+/* ==== INICIO componentes compartidos (copiados de index.css) ====
+/* Botones sociales del pie, menu desplegable, selector de idioma y
+   contador del carrito. Estas clases estaban duplicadas en el CSS de cada
+   pagina; wiki.html no carga ninguno de esos ficheros y se quedaba sin
+   estilo (iconos gigantes en el pie y menu en bloque). theme.css lo carga
+   todo el sitio, asi que se definen aqui una sola vez. Como theme.css se
+   carga ANTES que el CSS de cada pagina, el resto de la web sigue
+   mandando y no cambia nada. */
+
+/* .bg-layer NO se define aqui a proposito: todas las paginas la traen en su
+     propio CSS (index.css, reglas.css, ...) y solo wiki.html no lo hacia. Si
+     se definiera aqui, la wiki pintaria la imagen de fondo del sitio y se
+     veria clara en lugar de oscura. Se deja sin estilo a proposito. */
+
+.menu-panel {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.menu-panel .nav-button:not([aria-current='page']) {
+  background: rgba(var(--od-glass-rgb), 0.34);
+  color: var(--od-text-dark);
+  border-color: transparent;
+}
+
+.menu-panel .nav-button:not([aria-current='page']):hover {
+  background: rgba(var(--od-glass-rgb), 0.5);
+  color: var(--od-text-light);
+  border-color: transparent;
+}
+
+.menu-panel .nav-button-shop {
+  background: rgba(var(--od-marine-accent), 0.14);
+  border-color: transparent;
+}
+
+.menu-panel .nav-button-shop:hover {
+  background: rgba(var(--od-marine-accent), 0.24);
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--od-text-dark);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.18s ease, border-color 0.18s ease,
+  color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nav-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: opacity 0.18s ease;
+}
+
+.nav-button:hover {
+  color: var(--od-text-light);
+  background: rgba(var(--od-glass-rgb), 0.4);
+  transform: translateY(-1px);
+}
+
+.nav-button:hover .nav-icon {
+  opacity: 1;
+}
+
+.nav-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.nav-button:focus-visible {
+  outline: 2px solid var(--od-marine-accent);
+  outline-offset: 2px;
+}
+
+.nav-button-secondary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--od-text-dark);
+}
+
+.nav-button-shop {
+  background: transparent;
+  border-color: transparent;
+  color: var(--od-marine-accent);
+  font-weight: 600;
+}
+
+.nav-button-shop .nav-icon {
+  opacity: 0.9;
+}
+
+.nav-button-shop:hover {
+  background: rgba(var(--od-marine-accent), 0.12);
+  color: var(--od-gold-light);
+}
+
+.nav-button[aria-current='page'] {
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+  border-color: transparent;
+  color: var(--od-ink);
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+  0 4px 14px rgba(234, 179, 8, 0.24);
+}
+
+.nav-button[aria-current='page'] .nav-icon {
+  opacity: 1;
+}
+
+.nav-button[aria-current='page']:hover {
+  background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+  color: var(--od-ink);
+}
+
+.nav-button-primary {
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+  border-color: rgba(253, 230, 138, 0.6);
+  color: var(--od-ink);
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+  0 4px 14px rgba(234, 179, 8, 0.24);
+}
+
+.nav-button-primary:hover {
+  background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+  border-color: transparent;
+  color: var(--od-ink);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
+  0 9px 22px rgba(234, 179, 8, 0.34);
+}
+
+.nav-button-primary:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset,
+  0 2px 8px rgba(234, 179, 8, 0.28);
+}
+
+.discord-btn {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #5865f2;
+  background: transparent;
+  border: 1px solid #5865f2;
+  border-radius: 25px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s 0.1s ease-out;
+}
+
+.discord-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.discord-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -5em;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 20em;
+  height: 20em;
+  border-radius: 50%;
+  display: block;
+  z-index: -1;
+  transition: box-shadow 0.5s ease-out;
+}
+
+.discord-btn:hover {
+  color: #fff;
+  border-color: #5865f2;
+}
+
+.discord-btn:hover::before {
+  box-shadow: inset 0 0 0 10em #5865f2;
+}
+
+.tiktok-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 130px;
+  height: 35px;
+  border-radius: 30px;
+  background-color: #ffffff;
+  border: 1px solid #111111;
+  overflow: hidden;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.tiktok-btn:active {
+  transform: scale(1.03);
+}
+
+.discord-btn,
+.tiktok-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  color: var(--od-ink);
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 55%, #ca8a04 100%);
+  border: 1px solid rgba(253, 230, 138, 0.55);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
+  0 4px 14px rgba(234, 179, 8, 0.24);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+  filter 0.18s ease, border-color 0.18s ease;
+}
+
+.discord-btn::before,
+.tiktok-btn::before {
+  display: none;
+}
+
+.discord-btn svg,
+.tiktok-btn svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.discord-btn:hover,
+.tiktok-btn:hover {
+  color: var(--od-ink);
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  border-color: rgba(253, 230, 138, 0.85);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset,
+  0 12px 28px rgba(234, 179, 8, 0.34);
+}
+
+.discord-btn:active,
+.tiktok-btn:active {
+  color: var(--od-ink);
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.97);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset,
+  0 2px 8px rgba(234, 179, 8, 0.26);
+}
+
+.discord-btn:focus-visible,
+.tiktok-btn:focus-visible {
+  outline: 2px solid var(--od-marine-accent);
+  outline-offset: 3px;
+}
+
+.cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  background-color: var(--od-marine-dark);
+  color: var(--od-gold-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+.ticket-notif-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 17px;
+  height: 17px;
+  line-height: 15px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: center;
+  box-sizing: border-box;
+  border: 2px solid var(--od-marine-dark);
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(253, 230, 138, 0.6);
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+  color: var(--od-ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+  0 4px 14px rgba(234, 179, 8, 0.24);
+  transition: background-color 0.18s ease, border-color 0.18s ease,
+  color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease,
+  filter 0.18s ease;
+}
+
+.lang-btn:hover {
+  background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+  transform: translateY(-1px);
+  color: var(--od-ink);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
+  0 9px 22px rgba(234, 179, 8, 0.34);
+}
+
+.lang-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--od-marine-accent);
+  outline-offset: 2px;
+}
+
+.nav-button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--od-text-dark);
+  box-shadow: none;
+}
+
+.nav-button:hover {
+  background: rgba(var(--od-glass-rgb), 0.28);
+  color: var(--od-text-light);
+}
+
+.nav-button[aria-current='page'] {
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+  border-color: rgba(253, 230, 138, 0.6);
+  color: var(--od-ink);
+  font-weight: 600;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+  0 4px 14px rgba(234, 179, 8, 0.24);
+}
+
+.discord-btn,
+.tiktok-btn {
+  background: transparent;
+  border: 1px solid rgba(234, 179, 8, 0.7);
+  color: var(--od-marine-accent);
+  box-shadow: none;
+}
+
+.discord-btn:hover,
+.tiktok-btn:hover {
+  background: rgba(234, 179, 8, 0.14);
+  border-color: var(--od-marine-accent);
+  color: var(--od-gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(234, 179, 8, 0.2);
+}
+
+.discord-btn:active,
+.tiktok-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+/* ==== FIN componentes compartidos ==== */
+
+/* El atributo hidden siempre gana.
+   Sin esto, cualquier regla que ponga display (por ejemplo .auth-error con
+   display:flex) gana por orden de carga a la utilidad .hidden de Tailwind y
+   los elementos "ocultos" se ven igual. */
+[hidden] {
+  display: none !important;
+}
+
+/* ============================================================================
+   LOGIN Y REGISTRO
+   ----------------------------------------------------------------------------
+   Los estilos del login que ya estaban siguen aqui, hasta el final del
+   archivo. Las correcciones de accesibilidad viven en css/auth.css, que
+   se carga DESPUES de css/dala.css.
+
+   Motivo: dala.css aplica "!important" sobre los inputs, las pestanas y el
+   boton de ver contrasena. Con CSS normal, una regla posterior no gana a
+   un "!important" que se cargo antes. En una hoja aparte cargada la ultima
+   si, asi que es la unica forma de corregirlos sin reescribir dala.css
+   entero. */

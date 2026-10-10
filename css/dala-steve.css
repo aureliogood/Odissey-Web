@@ -1,0 +1,117 @@
+/* ============================================================================
+   ODISSEY · Steve en SVG para el formulario de acceso
+   ----------------------------------------------------------------------------
+   Misma tecnica que el login de referencia: la cabeza y las manos son dos SVG
+   superpuestos dentro de un marco circular. Las manos viven debajo y entran
+   girandose en el eje X, con perspective de verdad, no con un degradado.
+   El parpadeo se anima cambiando ry y cy del ojo, igual que alli.
+   ============================================================================ */
+
+.auth-steve {
+  display: block;
+  margin: 0 auto;
+  width: 176px;
+  height: 176px;
+}
+
+.as-marco {
+  position: relative;
+  width: 176px;
+  height: 176px;
+  border-radius: 9999px;
+  overflow: hidden;
+  /* La perspectiva es lo que hace que las manos suban de verdad en 3D. */
+  perspective: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background:
+    radial-gradient(120% 120% at 50% 12%, rgba(234, 179, 8, 0.13) 0%, rgba(0, 0, 0, 0) 62%),
+    radial-gradient(90% 90% at 50% 100%, rgba(63, 143, 42, 0.12) 0%, rgba(0, 0, 0, 0) 60%),
+    #070707;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.75);
+}
+
+/* ---------- la cabeza ---------- */
+.as-cara {
+  position: relative;
+  z-index: 1;
+  width: 148px;
+  height: 148px;
+  overflow: visible;
+}
+
+/* La cabeza se vuelve hacia donde mira, como en la referencia. */
+.as-giro {
+  transform: rotateY(var(--giro, 0deg));
+  transform-origin: 50% 88%;
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+/* Las pupilas se mueven dentro del blanco del ojo. */
+.as-pupila {
+  transform: translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 0.12s linear;
+}
+
+/* ---------- parpadeo ----------
+   Se anima ry y cy del elipse, no con scale: es lo que hace que el ojo se
+   aplaste de verdad y no parezca un recorte. */
+.as-ojo {
+  animation: as-blink 9s 1s infinite;
+  transition: ry 0.18s ease, cy 0.18s ease;
+}
+@keyframes as-blink {
+  0%, 2%, 4%, 26%, 28%, 71%, 73%, 100% { ry: 5.6px; cy: 58px; }
+  1%, 3%, 27%, 72%                     { ry: 0.6px; cy: 56.6px; }
+}
+
+/* Al escribir, la mirada baja un poco hacia el campo. */
+.as-escribiendo .as-ojo {
+  animation: none;
+  ry: 5.2px;
+  cy: 59.4px;
+}
+
+/* Con la contraseña, los ojos se cierran y las pupilas se ocultan. */
+.as-tapado .as-ojo {
+  animation: none;
+  ry: 0.6px;
+  cy: 56.6px;
+}
+.as-tapado .as-pupila {
+  opacity: 0;
+}
+
+/* ---------- las manos ---------- */
+.as-manos {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  /* Fuera de cuadro y giradas: solo se insinuan por abajo. */
+  transform: translateY(78%) rotateX(-26deg);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Al escribir la contrasena suben de verdad y tapan los ojos. */
+.as-tapado .as-manos {
+  transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* Las manos no se avisan al moverlas. */
+.as-marco, .as-cara, .as-manos {
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .as-ojo { animation: none; }
+  .as-giro, .as-pupila, .as-manos { transition: none; }
+}

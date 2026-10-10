@@ -1,0 +1,460 @@
+/* ============================================================================
+   ODISSEY · Perfil — versión Dala
+   ----------------------------------------------------------------------------
+   Reemplaza el aspecto de perfil.css: sin cajas, sin sombras, sin degradados
+   de vidrio. Todo flota en el negro con una sola línea de pelo por sección y
+   el dorado (o el color de acento del jugador) como único acento.
+   ----------------------------------------------------------------------------
+   Cubre los dos casos con el mismo marcado:
+     - tu perfil      → perfil.html
+     - perfil ajeno   → perfil.html?u=nombre
+   ============================================================================ */
+
+/* ---------- contenedor ---------- */
+.perfil-wrap {
+  max-width: 62rem !important;
+  padding: 2.5rem 1.5rem 5rem !important;
+}
+
+/* ---------- cabecera ---------- */
+.perfil-hero {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+}
+
+.perfil-banner {
+  height: 210px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(130% 150% at 20% 0%, rgba(63, 143, 42, 0.30) 0%, transparent 62%),
+    radial-gradient(110% 130% at 88% 110%, rgba(138, 90, 43, 0.34) 0%, transparent 60%),
+    #050505 !important;
+}
+/* Franja superior que recuerda a un bloque de hierba de Minecraft. */
+.perfil-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 2;
+  background: linear-gradient(90deg, #3f8f2a 0%, #5d9c33 45%, #6b4420 46%, #8a5a2b 100%);
+  opacity: 0.9;
+}
+.perfil-banner img {
+  border-radius: 24px 24px 0 0 !important;
+}
+
+.perfil-banner-vacio {
+  color: rgba(189, 189, 189, 0.55) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500 !important;
+}
+.perfil-banner-vacio svg {
+  width: 2.1rem !important;
+  height: 2.1rem !important;
+  opacity: 0.45 !important;
+}
+
+.perfil-banner-btn {
+  padding: 0.5rem 0.95rem !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dala-silver) !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 999px !important;
+  transition: opacity 0.2s var(--ease-dala), transform 0.2s var(--ease-dala),
+    color 0.2s var(--ease-dala), border-color 0.2s var(--ease-dala);
+}
+.perfil-banner-btn:hover {
+  color: #0a0a0a !important;
+  background: var(--dala-gold) !important;
+  border-color: var(--dala-gold) !important;
+}
+
+/* ---------- identidad ---------- */
+.perfil-ident {
+  align-items: flex-end !important;
+  gap: 1.5rem !important;
+  padding: 0 0.5rem 0 !important;
+  margin-top: -54px !important;
+}
+
+/* La foto pasa de círculo a cuadrado redondeado, sin sombra. */
+.perfil-avatar {
+  width: 116px !important;
+  height: 116px !important;
+  border-radius: 28px !important;
+  border: 4px solid #000000 !important;
+  outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  background: #0a0a0a !important;
+}
+
+.perfil-avatar-btn {
+  right: -4px !important;
+  bottom: -4px !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 999px !important;
+  border: 3px solid #000000 !important;
+  color: #0a0a0a !important;
+  background: var(--dala-gold) !important;
+  box-shadow: none !important;
+  transition: transform 0.2s var(--ease-dala);
+}
+.perfil-avatar-btn:hover {
+  transform: scale(1.12);
+  filter: none;
+}
+
+/* ---------- nombre y texto ---------- */
+.perfil-nombre {
+  padding-bottom: 0.5rem !important;
+}
+
+.perfil-nombre h1 {
+  font-size: clamp(2rem, 5.5vw, 3.25rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.02 !important;
+  color: var(--perfil-accent, var(--dala-white)) !important;
+  text-shadow: none !important;
+  margin: 0 !important;
+}
+
+.perfil-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem !important;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--dala-ash) !important;
+  margin: 0.55rem 0 0 !important;
+}
+
+.perfil-bio {
+  font-size: 1rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-silver) !important;
+  line-height: 1.6 !important;
+  max-width: 34rem !important;
+  margin: 0.75rem 0 0 !important;
+}
+
+.perfil-chips {
+  gap: 0.5rem !important;
+  margin-top: 0.9rem !important;
+}
+.perfil-chip {
+  padding: 0.35rem 0.8rem !important;
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: var(--perfil-accent, var(--dala-gold)) !important;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 999px !important;
+}
+
+/* ---------- secciones: solo una línea de pelo ---------- */
+.perfil-card {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1.75rem 0 0 !important;
+  margin-top: 1.75rem !important;
+}
+.perfil-card__head h2 {
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--dala-white) !important;
+  margin: 0 0 0.35rem !important;
+}
+.perfil-card__head p {
+  font-size: 0.9rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+  margin: 0 0 1.25rem !important;
+  line-height: 1.5;
+}
+
+.perfil-cuerpo {
+  grid-template-columns: minmax(0, 19rem) minmax(0, 1fr) !important;
+  gap: 2.5rem !important;
+  margin-top: 2.5rem !important;
+}
+.perfil-col {
+  gap: 0 !important;
+}
+
+.perfil-sep {
+  border: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
+  margin: 1.75rem 0 0 !important;
+}
+
+/* ---------- campos ---------- */
+.perfil-label {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: var(--dala-ash) !important;
+  margin-bottom: 0.5rem !important;
+  display: block;
+}
+
+.perfil-input {
+  background-color: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  color: var(--dala-white) !important;
+  font-family: var(--font-dala) !important;
+  font-weight: 300 !important;
+  padding: 0.85rem 1rem !important;
+  transition: border-color 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala);
+}
+.perfil-input:focus {
+  outline: none !important;
+  border-color: var(--perfil-accent, var(--dala-gold)) !important;
+  background-color: #0f0f0f !important;
+}
+.perfil-textarea {
+  line-height: 1.55 !important;
+  resize: vertical;
+}
+
+.perfil-contador,
+.perfil-nota {
+  font-size: 0.75rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+}
+.perfil-nota {
+  margin-top: 0.5rem !important;
+  line-height: 1.5;
+}
+
+/* ---------- selector de color ---------- */
+.perfil-color input[type='color'] {
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: #0a0a0a !important;
+  height: 46px !important;
+  width: 62px !important;
+  padding: 4px !important;
+  cursor: pointer;
+}
+.perfil-color-info strong {
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
+  color: var(--perfil-accent, var(--dala-gold)) !important;
+  letter-spacing: 0.02em;
+}
+.perfil-color-info small {
+  color: var(--dala-ash) !important;
+  font-weight: 200 !important;
+}
+
+/* ---------- botones mini ---------- */
+.btn-mini {
+  min-height: 40px !important;
+  padding: 0 20px !important;
+  font-family: var(--font-dala) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  color: #0a0a0a !important;
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  transition: transform 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala),
+    color 0.18s var(--ease-dala), border-color 0.18s var(--ease-dala);
+}
+.btn-mini:hover {
+  background: var(--dala-amber) !important;
+  transform: translateY(-1px);
+}
+.btn-mini-fantasma {
+  background: transparent !important;
+  color: var(--dala-silver) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+.btn-mini-fantasma:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: var(--dala-white) !important;
+  border-color: rgba(255, 255, 255, 0.32) !important;
+}
+.btn-mini-peligro {
+  background: transparent !important;
+  color: #f87171 !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
+}
+.btn-mini-peligro:hover {
+  background: rgba(248, 113, 113, 0.12) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(248, 113, 113, 0.6) !important;
+}
+
+/* ---------- filas de acción ---------- */
+.perfil-fila {
+  border: 0 !important;
+  padding: 1.25rem 0 0 !important;
+  margin-top: 1.25rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.perfil-fila strong {
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  color: var(--dala-white) !important;
+  letter-spacing: -0.01em;
+}
+.perfil-fila small {
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+  line-height: 1.45;
+}
+.perfil-acciones-datos {
+  margin-top: 1.5rem !important;
+  gap: 0.75rem !important;
+}
+
+.perfil-estado {
+  font-size: 0.8rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+}
+.perfil-estado.es-ok {
+  color: #4ade80 !important;
+}
+.perfil-estado.es-error {
+  color: #f87171 !important;
+}
+
+/* ---------- vincular con Minecraft ---------- */
+.perfil-mc-linea {
+  font-size: 0.9rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-silver) !important;
+}
+.perfil-mc-codigo {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 18px !important;
+  padding: 1.1rem 1.25rem !important;
+  margin: 0.9rem 0 !important;
+}
+.perfil-mc-codigo strong {
+  display: block;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: var(--dala-ash) !important;
+  margin-bottom: 0.5rem !important;
+}
+.perfil-mc-codigo code {
+  display: block;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace !important;
+  font-size: 1.05rem !important;
+  letter-spacing: 0.14em;
+  color: var(--dala-gold) !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.perfil-mc-codigo small {
+  font-size: 0.75rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+}
+.perfil-mc-botones {
+  gap: 0.75rem !important;
+  margin-top: 0.9rem !important;
+}
+
+/* ---------- avisos ---------- */
+.perfil-login,
+.perfil-aviso {
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.perfil-login {
+  padding: 2.5rem 0 0 !important;
+  margin-top: 2.5rem !important;
+}
+.perfil-login h2 {
+  font-size: 1.75rem !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--dala-white) !important;
+}
+.perfil-login p {
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+  margin-bottom: 1.75rem !important;
+}
+.perfil-aviso {
+  padding: 1rem 0 0 !important;
+  margin-top: 2rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-silver) !important;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .perfil-cuerpo {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  .perfil-banner {
+    height: 150px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .perfil-ident {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin-top: -44px !important;
+    gap: 1rem !important;
+  }
+  .perfil-avatar {
+    width: 88px !important;
+    height: 88px !important;
+    border-radius: 22px !important;
+  }
+  .perfil-nombre h1 {
+    font-size: 1.9rem !important;
+  }
+}

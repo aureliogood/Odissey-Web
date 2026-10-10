@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         // Aplica el tema guardado ANTES de pintar para evitar el flash de color.
-        document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');
+        document.documentElement.classList.toggle('theme-light', false);
     </script>
     <script>
         // Marca en la navegacion el enlace de la pagina actual.
@@ -21,7 +21,7 @@
     <title>Odissey - Minecraft Server</title>
   <link rel="canonical" href="https://odisseymc.site/">
     <meta name="description" content="Entra a Odissey, construye junto al mar, consigue los mejores kits y vive tu propia leyenda en Odissey.">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Odissey Minecraft Server">
@@ -34,52 +34,92 @@
     <meta name="twitter:title" content="Odissey - Servidor de Minecraft Java">
     <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia leyenda en Odissey.">
     <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "VideoGame",
-      "name": "Odissey Minecraft Server",
-      "description": "Servidor de Minecraft Java Survival Custom. IP: Próximamente",
-      "genre": ["Survival", "Multiplayer", "Custom RPG"],
-      "gamePlatform": ["PC"],
-      "applicationCategory": "Game",
-      "url": "https://odisseymc.site",
-      "operatingSystem": "Minecraft 1.20 - 1.21"
-    }
-    </script>
-    <link rel="stylesheet" href="theme.css?v=26">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
+    <link rel="stylesheet" href="css/search.css?v=144">
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'marine-dark': 'var(--od-marine-dark)',
-                        'marine-medium': 'var(--od-marine-medium)',
-                        'marine-light': 'var(--od-marine-light)',
-                        'marine-accent': 'var(--od-marine-accent)',
-                        'gold-light': 'var(--od-gold-light)',
-                        'gold-dark': 'var(--od-gold-dark)',
-                        'text-light': 'var(--od-text-light)',
-                        'text-dark': 'var(--od-text-dark)',
-                        'marine-darker': 'var(--od-marine-darker)',
-                        'always-light': 'var(--od-always-light)',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css?v=26">
+    <link rel="stylesheet" href="css/index.css?v=144">
+  <link rel="stylesheet" href="css/dala.css?v=144">
+    <link rel="stylesheet" href="css/dala-steve.css?v=144">
+<link rel="stylesheet" href="css/dala-liquid.css?v=144">
+    <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+        <script type="application/ld+json">
+{
+"@context":  "https://schema.org",
+"@graph":  [
+{
+"@type":  "WebSite",
+"@id":  "https://odisseymc.site/#website",
+"url":  "https://odisseymc.site/",
+"name":  "Odissey Minecraft Server",
+"inLanguage":  "es",
+"publisher":  {
+"@type":  "Organization",
+"@id":  "https://odisseymc.site/#org",
+"name":  "Odissey",
+"url":  "https://odisseymc.site/",
+"logo":  {
+"@type":  "ImageObject",
+"url":  "https://odisseymc.site/img/logo-web.webp",
+"width":  900,
+"height":  382
+}
+}
+},
+{
+"@type":  "VideoGame",
+"@id":  "https://odisseymc.site/#pagina",
+"url":  "https://odisseymc.site/",
+"name":  "Odissey - Servidor de Minecraft Java",
+"inLanguage":  "es",
+"isPartOf":  {
+"@id":  "https://odisseymc.site/#website"
+},
+"publisher":  {
+"@id":  "https://odisseymc.site/#org"
+},
+"description":  "Servidor de Minecraft Java Survival Custom con kits, rangos y comunidad.",
+"genre":  [
+"Survival",
+"Multiplayer",
+"Custom RPG"
+],
+"gamePlatform":  [
+"PC"
+],
+"applicationCategory":  "Game",
+"operatingSystem":  "Minecraft 1.20 - 1.21",
+"image":  "https://odisseymc.site/img/og-image.jpg"
+},
+{
+"@type":  "BreadcrumbList",
+"@id":  "https://odisseymc.site/#miga",
+"itemListElement":  [
+{
+"@type":  "ListItem",
+"position":  1,
+"name":  "Inicio",
+"item":  "https://odisseymc.site/"
+}
+]
+},
+{
+"@id":  "https://odisseymc.site/#website"
+}
+]
+}
+    </script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
+    <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
+    <link rel="stylesheet" href="css/turnstile.css?v=144">
 </head>
 <body>
   <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
@@ -105,12 +145,22 @@
         </div>
         <!-- Sticky Navigation -->
         <nav class="nav-bar sticky top-0 z-50 w-full">
-            <div class="flex items-center justify-between gap-3 px-6 py-3 max-w-7xl mx-auto w-full">
-                <a href="./" class="flex items-center shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
                 </a>
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <button type="button" id="cartBtn" onclick="openCartModal()"
+
+                <div class="nav-pill" role="navigation" aria-label="Secciones">
+                    <a href="tienda.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                            <a href="foro.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_foro">Foro</span></a>
+                            <a href="soporte.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                            <a href="reglas.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                            <a href="staff.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                            <a href="perfil.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                </div>
+
+                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
+                    <button type="button" id="cartBtn" onclick="openCartModal()" data-analytics="clic_carrito"
                         class="nav-button nav-button-primary" title="Carrito" aria-label="Carrito">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
                         <span id="cartBadge" class="cart-count">0</span>
@@ -122,29 +172,15 @@
                         <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
                         <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                     </button>
-                    <button type="button" id="menuBtn" onclick="toggleMenu()"
-                        class="nav-button nav-button-secondary flex items-center justify-center" title="Menú" aria-label="Abrir menú">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+                    <button type="button" id="menuBtn" onclick="toggleMenu()" aria-expanded="false"
+                        class="nav-button nav-button-secondary menu-toggle" title="Menú" aria-label="Abrir menú">
+                        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
                     </button>
                     <button type="button" id="enterNavBtn" onclick="openLoginModal()"
                         class="nav-button nav-button-primary">
-                        <span id="enterNavText">Entrar</span>
+                        <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
                         <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                     </button>
-                </div>
-            </div>
-            <div id="menuDropdown" class="menu-panel hidden absolute top-full left-0 right-0 z-40 shadow-xl"
-                onclick="closeMenu()">
-                <div class="px-6 py-4 max-w-7xl mx-auto w-full">
-                    <div class="flex flex-wrap items-center justify-center gap-2">
-                                                  <a href="staff.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
-                          <a href="reglas.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
-                          <a href="noticias.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_noticias">Noticias</span></a>
-                          <a href="eventos.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg><span data-i18n="nav_eventos">Eventos</span></a>
-                          <a href="galeria.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span data-i18n="nav_galeria">Galería</span></a>
-                          <a href="soporte.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
-                          <a href="tienda.html" class="nav-button nav-button-shop"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
-                      </div>
                 </div>
             </div>
         </nav>
@@ -170,68 +206,80 @@
             });
         </script>
         <main id="contenido" class="flex-grow">
-            <!-- h1 semántico oculto visualmente para SEO y lectores de pantalla -->
-            <h1 class="sr-only">Odissey — Servidor de Minecraft Java</h1>
-            <!-- Hero -->
-            <section class="relative flex items-center justify-center overflow-hidden px-4 py-16">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-                <div class="relative flex flex-col items-center space-y-10 max-w-5xl w-full">
-                    <div
-                        class="grid grid-cols-1 xl:grid-cols-3 items-center text-center gap-y-10 xl:gap-x-24 w-full px-4">
-                        <!-- Players - IP -->
-                        <div class="flex flex-col items-center gap-3 reveal" style="transition-delay: 0s;">
-                            <div class="flex flex-col sm:flex-row items-center gap-3">
-                                <div class="flex flex-col items-center space-y-2">
-<span class="playerCount inline-flex items-center justify-center rounded-full bg-marine-accent text-marine-dark text-sm md:text-base font-bold min-w-[2.5rem] px-4 py-1 shadow-md">0</span>
-<button type="button" class="gold-btn"
-                                        title="IP del servidor">
-                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                            <path d="M8 5.14v13.72L19 12 8 5.14z" />
-                                        </svg>
-                                        Proximamente
-                                    </button>
-                                </div>
-                                <div class="flex flex-col items-start text-left sm:items-start max-sm:items-center max-sm:text-center">
-                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-marine-dark/90 border border-marine-light mb-1">
-                                        <span id="serverStatusDot" class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                                        <span id="serverStatusText" class="text-[11px] font-semibold text-green-400" data-i18n="status_online">En línea</span>
-                                    </div>
-                                    <span id="serverVersion" class="text-xs text-text-dark mt-1">Obteniendo versión...</span>
-                                    <span id="serverGamemode" class="text-xs text-gold-light mt-0.5">Modo: Survival Custom</span>
-                                </div>
-                            </div>
+                        <!-- Hero -->
+            <section class="dala-hero relative overflow-hidden px-4 py-16 md:py-24">
+                <div class="dala-hero-grid relative mx-auto w-full max-w-7xl">
+                    <!-- Columna de texto -->
+                    <div class="reveal flex flex-col items-start text-left" style="transition-delay: 0s;">
+                        <span class="dala-eyebrow">Servidor de Minecraft Java · Survival Custom</span>
+                        <h1 class="dala-hero-title">Entra en tu<br>propia odisea.</h1>
+                        <p class="dala-hero-sub">
+                            Un mundo junto al mar donde todos empiezan con las mismas oportunidades.
+                            Construye tu base, hazte con los mejores kits y decide tu propio camino
+                            hacia la leyenda.
+                        </p>
+<!-- UNA SOLA LLAMADA A LA ACCION.
+                             El bloque del hero tenía dos pesos iguales: un
+                             botón y un enlace con el mismo aspecto. Cuando
+                             hay dos llamadas a la acción del mismo peso,
+                             el visitante no sabe cual hacer y acaba sin
+                             hacer ninguna.
+                             Ahora hay UNA sola: entrar al servidor. Es lo que
+                             la gente quiere (jugar). El Discord se queda,
+                             pero como enlace de texto discreto debajo de la
+                             barra de estado, que es donde lo busca quien ya
+                             sabe lo que es. -->
+                        <div class="mt-9 flex flex-wrap items-center gap-6">
+                            <button type="button" class="btn3d btn-cta-principal"
+                                data-analytics="cta_principal_portada"
+                                onclick="openLoginModal()">
+                                <span data-i18n="cta_jugar">Entrar al servidor</span>
+                            </button>
+                            <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer"
+                                class="dala-ghost-link" data-analytics="cta_discord_portada">
+                                <span data-i18n="cta_discord">Únete al Discord</span>
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+                            </a>
                         </div>
-                        <!-- Logo -->
-                        <div class="flex justify-center reveal" style="transition-delay: 0.15s;">
-                            <img src="img/logo-web.webp" alt="Odissey Logo" class="hero-logo rounded-lg shadow-inner cursor-pointer">
-                        </div>
-                        <!-- Discord -->
-                        <div class="flex flex-col items-center gap-3 reveal" style="transition-delay: 0.3s;">
-                            <div class="flex flex-col sm:flex-row items-center gap-3">
-                                <span class="flex flex-col items-start text-left sm:items-start max-sm:items-center max-sm:text-center">
-                                    <span class="font-bold text-lg text-text-light whitespace-nowrap">Servidor de Discord</span>
-                                    <span class="text-sm text-marine-accent">haz click para unirte</span>
+
+                        <!-- Estado del servidor -->
+                        <div class="dala-status mt-12">
+                            <div class="dala-stat">
+                                <span class="dala-stat-label">
+                                    <span id="serverStatusDot" class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                                    <span id="serverStatusText" data-i18n="status_online">En línea</span>
                                 </span>
-<div class="flex flex-col items-center space-y-2">
-                                    <span id="discordPresenceCount" class="inline-flex items-center justify-center rounded-full bg-marine-accent text-marine-dark text-sm md:text-base font-bold min-w-[2.5rem] px-4 py-1 shadow-md">0</span>
-                                    <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="gold-btn" title="Servidor de Discord">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
-                                        Discord
-                                    </a>
-                                </div>
+                                <span class="dala-stat-value playerCount">0</span>
+                                <span class="dala-stat-caption">jugadores conectados</span>
+                            </div>
+                            <div class="dala-stat">
+                                <span class="dala-stat-label">Discord</span>
+                                <span id="discordPresenceCount" class="dala-stat-value">0</span>
+                                <span class="dala-stat-caption">miembros en la comunidad</span>
+                            </div>
+                            <div class="dala-stat">
+                                <span class="dala-stat-label">Versión</span>
+                                <span id="serverVersion" class="dala-stat-value-sm">Obteniendo…</span>
+                                <span id="serverGamemode" class="dala-stat-caption">Survival Custom</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Columna visual: constelación viva -->
+                    <div class="dala-constellation-wrap reveal" style="transition-delay: .15s;">
+                        <canvas id="dalaConstellation" class="dala-constellation" aria-hidden="true"></canvas>
+                    </div>
                 </div>
             </section>
+            
+
             <!-- Guía de entrada -->
             <section id="guia" class="px-4 py-16 scroll-mt-24">
                 <div class="liquid-glass-container max-w-5xl mx-auto">
                     <h2 class="section-title section-title--lead text-center mb-2 reveal" data-i18n="guide_title">Cómo entrar al servidor</h2>
-                    <p class="text-center text-text-light text-lg mb-10 reveal">Sigue estos pasos para entrar desde Minecraft Java Edition.</p>
+                    <p id="guideSubtitle" class="text-center text-text-light text-lg mb-10 reveal" data-i18n="guide_sub_java">Sigue estos pasos para entrar desde Minecraft Java Edition.</p>
                     <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto">
-                        <div class="guide-card reveal">
+                        <div class="guide-card reveal" id="guideJava">
                             <div class="guide-header">
                                 <div class="guide-icon">⚓</div>
                                 <div>
@@ -246,13 +294,26 @@
 <li><span data-i18n="guide_java_4">Escribe</span> <code class="guide-code">Proximamente</code> <span data-i18n="guide_java_4b">en la dirección.</span></li>
                                 <li><span data-i18n="guide_java_5a">Pulsa</span> <strong data-i18n="guide_java_5b">Hecho</strong> y entra.</li>
                             </ol>
-                            <div class="flex flex-wrap justify-center gap-2">
-                                <button type="button" class="btn3d" data-i18n="btn_copy_ip">Proximamente</button>
+                        </div>
+                        <div class="guide-card hidden" id="guideBedrock">
+                            <div class="guide-header">
+                                <div class="guide-icon">🧱</div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-text-light" data-i18n="guide_bedrock_title">Minecraft Bedrock</h3>
+                                    <p class="text-text-dark text-sm" data-i18n="guide_bedrock_sub">Consolas, móvil y Windows</p>
+                                </div>
                             </div>
+                            <ol class="guide-list">
+                                <li data-i18n="guide_bedrock_1">Abre Minecraft Bedrock Edition.</li>
+                                <li><span data-i18n="guide_bedrock_2a">Ve a</span> <strong data-i18n="guide_bedrock_2b">Jugar</strong>.</li>
+                                <li><span data-i18n="guide_bedrock_3a">En</span> <strong data-i18n="guide_bedrock_3b">Servidores</strong>, <span data-i18n="guide_bedrock_3c">pulsa</span> <strong data-i18n="guide_bedrock_3d">Añadir servidor</strong>.</li>
+                                <li><span data-i18n="guide_bedrock_4">Escribe</span> <code class="guide-code">Proximamente</code> <span data-i18n="guide_bedrock_4b">en la dirección.</span></li>
+                                <li><span data-i18n="guide_bedrock_5a">Pulsa</span> <strong data-i18n="guide_bedrock_5b">Guardar</strong> <span data-i18n="guide_bedrock_5c">y entra.</span></li>
+                            </ol>
                         </div>
                     </div>
                     <div class="text-center mt-8 reveal">
-                        <a href="#discord-widget-section" class="nav-button nav-button-secondary" data-i18n="guide_to_discord">Únete a nuestro Discord</a>
+                        <button type="button" id="guideSwitchBtn" class="btn3d" aria-pressed="false" data-i18n="guide_switch_bedrock">⟲ Bedrock</button>
                     </div>
                 </div>
             </section>
@@ -303,20 +364,13 @@
                     <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
 </section>
-            <!-- FAQ -->
-            <section id="discord-widget-section" class="px-4 py-16 scroll-mt-24">
-                <div class="liquid-glass-container max-w-5xl mx-auto flex flex-col items-center justify-center">
-                    <h2 class="section-title text-center mb-6 reveal" data-i18n="discord_box_title">Comunidad activa en Discord</h2>
-                    <div class="reveal flex justify-center w-full max-w-md" id="discord-custom-widget"></div>
-                </div>
-            </section>
             </main>
         <!-- Footer Section -->
         <footer
             class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
             <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
                 <a href="#" aria-label="Odissey" class="shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
                 </a>
                 <div class="flex flex-col items-center gap-3">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
@@ -352,20 +406,12 @@
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
         style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
         <div id="loginView" class="login-card">
-            <h2 data-i18n="login_title">Conecta con Discord</h2>
-            <p class="subtitle" data-i18n="login_sub">
-                Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito de la web.
-            </p>
-            <button type="button" class="btn3d w-full" onclick="startDiscordLogin()" data-i18n="login_discord_btn">
-                CONECTAR CON DISCORD
-            </button>
-            <button type="button" onclick="closeLoginModal()"
-                class="mt-4 text-xs text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="close">Cerrar</button>
+            <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
         </div>
 <div id="accountView" class="account-card hidden">
             <button class="close-btn" onclick="closeLoginModal()">&times;</button>
             <div class="user-header">
-                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head">
+                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
                 <div class="user-info">
                     <h3><span data-i18n="account_title" id="accountViewTitle">Cuenta de</span> <span id="username-display"></span></h3>
                     <div class="user-actions">
@@ -376,7 +422,7 @@
             <hr class="divider">
             <div class="mc-name-row">
                 <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
-                <input id="mcNameInput" type="text" class="mc-name-input" maxlength="16" autocomplete="off" placeholder="Steve">
+                <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
                 <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
             </div>
             <hr class="divider">
@@ -389,7 +435,7 @@
                         <span data-i18n="cart_total">Total:</span>
                         <span id="cart-total">$0.00</span>
                     </div>
-                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
                 </div>
             </div>
             <div id="profile-section">
@@ -417,7 +463,7 @@
         <div id="ratingView" class="staff-panel">
             <button class="close-btn" onclick="closeRatingModal()">&times;</button>
             <div class="staff-panel-header">
-                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin">
+                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin" width="128" height="128">
                 <div>
                     <h3 id="rating-title"><span data-i18n="rating_title_prefix">Calificar a</span> <span id="rating-name">aureliogood</span></h3>
                     <p class="staff-panel-role" data-i18n="rating_subtitle">Tu opinión nos ayuda a mejorar</p>
@@ -432,9 +478,9 @@
                 <button type="button" data-value="4" aria-label="4 estrellas">★</button>
                 <button type="button" data-value="5" aria-label="5 estrellas">★</button>
             </div>
-            <textarea id="rating-comment" class="rating-comment" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
+            <textarea id="rating-comment" name="comentario" class="rating-comment" maxlength="500" rows="3" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
             <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-i18n="rating_submit_btn">Enviar calificación</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn">Enviar calificación</button>
         </div>
     </div>
     <!-- Modal de reporte de jugador -->
@@ -444,7 +490,7 @@
         <div id="reportView" class="staff-panel">
             <button class="close-btn" onclick="closeReportModal()">&times;</button>
             <div class="staff-panel-header">
-                <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head">
+                <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head" width="128" height="128">
                 <div>
                     <h3 data-i18n="report_title">Reportar un jugador</h3>
                     <p class="staff-panel-role" data-i18n="report_sub">Tu reporte lo revisará el staff</p>
@@ -453,8 +499,8 @@
             <hr class="divider">
             <p class="staff-panel-info" data-i18n="report_info">Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).</p>
             <div class="input-container mt-4">
-                <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa">
-                <input type="text" id="report-target" placeholder="Jugador a reportar" autocomplete="off" maxlength="16">
+                <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa" width="40" height="40">
+                <input type="text" id="report-target" name="jugador" placeholder="Jugador a reportar" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="16" pattern="[A-Za-z0-9_]{1,16}" required aria-label="Nombre del jugador a reportar">
             </div>
             <select id="report-reason" class="rating-comment mt-4">
                 <option value="Trampa / Hacks">Trampa / Hacks</option>
@@ -464,10 +510,17 @@
                 <option value="Griefing">Griefing</option>
                 <option value="Otro">Otro</option>
             </select>
-            <textarea id="report-detail" class="rating-comment mt-4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
-            <input id="report-capture" class="rating-comment mt-4" placeholder="Enlace de captura (opcional)" autocomplete="off">
+            <textarea id="report-detail" name="detalle" class="rating-comment mt-4" maxlength="1500" rows="4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
+            <input id="report-capture" name="captura" type="url" inputmode="url" spellcheck="false" class="rating-comment mt-4" maxlength="500" autocomplete="off" placeholder="https://... (opcional)" aria-label="Enlace de la captura, opcional">
+                        <!-- Campo trampa anti-spam. Esta oculto y no lo rellena
+                 ninguna persona: solo los robots que rellenan todos los
+                 campos que encuentran. Si llega relleno, se descarta el
+                 envio (ver js/formulario.js). -->
+            <input type="text" id="report-trampa" class="form-trampa"
+                tabindex="-1" autocomplete="off" aria-hidden="true"
+                name="sitio_web" value="">
             <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-i18n="report_submit_btn">Enviar reporte</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn">Enviar reporte</button>
         </div>
     </div>
     <!-- Modal Lightbox para la Galería de Builds -->
@@ -476,7 +529,7 @@
         style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
         <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
         <div class="flex flex-col items-center max-w-4xl w-full">
-            <img id="lightboxImg" src="" alt="Build" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
+            <img id="lightboxImg" src="" alt="Build" width="1280" height="720" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
             <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
         </div>
     </div>
@@ -498,19 +551,12 @@
         if (bgLayer) setInterval(changeBackground, 15000);
     </script>
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
     </script>
-    <script src="site-config.js"></script>
-    <script src="shop-config.js"></script>
-    <script src="staff-config.js"></script>
-    <script src="site-data.js"></script>
+    <script src="site-config.js?v=144"></script>
+    <script src="shop-config.js?v=144"></script>
+    <script src="staff-config.js?v=144"></script>
+    <script src="site-data.js?v=144"></script>
     <script>
         function copyToClipboard(text, message) {
             if (navigator.clipboard && window.isSecureContext) {
@@ -572,6 +618,10 @@
             if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
 const dot = document.getElementById('serverStatusDot');
             const statusTxt = document.getElementById('serverStatusText');
+            const setState = function (state) {
+                if (dot) dot.classList.add('state-' + state);
+                if (statusTxt) statusTxt.classList.add('state-' + state);
+            };
             let manualStatus = '';
             const maintenance = (window.SiteData && SiteData.get('maintenance')) || null;
             if (maintenance && (maintenance.active || maintenance.status === 'maintenance')) {
@@ -589,26 +639,29 @@ const dot = document.getElementById('serverStatusDot');
                     if (manualStatus === 'maintenance') {
                         versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
                         versionEl.className = 'text-xs text-yellow-400 mt-1';
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        setState('maintenance');
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
                         if (statusTxt) {
                             statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
-                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
                         }
                     } else if (data.online || manualStatus === 'online') {
                         versionEl.textContent = (getLang() === 'en' ? 'Version: ' : 'Versión: ') + (version || '1.20 - 1.21');
                         versionEl.className = 'text-xs text-green-400 mt-1';
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+                        setState('online');
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse state-online';
                         if (statusTxt) {
                             statusTxt.textContent = manualStatus === 'online' ? (getLang() === 'en' ? 'Active' : 'Activo') : (getLang() === 'en' ? 'Online' : 'En línea');
-                            statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                            statusTxt.className = 'text-[11px] font-semibold text-green-400 state-online';
                         }
                     } else {
                         versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
                         versionEl.className = 'text-xs text-yellow-400 mt-1';
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        setState('maintenance');
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
                         if (statusTxt) {
                             statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
-                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
                         }
                     }
                 }
@@ -618,10 +671,13 @@ const dot = document.getElementById('serverStatusDot');
                     versionEl.textContent = getLang() === 'en' ? 'Status: Online' : 'Estado: En línea';
                     versionEl.className = 'text-xs text-text-dark mt-1';
                 }
-                if (manualStatus === 'online' && statusTxt) {
-                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
-                    statusTxt.textContent = getLang() === 'en' ? 'Active' : 'Activo';
-                    statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                if (manualStatus === 'online') {
+                    setState('online');
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse state-online';
+                    if (statusTxt) {
+                        statusTxt.textContent = getLang() === 'en' ? 'Active' : 'Activo';
+                        statusTxt.className = 'text-[11px] font-semibold text-green-400 state-online';
+                    }
                 }
             }
         }
@@ -822,18 +878,65 @@ const mcNameInput = document.getElementById('mcNameInput');
         function renderAccountView() {
             const info = getDiscordUser();
             usernameDisplay.textContent = info ? (info.username || getCurrentUser()) : '';
-            userBust.src = info && info.avatar
-                ? `https://cdn.discordapp.com/avatars/${info.id}/${info.avatar}.png?size=128`
-                : 'https://mc-heads.net/avatar/steve/100';
+            userBust.onerror = function () {
+                userBust.onerror = null;
+                userBust.src = 'img/logo-web.webp';
+            };
+            userBust.src = discordAvatarUrl(info, 128) || 'img/logo-web.webp';
             if (mcNameInput) mcNameInput.value = (info && info.mcName) || '';
             renderCart();
             renderMyReportsAndTickets();
         }
+                function discordDefaultAvatar(u) {
+            // Avatar por defecto de Discord: el indice sale de los ultimos
+            // bits del id. Antes se caia a una cabeza de Steve de mc-heads.
+            if (!u || !u.id) return '';
+            let n = 0;
+            try { n = Number((BigInt(u.id) >> 22n) % 6n); } catch (e) { n = 0; }
+            return `https://cdn.discordapp.com/embed/avatars/${n}.png`;
+        }
+        function discordAvatarUrl(u, size) {
+            if (!u || !u.id) return '';
+            if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=${size}`;
+            return discordDefaultAvatar(u);
+        }
         function updateNavButton() {
             const u = getDiscordUser();
-            const label = u ? (u.username || '') : (getLang() === 'en' ? 'Log in' : 'Entrar');
             const txt = document.getElementById('enterNavText');
-            if (txt) txt.textContent = label;
+            const img = document.getElementById('enterNavAvatar');
+            const btn = document.getElementById('enterNavBtn');
+            if (!u) {
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = getLang() === 'en' ? 'Log in' : 'Entrar'; }
+                if (img) { img.classList.add('hidden'); img.removeAttribute('src'); }
+                if (btn) { btn.classList.remove('nav-button--avatar'); btn.removeAttribute('title'); }
+                return;
+            }
+            const nombre = u.username || '';
+            const url = discordAvatarUrl(u, 64);
+            // Con foto, la barra muestra el avatar; sin ella, el nombre.
+            if (img && url) {
+                // Si la foto no llega a cargar (hash antiguo, CDN, red), se cae
+                // al avatar por defecto en vez de dejar un circulo vacio.
+                img.onerror = function () {
+                    img.onerror = null;
+                    img.src = discordDefaultAvatar(u);
+                };
+                img.src = url;
+                img.alt = nombre;
+                img.classList.remove('hidden');
+                if (txt) txt.classList.add('hidden');
+                if (btn) btn.classList.add('nav-button--avatar');
+            } else {
+                if (img) img.classList.add('hidden');
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = nombre; }
+                if (btn) btn.classList.remove('nav-button--avatar');
+            }
+            // El nombre se mantiene en title y aria-label, porque en la barra
+            // ya no se ve como texto.
+            if (btn) {
+                btn.title = nombre;
+                btn.setAttribute('aria-label', (getLang() === 'en' ? 'Your account' : 'Tu cuenta') + ': ' + nombre);
+            }
         }
 function openAccountOrLoginModal() {
             const loggedIn = !!getCurrentUser();
@@ -877,10 +980,17 @@ function openAccountOrLoginModal() {
             loginModal.classList.remove('hidden');
             loginModal.classList.add('flex');
             openAccountOrLoginModal();
+            /* El orbe liquido se monta al abrir el modal. Antes no: el
+               formulario lo crea al vuelo, asi que si se montase al
+               cargar la pagina no habria nada que animar. */
+            if (window.DalaLiquid) window.DalaLiquid.montar();
         }
         function closeLoginModal() {
             loginModal.classList.add('hidden');
             loginModal.classList.remove('flex');
+            /* Se para el rAF al cerrar: si no sigue corriendo en una
+               pagina que ya no enseña el orbe. */
+            if (window.DalaLiquid) window.DalaLiquid.desmontar();
         }
         function getCurrency() {
             return localStorage.getItem('odissey_currency') || 'USD';
@@ -1103,19 +1213,13 @@ function openAccountOrLoginModal() {
             saveCart([]);
             updateCartBadge();
             renderCart();
-            showNotification('📦 ' + (getLang() === 'en' ? 'Order registered!' : '¡Pedido registrado!'));
+            showNotification("¡Pedido registrado! Te lo preparamos en el juego.");
             SiteData.reloadMy(token);
         }
+
         updateCartBadge();
         loadRates();
         const staffModal = document.getElementById('staffModal');
-function escapeHtml(value) {
-            return String(value)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
-        }
         function getStaff() {
             const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
             if (window.SiteData && SiteData.publicLoaded) {
@@ -1136,7 +1240,7 @@ function escapeHtml(value) {
                     <p class="text-marine-accent text-lg">${escapeHtml(member.role)}</p>
                     <p class="text-text-dark mt-2 text-sm">${escapeHtml(member.bio || member.description)}</p>
                 </div>`).join('');
-            grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            grid.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
             grid.querySelectorAll('.staff-trigger').forEach(button => {
                 button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
             });
@@ -1289,6 +1393,35 @@ function escapeHtml(value) {
             }, 400);
         });
         async function submitReport() {
+        /* ---------- Proteccion anti-spam (js/formulario.js) ----------
+         * Comprueba tres cosas antes de dejar salir nada:
+         *   - que no se hayan enviado ya 5 mensajes en 10 minutos,
+         *   - que el campo trampa siga vacio (los robots lo rellenan),
+         *   - que no sea alguien soltando envios en bucle.
+         *
+         * El aviso NO dice cual de las tres fallo. Si lo dijera, un
+         * bot aprenderia a esquivarlo cambiando solo esa parte. */
+        const controlAntiSpam = (window.OdisseyFormulario && window.OdisseyFormulario.puedeEnviar())
+            ? window.OdisseyFormulario.puedeEnviar()
+            : { ok: true };
+        if (!controlAntiSpam.ok) {
+            if (reportMsg) reportMsg.textContent = controlAntiSpam.motivo;
+            showNotification(controlAntiSpam.motivo);
+            return;
+        }
+
+        /* La captura la escribe quien abre el reporte y acaba en un
+         * href que pincha el staff dentro del panel. Si trae un esquema
+         * raro (javascript:, data:, vbscript:) se ejecuta al pincharlo,
+         * asi que se descarta aqui. */
+        if (reportCapture && reportCapture.value.trim() &&
+            !(window.OdisseyFormulario && window.OdisseyFormulario.enlaceSeguro(reportCapture.value))) {
+            const avisoCaptura = 'Ese enlace no es valido. Pega una direccion que empiece por https://';
+            if (reportMsg) reportMsg.textContent = avisoCaptura;
+            showNotification(avisoCaptura);
+            return;
+        }
+
             const target = reportTarget.value.trim();
             if (!/^[A-Za-z0-9_]{1,16}$/.test(target)) {
                 showNotification('Escribe el nombre del jugador a reportar (letras, números y _).');
@@ -1336,6 +1469,11 @@ function escapeHtml(value) {
                 showNotification(msg);
                 return;
             }
+            /* Se cuenta el envio aqui y no antes: si el servidor
+             * devuelve un error, el visitante no ha perdido ninguno
+             * de sus cinco intentos. */
+            if (window.OdisseyFormulario) window.OdisseyFormulario.registrarEnvio();
+
             const reportId = result.json && result.json.report ? result.json.report.id : null;
             reportTarget.value = '';
             reportDetail.value = '';
@@ -1364,6 +1502,13 @@ function escapeHtml(value) {
                     : 'Reporte guardado. No se pudo abrir el ticket.');
             }
             SiteData.reloadMy(token).then(() => renderMyReportsAndTickets());
+
+            /* A la pagina de gracias: el visitante ve que si, que esta
+               hecho y cual es el siguiente paso, en vez de un aviso
+               verde que se le pasa en dos segundos. Va AL FINAL porque
+               antes se sale de la pagina mientras se abre el ticket de
+               Discord, y esa peticion se cancela al navegar. */
+            irAGracias('reporte');
         }
         renderStaff();
 // ================= Nuevas secciones de contenido =================
@@ -1405,78 +1550,8 @@ function renderDiscordWidget() {
                     })
                     .catch(useWidgetCount);
             }
-const container = document.getElementById('discord-custom-widget');
-            if (!container) return;
-            fetch((window.API_BASE || 'https://odisseymc.site/bot') + '/api/discord/widget')
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data && data.ok) {
-                        container.innerHTML = customWidgetHTML(data);
-                    } else if (serverId) {
-                        container.innerHTML = fallbackWidgetHTML(serverId);
-                    }
-                })
-                .catch(function () {
-                    if (serverId) container.innerHTML = fallbackWidgetHTML(serverId);
-                });
         }
-        function fallbackWidgetHTML(serverId) {
-            return `<iframe src="https://discord.com/widget?id=${encodeURIComponent(serverId)}&theme=${getTheme() === 'light' ? 'light' : 'dark'}"
-                    width="350" height="500" class="mx-auto rounded-xl border border-marine-light shadow-2xl"
-                    allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`;
-        }
-        function customWidgetHTML(data) {
-            const lang = getLang();
-            const dict = I18N[lang] || {};
-            const members = data.members || [];
-            const channels = data.channels || [];
-            const inVoice = {};
-            for (const m of members) {
-                if (m.voiceChannelId) {
-                    (inVoice[m.voiceChannelId] = inVoice[m.voiceChannelId] || []).push(m);
-                }
-            }
-            const pictos = { online: '🟢', idle: '🟡', dnd: '🔴', offline: '⚪' };
-            const rows = [];
-            let currentCat = '';
-            for (const c of channels) {
-                if (c.type === 4) {
-                    currentCat = c.name || '';
-                    continue;
-                }
-                if (c.type === 0) {
-                    if (currentCat) {
-                        rows.push(`<div class="dch-cat">${escapeHtml(currentCat)}</div>`);
-                        currentCat = '';
-                    }
-                    rows.push(`<div class="dch-row"><span class="dch-ico">#</span><span class="dch-name">${escapeHtml(c.name)}</span></div>`);
-                } else if (c.type === 2) {
-                    if (currentCat) {
-                        rows.push(`<div class="dch-cat">${escapeHtml(currentCat)}</div>`);
-                        currentCat = '';
-                    }
-                    const list = inVoice[c.id] || [];
-                    const names = list.length
-                        ? list.map(m => `${pictos[m.status] || ''} ${escapeHtml(m.name)}`).join(' &middot; ')
-                        : `<span class="dch-empty">${dict.discord_w_empty || 'vacío'}</span>`;
-                    rows.push(`<div class="dch-row"><span class="dch-ico">🔊</span><span class="dch-name">${escapeHtml(c.name)}</span><span class="dch-in">${names}</span></div>`);
-                }
-            }
-            const totalChannels = channels.filter(c => c.type === 0 || c.type === 2).length;
-            const peopleWord = members.length === 1 ? (dict.discord_w_people1 || 'person') : (dict.discord_w_people || 'people');
-            return `
-            <div class="d-widget">
-                <div class="d-head">
-                    <span class="d-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" aria-hidden="true"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg></span>
-                    <div class="flex-1 text-left min-w-0">
-                        <div class="d-server">ODISSEY MC</div>
-                        <div class="d-sub">${members.length} ${peopleWord} · ${totalChannels} ${dict.discord_w_channels || 'channels'}</div>
-                    </div>
-                    <a class="d-join" href="${escapeHtml((window.SITE_CONFIG && window.SITE_CONFIG.discordInvite) || 'https://dc.gg/odisseymc')}" target="_blank" rel="noopener">${dict.discord_w_join || 'Join'}</a>
-                </div>
-                <div class="d-body">${rows.join('')}</div>
-            </div>`;
-        }
+
         let activeNewsFilter = 'all';
         function renderNews() {
             const grid = document.getElementById('news-grid');
@@ -1542,7 +1617,7 @@ const container = document.getElementById('discord-custom-widget');
             }
             grid.innerHTML = items.map(g => `
                 <a href="${escapeHtml(g.image)}" class="gallery-item block group" data-gallery-image="${escapeHtml(g.image)}" data-gallery-caption="${escapeHtml(g.caption || '')}">
-                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" loading="lazy" decoding="async" loading="lazy" class="transition-transform duration-300 group-hover:scale-105" onerror="this.closest('.gallery-item').remove();">
+                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" width="640" height="360" loading="lazy" decoding="async" class="transition-transform duration-300 group-hover:scale-105" onerror="this.closest('.gallery-item').remove();">
                     ${g.caption ? `<div class="cap">${escapeHtml(g.caption)}</div>` : ''}
                 </a>`).join('');
             grid.querySelectorAll('.gallery-item').forEach(item => {
@@ -1620,12 +1695,65 @@ const container = document.getElementById('discord-custom-widget');
 // Para dejar una hay que abrir el perfil de un staff y pulsar "Calificar staff",
   // y esos perfiles viven en staff.html, no en index.html.
   // Antes hacia scroll a un id inexistente y por eso el boton no hacia nada.
-function openTestimonialPrompt() {
+        function openTestimonialPrompt() {
             window.location.href = 'staff.html';
         }
+        // ================= Guia: alternar Java / Bedrock =================
+        // Las dos tarjetas estan siempre en el HTML y solo se muestra una, asi
+        // que applyLang las traduce solo al cambiar de idioma: basta con mover
+        // el data-i18n del subtitulo y del boton segun la version visible.
+        function setGuideEdition(edition) {
+            const isJava = edition === 'java';
+            const java = document.getElementById('guideJava');
+            const bedrock = document.getElementById('guideBedrock');
+            const btn = document.getElementById('guideSwitchBtn');
+            const sub = document.getElementById('guideSubtitle');
+            if (!java || !bedrock || !btn) return;
+            java.classList.toggle('hidden', !isJava);
+            bedrock.classList.toggle('hidden', isJava);
+            // .reveal arranca en opacity:0 y solo se ve cuando el
+            // IntersectionObserver le anade .visible. La tarjeta que estaba
+            // oculta nunca llega a observarse, asi que hay que marcarla aqui
+            // o se quedaria invisible al mostrarla.
+            const shown = isJava ? java : bedrock;
+            shown.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+            if (shown.classList.contains('reveal')) shown.classList.add('visible');
+            const dict = I18N[getLang()] || {};
+            if (sub) {
+                sub.dataset.i18n = isJava ? 'guide_sub_java' : 'guide_sub_bedrock';
+                if (dict[sub.dataset.i18n] !== undefined) sub.textContent = dict[sub.dataset.i18n];
+            }
+            btn.dataset.i18n = isJava ? 'guide_switch_bedrock' : 'guide_switch_java';
+            if (dict[btn.dataset.i18n] !== undefined) btn.textContent = dict[btn.dataset.i18n];
+            // aria-pressed deja claro a un lector de pantalla en que version
+            // esta la guia, porque el texto del boton es el de la OTRA version.
+            btn.setAttribute('aria-pressed', isJava ? 'false' : 'true');
+        }
+        function toggleGuideEdition() {
+            const java = document.getElementById('guideJava');
+            if (!java) return;
+            setGuideEdition(java.classList.contains('hidden') ? 'java' : 'bedrock');
+        }
+        const _guideSwitchBtn = document.getElementById('guideSwitchBtn');
+        if (_guideSwitchBtn) _guideSwitchBtn.addEventListener('click', toggleGuideEdition);
         // ================= Cambio de idioma (ES/EN) =================
         const I18N = {
             es: {
+                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
+                cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
+                btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
+                btn_cancelar: 'Cancelar', btn_cerrar: 'Cerrar', btn_enviar: 'Enviar',
+                btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
+                btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
+                btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
+                faq_title: 'Preguntas frecuentes',
+                err_carga: 'No se ha podido cargar. Recarga la página.',
+                err_red: 'Sin conexión. Comprueba tu internet.',
+                err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
+                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
 why_c1_t: 'Para todos igual',
 why_c2_t: 'Staff que responde',
 why_c3_t: 'IP y acceso',
@@ -1641,8 +1769,26 @@ guide_java_3a: 'Pulsa',
 guide_java_3b: 'Agregar servidor',
 guide_java_4: 'Escribe',
 guide_java_4b: 'en la dirección.',
-guide_java_5a: 'Pulsa',
-guide_java_5b: 'Hecho',
+                guide_java_5a: 'Pulsa',
+                guide_java_5b: 'Hecho',
+                guide_sub_java: 'Sigue estos pasos para entrar desde Minecraft Java Edition.',
+                guide_bedrock_title: 'Minecraft Bedrock',
+                guide_bedrock_sub: 'Consolas, móvil y Windows',
+                guide_bedrock_1: 'Abre Minecraft Bedrock Edition.',
+                guide_bedrock_2a: 'Ve a',
+                guide_bedrock_2b: 'Jugar',
+                guide_bedrock_3a: 'En',
+                guide_bedrock_3b: 'Servidores',
+                guide_bedrock_3c: 'pulsa',
+                guide_bedrock_3d: 'Añadir servidor',
+                guide_bedrock_4: 'Escribe',
+                guide_bedrock_4b: 'en la dirección.',
+                guide_bedrock_5a: 'Pulsa',
+                guide_bedrock_5b: 'Guardar',
+                guide_bedrock_5c: 'y entra.',
+                guide_sub_bedrock: 'Sigue estos pasos para entrar desde Minecraft Bedrock Edition.',
+                guide_switch_bedrock: '⟲ Bedrock',
+                guide_switch_java: '⟳ Java',
 btn_copy_ip: 'Próximamente',
 why_title: '¿Qué diferencia hay en Odissey a otros servidores?',
 why_p1: 'Odissey no es un servidor más. Mientras muchos lugares venden ventajas que aplastan a los nuevos, aquí construimos una comunidad donde todos empiezan con las mismas oportunidades y cada hora invertida se siente. Nuestro mundo es un lienzo vivo: construye tu base junto al mar, hazte con los mejores kits, abre cofres con llaves infernales y decide tu propio camino hacia la leyenda.',
@@ -1663,7 +1809,7 @@ report_submit_btn: 'Enviar reporte',
 cb_decline: 'Rechazar',
 cb_accept: 'Aceptar',
     skip_link: 'Ir al contenido',
-                nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_noticias: 'Noticias',
+                nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_wiki: 'Wiki', nav_perfil: 'Perfil', nav_noticias: 'Noticias', nav_foro: 'Foro',
                 nav_soporte: 'Soporte', nav_tienda: 'Tienda', nav_entrar: 'Entrar',
                 discord_box_title: 'Comunidad activa en Discord', guide_to_discord: 'Únete a nuestro Discord', guide_title: 'Cómo entrar al servidor',
                 hero_click_copy: 'haz click para copiar',
@@ -1673,9 +1819,7 @@ cb_accept: 'Aceptar',
                 discord_box_btn: 'Abrir Discord',
                 discord_w_people: 'personas conectadas', discord_w_people1: 'persona conectada',
                 discord_w_channels: 'canales', discord_w_empty: 'vacío', discord_w_join: 'Unirme',
-                login_title: 'Conecta con Discord',
-                login_sub: 'Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito. Debes estar dentro del Discord de Odissey.',
-                login_discord_btn: 'CONECTAR CON DISCORD', close: 'Cerrar',
+                close: 'Cerrar',
                 account_title: 'Cuenta de', nav_logout: 'Cerrar sesión', account_cart_of: 'Carrito de', currency_label: 'Moneda:',
                 cart_total: 'Total:', cart_checkout: 'REALIZAR PEDIDO',
                 my_orders_title: 'Mis pedidos', no_orders: 'Aún no tienes pedidos.',
@@ -1684,6 +1828,21 @@ cb_accept: 'Aceptar',
                 new_pill: 'NUEVO', staff_replied: 'El staff respondió a tu ticket #',
             },
             en: {
+                cta_jugar: 'Join the server', cta_discord: 'Join our Discord',
+                cta_tienda: 'See the store', cta_entrar: 'Log in', cta_salir: 'Log out',
+                cta_registro: 'Create account', cta_entrar_cuenta: 'Log in to my account',
+                btn_entrar: 'Log in', btn_crear: 'Create account', btn_guardar: 'Save',
+                btn_cancelar: 'Cancel', btn_cerrar: 'Close', btn_enviar: 'Send',
+                btn_copiar: 'Copy', btn_volver: 'Back', btn_salir: 'Log out',
+                btn_soporte: 'Get support', btn_reportar: 'Report a player',
+                btn_valorar: 'Rate', btn_comprar: 'Buy', btn_carrito: 'Cart',
+                btn_menu: 'Open menu', btn_whatsapp: 'Message us on WhatsApp',
+                menu_abrir: 'Open menu', menu_cerrar: 'Close menu',
+                faq_title: 'Frequently asked questions',
+                err_carga: 'Could not load. Reload the page.',
+                err_red: 'No connection. Check your internet.',
+                err_generico: 'Something went wrong. Try again.',
+                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
 why_c1_t: 'The same for everyone',
 why_c2_t: 'Staff who answers',
 why_c3_t: 'IP and access',
@@ -1699,8 +1858,26 @@ guide_java_3a: 'Click',
 guide_java_3b: 'Add Server',
 guide_java_4: 'Type',
 guide_java_4b: 'in the address field.',
-guide_java_5a: 'Click',
-guide_java_5b: 'Done',
+                guide_java_5a: 'Click',
+                guide_java_5b: 'Done',
+                guide_sub_java: 'Follow these steps to join from Minecraft Java Edition.',
+                guide_bedrock_title: 'Minecraft Bedrock',
+                guide_bedrock_sub: 'Consoles, mobile and Windows',
+                guide_bedrock_1: 'Open Minecraft Bedrock Edition.',
+                guide_bedrock_2a: 'Go to',
+                guide_bedrock_2b: 'Play',
+                guide_bedrock_3a: 'In',
+                guide_bedrock_3b: 'Servers',
+                guide_bedrock_3c: 'tap',
+                guide_bedrock_3d: 'Add Server',
+                guide_bedrock_4: 'Type',
+                guide_bedrock_4b: 'in the address field.',
+                guide_bedrock_5a: 'Tap',
+                guide_bedrock_5b: 'Save',
+                guide_bedrock_5c: 'and join.',
+                guide_sub_bedrock: 'Follow these steps to join from Minecraft Bedrock Edition.',
+                guide_switch_bedrock: '⟲ Bedrock',
+                guide_switch_java: '⟳ Java',
 btn_copy_ip: 'Coming soon',
 why_title: 'What makes Odissey different from other servers?',
 why_p1: 'Odissey is not just another server. While many places sell advantages that crush newcomers, here we build a community where everyone starts with the same chances and every hour you invest is felt. Our world is a living canvas: build your base by the sea, get the best kits, open chests with infernal keys and choose your own path to legend.',
@@ -1721,7 +1898,7 @@ report_submit_btn: 'Submit report',
 cb_decline: 'Reject',
 cb_accept: 'Accept',
     skip_link: 'Skip to content',
-                nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_noticias: 'News',
+                nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_wiki: 'Wiki', nav_perfil: 'Profile', nav_noticias: 'News', nav_foro: 'Forum',
                 nav_soporte: 'Support', nav_tienda: 'Shop', nav_entrar: 'Log in',
                 discord_box_title: 'Active Discord Community', guide_to_discord: 'Join our Discord', guide_title: 'How to join the server',
                 hero_click_copy: 'click to copy IP',
@@ -1731,9 +1908,7 @@ cb_accept: 'Accept',
                 discord_box_btn: 'Open Discord',
                 discord_w_people: 'people online', discord_w_people1: 'person online',
                 discord_w_channels: 'channels', discord_w_empty: 'empty', discord_w_join: 'Join',
-                login_title: 'Connect with Discord',
-                login_sub: 'Link your Discord account to manage your tickets, reports and cart. You must be inside the Odissey Discord.',
-                login_discord_btn: 'CONNECT WITH DISCORD', close: 'Close',
+                close: 'Close',
                 account_title: 'Account of', nav_logout: 'Log out', account_cart_of: 'Cart of', currency_label: 'Currency:',
                 cart_total: 'Total:', cart_checkout: 'CHECKOUT',
                 my_orders_title: 'My orders', no_orders: 'You have no orders yet.',
@@ -1746,7 +1921,7 @@ cb_accept: 'Accept',
             return localStorage.getItem('odissey_lang') === 'en' ? 'en' : 'es';
         }
         function flagIcon(lang) {
-            return '<img class="lang-flag-img" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+            return '<img class="lang-flag-img" width="24" height="18" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
         }
         function applyLang() {
             const lang = getLang();
@@ -1755,6 +1930,10 @@ cb_accept: 'Accept',
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
                 if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                const k = el.dataset.i18nAria;
+                if (dict[k] !== undefined) el.setAttribute('aria-label', dict[k]);
             });
             const langBtn = document.getElementById('langBtn');
             if (langBtn) langBtn.innerHTML = flagIcon(lang);
@@ -1767,7 +1946,7 @@ function toggleLang() {
             renderDiscordWidget();
         }
         function getTheme() {
-            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+            return false ? 'light' : 'dark';
         }
         function applyTheme() {
             const light = getTheme() === 'light';
@@ -1816,24 +1995,102 @@ function toggleLang() {
             }
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=26').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=144').catch(() => { });
         }
     </script>
 <!-- Aviso de cookies -->
+<!-- Aviso de cookies. Tarjeta de Uiverse.io (ilkhoeri), adaptada a los
+     colores del sitio: en vez de fondo blanco, la misma tarjeta en negro. -->
 <style>
-#cookie-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:480px;margin:0 auto;background:linear-gradient(135deg,rgba(var(--od-glass-rgb,10,16,30),.97),rgba(var(--od-marine-darker-rgb,10,16,30),.94));border:1px solid rgba(var(--od-border-rgb,51,65,85),.6);border-radius:14px;padding:16px 18px;box-shadow:0 10px 40px rgba(var(--od-shadow-rgb,10,16,30),.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--od-text-light,#f8fafc);font-family:inherit;opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease;max-height:calc(100vh - 32px);overflow:auto}
+#cookie-banner{
+  position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;
+  width:calc(100% - 32px);max-width:340px;margin:0 auto;
+  color:var(--od-text-light,#fff);font-family:inherit;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .4s ease,transform .4s cubic-bezier(.16,1,.3,1);
+}
+/* La tarjeta es el hijo de dentro. El contenedor NO lleva overflow:hidden
+   porque la galleta tiene que asomar por arriba; si lo lleva, la galleta
+   se ve cortada justo por la linea del borde. */
+#cookie-banner .cb-inner{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:44px 24px 24px;
+  background:linear-gradient(160deg,#141414,#080808);
+  border:1px solid rgba(234,179,8,.22);
+  border-radius:22px;
+  box-shadow:0 1px 2px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.6);
+}
+/* La galleta vive fuera de la tarjeta, en el contenedor sin recortar,
+   y sube con margen negativo. Asi se ve entera por encima del borde. */
+#cookie-banner .cb-icon{
+  position:absolute;top:0;left:50%;transform:translate(-50%,-58%);
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.55));
+  pointer-events:none;
+}
 #cookie-banner.show{opacity:1;transform:translateY(0)}
-#cookie-banner .cb-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--od-gold-light,#fde68a);margin-bottom:8px}
-#cookie-banner .cb-text{font-size:13px;line-height:1.55;color:var(--od-text-dark,#cbd5e1);margin-bottom:14px}
-#cookie-banner .cb-text a{color:var(--od-marine-accent,#eab308);text-decoration:underline}
-#cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+#cookie-banner .cb-icon svg{display:block;width:65px;height:46px}
+#cookie-banner .cb-title{
+  font-size:.9375rem;font-weight:600;line-height:1.35;margin:0 0 8px;
+  color:#f5f5f5;text-align:left;width:100%;
+}
+#cookie-banner .cb-text{
+  font-size:.875rem;line-height:1.6;margin:0 0 16px;width:100%;
+  color:#a3a3a3;text-align:justify;
+}
+#cookie-banner .cb-text a{
+  color:#eab308;text-decoration:underline;text-underline-offset:2px;
+  transition:color .2s ease;
+}
+#cookie-banner .cb-text a:hover{color:#fde68a}
+/* "Rechazar" va al pie a la izquierda, como el More Options de la original */
+#cookie-banner .cb-decline{
+  font-size:.875rem;font-weight:600;cursor:pointer;
+  color:#a3a3a3;background:none;border:0;padding:8px 0;margin:0;
+  align-self:flex-start;
+  transition:color .2s ease;
+}
+#cookie-banner .cb-decline:hover{color:#eab308;text-decoration:underline;text-underline-offset:2px}
+/* "Aceptar" en la esquina, como el boton solido de la original */
+#cookie-banner .cb-accept{
+  position:absolute;right:24px;bottom:24px;
+  font-size:.875rem;font-weight:600;cursor:pointer;
+  padding:10px 26px;border:0;border-radius:12px;
+  color:#1a1403;background:#eab308;
+  transition:background .2s ease,color .2s ease;
+}
+#cookie-banner .cb-accept:hover{background:#fde68a}
+#cookie-banner .cb-accept:focus-visible,
+#cookie-banner .cb-decline:focus-visible{outline:2px solid #fde68a;outline-offset:2px}
+@media (max-width:400px){
+  #cookie-banner{max-width:none;bottom:12px;left:12px;right:12px;width:auto}
+  #cookie-banner .cb-inner{padding:40px 18px 20px;border-radius:18px}
+  #cookie-banner .cb-accept{right:18px;bottom:20px;padding:10px 20px}
+  /* El texto justificado en columnas estrechas abre huecos enormes
+     entre palabras. Alineado a la izquierda se lee mejor. */
+  #cookie-banner .cb-text{text-align:left}
+  #cookie-banner .cb-title{font-size:1rem}
+}
 </style>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
-  <div class="cb-head">🍪</div>
-  <div class="cb-text"></div>
-  <div class="cb-actions">
-    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
-    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+  <span class="cb-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="46" width="65" viewBox="0 0 65 46" aria-hidden="true">
+        <path stroke="#000" stroke-width="1.2" fill="#EAB789" d="M49.157 15.69L44.58.655l-12.422 1.96L21.044.654l-8.499 2.615-6.538 5.23-4.576 9.153v11.114l4.576 8.5 7.846 5.23 10.46 1.96 7.845-2.614 9.153 2.615 11.768-2.615 7.846-7.846 1.96-5.884.655-7.191-7.846-1.308-6.537-3.922z"/>
+        <path fill="#9C6750" clip-rule="evenodd" fill-rule="evenodd" d="M32.286 3.749c-6.94 3.65-11.69 11.053-11.69 19.591 0 8.137 4.313 15.242 10.724 19.052a20.513 20.513 0 01-8.723 1.937c-11.598 0-21-9.626-21-21.5 0-11.875 9.402-21.5 21-21.5 3.495 0 6.79.874 9.689 2.42z"/>
+        <path fill="#634647" d="M64.472 20.305a.954.954 0 00-1.172-.824 4.508 4.508 0 01-3.958-.934.953.953 0 00-1.076-.11c-.46.252-.977.383-1.502.382a3.154 3.154 0 01-2.97-2.11.954.954 0 00-.833-.634 4.54 4.54 0 01-4.205-4.507c.002-.23.022-.46.06-.687a.952.952 0 00-.213-.767 3.497 3.497 0 01-.614-3.5.953.953 0 00-.382-1.138 3.522 3.522 0 01-1.5-3.992.951.951 0 00-.762-1.227A22.611 22.611 0 0032.3 2.16 22.41 22.41 0 0022.657.001a22.654 22.654 0 109.648 43.15 22.644 22.644 0 0032.167-22.847zM22.657 43.4a20.746 20.746 0 110-41.493c2.566-.004 5.11.473 7.501 1.407a22.64 22.64 0 00.003 38.682 20.6 20.6 0 01-7.504 1.404zm19.286 0a20.746 20.746 0 112.131-41.384 5.417 5.417 0 001.918 4.635 5.346 5.346 0 00-.133 1.182A5.441 5.441 0 0046.879 11a5.804 5.804 0 00-.028.568 6.456 6.456 0 005.38 6.345 5.053 5.053 0 006.378 2.472 6.412 6.412 0 004.05 1.12 20.768 20.768 0 01-20.716 21.897z"/>
+        <path fill="#644647" d="M54.962 34.3a17.719 17.719 0 01-2.602 2.378.954.954 0 001.14 1.53 19.637 19.637 0 002.884-2.634.955.955 0 00-1.422-1.274z"/>
+        <path stroke-width="1.8" stroke="#644647" fill="#845556" d="M44.5 32.829c-.512 0-1.574.215-2 .5-.426.284-.342.263-.537.736a2.59 2.59 0 104.98.99c0-.686-.458-1.241-.943-1.726-.485-.486-.814-.5-1.5-.5zm-30.916-2.5c-.296 0-.912.134-1.159.311-.246.177-.197.164-.31.459a1.725 1.725 0 00-.086.932c.058.312.2.6.41.825.21.226.477.38.768.442.291.062.593.03.867-.092s.508-.329.673-.594a1.7 1.7 0 00.253-.896c0-.428-.266-.774-.547-1.076-.281-.302-.471-.31-.869-.311zm17.805-11.375c-.143-.492-.647-1.451-1.04-1.78-.392-.33-.348-.255-.857-.31a2.588 2.588 0 10.441 5.06c.66-.194 1.064-.788 1.395-1.39.33-.601.252-.92.06-1.58zm-22 2c-.143-.492-.647-1.451-1.04-1.78-.391-.33-.347-.255-.856-.31a2.589 2.589 0 10.44 5.06c.66-.194 1.064-.788 1.395-1.39.33-.601.252-.92.06-1.58zM38.112 7.329c-.395 0-1.216.179-1.545.415-.328.236-.263.218-.415.611-.151.393-.19.826-.114 1.243.078.417.268.8.548 1.1.28.301.636.506 1.024.59.388.082.79.04 1.155-.123.366-.163.678-.438.898-.792.22-.354.337-.77.337-1.195 0-.57-.354-1.031-.73-1.434-.374-.403-.628-.415-1.158-.415zm-19.123.703c.023-.296-.062-.92-.219-1.18-.157-.26-.148-.21-.432-.347a1.726 1.726 0 00-.922-.159 1.654 1.654 0 00-.856.344 1.471 1.471 0 00-.501.73c-.085.285-.077.589.023.872.1.282.287.532.538.718a1.7 1.7 0 00.873.323c.427.033.793-.204 1.116-.46.324-.256.347-.445.38-.841z"/>
+        <path fill="#634647" d="M15.027 15.605a.954.954 0 00-1.553 1.108l1.332 1.863a.955.955 0 001.705-.77.955.955 0 00-.153-.34l-1.331-1.861z"/>
+        <path fill="#644647" d="M43.31 23.21a.954.954 0 101.553-1.11l-1.266-1.772a.954.954 0 10-1.552 1.11l1.266 1.772z"/>
+        <path fill="#644647" d="M19.672 35.374a.954.954 0 00-.954.953v2.363a.954.954 0 001.907 0v-2.362a.954.954 0 00-.953-.954z"/>
+        <path fill="#644647" d="M33.129 29.18l-2.803 1.065a.953.953 0 00-.053 1.764.957.957 0 00.73.022l2.803-1.065a.953.953 0 00-.677-1.783v-.003zm24.373-3.628l-2.167.823a.956.956 0 00-.054 1.764.954.954 0 00.73.021l2.169-.823a.954.954 0 10-.678-1.784v-.001z"/>
+      </svg>
+    </span>
+  <div class="cb-inner">
+    <h5 class="cb-title"></h5>
+    <p class="cb-text"></p>
+    <button type="button" class="cb-decline" data-cb="decline"></button>
+    <button type="button" class="cb-accept" data-cb="accept"></button>
   </div>
 </div>
 <script>
@@ -1844,19 +2101,102 @@ function toggleLang() {
     var set = function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } };
     if (get('odissey_cookie_consent')) return;
     var en = get('odissey_lang') === 'en';
-    b.querySelector('.cb-head').textContent = en ? '🍪 We use cookies' : '🍪 Usamos cookies';
+
+    b.querySelector('.cb-title').textContent = en
+        ? 'Your privacy matters to us'
+        : 'Tu privacidad nos importa';
     b.querySelector('.cb-text').innerHTML = en
         ? 'This site uses cookies to remember your preferences (language and theme). We do not sell data to third parties. More info on our <a href="privacidad.html">privacy policy</a>.'
         : 'Este sitio usa cookies para recordar tus preferencias (idioma y tema). No vendemos datos a terceros. Más información en nuestra <a href="privacidad.html">política de privacidad</a>.';
+
     var accept = b.querySelector('[data-cb="accept"]');
     var decline = b.querySelector('[data-cb="decline"]');
     accept.textContent = en ? 'Accept' : 'Aceptar';
+    /* El boton secundario se queda con la etiqueta real de la Uiverse
+       ("Mas opciones") SOLO si abre un panel de preferencias, que aqui no
+       existe. Como lo que hace es rechazar, tiene que decir "Rechazar":
+       un boton que rechaza no puede llamarse "mas opciones". */
     decline.textContent = en ? 'Reject' : 'Rechazar';
-    function pick(v) { set('odissey_cookie_consent', v); b.style.opacity = '0'; b.style.transform = 'translateY(12px)'; setTimeout(function () { b.remove(); }, 350); }
+
+    function pick(v) {
+        set('odissey_cookie_consent', v);
+        b.style.opacity = '0';
+        b.style.transform = 'translateY(16px)';
+        setTimeout(function () { b.remove(); }, 400);
+    }
     accept.addEventListener('click', function () { pick('accepted'); });
     decline.addEventListener('click', function () { pick('rejected'); });
     b.classList.add('show');
 })();
 </script>
-</body>
+<script>
+/* Bloquea el scroll del fondo mientras haya un modal abierto y lo
+   devuelve al cerrar. Se apoya en MutationObserver porque estos modales
+   se abren y cierran cambiando clases, no con eventos propios. */
+(function () {
+    var bloqueado = false;
+    function aplicar() {
+        var abierto = hayModal();
+        if (abierto === bloqueado) return;
+        bloqueado = abierto;
+        if (abierto) {
+            document.body.style.overflow = "hidden";
+            document.body.classList.add("od-scroll-locked");
+        } else {
+            document.body.style.overflow = "";
+            document.body.classList.remove("od-scroll-locked");
+        }
+    }
+    function hayModal() {
+        var m = document.querySelectorAll('[aria-modal="true"]');
+        for (var i = 0; i < m.length; i++) {
+            // si tiene la clase hidden esta cerrado, aunque el CSS todavia
+            // no la haya aplicado (Tailwind llega por CDN y tarde)
+            if (m[i].classList.contains("hidden")) continue;
+            if (m[i].getAttribute("aria-hidden") === "true") continue;
+            if (m[i].getClientRects().length > 0) return true;
+        }
+        return false;
+    }
+    var pendiente = false;
+    function pedir() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(function () {
+            pendiente = false;
+            aplicar();
+        });
+    }
+    new MutationObserver(pedir).observe(document.body, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["class", "style"],
+    });
+    document.addEventListener("click", pedir);
+    document.addEventListener("keyup", pedir);
+    window.addEventListener("resize", pedir);
+    // el primer analisis espera a que la pagina este pintada, para que
+    // Tailwind ya haya aplicado las clases hidden
+    if (document.readyState === "complete") setTimeout(aplicar, 200);
+    else window.addEventListener("load", function () { setTimeout(aplicar, 200); });
+    setTimeout(aplicar, 1200);
+})();
+</script>
+    <script src="js/search.js?v=144"></script>
+    <!-- Cloudflare Turnstile: aporta OdisseyTurnstile. Va antes de auth.js porque
+     auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
+     no esta aqui, vive en el bot (odisseymc.site/bot). -->
+    <script src="js/turnstile.js?v=144" defer></script>
+    <script src="auth.js?v=144"></script>
+<script src="js/analitica.js?v=144"></script>
+<script src="js/formulario.js?v=144"></script>
+<script src="js/dala-art.js?v=144"></script>
+<script src="js/dala-hero.js?v=144"></script>
+    <script>window.DalaHero && DalaHero.create(document.getElementById('dalaConstellation'));</script>
+    <script src="js/dala-bg.js?v=144"></script>
+    <script src="js/dala-menu.js?v=144"></script>
+    <script src="js/dala-auth-steve.js?v=144"></script>
+<script src="js/dala-liquid.js?v=144"></script>
+        <script src="js/dala-nav.js?v=144"></script>
+    </body>
 </html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--
+    gracias.html — la pagina que se ve despues de enviar un formulario.
+
+    POR QUE EXISTE
+    --------------
+    Antes, al enviar un reporte o una valoracion salia un aviso
+    verde y ya. Con eso pasa una de dos cosas:
+
+      a) El visitante no sabe si se mando de verdad y lo manda otra
+         vez (y el staff recibe el mismo reporte dos veces).
+      b) Lo mando bien y se queda mirando el aviso sin saber que
+         ahora.
+
+    Esta pagina resuelve las dos: dice que ya esta hecho, explica
+    cuanto tarda el staff, y ofrece el siguiente paso. Ademas es una
+    pagina real que Google puede indexar, y por eso hay que
+    distinguirla del aviso generico.
+
+    NOTA SOBRE EL SEO
+    -----------------
+    Lleva noindex,follow a proposito. Es una pagina de utilidad
+    (nadie busca "pagina de gracias Odissey"), pero los buscadores
+    deben seguir los enlaces que tiene para no perder el resto del
+    sitio.
+-->
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Aplica el tema guardado antes de pintar, para que no haya
+        // un destello de color claro en una pagina oscura.
+        (function () {
+            try {
+                var t = localStorage.getItem('odissey_theme');
+                if (t === 'light') document.documentElement.classList.add('theme-light');
+            } catch (e) { }
+        })();
+    </script>
+
+    <title>Gracias - Odissey</title>
+    <meta name="description" content="Hemos recibido tu mensaje. El equipo de Odissey lo revisa y te responde lo antes posible.">
+    <!-- noindex: es una pagina de confirmacion, no contenido que buscar.
+         follow: los buscadores deben poder llegar al resto desde aqui. -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://odisseymc.site/gracias">
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark light">
+    <link rel="manifest" href="manifest.json">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Odissey Minecraft Server">
+    <meta property="og:title" content="Gracias - Odissey">
+    <meta property="og:description" content="Hemos recibido tu mensaje.">
+    <meta property="og:url" content="https://odisseymc.site/gracias">
+    <meta property="og:image" content="https://odisseymc.site/img/og-image.jpg">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gracias - Odissey">
+    <meta name="twitter:description" content="Hemos recibido tu mensaje.">
+    <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
+
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
+    <link rel="stylesheet" href="css/texto-legal.css?v=144">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
+</head>
+
+<body>
+    <a href="#contenido" class="skip-link">Ir al contenido</a>
+    <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
+    <div class="overlay">
+        <nav class="nav-bar sticky top-0 z-50 w-full">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+                </a>
+                <div class="flex-1"></div>
+                <a href="./" class="nav-button nav-button-primary">
+                    <span>Volver al inicio</span>
+                </a>
+            </div>
+        </nav>
+
+        <main id="contenido" class="flex-1 w-full px-4 py-16 md:py-24">
+            <div class="max-w-2xl mx-auto text-center">
+
+                <!--
+                    El icono se dibuja con CSS, no es una imagen: son
+                    200 bytes en vez de 20 KB, y se ve igual de bien a
+                    cualquier tamaño.
+                -->
+                <div class="gracias-icono mx-auto mb-8" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12.5 9 17.5 20 6.5" />
+                    </svg>
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-extrabold text-marine-accent mb-4">
+                    <span id="gracias-titulo">Gracias por avisar</span>
+                </h1>
+
+                <p class="text-text-light text-base md:text-lg leading-relaxed mb-3">
+                    <span id="gracias-linea1">Ya hemos recibido tu mensaje.</span>
+                </p>
+                <p class="text-text-dark text-sm md:text-base leading-relaxed mb-10">
+                    <span id="gracias-linea2">El equipo de Odissey lo revisa y te responde lo antes posible.</span>
+                </p>
+
+                <!--
+                    El aviso se lee de la URL (?tipo=reporte) para poder
+                    decir "gracias por avisar" o "gracias por tu
+                    valoracion" sin tener que escribir tres paginas
+                    distintas. Un texto fijo para tres sitios distintos
+                    acaba mintiendo en alguno.
+
+                    Aqui no hay nada secreto en la URL: es solo una
+                    palabra que decide que frase poner. Lo que se
+                    comprueba de verdad es el resultado, no esto.
+                -->
+                <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+                    <a href="soporte.html" class="btn3d">
+                        <span>Volver a soporte</span>
+                    </a>
+                    <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer"
+                        class="nav-button nav-button-secondary">
+                        <span>Preguntar en el Discord</span>
+                    </a>
+                </div>
+
+                <p class="text-text-dark text-xs leading-relaxed max-w-lg mx-auto">
+                    Si en unas horas no tienes noticias, es que ya se
+                    está revisando: los tickets se atienden por orden de
+                    llegada, no de prioridad.
+                </p>
+            </div>
+        </main>
+
+        <footer class="w-full px-4 py-10 border-t border-marine-light/10">
+            <p class="text-center text-xs text-text-dark/80">
+                © 2026 Odissey. Todos los derechos reservados.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs">
+                <a href="terminos.html" class="text-text-dark hover:text-marine-accent">Términos y condiciones</a>
+                <a href="privacidad.html" class="text-text-dark hover:text-marine-accent">Política de privacidad</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* Que frase poner segun de donde venga el visitante.
+               Todo el texto es fijo y esta en el HTML de al lado
+               (los data-texto), asi que no hay nada dinamico que
+               pueda acabar en la pagina sin escapar. */
+            var FRASES = {
+                reporte: ['Gracias por avisar', 'Ya hemos recibido tu reporte.', 'El staff lo revisa y te responde lo antes posible.'],
+                valoracion: ['Gracias por valorar', 'Tu opinion ya esta guardada.', 'Ayuda a que la comunidad sepa a quien fiarse.'],
+                soporte: ['Gracias por escribir', 'Ya hemos recibido tu mensaje.', 'Te contestamos por Discord lo antes posible.'],
+                compra: ['Gracias por tu compra', 'Ya estamos preparando tu pedido.', 'Lo recibiras en el juego en cuanto entremos.'],
+                postulacion: ['Gracias por postularte', 'Ya hemos recibido tu solicitud.', 'El staff la revisa y te avisa por Discord.'],
+                general: ['Gracias por avisar', 'Ya hemos recibido tu mensaje.', 'El equipo de Odissey lo revisa y te responde lo antes posible.']
+            };
+
+            var tipo = 'general';
+            try {
+                var t = new URLSearchParams(location.search).get('tipo');
+                // Solo se acepta un valor de esta lista. Cualquier otra
+                // cosa (o nada) cae en "general", que es texto fijo.
+                if (t && Object.prototype.hasOwnProperty.call(FRASES, t)) tipo = t;
+            } catch (e) { }
+
+            var f = FRASES[tipo];
+            var set = function (id, texto) {
+                var el = document.getElementById(id);
+                if (el) el.textContent = texto;
+            };
+            set('gracias-titulo', f[0]);
+            set('gracias-linea1', f[1]);
+            set('gracias-linea2', f[2]);
+        })();
+    </script>
+    <script src="js/dala-bg.js?v=144"></script>
+</body>
+
+</html>

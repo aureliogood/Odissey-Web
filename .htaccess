@@ -1,8 +1,22 @@
 # =============================================================
-#  Odissey - configuracion de Apache (cPanel / LiteSpeed)
+#  Odissey - configuracion de Apache / LiteSpeed (cPanel)
 # -------------------------------------------------------------
 #  IMPORTANTE: no tocar la ruta /bot (app Node.js). /bot no esta
 #  en la lista blanca de URLs, asi que este archivo no la afecta.
+#
+#  Que hace este archivo, por bloques:
+#    1. Charset y tipos MIME
+#    2. Redireccion HTTPS
+#    3. URLs limpias (oculta .html) - solo lista blanca
+#    4. Compresion
+#    5. Cache en el navegador
+#    6. Cabeceras de seguridad
+#    7. Content-Security-Policy
+#    8. Ficheros que no se deben servir
+#    9. Sin ejecucion de codigo en carpetas de contenido
+#   10. Rate limit basico por IP
+#   11. Paginas de error propias
+#   12. Seguridad basica del servidor
 # =============================================================
 
 # -------------------------------------------------------------
@@ -11,27 +25,61 @@
 AddDefaultCharset UTF-8
 
 # -------------------------------------------------------------
-# 2. Tipo MIME de .webp
+# 1.b Tipo MIME de .webp
 #    Sin esto Apache 2.4 puede servirlo como application/octet-stream
 #    y el <img> no lo muestra. Los .png/.jpg ya los conoce.
 # -------------------------------------------------------------
 <IfModule mod_mime.c>
   AddType image/webp .webp
   AddType image/jpeg .jpg .jpeg
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+  AddType application/xml .xml
 </IfModule>
 
 # -------------------------------------------------------------
-# 3. URLs limpias (oculta .html) - SOLO lista blanca
+# 2. REDIRECCION A HTTPS (forzar cifrado)
 # -------------------------------------------------------------
+#  Por que no un unconditional RewriteRule: detras de Cloudflare u
+#  otro proxy, %{HTTPS} llega como "off" porque la conexion entre el
+#  proxy y el servidor es http. Si redirigimos ahi, se monta un bucle
+#  de redireccion y la web no carga. Mirando X-Forwarded-Proto se sabe
+#  si el visitante entro de verdad por https.
+#
+#  - Si el servidor ya tiene SSL de cPanel activo, %{HTTPS}=on y
+#    todo lo de abajo es un no-op (no hay doble redireccion).
+#  - Si estas detras de Cloudflare con SSL Flexible, no actives esto:
+#    dejalo comentado y deja que HSTS (bloque 6) haga el trabajo.
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # 2.a Redirigir http -> https, excepto si ya viene cifrado de origen.
+  #
+  #  Las llaves van con barra delante porque Apache usa PCRE para esto y
+  #  una llave suelta se interpreta como el principio de un cuantificador
+  #  ("{2,4}" = repetir de 2 a 4 veces). Con las barras, la llave es una
+  #  llave y el texto se compara tal cual.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteCond %{HTTP:CF-Visitor} !^\{"scheme":"https"\}
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # 2.b Sin www. Sin esto, https://www.odisseymc.site/tienda y
+  # https://odisseymc.site/tienda son dos URLs distintas y Google las
+  # indexa como contenido duplicado. Se deja una sola version.
+  # (Quitar la linea si se prefiere el www como version principal.)
+  RewriteCond %{HTTP_HOST} ^www\.odisseymc\.site$ [NC]
+  RewriteRule ^ https://odisseymc.site%{REQUEST_URI} [R=301,L]
+
+  # -------------------------------------------------------------
+  # 3. URLs limpias (oculta .html) - SOLO lista blanca
+  # -------------------------------------------------------------
   # Migrar enlaces viejos con .html -> URL limpia (301)
   RewriteCond %{THE_REQUEST} \.html\s
-  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|admin|privacidad|terminos)\.html$ /$1 [R=301,L]
+  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)\.html$ /$1 [R=301,L]
 
   # Servir .html en segundo plano para las URLs limpias (solo paginas conocidas)
-  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|admin|privacidad|terminos)/?$ $1.html [L]
+  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)/?$ $1.html [L]
 </IfModule>
 
 # -------------------------------------------------------------
@@ -43,7 +91,7 @@ AddDefaultCharset UTF-8
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
   AddOutputFilterByType DEFLATE application/javascript application/x-javascript
-  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE application/json application/xml application/manifest+json
   AddOutputFilterByType DEFLATE image/svg+xml font/woff font/woff2
   # (imagenes fuera a proposito: webp, jpg, png, ico, avif)
 
@@ -62,43 +110,275 @@ AddDefaultCharset UTF-8
 # -------------------------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
+  # El HTML se controla en el bloque 6 con Cache-Control (aqui solo
+  # los estaticos).
   ExpiresDefault                          "access plus 1 week"
 
   ExpiresByType text/html                 "access plus 0 seconds"
   ExpiresByType application/javascript    "access plus 1 week"
   ExpiresByType text/css                  "access plus 1 week"
   ExpiresByType application/json         "access plus 1 day"
+  ExpiresByType application/xml          "access plus 1 week"
   ExpiresByType image/png                 "access plus 30 days"
   ExpiresByType image/jpeg                "access plus 30 days"
   ExpiresByType image/webp                "access plus 30 days"
+  ExpiresByType image/avif                "access plus 30 days"
   ExpiresByType image/svg+xml             "access plus 30 days"
   ExpiresByType image/x-icon              "access plus 30 days"
-</IfModule>
-
-<IfModule mod_headers.c>
-  <FilesMatch "\.(png|jpg|jpeg|webp|svg|ico|woff2?)$">
-    Header set Cache-Control "public, max-age=2592000"
-  </FilesMatch>
-  <FilesMatch "\.(css|js|json)$">
-    Header set Cache-Control "public, max-age=604800"
-  </FilesMatch>
-  <FilesMatch "\.html?$">
-    Header set Cache-Control "no-cache, must-revalidate"
-  </FilesMatch>
-
-  # Cabeceras de seguridad basicas
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  ExpiresByType font/woff2                "access plus 1 year"
 </IfModule>
 
 # -------------------------------------------------------------
-# 6. Pagina de error 404 propia
+# 6. CABECERAS DE SEGURIDAD
+# -------------------------------------------------------------
+<IfModule mod_headers.c>
+  # --- 6.a Cache-Control fino ---
+  # El service worker es el que decide cuando se actualiza la cache. Que el
+  # navegador lo guarde una semana hacia que la version nueva del SW no llegue
+  # hasta que el usuario cierre todas las pestanas.
+  <FilesMatch "service-worker\.js$">
+    Header always set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # El HTML jamas se cachea, para que un F5 normal ya muestre la version
+  # nueva. Antes la regla era "\.html?$" (que en regex es "htm" + "l"
+  # opcional) y LiteSpeed no la aplicaba igual que Apache: /index.html la
+  # recibia y /admin.html se quedaba sin Cache-Control, con el HTML viejo
+  # servido al visitante.
+  <FilesMatch "\.html$">
+    Header always set Cache-Control "no-cache, must-revalidate"
+    Header always set X-Robots-Tag "index, follow, max-image-preview:large"
+  </FilesMatch>
+
+  <FilesMatch "\.(png|jpg|jpeg|webp|svg|ico|avif|woff2?)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|json)$">
+    # El ?v= que se pone en el enlace ya es la version: 1 semana de
+    # cache y sin "immutable", porque un despliegue nuevo reutiliza
+    # nombres de fichero y hay que poder invalidar.
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+
+  # --- 6.b X-Content-Type-Options (nosniff) ---
+  # Evita que el navegador ejecute un fichero interpreting un tipo MIME
+  # distinto del declarado. Por ejemplo, que un .txt con PHP dentro se
+  # llegue a ejecutar como script.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # --- 6.c X-Frame-Options (anti clickjacking) ---
+  # Impide que la web se incruste en un <iframe> de una pagina de
+  # terceros. SAMEORIGIN deja iframe solo desde el propio dominio, que
+  # es lo que necesita el widget de Discord... que va en iframe pero
+  # desde otro origen, asi que para el sitio es mejor negarlo.
+  Header always set X-Frame-Options "DENY"
+
+  # --- 6.d Referrer-Policy ---
+  # strict-origin-when-cross-origin: al pinchar en un enlace externo
+  # solo se manda el dominio (no la ruta ni la consulta), y al navegar
+  # dentro de la propia web si se manda todo. Asi el token de sesion,
+  # que va en la URL de algunas peticiones, no sale a terceros.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # --- 6.e Permissions-Policy (antes Feature-Policy) ---
+  # Apaga las APIs del navegador que el sitio no usa. Reduce superficie
+  # de ataque: nadie puede pedir camara, micro, geolocalizacion ni
+  # pagos desde un iframe nuestro.
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), interest-cohort=()"
+
+  # --- 6.f HSTS (forzar HTTPS en el navegador) ---
+  # max-age de 2 anos, includeSubDomains y preload. preload pide a los
+  # navegadores que_INCLUDEAN odisseymc.site en su lista interna de
+  # sitios solo-HTTPS, para que ni un solo paquete salga en claro ni en
+  # la primera visita. Para que el preload se conceda de verdad, el
+  # dominio tiene que cumplir: HTTPS valido, redirect a HTTPS, HSTS
+  # con max-age >= 31536000 y sin mixed content. Todo lo cual se
+  # cumple con este archivo + un certificado instalado.
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+  # --- 6.g Cabeceras de aislamiento (aislamiento del navegador) ---
+  # COOP: la web no puede serVentana de apertura de otra pagina
+  # (ataque de "tabnabbing" inverso, donde la pagina nueva toma el
+  # control de la ventana que la abrio).
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+
+  # CORP: nadie de otro origen puede cargar nuestros recursos con
+  # fetch/iframe/embed. Evita que otro sitio use nuestras imagenes
+  # (hotlinking) o que nos fragueen el ancho de banda.
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+
+  # --- 6.h X-Permitted-Cross-Domain-Policies ---
+  # Flash y Acrobat dejan de intentar leer ficheros cruzados. Atual
+  # nobody usa esas tecnologias, asi que se corta en seco.
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+
+  # --- 6.i No-cache de paginas de administracion ---
+  # El panel de admin nunca debe quedarse en una cache compartida ni
+  # en el disco del visitante con datos de sesion dentro.
+  <FilesMatch "^(admin|staffverificar)\.html$">
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, private"
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+  </FilesMatch>
+
+  # --- 6.j Cabeceras de diagnosticado ---
+  # X-Download-Options: en Internet Explorer/Edge antiguo, que no se
+  # auto-descarguen los ficheros.
+  Header always set X-Download-Options "noopen"
+  # Nota: no se pone una cabecera Link con rel=preload porque los recursos
+  # se piden con ?v=144 y una URL sin ese parametro se descargaria DOS
+  # veces (una con el preloaddel .htaccess y otra con la query del HTML).
+
+  # --- 6.k Cabecera de error CSP (reportar incidentes a un endpoint) ---
+  # Comentado a proposito: report-uri necesita un endpoint real que
+  # reciba POST. Si mas adelante montas uno, descomenta y pon la URL.
+  # Header always set Content-Security-Policy-Report-Only "default-src 'self'; report-uri /api/csp-report"
+
+  # -------------------------------------------------------------
+  # 7. CONTENT-SECURITY-POLICY
+  # -------------------------------------------------------------
+  # Sin esto, si alguien Conseguiera inyectar HTML en la pagina, el
+  # navegador ejecutaria el script. La CSP es la capa que lo evita.
+  #
+  # 'unsafe-inline' esta porque el sitio usa <script> y <style> en linea
+  # y manejadores onclick en el HTML (437 de ellos, casi todos heredados
+  # del diseno original). Aun asi bloquea lo que de verdad importa:
+  # que un atacante inyecte un script desde otro sitio (script-src).
+  #
+  # script-src NO lleva 'unsafe-eval': no se necesita para nada de la web.
+  # connect-src lleva 'self' porque la API del bot esta en otro origen.
+  #
+  # Las diferencias importantes respecto a la version anterior, todas
+  # eran bugs reales en produccion:
+  #   * frame-src ahora permite discord.com  -> el widget de Discord
+  #     estaba bloqueado en las 12 paginas que lo embeben.
+  #   * img-src ahora permite cdn.discordapp.com -> los avatares de
+  #     Discord de los usuarios salian rotos.
+  #   * img-src ahora permite placehold.co -> el onerror de las skins
+  #     de staff no podia cargar la imagen de reserva.
+  #   * mc-heads.net salia de script-src: de ahi solo se cargan
+  #     imagenes, nunca scripts. Era superficie de ataque gratis.
+  #   * frame-ancestors pasa de 'self' a 'none': con DENY en
+  #     X-Frame-Options no hacia falta dejar pasar el mismo dominio.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://mc-heads.net https://cdn.discordapp.com https://flagcdn.com https://placehold.co; connect-src 'self' https://odisseymc.site https://api.mcstatus.io https://open.er-api.com; frame-src 'self' https://discord.com; child-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content"
+</IfModule>
+
+# -------------------------------------------------------------
+# 8. FICHEROS QUE NO SE DEBEN SERVIR NUNCA
+# -------------------------------------------------------------
+# El listado de "Options -Indexes" no basta: con el nombre del fichero
+# se puede pedir cualquiera. Esto los bloquea uno a uno.
+# OJO: .txt NO se bloquea, porque robots.txt es un .txt y tiene que
+# servirse. Tampoco .json (manifest.json, ni .xml (sitemap.xml).
+<FilesMatch "^\.|\.(htaccess|htpasswd|ini|log|bak|old|orig|save|swp|swo|tmp|temp|sql|db|sqlite|cfg|conf|config|env|yml|yaml|ps1|bat|sh|py|rb|map|lock|zip|tar|gz|tgz|7z|rar|exe|dll|so|dylib)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# El historial de git entero, si alguien sube la carpeta .git por error.
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.git/.*
+# Historial de comandos, que en un hosting compartido es un peligro.
+RedirectMatch 404 /\.bash_history
+RedirectMatch 404 /\.ssh
+RedirectMatch 404 /\.env
+
+# Los ficheros de desarrollo no se sirven. package.js los deja fuera del
+# zip, pero si alguien sube la carpeta entera en lugar del zip, aqui
+# se quedan fuera igual.
+RedirectMatch 404 ^/dev-server\.js
+RedirectMatch 404 ^/package\.js
+RedirectMatch 404 ^/package\.bat
+RedirectMatch 404 ^/package\.ps1
+
+# El .zip que hay en la carpeta es el propio paquete de despliegue:
+# servirlo es descargarse el sitio entero con un solo enlace.
+RedirectMatch 404 /\.zip$
+
+# -------------------------------------------------------------
+# 9. SIN EJECUCION DE CODIGO EN CARPETAS DE CONTENIDO
+# -------------------------------------------------------------
+# Si alguna vez se suben ficheros a /img o /css (por ejemplo capturas
+# que sube un admin), el servidor no debe intentar ejecutarlos.
+#
+# Lo que se hace es quitarle el "manejador" (handler) a las
+# extensiones de codigo y forzar que se sirvan como texto plano.
+# Un .php subido por un atacante llega al visitante como texto: no se
+# ejecuta nunca. Es la misma tecnica que usa cPanel cuando tu hosting
+# es de solo HTML.
+#
+# Se ha evitado php_flag engine off a proposito: en LiteSpeed y en
+# algunos hostings shared, php_flag dentro de .htaccess produce un
+# error 500 si el modulo no coincide con el nombre esperado. Esto
+# funciona en Apache 2.2, 2.4 y LiteSpeed.
+<IfModule mod_mime.c>
+  RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .phar
+  RemoveHandler .py .pl .cgi .rb .jsp .asp .aspx .sh .lua
+  AddType text/plain .php .php3 .php4 .php5 .php7 .php8 .phtml .phar
+  AddType text/plain .py .pl .cgi .rb .jsp .asp .aspx .sh .lua
+</IfModule>
+<IfModule mod_mime.c>
+  # Los .htaccess de subcarpetas no se sirven nunca, ni aunque alguien
+  # suba una carpeta con su propio .htaccess dentro.
+  <FilesMatch "\.ht">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+# -------------------------------------------------------------
+# 10. RATE LIMIT BASICO POR IP (brute force)
+# -------------------------------------------------------------
+# El limite REAL de intentos de login tiene que hacerlo el bot
+# (ver SEGURIDAD.md, seccion "Rate limiting"). Lo que se puede hacer
+# aqui es frenear los escaneres automaticos que golpean
+# /wp-admin, /.env, /.git/config, phpmyadmin, etc. Son peticiones
+# que ningun visitante real hace nunca.
+<IfModule mod_rewrite.c>
+  # .htaccess de la raiz: las reglas de abajo solo se aplican a este
+  # directorio y sus hijos, no al sitio entero del hosting.
+  RewriteRule ^(\.git|\.env|\.ssh|wp-admin|wp-login|wp-content|cgi-bin|xmlrpc\.php|phpmyadmin|pma|adminer|vendor/phpunit) - [F,L]
+</IfModule>
+
+# -------------------------------------------------------------
+# 11. PAGINAS DE ERROR PROPIAS
 # -------------------------------------------------------------
 ErrorDocument 404 /404.html
 
 # -------------------------------------------------------------
-# 7. Seguridad basica
+# 12. SEGURIDAD BASICA DEL SERVIDOR
 # -------------------------------------------------------------
-Options -Indexes
+Options -Indexes -MultiViews
+
+# No expone el tipo de servidor en la pagina de error ni en las cabeceras.
+# ServerTokens y ServerSignature son directivas de servidor, no se
+# pueden cambiar desde .htaccess en la mayoria de hostings: hay que
+# ponerlas en el panel (cPanel > Seleccionar versión de PHP /
+# MultiPHP INI) o en el VirtualHost. Dejo aqui el resto de lo que
+# si funciona desde aqui.
+ServerSignature Off
+
+# Prohibir TRACE (metodo HTTP que rebota la peticion: solo sirve
+# para ataques de Cross-Site Tracing).
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_METHOD} TRACE
+  RewriteRule .* - [F,L]
+</IfModule>
+
+# -------------------------------------------------------------
+# 13. PERMISOS DE ARCHIVOS (equivalente a chmod)
+# -------------------------------------------------------------
+# En Linux, permisos recomendados (aplicar por FTP/cPanel o SSH):
+#     carpetaspublic_html  755  (rwxr-xr-x)
+#     ficheros public_html 644  (rw-r--r--)
+# El usuario del servidor web (www-data / nobody) NO debe tener
+# permiso de escritura en public_html. Los ficheros subidos por
+# usuarios (fotos de perfil, capturas de reportes) van a /uploads,
+# que es la UNICA carpeta con permiso de escritura:
+#     carpeta uploads      750  (rwxr-x---)
+#     ficheros uploads    640  (rw-r-----)
+# Y con el bloque 9 aplicado ahi, un .php subido se sirve como
+# texto, no se ejecuta. Este bloque ya se hereda al subdirectorio.

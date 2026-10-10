@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        document.documentElement.classList.toggle('theme-light', false);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var here = location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '/');
+            document.querySelectorAll('.nav-button[href]').forEach(function (a) {
+                var target = new URL(a.getAttribute('href'), location.href).pathname;
+                if (target === here) a.setAttribute('aria-current', 'page');
+            });
+        });
+    </script>
+<title>Foro - Odissey</title>
+  <link rel="canonical" href="https://odisseymc.site/foro">
+    <meta name="description" content="Foro de Odissey: noticias, eventos, reglas, wiki y galería del servidor en un solo sitio.">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Odissey Minecraft Server">
+    <meta property="og:title" content="Odissey - Servidor de Minecraft Java">
+    <meta property="og:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia odisea en comunidad.">
+    <meta property="og:image" content="https://odisseymc.site/img/og-image.jpg">
+    <meta property="og:url" content="https://odisseymc.site/foro">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Odissey - Servidor de Minecraft Java">
+    <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia leyenda en Odissey.">
+    <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
+    <link rel="stylesheet" href="css/search.css?v=144">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/foro.css?v=144">
+  <link rel="stylesheet" href="css/dala.css?v=144">
+    <link rel="stylesheet" href="css/dala-steve.css?v=144">
+    <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+        <script type="application/ld+json">
+{
+"@context":  "https://schema.org",
+"@graph":  [
+{
+"@type":  "WebSite",
+"@id":  "https://odisseymc.site/#website",
+"url":  "https://odisseymc.site/",
+"name":  "Odissey Minecraft Server",
+"inLanguage":  "es",
+"publisher":  {
+"@type":  "Organization",
+"@id":  "https://odisseymc.site/#org",
+"name":  "Odissey",
+"url":  "https://odisseymc.site/",
+"logo":  {
+"@type":  "ImageObject",
+"url":  "https://odisseymc.site/img/logo-web.webp",
+"width":  900,
+"height":  382
+}
+}
+},
+{
+"@type":  "DiscussionForumPosting",
+"@id":  "https://odisseymc.site/foro#pagina",
+"url":  "https://odisseymc.site/foro",
+"name":  "Foro de Odissey",
+"inLanguage":  "es",
+"isPartOf":  {
+"@id":  "https://odisseymc.site/#website"
+},
+"publisher":  {
+"@id":  "https://odisseymc.site/#org"
+}
+},
+{
+"@type":  "BreadcrumbList",
+"@id":  "https://odisseymc.site/foro#miga",
+"itemListElement":  [
+{
+"@type":  "ListItem",
+"position":  1,
+"name":  "Inicio",
+"item":  "https://odisseymc.site/"
+},
+{
+"@type":  "ListItem",
+"position":  2,
+"name":  "Foro"
+}
+]
+},
+{
+"@id":  "https://odisseymc.site/#website"
+}
+]
+}
+    </script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
+    <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
+    <link rel="stylesheet" href="css/turnstile.css?v=144">
+</head>
+<body>
+  <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
+    <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
+    <!-- Partículas doradas flotantes -->
+    <div class="page-particles" aria-hidden="true">
+        <span class="page-particle" style="left: 8%; top: 70%; animation-delay: 0s;"></span>
+        <span class="page-particle" style="left: 16%; top: 55%; animation-delay: 1.2s;"></span>
+        <span class="page-particle" style="left: 24%; top: 65%; animation-delay: 2.4s;"></span>
+        <span class="page-particle" style="left: 33%; top: 75%; animation-delay: 0.8s;"></span>
+        <span class="page-particle" style="left: 45%; top: 60%; animation-delay: 3.0s;"></span>
+        <span class="page-particle" style="left: 55%; top: 72%; animation-delay: 1.9s;"></span>
+        <span class="page-particle" style="left: 64%; top: 58%; animation-delay: 2.8s;"></span>
+        <span class="page-particle" style="left: 74%; top: 68%; animation-delay: 0.4s;"></span>
+        <span class="page-particle" style="left: 84%; top: 62%; animation-delay: 3.6s;"></span>
+        <span class="page-particle" style="left: 92%; top: 70%; animation-delay: 2.0s;"></span>
+    </div>
+    <div class="overlay">
+        <!-- Banner de mantenimiento (oculto por defecto) -->
+        <div id="maintenanceBanner"
+            class="hidden w-full bg-gold-dark text-always-light text-center text-sm font-semibold px-4 py-2">
+            <span id="maintenanceMsg"></span>
+        </div>
+        <!-- Sticky Navigation -->
+        <nav class="nav-bar sticky top-0 z-50 w-full">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+                </a>
+
+                <div class="nav-pill" role="navigation" aria-label="Secciones">
+                    <a href="tienda.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                            <a href="foro.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_foro">Foro</span></a>
+                            <a href="soporte.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                            <a href="reglas.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                            <a href="staff.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                            <a href="perfil.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                </div>
+
+                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
+                    <button type="button" id="cartBtn" onclick="openLoginModal()"
+                        class="nav-button nav-button-primary" title="Carrito" aria-label="Carrito">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+                        <span id="cartBadge" class="cart-count">0</span>
+                    </button>
+                    <button type="button" onclick="toggleLang()" id="langBtn"
+                        class="nav-button nav-button-secondary lang-btn" title="Cambiar idioma / Switch language"></button>
+                    <button type="button" onclick="toggleTheme()" id="themeBtn"
+                        class="nav-button nav-button-secondary flex items-center justify-center" title="Cambiar tema / Switch theme" aria-label="Cambiar tema">
+                        <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+                        <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                    <button type="button" id="menuBtn" onclick="toggleMenu()" aria-expanded="false"
+                        class="nav-button nav-button-secondary menu-toggle" title="Menú" aria-label="Abrir menú">
+                        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                    </button>
+                    <button type="button" id="enterNavBtn" onclick="openLoginModal()"
+                        class="nav-button nav-button-primary">
+                        <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
+                        <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <script>
+            function toggleMenu() {
+                const d = document.getElementById('menuDropdown');
+                if (!d) return;
+                if (d.classList.contains('hidden')) d.classList.remove('hidden');
+                else d.classList.add('hidden');
+            }
+            function closeMenu() {
+                const d = document.getElementById('menuDropdown');
+                if (d && !d.classList.contains('hidden')) toggleMenu();
+            }
+            document.addEventListener('click', function (e) {
+                const nav = document.querySelector('nav');
+                const d = document.getElementById('menuDropdown');
+                if (!d || d.classList.contains('hidden')) return;
+                if (nav && !nav.contains(e.target)) closeMenu();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        </script>
+        <main id="contenido" class="flex-grow">
+                        <div class="px-6 pt-6 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-button nav-button-secondary gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                    <span data-i18n="nav_back">Volver al inicio</span>
+                </a>
+            </div>
+<!-- Franja -->
+            <section class="foro-hero">
+                <div class="foro-hero-inner">
+                    <h1 class="foro-title" data-i18n="foro_title">Foro</h1>
+                    <p class="foro-lead" data-i18n="foro_sub">Noticias, eventos, reglas, wiki y galería de Odissey, todo en un solo sitio.</p>
+                <nav class="foro-chips">
+                    <a class="foro-chip" href="noticias.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_noticias">Noticias</span></a>
+                    <a class="foro-chip" href="eventos.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg><span data-i18n="nav_eventos">Eventos</span></a>
+                    <a class="foro-chip" href="reglas.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                    <a class="foro-chip" href="wiki.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7"/><path d="M9 11h5"/></svg><span data-i18n="nav_wiki">Wiki</span></a>
+                    <a class="foro-chip" href="galeria.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span data-i18n="nav_galeria">Galería</span></a>
+                </nav>
+                </div>
+            </section>
+
+            <div class="foro-wrap">
+
+                <div class="foro-panel">
+                    <div class="foro-columns" aria-hidden="true">
+                        <span></span>
+                        <span data-i18n="foro_col_tablero">Tablero</span>
+                        <span data-i18n="foro_col_contenido">Contenido</span>
+                        <span data-i18n="foro_ultima">Última actualización</span>
+                        <span></span>
+                    </div>
+
+                    <!-- Tableros oficiales -->
+                    <section class="foro-section">
+                        <h2 class="foro-section-title" data-i18n="foro_sec_oficial">Oficial</h2>
+
+                        <a class="foro-row" href="noticias.html">
+                            <span class="foro-row-icon"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg></span>
+                            <span>
+                                <span class="foro-row-title" data-i18n="nav_noticias">Noticias</span>
+                                <span class="foro-row-desc" data-i18n="foro_desc_noticias">Changelogs, actualizaciones y anuncios del servidor.</span>
+                            </span>
+                            <span class="foro-stat">
+                                <span class="foro-stat-num" data-foro-total="news"></span><span class="foro-stat-unit" data-foro-unit="news"></span>
+                            </span>
+                            <span class="foro-last">
+                                <span class="foro-last-value" data-foro-last="news"></span>
+                                <span class="foro-last-title" data-foro-last-title="news"></span>
+                            </span>
+                            <span class="foro-go"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+                        </a>
+
+                        <a class="foro-row" href="eventos.html">
+                            <span class="foro-row-icon"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+                            <span>
+                                <span class="foro-row-title" data-i18n="nav_eventos">Eventos</span>
+                                <span class="foro-row-desc" data-i18n="foro_desc_eventos">Torneos, sorteos y actividades de la comunidad.</span>
+                            </span>
+                            <span class="foro-stat">
+                                <span class="foro-stat-num" data-foro-total="events"></span><span class="foro-stat-unit" data-foro-unit="events"></span>
+                            </span>
+                            <span class="foro-last">
+                                <span class="foro-last-value" data-foro-last="events"></span>
+                                <span class="foro-last-title" data-foro-last-title="events"></span>
+                            </span>
+                            <span class="foro-go"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+                        </a>
+
+                        <a class="foro-row" href="reglas.html">
+                            <span class="foro-row-icon"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                            <span>
+                                <span class="foro-row-title" data-i18n="nav_reglas">Reglas</span>
+                                <span class="foro-row-desc" data-i18n="foro_desc_reglas">Normas del servidor y buenas prácticas de la comunidad.</span>
+                            </span>
+                            <span class="foro-stat">
+                                <span class="foro-stat-num">6</span><span class="foro-stat-unit" data-i18n="foro_label_secciones">secciones</span>
+                            </span>
+                            <span class="foro-last">
+                                <span class="foro-last-value" data-i18n="foro_reciente">Reciente</span>
+                            </span>
+                            <span class="foro-go"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+                        </a>
+
+                        <a class="foro-row" href="wiki.html">
+                            <span class="foro-row-icon"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7"/><path d="M9 11h5"/></svg></span>
+                            <span>
+                                <span class="foro-row-title" data-i18n="nav_wiki">Wiki</span>
+                                <span class="foro-row-desc" data-i18n="foro_desc_wiki">Guías, tutoriales y documentación del servidor.</span>
+                            </span>
+                            <span class="foro-stat">
+                                <span class="foro-stat-num">8</span><span class="foro-stat-unit" data-i18n="foro_label_paginas">páginas</span>
+                            </span>
+                            <span class="foro-last">
+                                <span class="foro-last-value" data-i18n="foro_reciente">Reciente</span>
+                            </span>
+                            <span class="foro-go"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+                        </a>
+                    </section>
+
+                    <!-- Tableros de la comunidad -->
+                    <section class="foro-section">
+                        <h2 class="foro-section-title" data-i18n="foro_sec_comunidad">Comunidad</h2>
+
+                        <a class="foro-row" href="galeria.html">
+                            <span class="foro-row-icon"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>
+                            <span>
+                                <span class="foro-row-title" data-i18n="nav_galeria">Galería</span>
+                                <span class="foro-row-desc" data-i18n="foro_desc_galeria">Capturas y construcciones de los jugadores de Odissey.</span>
+                            </span>
+                            <span class="foro-stat">
+                                <span class="foro-stat-num" data-foro-total="gallery"></span><span class="foro-stat-unit" data-foro-unit="gallery"></span>
+                            </span>
+                            <span class="foro-last">
+                                <span class="foro-last-value" data-foro-last="gallery"></span>
+                                <span class="foro-last-title" data-foro-last-title="gallery"></span>
+                            </span>
+                            <span class="foro-go"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+                        </a>
+                    </section>
+                </div>
+
+                <p class="foro-hint" data-i18n="foro_hint">Elige un tablero para ver todo su contenido.</p>
+            </div>
+        </main>
+        <!-- Footer Section -->
+        <footer
+            class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
+            <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
+                <a href="#" aria-label="Odissey" class="shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
+                </a>
+                <div class="flex flex-col items-center gap-3">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
+                    <div class="flex items-center gap-3">
+                        <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" title="Discord" class="discord-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
+                            Discord
+                        </a>
+                        <a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" title="TikTok" class="tiktok-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+                            TikTok
+                        </a>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end gap-2 text-right">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_ip">IP del servidor</span>
+                    <span class="font-sans text-marine-accent font-semibold">Proximamente</span>
+                </div>
+                <div id="adminBtn" class="hidden flex-col items-end gap-2 text-right">
+                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_admin">Panel de admin</span>
+                    <a href="admin.html" class="font-sans text-marine-accent font-semibold hover:text-gold-light transition-colors duration-200">Admin</a>
+                </div>
+            </div>
+            <p class="text-center text-xs text-text-dark/80 mt-6">&copy; 2026 Odissey. <span data-i18n="footer_res">Todos los derechos reservados.</span></p>
+            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs">
+                <a href="terminos.html" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_terms">Términos y condiciones</a>
+                <a href="privacidad.html" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_privacy">Política de privacidad</a>
+            </div>
+        </footer>
+    </div>
+    <!-- Modal de entrada por nombre de Minecraft -->
+    <div id="loginModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="loginView" class="login-card">
+            <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
+        </div>
+        <div id="accountView" class="account-card hidden">
+            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <div class="user-header">
+                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
+                <div class="user-info">
+                    <h3><span data-i18n="account_title">Cuenta de</span> <span id="username-display"></span></h3>
+                    <div class="user-actions">
+                        <button type="button" id="logout-btn" class="btn3d" onclick="handleLogout()" data-i18n="nav_logout">Cerrar sesión</button>
+                        <div class="currency-selector">
+                            <span data-i18n="currency_label">Moneda:</span>
+                            <select id="currency">
+                                <option value="USD">USD</option>
+                                <option value="COP">COP</option>
+                                <option value="EUR">EUR</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="mc-name-row">
+                <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
+                <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
+                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
+            </div>
+            <hr class="divider">
+            <div id="cart-content">
+                <div id="cart-list"></div>
+            </div>
+            <div id="cart-footer" class="hidden">
+                <div class="cart-total-row">
+                    <span data-i18n="cart_total">Total:</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+            </div>
+            <hr class="divider">
+            <div class="flex items-center gap-2 mb-2">
+                <h4 class="text-sm font-bold text-text-light text-left" data-i18n="my_reports_tickets_title">Mis reportes / Tickets</h4>
+                <span id="ticketsUnreadPill" class="tickets-unread-pill hidden" data-i18n="new_pill">NUEVO</span>
+            </div>
+            <div id="my-reports-tickets" class="account-lists">
+                <p class="no-items" data-i18n="no_reports_tickets">Aún no tienes reportes ni tickets.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de información del staff -->
+    <div id="staffModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="staffModalContent" class="staff-panel"></div>
+    </div>
+    <!-- Modal de calificación de staff -->
+    <div id="ratingModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="ratingView" class="staff-panel">
+            <button class="close-btn" onclick="closeRatingModal()">&times;</button>
+            <div class="staff-panel-header">
+                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin" width="128" height="128">
+                <div>
+                    <h3 id="rating-title"><span data-i18n="rating_title_prefix">Calificar a</span> <span id="rating-name">aureliogood</span></h3>
+                    <p class="staff-panel-role" data-i18n="rating_subtitle">Tu opinión nos ayuda a mejorar</p>
+                </div>
+            </div>
+            <hr class="divider">
+            <p class="staff-panel-info" data-i18n="rating_prompt">¿Cómo fue tu experiencia con este miembro del staff?</p>
+            <div class="star-rating" id="star-rating">
+                <button type="button" data-value="1" aria-label="1 estrella">★</button>
+                <button type="button" data-value="2" aria-label="2 estrellas">★</button>
+                <button type="button" data-value="3" aria-label="3 estrellas">★</button>
+                <button type="button" data-value="4" aria-label="4 estrellas">★</button>
+                <button type="button" data-value="5" aria-label="5 estrellas">★</button>
+            </div>
+            <textarea id="rating-comment" name="comentario" class="rating-comment" maxlength="500" rows="3" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
+            <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn">Enviar calificación</button>
+        </div>
+    </div>
+    <!-- Modal de reporte de jugador -->
+    <div id="reportModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        <div id="reportView" class="staff-panel">
+            <button class="close-btn" onclick="closeReportModal()">&times;</button>
+            <div class="staff-panel-header">
+                <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head" width="128" height="128">
+                <div>
+                    <h3 data-i18n="report_title">Reportar un jugador</h3>
+                    <p class="staff-panel-role" data-i18n="report_sub">Tu reporte lo revisará el staff</p>
+                </div>
+            </div>
+            <hr class="divider">
+            <p class="staff-panel-info" data-i18n="report_info">Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).</p>
+            <div class="input-container mt-4">
+                <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa" width="40" height="40">
+                <input type="text" id="report-target" name="jugador" placeholder="Jugador a reportar" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="16" pattern="[A-Za-z0-9_]{1,16}" required aria-label="Nombre del jugador a reportar">
+            </div>
+            <select id="report-reason" class="rating-comment mt-4">
+                <option value="Trampa / Hacks">Trampa / Hacks</option>
+                <option value="Spam">Spam</option>
+                <option value="Acoso">Acoso</option>
+                <option value="Duplicación">Duplicación</option>
+                <option value="Griefing">Griefing</option>
+                <option value="Otro">Otro</option>
+            </select>
+            <textarea id="report-detail" name="detalle" class="rating-comment mt-4" maxlength="1500" rows="4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
+            <input id="report-capture" name="captura" type="url" inputmode="url" spellcheck="false" class="rating-comment mt-4" maxlength="500" autocomplete="off" placeholder="https://... (opcional)" aria-label="Enlace de la captura, opcional">
+                        <!-- Campo trampa anti-spam. Esta oculto y no lo rellena
+                 ninguna persona: solo los robots que rellenan todos los
+                 campos que encuentran. Si llega relleno, se descarta el
+                 envio (ver js/formulario.js). -->
+            <input type="text" id="report-trampa" class="form-trampa"
+                tabindex="-1" autocomplete="off" aria-hidden="true"
+                name="sitio_web" value="">
+            <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn">Enviar reporte</button>
+        </div>
+    </div>
+    <!-- Modal Lightbox para la Galería de Builds -->
+    <div id="lightboxModal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[10000] hidden items-center justify-center p-4"
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
+        <div class="flex flex-col items-center max-w-4xl w-full">
+            <img id="lightboxImg" src="" alt="Build" width="1280" height="720" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
+            <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
+        </div>
+    </div>
+    <!-- Background changing script -->
+    <script>
+        const backgrounds = [
+            'img/backgrounds/background1.jpg',
+            // Add more backgrounds as needed,
+        ];
+        let currentIndex = 0;
+        const bgLayer = document.getElementById('bgLayer');
+        function changeBackground() {
+            if (!bgLayer || backgrounds.length === 0) return;
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+            bgLayer.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+        }
+        // El fondo del hero lo pone el CSS. Si algun dia se anade la capa
+        // #bgLayer, esta linea empieza a rotar sola.
+        if (bgLayer) setInterval(changeBackground, 15000);
+    </script>
+    <script>
+
+    </script>
+    <script src="site-config.js?v=144"></script>
+    <script src="shop-config.js?v=144"></script>
+    <script src="staff-config.js?v=144"></script>
+    <script src="site-data.js?v=144"></script>
+    <script>
+        function copyToClipboard(text, message) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'Copiado' : 'Error al copiar';
+                showNotification(message + " " + msg);
+            } catch (err) {
+                showNotification('Error al copiar: ' + err);
+            }
+            document.body.removeChild(textArea);
+        }
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--od-marine-accent); /* gold */
+                color: var(--od-ink); /* marine-dark */
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 10);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.addEventListener('transitionend', () => notification.remove());
+            }, 3000);
+        }
+        async function updatePlayerCounts() {
+            const config = (window.SITE_CONFIG || {});
+            const serverIp = config.serverIp || 'play.odissey.net';
+            const gamemode = config.gamemode || 'Survival Custom';
+            const gamemodeEl = document.getElementById('serverGamemode');
+            if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
+            const dot = document.getElementById('serverStatusDot');
+            const statusTxt = document.getElementById('serverStatusText');
+            let manualStatus = '';
+            const maintenance = (window.SiteData && SiteData.get('maintenance')) || null;
+            if (maintenance && (maintenance.active || maintenance.status === 'maintenance')) {
+                manualStatus = 'maintenance';
+            } else if (maintenance && maintenance.status === 'online') {
+                manualStatus = 'online';
+            }
+try {
+                const res = await fetch(`https://api.mcstatus.io/v2/status/java/${encodeURIComponent(serverIp)}`);
+                const data = await res.json();
+                const version = (data.version && data.version.name) ? data.version.name : '';
+                document.querySelectorAll('.playerCount').forEach(el => el.textContent = `${data.players ? data.players.online : 0}`);
+                const versionEl = document.getElementById('serverVersion');
+                if (versionEl) {
+                    if (manualStatus === 'maintenance') {
+                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
+                        versionEl.className = 'text-xs text-yellow-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        if (statusTxt) {
+                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                        }
+                    } else if (data.online || manualStatus === 'online') {
+                        versionEl.textContent = (getLang() === 'en' ? 'Version: ' : 'Versión: ') + (version || '1.20 - 1.21');
+                        versionEl.className = 'text-xs text-green-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+                        if (statusTxt) {
+                            statusTxt.textContent = manualStatus === 'online' ? (getLang() === 'en' ? 'Active' : 'Activo') : (getLang() === 'en' ? 'Online' : 'En línea');
+                            statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                        }
+                    } else {
+                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
+                        versionEl.className = 'text-xs text-yellow-400 mt-1';
+                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400';
+                        if (statusTxt) {
+                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400';
+                        }
+                    }
+                }
+            } catch (err) {
+                document.querySelectorAll('.playerCount').forEach(el => el.textContent = '0');
+                const versionEl = document.getElementById('serverVersion');
+                if (versionEl) {
+                    versionEl.textContent = getLang() === 'en' ? 'Status: Online' : 'Estado: En línea';
+                    versionEl.className = 'text-xs text-text-dark mt-1';
+                }
+                if (manualStatus === 'online' && statusTxt) {
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse';
+                    statusTxt.textContent = getLang() === 'en' ? 'Active' : 'Activo';
+                    statusTxt.className = 'text-[11px] font-semibold text-green-400';
+                }
+            }
+        }
+        updatePlayerCounts();
+        setInterval(updatePlayerCounts, 45000);
+        const loginModal = document.getElementById('loginModal');
+        const loginView = document.getElementById('loginView');
+        const accountView = document.getElementById('accountView');
+        const userBust = document.getElementById('user-bust');
+        const usernameDisplay = document.getElementById('username-display');
+        const enterNavBtn = document.getElementById('enterNavBtn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const currencySelect = document.getElementById('currency');
+        const mcNameInput = document.getElementById('mcNameInput');
+        const API_BASE = window.API_BASE || 'https://odisseymc.site/bot';
+        function getSessionToken() {
+            return localStorage.getItem('odissey_discord_session');
+        }
+        function getDiscordUser() {
+            try {
+                const u = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
+                return u && u.id ? u : null;
+            } catch (err) { return null; }
+        }
+        function getCurrentUser() {
+            const u = getDiscordUser();
+            return u ? u.id : null;
+        }
+        async function fetchSessionUser() {
+            const token = getSessionToken();
+            if (!token) return false;
+            try {
+                const res = await fetch(API_BASE + '/api/session?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    localStorage.removeItem('odissey_discord_session');
+                    localStorage.removeItem('odissey_discord_user');
+                    return false;
+                }
+                localStorage.setItem('odissey_discord_user', JSON.stringify(data.user));
+                return true;
+            } catch (err) {
+                return !!getDiscordUser();
+            }
+        }
+        async function updateAdminButton() {
+            const btn = document.getElementById('adminBtn');
+            if (!btn) return;
+            const token = getSessionToken();
+            if (!token) { btn.classList.add('hidden'); return; }
+            try {
+                const res = await fetch(API_BASE + '/api/admin/check?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                if (data && data.ok && data.isAdmin) btn.classList.remove('hidden');
+                else btn.classList.add('hidden');
+            } catch (err) {
+                btn.classList.add('hidden');
+            }
+        }
+        function apiErrorText(code) {
+            const es = {
+                unauthorized: 'Sesión expirada. Conecta con Discord de nuevo.',
+                not_in_guild: 'Debes estar dentro del Discord de Odissey para abrir tickets.',
+                existing_ticket: 'Ya tienes un ticket abierto. Ciérralo antes de abrir otro.',
+                category: 'Categoría no válida.',
+                bot_not_ready: 'El bot aún se está conectando. Inténtalo en un momento.',
+                internal: 'Ocurrió un error. Revisa que el bot esté encendido.'
+            };
+            const en = {
+                unauthorized: 'Session expired. Connect with Discord again.',
+                not_in_guild: 'You must be inside the Odissey Discord to open tickets.',
+                existing_ticket: 'You already have an open ticket. Close it before opening another.',
+                category: 'Invalid category.',
+                bot_not_ready: 'The bot is still connecting. Try again in a moment.',
+                internal: 'Something went wrong. Check that the bot is online.'
+            };
+            const dict = getLang() === 'en' ? en : es;
+            return dict[code] || (getLang() === 'en' ? 'Could not open the ticket.' : 'No se pudo abrir el ticket.');
+        }
+        function getJsonList(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (err) { return []; }
+        }
+        function shortDate(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            } catch (err) { return iso; }
+        }
+        function safeLower(value) {
+            return String(value || '').toLowerCase();
+        }
+        let ticketShownCount = -1;
+        async function fetchTicketsData() {
+            const token = getSessionToken();
+            if (!token) return [];
+            try {
+                const res = await fetch(API_BASE + '/api/tickets?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                return (data && data.ok && data.tickets) ? data.tickets : [];
+            } catch (err) { return []; }
+        }
+        async function markTicketsRead() {
+            const token = getSessionToken();
+            if (!token) return;
+            try {
+                await fetch(API_BASE + '/api/tickets/read', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+            } catch (err) { }
+        }
+        function setTicketNotifCount(n) {
+            const badge = document.getElementById('ticketNotifBadge');
+            if (badge) {
+                badge.textContent = n > 9 ? '9+' : String(n || '');
+                badge.classList.toggle('hidden', !n);
+            }
+            const pill = document.getElementById('ticketsUnreadPill');
+            if (pill) pill.classList.toggle('hidden', !n);
+        }
+        function updateTicketNotif(mine) {
+            const n = mine.filter(t => t.unread).length;
+            if (n > ticketShownCount && ticketShownCount !== -1) {
+                const t = mine.filter(x => x.unread)
+                    .sort((a, b) => (b.lastStaffReplyAt || '').localeCompare(a.lastStaffReplyAt || ''))[0];
+                const prefix = getLang() === 'en' ? I18N.en.staff_replied : I18N.es.staff_replied;
+                showNotification(prefix + (t ? t.id : n) + '...');
+            }
+            ticketShownCount = n;
+            setTicketNotifCount(n);
+        }
+        // Lista unificada: reportes de la página (locales) + tickets de Discord, ordenados más reciente primero
+        async function renderMyReportsAndTickets() {
+            const box = document.getElementById('my-reports-tickets');
+            if (!box) return;
+            const user = getCurrentUser();
+            const tickets = user ? await fetchTicketsData() : [];
+            const reports = user ? (SiteData.get('reports') || []) : [];
+            // Omitir reportes web que ya se muestran como ticket en Discord (para no duplicarlos)
+            const reportsToShow = reports.filter(r => {
+                if (r.ticketId && tickets.some(t => String(t.id) === String(r.ticketId))) return false;
+                if (!r.ticketId && tickets.some(t => t.source === 'web' && t.category === 'reporte' &&
+                    Math.abs(new Date(t.createdAt).getTime() - new Date(r.date).getTime()) < 90000)) return false;
+                return true;
+            });
+            const itemPills = { open: 'pill-nuevo', closed: 'pill-proceso', deleted: 'pill-resuelto' };
+            const itemLabels = getLang() === 'en'
+                ? { open: 'Open', closed: 'Closed', deleted: 'Deleted', nuevo: 'New', proceso: 'In progress', resuelto: 'Resolved' }
+                : { open: 'Abierto', closed: 'Cerrado', deleted: 'Eliminado', nuevo: 'Nuevo', proceso: 'En proceso', resuelto: 'Resuelto' };
+            const newPill = getLang() === 'en' ? I18N.en.new_pill : I18N.es.new_pill;
+            const items = [];
+            reportsToShow.forEach(r => {
+                items.push({
+                    key: 'r' + r.id,
+                    title:  '📢 ' + (r.target || 'Reporte'),
+                    sub: (r.reason || '') + (r.detail ? ' · ' + r.detail : ''),
+                    status: r.status,
+                    pill: r.status === 'resuelto' ? 'pill-resuelto' : (r.status === 'proceso' ? 'pill-proceso' : 'pill-nuevo'),
+                    date: r.date,
+                    unread: false
+                });
+            });
+            tickets.forEach(t => {
+                items.push({
+                    key: 't' + t.id,
+                    title: '📢 ' + t.categoryLabel,
+                    sub: '#' + t.id + (t.source === 'web' ? ' · Web' : ' · Discord'),
+                    status: t.status,
+                    pill: itemPills[t.status] || 'pill-nuevo',
+                    date: t.createdAt,
+                    unread: !!t.unread
+                });
+            });
+            items.sort((a, b) => new Date(b.date) - new Date(a.date));
+            if (items.length === 0) {
+                box.innerHTML = '<p class="no-items">' + (getLang() === 'en' ? 'You have no reports or tickets yet.' : 'Aún no tienes reportes ni tickets.') + '</p>';
+            } else {
+                box.innerHTML = items.slice(0, 15).map(it => `
+                    <div class="account-item">
+                        <div class="top">
+                            <span class="name">${escapeHtml(it.title)}${it.unread ? `<span class="tickets-unread-pill">${newPill}</span>` : ''}</span>
+                            <span class="mini pill ${it.pill}">${itemLabels[it.status] || escapeHtml(it.status)}</span>
+                        </div>
+                        <div class="sub">${escapeHtml(it.sub)}</div>
+                        <div class="date">${shortDate(it.date)}</div>
+                    </div>`).join('');
+            }
+            updateTicketNotif(tickets);
+        }
+        async function refreshTickets() {
+            if (!getCurrentUser()) return;
+            await renderMyReportsAndTickets();
+        }
+        function renderAccountView() {
+            const info = getDiscordUser();
+            usernameDisplay.textContent = info ? (info.username || getCurrentUser()) : '';
+            userBust.onerror = function () {
+                userBust.onerror = null;
+                userBust.src = 'img/logo-web.webp';
+            };
+            userBust.src = discordAvatarUrl(info, 128) || 'img/logo-web.webp';
+            if (mcNameInput) mcNameInput.value = (info && info.mcName) || '';
+            if (currencySelect) currencySelect.value = getCurrency();
+            renderCart();
+            renderMyReportsAndTickets();
+        }
+                function discordDefaultAvatar(u) {
+            // Avatar por defecto de Discord: el indice sale de los ultimos
+            // bits del id. Antes se caia a una cabeza de Steve de mc-heads.
+            if (!u || !u.id) return '';
+            let n = 0;
+            try { n = Number((BigInt(u.id) >> 22n) % 6n); } catch (e) { n = 0; }
+            return `https://cdn.discordapp.com/embed/avatars/${n}.png`;
+        }
+        function discordAvatarUrl(u, size) {
+            if (!u || !u.id) return '';
+            if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=${size}`;
+            return discordDefaultAvatar(u);
+        }
+        function updateNavButton() {
+            const u = getDiscordUser();
+            const txt = document.getElementById('enterNavText');
+            const img = document.getElementById('enterNavAvatar');
+            const btn = document.getElementById('enterNavBtn');
+            if (!u) {
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = getLang() === 'en' ? 'Log in' : 'Entrar'; }
+                if (img) { img.classList.add('hidden'); img.removeAttribute('src'); }
+                if (btn) { btn.classList.remove('nav-button--avatar'); btn.removeAttribute('title'); }
+                return;
+            }
+            const nombre = u.username || '';
+            const url = discordAvatarUrl(u, 64);
+            // Con foto, la barra muestra el avatar; sin ella, el nombre.
+            if (img && url) {
+                // Si la foto no llega a cargar (hash antiguo, CDN, red), se cae
+                // al avatar por defecto en vez de dejar un circulo vacio.
+                img.onerror = function () {
+                    img.onerror = null;
+                    img.src = discordDefaultAvatar(u);
+                };
+                img.src = url;
+                img.alt = nombre;
+                img.classList.remove('hidden');
+                if (txt) txt.classList.add('hidden');
+                if (btn) btn.classList.add('nav-button--avatar');
+            } else {
+                if (img) img.classList.add('hidden');
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = nombre; }
+                if (btn) btn.classList.remove('nav-button--avatar');
+            }
+            // El nombre se mantiene en title y aria-label, porque en la barra
+            // ya no se ve como texto.
+            if (btn) {
+                btn.title = nombre;
+                btn.setAttribute('aria-label', (getLang() === 'en' ? 'Your account' : 'Tu cuenta') + ': ' + nombre);
+            }
+        }
+        function openAccountOrLoginModal() {
+            const loggedIn = !!getCurrentUser();
+            loginView.classList.toggle('hidden', loggedIn);
+            accountView.classList.toggle('hidden', !loggedIn);
+            if (loggedIn) {
+                renderAccountView();
+                fetchSessionUser().then(renderAccountView);
+                // Al abrir la cuenta se marcan los avisos como leídos
+                markTicketsRead().then(() => {
+                    ticketShownCount = 0;
+                    setTicketNotifCount(0);
+                    renderMyReportsAndTickets();
+                });
+            }
+        }
+        function openLoginModal() {
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+            openAccountOrLoginModal();
+        }
+        function closeLoginModal() {
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+        }
+        function getCurrency() {
+            return localStorage.getItem('odissey_currency') || 'USD';
+        }
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeLoginModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !loginModal.classList.contains('hidden')) closeLoginModal();
+            if (e.key === 'Escape' && staffModal && !staffModal.classList.contains('hidden')) closeStaffModal();
+            if (e.key === 'Escape' && ratingModal && !ratingModal.classList.contains('hidden')) closeRatingModal();
+            if (e.key === 'Escape' && reportModal && !reportModal.classList.contains('hidden')) closeReportModal();
+            if (e.key === 'Escape' && !document.getElementById('lightboxModal').classList.contains('hidden')) closeLightbox();
+        });
+        function startDiscordLogin() {
+            window.location.href = API_BASE + '/discord/login';
+        }
+        async function saveMcName() {
+            const token = getSessionToken();
+            if (!token) return;
+            const name = (mcNameInput.value || '').trim();
+            try {
+                const res = await fetch(API_BASE + '/api/mcname', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, mcName: name })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    showNotification(data.error === 'unauthorized'
+                        ? apiErrorText('unauthorized')
+                        : (getLang() === 'en' ? 'Could not save the name.' : 'No se pudo guardar el nombre.'));
+                    return;
+                }
+                const u = getDiscordUser();
+                if (u) {
+                    u.mcName = data.mcName || '';
+                    localStorage.setItem('odissey_discord_user', JSON.stringify(u));
+                }
+                showNotification(getLang() === 'en' ? 'Name saved!' : 'Nombre guardado.');
+            } catch (err) {
+                showNotification(getLang() === 'en' ? 'The bot seems to be offline.' : 'El bot parece estar apagado.');
+            }
+        }
+        async function handleLogout() {
+            const token = getSessionToken();
+            if (token) {
+                try {
+                    await fetch(API_BASE + '/api/logout', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: token })
+                    });
+                } catch (err) { }
+            }
+            localStorage.removeItem('odissey_discord_session');
+            localStorage.removeItem('odissey_discord_user');
+            ticketShownCount = -1;
+            setTicketNotifCount(0);
+            updateNavButton();
+            openAccountOrLoginModal();
+            showNotification('Sesión cerrada correctamente.');
+        }
+        if (currencySelect) {
+            currencySelect.addEventListener('change', () => {
+                localStorage.setItem('odissey_currency', currencySelect.value);
+                renderCart();
+            });
+        }
+        function handleDiscordCallback() {
+            const params = new URLSearchParams(location.search);
+            const token = params.get('discord_session');
+            const error = params.get('discord_error');
+            if (params.has('discord_session') || params.has('discord_error')) {
+                history.replaceState({}, '', location.pathname + location.hash);
+            }
+            if (token) {
+                localStorage.setItem('odissey_discord_session', token);
+                fetchSessionUser().then(() => {
+                    updateNavButton();
+                    updateAdminButton();
+                    openAccountOrLoginModal();
+                    SiteData.loadMy(token).then(() => renderMyReportsAndTickets());
+                    showNotification(getLang() === 'en' ? 'Connected with Discord!' : '¡Conectado con Discord!');
+                });
+            } else if (error) {
+                showNotification(getLang() === 'en'
+                    ? 'Could not connect with Discord. Please try again.'
+                    : 'No se pudo conectar con Discord. Vuelve a intentarlo.');
+            }
+        }
+        updateNavButton();
+        handleDiscordCallback();
+        fetchSessionUser();
+        updateAdminButton();
+        // Aviso de respuesta en tickets: escucha cada 30 s
+        setTimeout(refreshTickets, 2000);
+        setInterval(refreshTickets, 30000);
+        // ===== Carrito (compartido con la tienda) =====
+        function getProducts() {
+            const dbProducts = (window.SiteData && SiteData.get('products')) || [];
+            if (window.SiteData && SiteData.publicLoaded) {
+                if (SiteData.configured.products || SiteData.configured.productsEmpty || dbProducts.length > 0) return dbProducts;
+            }
+            return (window.SHOP_PRODUCTS || []);
+        }
+        function getCart() {
+            return getJsonList('odissey_cart');
+        }
+        function saveCart(cart) {
+            localStorage.setItem('odissey_cart', JSON.stringify(cart));
+        }
+        function cartCount() {
+            return getCart().reduce(function (s, it) { return s + Number(it.qty || 0); }, 0);
+        }
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (!badge) return;
+            badge.textContent = cartCount() > 9 ? '9+' : String(cartCount());
+        }
+        const fallbackRates = { USD: 1, COP: 4000, EUR: 0.92 };
+        let rates = fallbackRates;
+        async function loadRates() {
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/USD');
+                const data = await res.json();
+                if (data && data.result === 'success') {
+                    rates = { USD: 1, COP: data.rates.COP, EUR: data.rates.EUR };
+                }
+            } catch (err) { }
+            renderCart();
+        }
+        function formatPrice(usd) {
+            const cur = getCurrency();
+            const amount = usd * (rates[cur] || 1);
+            if (cur === 'COP') {
+                return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
+            }
+            if (cur === 'EUR') {
+                return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
+            }
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        }
+        function renderCart() {
+            const cart = getCart();
+            const list = document.getElementById('cart-list');
+            const footer = document.getElementById('cart-footer');
+            const totalEl = document.getElementById('cart-total');
+            if (!list) return;
+            if (cart.length === 0) {
+                list.innerHTML = '<div class="cart-empty"><h2>' + (getLang() === 'en' ? 'Your cart is empty' : 'Tu carrito está vacío') + '</h2><p>' + (getLang() === 'en' ? 'Go to the shop and add some kits!' : 'Ve a la tienda y añade algunos kits.') + '</p></div>';
+                if (footer) footer.classList.add('hidden');
+                return;
+            }
+            const products = getProducts();
+            list.innerHTML = cart.map(item => {
+                const p = products.find(x => x.id === item.id);
+                if (!p) return '';
+                const qty = Number(item.qty || 1);
+                return '<div class="account-item">' +
+                    '<div class="top">' +
+                        '<span class="name">' + escapeHtml(p.name) + ' <span class="text-text-dark">× ' + qty + '</span></span>' +
+                        '<span class="sub">' + formatPrice(Number(p.price) * qty) + '</span>' +
+                    '</div>' +
+                    '<div class="sub">' + formatPrice(Number(p.price)) + ' ' + (getLang() === 'en' ? 'per unit' : 'por unidad') + '</div>' +
+                    '<div class="cart-actions">' +
+                        '<button type="button" onclick="setQty(\'' + escapeHtml(item.id) + '\', -1)" class="cart-qty-btn" aria-label="Menos">-</button>' +
+                        '<button type="button" onclick="setQty(\'' + escapeHtml(item.id) + '\', 1)" class="cart-qty-btn" aria-label="Más">+</button>' +
+                        '<button type="button" onclick="removeCartItem(\'' + escapeHtml(item.id) + '\')" class="cart-qty-btn cart-remove" aria-label="Eliminar">🗑️</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            const total = cart.reduce(function (s, it) {
+                const p = products.find(x => x.id === it.id);
+                return s + (p ? Number(p.price) * Number(it.qty || 0) : 0);
+            }, 0);
+            if (totalEl) totalEl.textContent = formatPrice(total);
+            if (footer) footer.classList.remove('hidden');
+        }
+        function setQty(productId, delta) {
+            const cart = getCart();
+            const item = cart.find(it => it.id === productId);
+            if (!item) return;
+            item.qty = Number(item.qty || 0) + delta;
+            if (item.qty <= 0) cart.splice(cart.indexOf(item), 1);
+            saveCart(cart);
+            updateCartBadge();
+            renderCart();
+        }
+        function removeCartItem(productId) {
+            saveCart(getCart().filter(it => it.id !== productId));
+            updateCartBadge();
+            renderCart();
+        }
+        async function checkoutCart() {
+            const user = getCurrentUser();
+            if (!user) {
+                showNotification(getLang() === 'en' ? 'Log in first.' : 'Inicia sesión primero.');
+                openLoginModal();
+                return;
+            }
+            const cart = getCart();
+            if (cart.length === 0) return;
+            const token = getSessionToken();
+            if (!token) {
+                showNotification(getLang() === 'en' ? 'Your session expired. Log in again.' : 'Tu sesión expiró. Vuelve a iniciar sesión.');
+                openLoginModal();
+                return;
+            }
+            const products = getProducts();
+            const items = cart.map(item => {
+                const p = products.find(x => x.id === item.id);
+                const qty = Math.max(1, Number(item.qty || 1));
+                return {
+                    id: item.id,
+                    product: p ? p.name : item.id,
+                    usd: p ? Number(p.price) * qty : 0,
+                    qty: qty
+                };
+            });
+            const result = await SiteData.post('/api/orders', { token: token, items: items });
+            if (!result.ok) {
+                showNotification(getLang() === 'en' ? 'Could not register the order.' : 'No se pudo registrar el pedido.');
+                return;
+            }
+            saveCart([]);
+            updateCartBadge();
+            renderCart();
+            showNotification("¡Pedido registrado! Te lo preparamos en el juego.");
+            SiteData.reloadMy(token);
+        }
+
+        updateCartBadge();
+        loadRates();
+        const staffModal = document.getElementById('staffModal');
+        
+        function getStaff() {
+            const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
+            if (window.SiteData && SiteData.publicLoaded) {
+                if (SiteData.configured.staff || SiteData.configured.staffEmpty || dbStaff.length > 0) return dbStaff;
+            }
+            return (window.STAFF || []);
+        }
+        function renderStaff() {
+            const staff = getStaff();
+            const grid = document.getElementById('staff-grid');
+            if (!grid) return;
+            grid.innerHTML = staff.map((member, i) => `
+                <div class="staff-card reveal" style="transition-delay: ${i * 0.1}s;">
+                    <button type="button" class="staff-trigger" data-staff-name="${escapeHtml(member.name)}" title="Ver información" aria-label="Ver información de ${escapeHtml(member.name)}">
+                        <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" class="staff-skin" onerror="this.onerror=null;this.src='https://placehold.co/128x128/334155/ffffff?text=Error';">
+                    </button>
+                    <h3 class="text-xl font-bold text-text-light">${escapeHtml(member.name)}</h3>
+                    <p class="text-marine-accent text-lg">${escapeHtml(member.role)}</p>
+                    <p class="text-text-dark mt-2 text-sm">${escapeHtml(member.bio || member.description)}</p>
+                </div>`).join('');
+            grid.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
+            grid.querySelectorAll('.staff-trigger').forEach(button => {
+                button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
+            });
+        }
+        function openStaffModal(name) {
+            const member = getStaff().find(m => m.name === name);
+            const content = document.getElementById('staffModalContent');
+            if (!member || !content) return;
+            content.innerHTML = `
+                <button class="close-btn" onclick="closeStaffModal()">&times;</button>
+                <div class="staff-panel-header">
+                    <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin">
+                    <div>
+                        <h3>${escapeHtml(member.name)}</h3>
+                        <p class="staff-panel-role">${escapeHtml(member.role)}</p>
+                    </div>
+                </div>
+                <hr class="divider">
+                <p class="staff-panel-info">${escapeHtml(member.description)}</p>
+                <button type="button" class="rating-btn" data-staff-name="${escapeHtml(member.name)}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M381.2 150.3L524.9 171.5c18.2 2.6 25.5 25.1 12 37.9l-106.6 100.4 25.2 146.7c3.1 18.2-16 32.1-32.3 23.5l-131.3-69.2-131.3 69.2c-16.3 8.6-35.4-5.3-32.3-23.5l25.2-146.7L39.1 209.4c-13.5-12.8-6.2-35.3 12-37.9L194.8 150.3l58.8-119.1c8.2-16.5 31.3-16.5 39.5 0l88.1 119.1z"/></svg>
+                    Calificar staff
+                </button>`;
+            content.querySelector('.rating-btn').addEventListener('click', () => openRatingModal(member.name));
+            staffModal.classList.remove('hidden');
+            staffModal.classList.add('flex');
+        }
+        function closeStaffModal() {
+            staffModal.classList.add('hidden');
+            staffModal.classList.remove('flex');
+        }
+        staffModal.addEventListener('click', (e) => {
+            if (e.target === staffModal) closeStaffModal();
+        });
+        const ratingModal = document.getElementById('ratingModal');
+        const ratingName = document.getElementById('rating-name');
+        const ratingSkin = document.getElementById('rating-skin');
+        const ratingStars = document.querySelectorAll('#star-rating button');
+        const ratingComment = document.getElementById('rating-comment');
+        const ratingMsg = document.getElementById('rating-msg');
+        let selectedRating = 0;
+        let ratingTarget = '';
+        function getDeviceId() {
+            try {
+                let id = localStorage.getItem('odissey_device_id');
+                if (!id) {
+                    id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem('odissey_device_id', id);
+                }
+                return id;
+            } catch (err) {
+                return 'anon_' + Date.now().toString(36);
+            }
+        }
+        function openRatingModal(name) {
+            ratingTarget = name;
+            selectedRating = 0;
+            ratingName.textContent = name;
+            ratingSkin.src = `https://mc-heads.net/head/${encodeURIComponent(name)}/128`;
+            ratingComment.value = '';
+            if (ratingMsg) ratingMsg.textContent = '';
+            updateStars();
+            closeStaffModal();
+            const ratingView = document.getElementById('ratingView');
+            ratingView.classList.remove('hidden');
+            ratingModal.classList.remove('hidden');
+            ratingModal.classList.add('flex');
+        }
+        function closeRatingModal() {
+            ratingModal.classList.add('hidden');
+            ratingModal.classList.remove('flex');
+        }
+        function updateStars() {
+            ratingStars.forEach(star => {
+                star.classList.toggle('on', parseInt(star.dataset.value) <= selectedRating);
+            });
+        }
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.value);
+                updateStars();
+            });
+        });
+        ratingModal.addEventListener('click', (e) => {
+            if (e.target === ratingModal) closeRatingModal();
+        });
+        async function submitRating() {
+            if (selectedRating === 0) {
+                showNotification('Selecciona una cantidad de estrellas antes de enviar.');
+                return;
+            }
+            const device = getDeviceId();
+            const token = getSessionToken() || '';
+            const result = await SiteData.post('/api/ratings', {
+                token: token || undefined,
+                staff: ratingTarget,
+                stars: selectedRating,
+                comment: ratingComment.value.trim(),
+                deviceId: device
+            });
+            if (!result.ok) {
+                let msg;
+                if (result.status === 409) {
+                    msg = 'Ya has calificado a ' + ratingTarget + '. Solo se permite un voto por miembro del staff en este dispositivo.';
+                } else if (result.status === 400) {
+                    msg = 'Datos de valoración inválidos.';
+                } else {
+                    msg = getLang() === 'en' ? 'Could not save the rating.' : 'No se pudo guardar la valoración.';
+                }
+                if (ratingMsg) ratingMsg.textContent = msg;
+                showNotification(msg);
+                return;
+            }
+            showNotification('¡Gracias por calificar a ' + ratingTarget + ' con ' + selectedRating + (selectedRating === 1 ? ' estrella!' : ' estrellas!'));
+            closeRatingModal();
+            await SiteData.reloadPublic();
+            renderTestimonials();
+            const u = getCurrentUser();
+            if (u) renderAccountView();
+        }
+        const reportModal = document.getElementById('reportModal');
+        const reportTarget = document.getElementById('report-target');
+        const reportHeadPreview = document.getElementById('report-head-preview');
+        const reportReason = document.getElementById('report-reason');
+        const reportDetail = document.getElementById('report-detail');
+        const reportCapture = document.getElementById('report-capture');
+        const reportMsg = document.getElementById('report-msg');
+        function openReportModal() {
+            reportModal.classList.remove('hidden');
+            reportModal.classList.add('flex');
+            reportDetail.value = '';
+            reportCapture.value = '';
+            reportMsg.textContent = '';
+        }
+        function closeReportModal() {
+            reportModal.classList.add('hidden');
+            reportModal.classList.remove('flex');
+        }
+        reportModal.addEventListener('click', (e) => {
+            if (e.target === reportModal) closeReportModal();
+        });
+        reportTarget.addEventListener('input', () => {
+            reportMsg.textContent = '';
+            clearTimeout(window.__reportHeadTimer);
+            window.__reportHeadTimer = setTimeout(() => {
+                const target = reportTarget.value.trim();
+                reportHeadPreview.src = target.length > 0
+                    ? `https://mc-heads.net/head/${target}/40`
+                    : 'https://mc-heads.net/head/steve/40';
+            }, 400);
+        });
+        async function submitReport() {
+        /* ---------- Proteccion anti-spam (js/formulario.js) ----------
+         * Comprueba tres cosas antes de dejar salir nada:
+         *   - que no se hayan enviado ya 5 mensajes en 10 minutos,
+         *   - que el campo trampa siga vacio (los robots lo rellenan),
+         *   - que no sea alguien soltando envios en bucle.
+         *
+         * El aviso NO dice cual de las tres fallo. Si lo dijera, un
+         * bot aprenderia a esquivarlo cambiando solo esa parte. */
+        const controlAntiSpam = (window.OdisseyFormulario && window.OdisseyFormulario.puedeEnviar())
+            ? window.OdisseyFormulario.puedeEnviar()
+            : { ok: true };
+        if (!controlAntiSpam.ok) {
+            if (reportMsg) reportMsg.textContent = controlAntiSpam.motivo;
+            showNotification(controlAntiSpam.motivo);
+            return;
+        }
+
+        /* La captura la escribe quien abre el reporte y acaba en un
+         * href que pincha el staff dentro del panel. Si trae un esquema
+         * raro (javascript:, data:, vbscript:) se ejecuta al pincharlo,
+         * asi que se descarta aqui. */
+        if (reportCapture && reportCapture.value.trim() &&
+            !(window.OdisseyFormulario && window.OdisseyFormulario.enlaceSeguro(reportCapture.value))) {
+            const avisoCaptura = 'Ese enlace no es valido. Pega una direccion que empiece por https://';
+            if (reportMsg) reportMsg.textContent = avisoCaptura;
+            showNotification(avisoCaptura);
+            return;
+        }
+
+
+            const target = reportTarget.value.trim();
+            if (!/^[A-Za-z0-9_]{1,16}$/.test(target)) {
+                showNotification('Escribe el nombre del jugador a reportar (letras, números y _).');
+                return;
+            }
+            const reporter = getCurrentUser();
+            if (!reporter) {
+                showNotification(getLang() === 'en'
+                    ? 'Connect with Discord to submit reports.'
+                    : 'Conecta con Discord para poder enviar reportes.');
+                closeReportModal();
+                openLoginModal();
+                return;
+            }
+            const token = getSessionToken();
+            if (!token) {
+                showNotification(getLang() === 'en'
+                    ? 'Your session expired. Log in again.'
+                    : 'Tu sesión expiró. Vuelve a iniciar sesión.');
+                closeReportModal();
+                openLoginModal();
+                return;
+            }
+            const mine = SiteData.get('reports') || [];
+            const ended = new Set((await fetchTicketsData()).filter(t => t.status === 'closed' || t.status === 'deleted').map(t => String(t.id)));
+            const alreadyReported = mine.some(r =>
+                String(r.target).toLowerCase() === target.toLowerCase() &&
+                (r.status === 'nuevo' || r.status === 'proceso') &&
+                !(r.ticketId && ended.has(String(r.ticketId)))
+            );
+            if (alreadyReported) {
+                reportMsg.textContent = 'Ya has reportado esta cuenta. Espera a que un staff responda antes de volver a reportarla.';
+                showNotification('Ya has reportado esta cuenta. Espera a que un staff responda.');
+                return;
+            }
+            const reason = reportReason.value || 'Reporte';
+            const detail = reportDetail.value.trim();
+            const capture = reportCapture.value.trim();
+            const result = await SiteData.post('/api/reports', { token: token, target: target, reason: reason, detail: detail, capture: capture });
+            if (!result.ok) {
+                const msg = result.status === 401
+                    ? (getLang() === 'en' ? 'Your session expired. Log in again.' : 'Tu sesión expiró. Vuelve a iniciar sesión.')
+                    : (getLang() === 'en' ? 'Could not submit the report.' : 'No se pudo enviar el reporte.');
+                if (reportMsg) reportMsg.textContent = msg;
+                showNotification(msg);
+                return;
+            }            /* Se cuenta el envio aqui y no antes: si el servidor
+             * devuelve un error, el visitante no ha perdido ninguno
+             * de sus cinco intentos. */
+            if (window.OdisseyFormulario) window.OdisseyFormulario.registrarEnvio();
+
+
+            const reportId = result.json && result.json.report ? result.json.report.id : null;
+            reportTarget.value = '';
+            reportDetail.value = '';
+            reportCapture.value = '';
+            closeReportModal();
+            const message = `**Jugador reportado:** ${target}\n**Motivo:** ${reason}` +
+                (detail ? `\n**Detalles:** ${detail}` : '') +
+                (capture ? `\n**Captura:** ${capture}` : '');
+            let ticketResult = null;
+            try {
+                const r = await fetch(API_BASE + '/api/tickets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, category: 'reporte', message: message })
+                });
+                ticketResult = await r.json();
+            } catch (err) { ticketResult = null; }
+            if (ticketResult && ticketResult.ok) {
+                if (reportId) {
+                    SiteData.post('/api/reports/ticket', { token: token, id: reportId, ticketId: String(ticketResult.ticket.id) });
+                }
+                showNotification('📩 Reporte enviado. Ticket #' + ticketResult.ticket.id + ' abierto en Discord.');
+            } else {
+                showNotification(getLang() === 'en'
+                    ? 'Report saved. Opening the ticket failed.'
+                    : 'Reporte guardado. No se pudo abrir el ticket.');
+            }
+            SiteData.reloadMy(token).then(() => renderMyReportsAndTickets());
+
+            /* A la pagina de gracias: el visitante ve que si, que esta
+               hecho y cual es el siguiente paso, en vez de un aviso
+               verde que se le pasa en dos segundos. Va AL FINAL porque
+               antes se sale de la pagina mientras se abre el ticket de
+               Discord, y esa peticion se cancela al navegar. */
+            irAGracias('reporte');
+        }
+        renderStaff();
+        // ================= Nuevas secciones de contenido =================
+        function toggleFaq(button) {
+            button.closest('.faq-item').classList.toggle('open');
+        }
+        function renderMaintenance() {
+            const banner = document.getElementById('maintenanceBanner');
+            const msg = document.getElementById('maintenanceMsg');
+            if (!banner || !msg) return;
+            const maintenance = (window.SiteData && SiteData.get('maintenance')) || null;
+            if (maintenance && maintenance.active && maintenance.message) {
+                msg.textContent = '🛠️ ' + maintenance.message;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+        function renderDiscordWidget() {
+            const container = document.getElementById('discord-widget');
+            if (!container) return;
+            const config = (window.SITE_CONFIG || {});
+            const serverId = config.discordServerId || '';
+            const invite = config.discordInvite || 'https://dc.gg/odisseymc';
+            container.classList.remove('hidden');
+            if (serverId) {
+                container.innerHTML = `<iframe src="https://discord.com/widget?id=${encodeURIComponent(serverId)}&theme=dark"
+                    width="350" height="500" class="mx-auto rounded-xl border border-marine-light shadow-2xl"
+                    allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>`;
+            } else {
+                container.innerHTML = `
+                    <div class="max-w-md mx-auto p-6 rounded bg-marine-medium border-2 border-marine-light text-center shadow-[4px_4px_0_var(--od-marine-darker)]">
+                        <div class="text-4xl mb-3">💬</div>
+                        <h4 class="text-lg font-bold text-text-light mb-1" data-i18n="discord_box_title">Comunidad activa en Discord</h4>
+                        <p class="text-sm text-text-dark mb-4" data-i18n="discord_box_sub">Únete a cientos de jugadores en tiempo real para enterarte de eventos, sorteos y recibir ayuda del staff.</p>
+                        <a href="${escapeHtml(invite)}" target="_blank" rel="noopener noreferrer" class="btn3d" data-i18n="discord_box_btn">Abrir Discord</a>
+                    </div>`;
+            }
+        }
+        function renderTestimonials() {
+            const grid = document.getElementById('testimonials-grid');
+            if (!grid) return;
+            const all = (window.SiteData && SiteData.get('ratings')) || [];
+            const qualified = all.filter(r => r.stars >= 4 && r.comment);
+            if (qualified.length === 0) {
+                grid.innerHTML = '<div class="content-empty md:col-span-2 lg:col-span-3"><span class="text-3xl mb-3">💬</span><p class="font-semibold text-text-light">Todavía no hay valoraciones.</p><p class="text-sm mt-1">Puedes calificar a un miembro del staff desde su perfil.</p></div>';
+                return;
+            }
+            const picks = qualified.slice(0, 6).map(r => ({ r, idx: all.indexOf(r) }));
+            const stars = (n) => '★'.repeat(n) + '<span style="color:var(--od-marine-light);">' + '☆'.repeat(Math.max(0, 5 - n)) + '</span>';
+            const viewerId = (getDiscordUser() || {}).id || '';
+            const delTitle = getLang() === 'en' ? 'Delete rating' : 'Eliminar valoración';
+            grid.innerHTML = picks.map(({ r, idx }) => {
+                const canDelete = viewerId && r.userId && String(r.userId) === String(viewerId);
+                return `
+                <div class="testimonial-card">
+                    <div class="t-card-head">
+                        <div class="stars-mini">${stars(r.stars)}</div>
+                        ${canDelete ? `<button type="button" class="btn-delete-mini" onclick="removeRatingAt(${idx})" title="${delTitle}" aria-label="${delTitle}">❌</button>` : ''}
+                    </div>
+                    <p class="quote">"${escapeHtml(r.comment)}"</p>
+                    <div class="who">${escapeHtml(r.userName || r.user || 'Desconocido')} — Staff valorado: ${escapeHtml(r.staff)}</div>
+                </div>`;
+            }).join('');
+        }
+        async function removeRatingAt(idx) {
+            const viewerId = (getDiscordUser() || {}).id || '';
+            const ratings = (window.SiteData && SiteData.get('ratings')) || [];
+            const target = ratings[idx];
+            if (!target) {
+                showNotification('No se encontró la valoración.');
+                return;
+            }
+            if (!viewerId || !target.userId || String(target.userId) !== String(viewerId)) {
+                showNotification(getLang() === 'en' ? 'Only the author can delete this rating.' : 'Solo el autor puede eliminar esta valoración.');
+                return;
+            }
+            if (!confirm(getLang() === 'en' ? 'Delete this rating?' : '¿Eliminar esta valoración?')) return;
+            const token = getSessionToken();
+            const result = await SiteData.del('/api/ratings/' + encodeURIComponent(target.id) + '?token=' + encodeURIComponent(token || ''));
+            if (!result.ok) {
+                showNotification(getLang() === 'en' ? 'Could not delete the rating.' : 'No se pudo eliminar la valoración.');
+                return;
+            }
+            showNotification(getLang() === 'en' ? 'Rating deleted.' : 'Valoración eliminada.');
+            await SiteData.reloadPublic();
+            renderTestimonials();
+            const u = getCurrentUser();
+            if (u) renderAccountView();
+        }
+        function openTestimonialPrompt() {
+            document.getElementById('staff').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showNotification('Elige un miembro del staff para dejar tu valoración.');
+        }
+        // ================= Cambio de idioma (ES/EN) =================
+        const I18N = {
+            es: {
+                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
+                cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
+                btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
+                btn_cancelar: 'Cancelar', btn_cerrar: 'Cerrar', btn_enviar: 'Enviar',
+                btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
+                btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
+                btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
+                faq_title: 'Preguntas frecuentes',
+                err_carga: 'No se ha podido cargar. Recarga la página.',
+                err_red: 'Sin conexión. Comprueba tu internet.',
+                err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
+                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
+nav_eventos: 'Eventos',
+nav_galeria: 'Galería',
+news_title: 'Noticias y actualizaciones',
+news_subtitle: 'Todo lo nuevo de Odissey, anuncios y notas de versión.',
+filter_all: 'Todas',
+filter_news: 'Noticias',
+filter_updates: 'Actualizaciones',
+filter_events: 'Eventos',
+rating_title_prefix: 'Calificar a',
+rating_subtitle: 'Tu opinión nos ayuda a mejorar',
+rating_prompt: '¿Cómo fue tu experiencia con este miembro del staff?',
+rating_submit_btn: 'Enviar calificación',
+report_title: 'Reportar un jugador',
+report_sub: 'Tu reporte lo revisará el staff',
+report_info: 'Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).',
+report_submit_btn: 'Enviar reporte',
+cb_decline: 'Rechazar',
+cb_accept: 'Aceptar',
+    skip_link: 'Ir al contenido',
+nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_wiki: 'Wiki', nav_perfil: 'Perfil', nav_noticias: 'Noticias',
+                nav_foro: 'Foro', foro_title: 'Foro',
+                foro_sub: 'Noticias, eventos, reglas, wiki y galería de Odissey, todo en un solo sitio.',
+                foro_sec_oficial: 'Oficial', foro_sec_comunidad: 'Comunidad',
+                foro_desc_noticias: 'Changelogs, actualizaciones y anuncios del servidor.',
+                foro_desc_eventos: 'Torneos, sorteos y actividades de la comunidad.',
+                foro_desc_reglas: 'Normas del servidor y buenas prácticas de la comunidad.',
+                foro_desc_wiki: 'Guías, tutoriales y documentación del servidor.',
+                foro_desc_galeria: 'Capturas y construcciones de los jugadores de Odissey.',
+                foro_ultima: 'Última actualización', foro_reciente: 'Reciente',
+                foro_col_tablero: 'Tablero', foro_col_contenido: 'Contenido',
+                foro_label_secciones: 'secciones', foro_label_paginas: 'páginas', foro_hint: 'Elige un tablero para ver todo su contenido.',
+                foro_hoy: 'Hoy', foro_ayer: 'Ayer', foro_hace: 'Hace {n} días', foro_sin_fecha: 'Sin fecha',
+                news_label: 'noticias', events_label: 'eventos', gallery_label: 'imágenes',
+                nav_soporte: 'Soporte', nav_tienda: 'Tienda', nav_back: 'Volver al inicio', nav_entrar: 'Entrar',
+                faq_title: 'Preguntas frecuentes', guide_title: 'Cómo entrar al servidor',
+                hero_click_copy: 'haz click para copiar',
+                footer_res: 'Todos los derechos reservados.', footer_admin: 'Panel de admin', footer_follow: 'Síguenos', footer_ip: 'IP del servidor',
+                footer_terms: 'Términos y condiciones', footer_privacy: 'Política de privacidad',
+                discord_box_title: 'Comunidad activa en Discord',
+                discord_box_sub: 'Únete a cientos de jugadores en tiempo real para enterarte de eventos, sorteos y recibir ayuda del staff.',
+                discord_box_btn: 'Abrir Discord',
+                close: 'Cerrar',
+                account_title: 'Cuenta de', nav_logout: 'Cerrar sesión', currency_label: 'Moneda:',
+                cart_total: 'Total:', cart_checkout: 'REALIZAR PEDIDO',
+                my_orders_title: 'Mis pedidos', no_orders: 'Aún no tienes pedidos.',
+                my_reports_tickets_title: 'Mis reportes / Tickets', no_reports_tickets: 'Aún no tienes reportes ni tickets.',
+                mc_name: 'Nombre MC para compras in-game', mc_save: 'Guardar',
+                new_pill: 'NUEVO', staff_replied: 'El staff respondió a tu ticket #',
+            },
+            en: {
+                cta_jugar: 'Join the server', cta_discord: 'Join our Discord',
+                cta_tienda: 'See the store', cta_entrar: 'Log in', cta_salir: 'Log out',
+                cta_registro: 'Create account', cta_entrar_cuenta: 'Log in to my account',
+                btn_entrar: 'Log in', btn_crear: 'Create account', btn_guardar: 'Save',
+                btn_cancelar: 'Cancel', btn_cerrar: 'Close', btn_enviar: 'Send',
+                btn_copiar: 'Copy', btn_volver: 'Back', btn_salir: 'Log out',
+                btn_soporte: 'Get support', btn_reportar: 'Report a player',
+                btn_valorar: 'Rate', btn_comprar: 'Buy', btn_carrito: 'Cart',
+                btn_menu: 'Open menu', btn_whatsapp: 'Message us on WhatsApp',
+                menu_abrir: 'Open menu', menu_cerrar: 'Close menu',
+                faq_title: 'Frequently asked questions',
+                err_carga: 'Could not load. Reload the page.',
+                err_red: 'No connection. Check your internet.',
+                err_generico: 'Something went wrong. Try again.',
+                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
+nav_eventos: 'Events',
+nav_galeria: 'Gallery',
+news_title: 'News and updates',
+news_subtitle: 'Everything new in Odissey, announcements and version notes.',
+filter_all: 'All',
+filter_news: 'News',
+filter_updates: 'Updates',
+filter_events: 'Events',
+rating_title_prefix: 'Rate',
+rating_subtitle: 'Your feedback helps us improve',
+rating_prompt: 'How was your experience with this staff member?',
+rating_submit_btn: 'Submit rating',
+report_title: 'Report a player',
+report_sub: 'Our staff will review your report',
+report_info: 'Tell us which player you want to report and why. If you have a screenshot, paste its link (optional).',
+report_submit_btn: 'Submit report',
+cb_decline: 'Reject',
+cb_accept: 'Accept',
+    skip_link: 'Skip to content',
+nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_wiki: 'Wiki', nav_perfil: 'Profile', nav_noticias: 'News',
+                nav_foro: 'Forum', foro_title: 'Forum',
+                foro_sub: 'News, events, rules, wiki and gallery from Odissey, all in one place.',
+                foro_sec_oficial: 'Official', foro_sec_comunidad: 'Community',
+                foro_desc_noticias: 'Changelogs, updates and server announcements.',
+                foro_desc_eventos: 'Tournaments, giveaways and community activities.',
+                foro_desc_reglas: 'Server rules and good practices for the community.',
+                foro_desc_wiki: 'Guides, tutorials and server documentation.',
+                foro_desc_galeria: 'Screenshots and builds from Odissey players.',
+                foro_ultima: 'Last updated', foro_reciente: 'Recent',
+                foro_col_tablero: 'Board', foro_col_contenido: 'Content',
+                foro_label_secciones: 'sections', foro_label_paginas: 'pages', foro_hint: 'Pick a board to see everything inside it.',
+                foro_hoy: 'Today', foro_ayer: 'Yesterday', foro_hace: '{n} days ago', foro_sin_fecha: 'No date',
+                news_label: 'posts', events_label: 'events', gallery_label: 'images',
+                nav_soporte: 'Support', nav_tienda: 'Shop', nav_back: 'Back to home', nav_entrar: 'Log in',
+                faq_title: 'Frequently asked questions', guide_title: 'How to join the server',
+                hero_click_copy: 'click to copy IP',
+                footer_res: 'All rights reserved.', footer_admin: 'Admin panel', footer_follow: 'Follow us', footer_ip: 'Server IP',
+                footer_terms: 'Terms & Conditions', footer_privacy: 'Privacy Policy',
+                discord_box_title: 'Active Discord Community',
+                discord_box_sub: 'Join hundreds of players in real-time for events, giveaways, and staff support.',
+                discord_box_btn: 'Open Discord',
+                close: 'Close',
+                account_title: 'Account of', nav_logout: 'Log out', currency_label: 'Currency:',
+                cart_total: 'Total:', cart_checkout: 'CHECKOUT',
+                my_orders_title: 'My orders', no_orders: 'You have no orders yet.',
+                my_reports_tickets_title: 'My reports / Tickets', no_reports_tickets: 'You have no reports or tickets yet.',
+                mc_name: 'MC name for in-game purchases', mc_save: 'Save',
+                new_pill: 'NEW', staff_replied: 'The staff replied to your ticket #',
+            }
+        };
+        function getLang() {
+            return localStorage.getItem('odissey_lang') === 'en' ? 'en' : 'es';
+        }
+        function flagIcon(lang) {
+            return '<img class="lang-flag-img" width="24" height="18" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+        }
+        function applyLang() {
+            const lang = getLang();
+            const dict = I18N[lang];
+            if (!dict) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                const k = el.dataset.i18nAria;
+                if (dict[k] !== undefined) el.setAttribute('aria-label', dict[k]);
+            });
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) langBtn.innerHTML = flagIcon(lang);
+            updateNavButton();
+            document.documentElement.lang = lang;
+        }
+        function toggleLang() {
+            localStorage.setItem('odissey_lang', getLang() === 'es' ? 'en' : 'es');
+            applyLang();
+        }
+        function getTheme() {
+            return false ? 'light' : 'dark';
+        }
+        function applyTheme() {
+            const light = getTheme() === 'light';
+            document.documentElement.classList.toggle('theme-light', light);
+            const sun = document.getElementById('themeSun');
+            const moon = document.getElementById('themeMoon');
+            if (sun) sun.classList.toggle('hidden', !light);
+            if (moon) moon.classList.toggle('hidden', light);
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', light ? '#f8fafc' : '#0f172a');
+        }
+        function toggleTheme() {
+            localStorage.setItem('odissey_theme', getTheme() === 'light' ? 'dark' : 'light');
+            applyTheme();
+        }
+        applyLang();
+        applyTheme();
+        renderMaintenance();
+        renderDiscordWidget();
+        renderTestimonials();
+        // Escucha el evento de ajustes cargados desde la API para refrescar el widget y el estado
+        document.addEventListener('siteconfig-loaded', function () {
+            renderDiscordWidget();
+            updatePlayerCounts();
+        });
+        // Cargar contenido desde la API del bot y volver a pintar
+        SiteData.loadPublic().then(function () {
+            renderStaff();
+            renderMaintenance();
+            renderDiscordWidget();
+            renderTestimonials();
+            renderCart();
+            updatePlayerCounts();
+            const token = getSessionToken();
+            if (token) {
+                SiteData.loadMy(token).then(function () {
+                    const u = getCurrentUser();
+                    if (u) renderAccountView();
+                });
+            }
+        });
+        if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            navigator.serviceWorker.register('service-worker.js?v=144').catch(() => { });
+        }
+    </script>
+<!-- Aviso de cookies -->
+<style>
+#cookie-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:480px;margin:0 auto;background:linear-gradient(135deg,rgba(var(--od-glass-rgb,10,16,30),.97),rgba(var(--od-marine-darker-rgb,10,16,30),.94));border:1px solid rgba(var(--od-border-rgb,51,65,85),.6);border-radius:14px;padding:16px 18px;box-shadow:0 10px 40px rgba(var(--od-shadow-rgb,10,16,30),.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--od-text-light,#f8fafc);font-family:inherit;opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease;max-height:calc(100vh - 32px);overflow:auto}
+#cookie-banner.show{opacity:1;transform:translateY(0)}
+#cookie-banner .cb-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:var(--od-gold-light,#fde68a);margin-bottom:8px}
+#cookie-banner .cb-text{font-size:13px;line-height:1.55;color:var(--od-text-dark,#cbd5e1);margin-bottom:14px}
+#cookie-banner .cb-text a{color:var(--od-marine-accent,#eab308);text-decoration:underline}
+#cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+</style>
+<div id="cookie-banner" role="dialog" aria-live="polite">
+  <div class="cb-head">🍪</div>
+  <div class="cb-text"></div>
+  <div class="cb-actions">
+    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
+    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+  </div>
+</div>
+<script>
+(function () {
+    var b = document.getElementById('cookie-banner');
+    if (!b) return;
+    var get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    var set = function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } };
+    if (get('odissey_cookie_consent')) return;
+    var en = get('odissey_lang') === 'en';
+    b.querySelector('.cb-head').textContent = en ? '🍪 We use cookies' : '🍪 Usamos cookies';
+    b.querySelector('.cb-text').innerHTML = en
+        ? 'This site uses cookies to remember your preferences (language and theme). We do not sell data to third parties. More info on our <a href="privacidad.html">privacy policy</a>.'
+        : 'Este sitio usa cookies para recordar tus preferencias (idioma y tema). No vendemos datos a terceros. Más información en nuestra <a href="privacidad.html">política de privacidad</a>.';
+    var accept = b.querySelector('[data-cb="accept"]');
+    var decline = b.querySelector('[data-cb="decline"]');
+    accept.textContent = en ? 'Accept' : 'Aceptar';
+    decline.textContent = en ? 'Reject' : 'Rechazar';
+    function pick(v) { set('odissey_cookie_consent', v); b.style.opacity = '0'; b.style.transform = 'translateY(12px)'; setTimeout(function () { b.remove(); }, 350); }
+    accept.addEventListener('click', function () { pick('accepted'); });
+    decline.addEventListener('click', function () { pick('rejected'); });
+    b.classList.add('show');
+})();
+</script>
+<script>
+/* Bloquea el scroll del fondo mientras haya un modal abierto y lo
+   devuelve al cerrar. Se apoya en MutationObserver porque estos modales
+   se abren y cierran cambiando clases, no con eventos propios. */
+(function () {
+    var bloqueado = false;
+    function aplicar() {
+        var abierto = hayModal();
+        if (abierto === bloqueado) return;
+        bloqueado = abierto;
+        if (abierto) {
+            document.body.style.overflow = "hidden";
+            document.body.classList.add("od-scroll-locked");
+        } else {
+            document.body.style.overflow = "";
+            document.body.classList.remove("od-scroll-locked");
+        }
+    }
+    function hayModal() {
+        var m = document.querySelectorAll('[aria-modal="true"]');
+        for (var i = 0; i < m.length; i++) {
+            // si tiene la clase hidden esta cerrado, aunque el CSS todavia
+            // no la haya aplicado (Tailwind llega por CDN y tarde)
+            if (m[i].classList.contains("hidden")) continue;
+            if (m[i].getAttribute("aria-hidden") === "true") continue;
+            if (m[i].getClientRects().length > 0) return true;
+        }
+        return false;
+    }
+    var pendiente = false;
+    function pedir() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(function () {
+            pendiente = false;
+            aplicar();
+        });
+    }
+    new MutationObserver(pedir).observe(document.body, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["class", "style"],
+    });
+    document.addEventListener("click", pedir);
+    document.addEventListener("keyup", pedir);
+    window.addEventListener("resize", pedir);
+    // el primer analisis espera a que la pagina este pintada, para que
+    // Tailwind ya haya aplicado las clases hidden
+    if (document.readyState === "complete") setTimeout(aplicar, 200);
+    else window.addEventListener("load", function () { setTimeout(aplicar, 200); });
+    setTimeout(aplicar, 1200);
+})();
+</script>
+    <script src="js/search.js?v=144"></script>
+    <!-- Cloudflare Turnstile: aporta OdisseyTurnstile. Va antes de auth.js porque
+     auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
+     no esta aqui, vive en el bot (odisseymc.site/bot). -->
+    <script src="js/turnstile.js?v=144" defer></script>
+    <script src="auth.js?v=144"></script>
+    <script src="js/foro.js?v=144"></script>
+    <script src="js/analitica.js?v=144"></script>
+<script src="js/formulario.js?v=144"></script>
+<script src="js/dala-art.js?v=144"></script>
+    <script src="js/dala-bg.js?v=144"></script>
+    <script src="js/dala-menu.js?v=144"></script>
+    <script src="js/dala-auth-steve.js?v=144"></script>
+        <script src="js/dala-nav.js?v=144"></script>
+    </body>
+</html>

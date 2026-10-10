@@ -1,76 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- admin y /bot quedan fuera a proposito -->
+<!--
+  Mapa de URLs de Odissey.
+
+  Que es esto: la lista de paginas que quieres que Google indexe.
+  Sin este archivo, Google descubre las paginas naveitando el
+  sitio, lo cual es lento y no le dice nada de que pagina es mas
+  importante que otra. Aqui cada <priority> le dice la importance
+  relativa (de 0.0 a 1.0) y cada <changefreq> cada cuanto deberia
+  revisar esa pagina.
+
+  NOTA SOBRE lastmod: es la fecha de la ULTIMA modificacion REAL de
+  la pagina. Si lo dejas puesto con una fecha vieja, Google ignora
+  los cambios que hagas. La fecha que hay ahora es la de la
+  actualizacion de seguridad y de SEO de esta version del sitio.
+  Cuando cambies el contenido de una pagina, actualiza la suya.
+
+  admin y /bot quedan fuera a proposito: no son contenido publico.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://odisseymc.site/</loc>
-    <lastmod>2026-09-26</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://odisseymc.site/staff</loc>
-    <lastmod>2026-09-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://odisseymc.site/tienda</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://odisseymc.site/reglas</loc>
-    <lastmod>2026-09-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://odisseymc.site/foro</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/noticias</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/eventos</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/galeria</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://odisseymc.site/wiki</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://odisseymc.site/reglas</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://odisseymc.site/soporte</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/reportes</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/postulaciones</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://odisseymc.site/staff</loc>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/privacidad</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://odisseymc.site/terminos</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <!--
+    gracias NO esta en el sitemap a proposito: lleva noindex y es una
+    pagina de confirmacion. Que Google la recorra desde los enlaces de
+    las otras paginas (por eso tiene follow) es justo lo que se quiere.
+    Meterla aqui seria pedirle que la indexe y se contradiria con el
+    noindex de la propia pagina.
+  -->
 </urlset>

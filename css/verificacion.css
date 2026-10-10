@@ -1,0 +1,202 @@
+/* ============================================================
+   verificacion.css — Pagina de verificacion de staff.
+
+   Va aparte de perfil.css a proposito: si esta pagina loadara el CSS del
+   perfil, cada retoque del perfil se veria aqui. Usa las mismas variables
+   --od-* para que el tema claro y el oscuro funcionen sin reglas extra.
+   ============================================================ */
+
+.verif-caja {
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.55);
+    background: linear-gradient(180deg, rgba(var(--od-marine-medium-rgb), 0.42) 0%, rgba(var(--od-marine-darker-rgb), 0.5) 100%);
+    box-shadow: 0 24px 60px -38px rgba(0, 0, 0, 0.9);
+    text-align: center;
+}
+
+.verif-icono {
+    font-size: 2.6rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+}
+
+.verif-titulo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--od-marine-accent);
+    margin: 0 0 0.5rem;
+}
+
+.verif-texto {
+    color: var(--od-text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+}
+
+/* ---------- Datos mostrados ---------- */
+.verif-datos {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.verif-dato {
+    flex: 1;
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.5);
+    background: rgba(var(--od-marine-darker-rgb), 0.45);
+    text-align: left;
+}
+
+.verif-dato span {
+    display: block;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: 0.75;
+    margin-bottom: 0.15rem;
+}
+
+.verif-dato strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--od-text-light);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- Confirmacion ---------- */
+.verif-paso {
+    margin-bottom: 1.25rem;
+}
+
+.verif-pregunta {
+    color: var(--od-text-dark);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0 0 0.85rem;
+}
+
+.verif-botones {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.verif-pie {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+/* ---------- Ayuda ---------- */
+.verif-ayuda {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(var(--od-border-rgb), 0.45);
+    text-align: left;
+}
+
+.verif-ayuda p:first-child {
+    margin: 0 0 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--od-gold-light);
+}
+
+.verif-ayuda ol {
+    margin: 0;
+    padding-left: 1.15rem;
+    color: var(--od-text-dark);
+    font-size: 0.84rem;
+    line-height: 1.7;
+}
+
+.verif-ayuda code {
+    padding: 0.1rem 0.35rem;
+    border-radius: 6px;
+    background: rgba(var(--od-marine-accent-rgb), 0.14);
+    color: var(--od-marine-accent);
+    font-weight: 700;
+}
+
+.verif-nota {
+    margin: 0.85rem 0 0;
+    font-size: 0.76rem;
+    color: var(--od-text-dark);
+    opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+    .verif-caja {
+        padding: 1.5rem 1.1rem;
+    }
+
+    .verif-datos {
+        flex-direction: column;
+    }
+
+    .verif-dato {
+        text-align: center;
+    }
+}
+/* ---------- Campo del codigo ---------- */
+.verif-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--od-gold-light);
+    text-align: left;
+}
+
+.verif-codigo {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.8);
+    background: rgba(var(--od-marine-darker-rgb), 0.6);
+    color: var(--od-text-light);
+    font-family: inherit;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 0.4em;
+    text-align: center;
+    text-indent: 0.4em;
+    outline: none;
+}
+
+.verif-codigo:focus {
+    border-color: rgba(var(--od-marine-accent-rgb), 0.8);
+    box-shadow: 0 0 0 3px rgba(var(--od-marine-accent-rgb), 0.12);
+}
+
+.verif-codigo::placeholder {
+    color: var(--od-text-dark);
+    opacity: 0.28;
+    letter-spacing: 0.4em;
+}
+
+.verif-pista {
+    margin: 0.5rem 0 0.9rem;
+    font-size: 0.8rem;
+    color: var(--od-text-dark);
+    opacity: 0.85;
+}

@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');</script>
+    <script>document.documentElement.classList.toggle('theme-light', false);</script>
     <title>Odissey - Política de Privacidad</title>
   <meta property="og:url" content="https://odisseymc.site/privacidad">
   <link rel="canonical" href="https://odisseymc.site/privacidad">
@@ -13,45 +13,88 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Odissey - Política de Privacidad">
   <meta property="og:description" content="Como Odissey recoge y usa tus datos: sesion con Discord, pedidos, almacenamiento local y tus derechos.">
-  <meta property="og:image" content="img/og-image.jpg">
+  <meta property="og:image" content="https://odisseymc.site/img/og-image.jpg">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Odissey - Política de Privacidad">
   <meta name="twitter:description" content="Como Odissey recoge y usa tus datos: sesion con Discord, pedidos, almacenamiento local y tus derechos.">
-  <meta name="twitter:image" content="img/og-image.jpg">
-    <meta name="theme-color" content="#0f172a">
+  <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
+    <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-    <link rel="stylesheet" href="theme.css?v=26">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'marine-dark': 'var(--od-marine-dark)',
-                        'marine-medium': 'var(--od-marine-medium)',
-                        'marine-light': 'var(--od-marine-light)',
-                        'marine-accent': 'var(--od-marine-accent)',
-                        'gold-light': 'var(--od-gold-light)',
-                        'gold-dark': 'var(--od-gold-dark)',
-                        'text-light': 'var(--od-text-light)',
-                        'text-dark': 'var(--od-text-dark)',
-                        'marine-darker': 'var(--od-marine-darker)',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/privacidad.css?v=26">
+    <link rel="stylesheet" href="css/texto-legal.css?v=144">
+  <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="color-scheme" content="dark light">
+        <script type="application/ld+json">
+{
+"@context":  "https://schema.org",
+"@graph":  [
+{
+"@type":  "WebSite",
+"@id":  "https://odisseymc.site/#website",
+"url":  "https://odisseymc.site/",
+"name":  "Odissey Minecraft Server",
+"inLanguage":  "es",
+"publisher":  {
+"@type":  "Organization",
+"@id":  "https://odisseymc.site/#org",
+"name":  "Odissey",
+"url":  "https://odisseymc.site/",
+"logo":  {
+"@type":  "ImageObject",
+"url":  "https://odisseymc.site/img/logo-web.webp",
+"width":  900,
+"height":  382
+}
+}
+},
+{
+"@type":  "WebPage",
+"@id":  "https://odisseymc.site/privacidad#pagina",
+"url":  "https://odisseymc.site/privacidad",
+"name":  "Politica de privacidad de Odissey",
+"inLanguage":  "es",
+"isPartOf":  {
+"@id":  "https://odisseymc.site/#website"
+},
+"publisher":  {
+"@id":  "https://odisseymc.site/#org"
+}
+},
+{
+"@type":  "BreadcrumbList",
+"@id":  "https://odisseymc.site/privacidad#miga",
+"itemListElement":  [
+{
+"@type":  "ListItem",
+"position":  1,
+"name":  "Inicio",
+"item":  "https://odisseymc.site/"
+},
+{
+"@type":  "ListItem",
+"position":  2,
+"name":  "Privacidad"
+}
+]
+},
+{
+"@id":  "https://odisseymc.site/#website"
+}
+]
+}
+    </script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
 </head>
 
 <body>
@@ -72,13 +115,27 @@
     </div>
     <div class="overlay">
 
-        <nav class="nav-bar sticky top-0 z-50 w-full backdrop-blur-md border-b">
-            <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-3 max-w-6xl mx-auto w-full">
-                <a href="./" class="flex items-center shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+        <nav class="nav-bar sticky top-0 z-50 w-full">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
                 </a>
-                <div class="flex items-center gap-2 flex-shrink-0">
+
+                <div class="nav-pill" role="navigation" aria-label="Secciones">
+                    <a href="tienda.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                            <a href="foro.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_foro">Foro</span></a>
+                            <a href="soporte.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                            <a href="reglas.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                            <a href="staff.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                            <a href="perfil.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                </div>
+
+                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
+                    
                     <button type="button" onclick="toggleLang()" id="langBtn" class="nav-button nav-button-secondary" title="Cambiar idioma / Switch language"></button>
+                    
+                    
+                    
                 </div>
             </div>
         </nav>
@@ -150,6 +207,27 @@
     <script>
         const I18N = {
             es: {
+                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
+                cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
+                btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
+                btn_cancelar: 'Cancelar', btn_cerrar: 'Cerrar', btn_enviar: 'Enviar',
+                btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
+                btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
+                btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
+                faq_title: 'Preguntas frecuentes',
+                err_carga: 'No se ha podido cargar. Recarga la página.',
+                err_red: 'Sin conexión. Comprueba tu internet.',
+                err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
+                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
+                nav_tienda: 'Tienda', nav_foro: 'Foro', nav_soporte: 'Soporte',
+                nav_reglas: 'Reglas', nav_staff: 'Staff', nav_perfil: 'Perfil',
+                nav_noticias: 'Noticias', nav_eventos: 'Eventos', nav_galeria: 'Galería',
+                nav_wiki: 'Wiki', nav_reportes: 'Reportes', nav_postulaciones: 'Postulaciones',
+                lang_btn: 'Cambiar idioma', theme_btn: 'Cambiar tema', menu_btn: 'Abrir menú',
+                cart_btn: 'Carrito', login_btn: 'Entrar', close: 'Cerrar',
 cb_decline: 'Rechazar',
 cb_accept: 'Aceptar',
     skip_link: 'Ir al contenido',
@@ -168,6 +246,27 @@ cb_accept: 'Aceptar',
                 footer_res: 'Todos los derechos reservados.', footer_terms: 'Términos y condiciones', footer_privacy: 'Política de privacidad'
             },
             en: {
+                cta_jugar: 'Join the server', cta_discord: 'Join our Discord',
+                cta_tienda: 'See the store', cta_entrar: 'Log in', cta_salir: 'Log out',
+                cta_registro: 'Create account', cta_entrar_cuenta: 'Log in to my account',
+                btn_entrar: 'Log in', btn_crear: 'Create account', btn_guardar: 'Save',
+                btn_cancelar: 'Cancel', btn_cerrar: 'Close', btn_enviar: 'Send',
+                btn_copiar: 'Copy', btn_volver: 'Back', btn_salir: 'Log out',
+                btn_soporte: 'Get support', btn_reportar: 'Report a player',
+                btn_valorar: 'Rate', btn_comprar: 'Buy', btn_carrito: 'Cart',
+                btn_menu: 'Open menu', btn_whatsapp: 'Message us on WhatsApp',
+                menu_abrir: 'Open menu', menu_cerrar: 'Close menu',
+                faq_title: 'Frequently asked questions',
+                err_carga: 'Could not load. Reload the page.',
+                err_red: 'No connection. Check your internet.',
+                err_generico: 'Something went wrong. Try again.',
+                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
+                nav_tienda: 'Store', nav_foro: 'Forum', nav_soporte: 'Support',
+                nav_reglas: 'Rules', nav_staff: 'Staff', nav_perfil: 'Profile',
+                nav_noticias: 'News', nav_eventos: 'Events', nav_galeria: 'Gallery',
+                nav_wiki: 'Wiki', nav_reportes: 'Reports', nav_postulaciones: 'Applications',
+                lang_btn: 'Switch language', theme_btn: 'Switch theme', menu_btn: 'Open menu',
+                cart_btn: 'Cart', login_btn: 'Log in', close: 'Close',
 cb_decline: 'Reject',
 cb_accept: 'Accept',
     skip_link: 'Skip to content',
@@ -192,7 +291,7 @@ cb_accept: 'Accept',
         }
 
         function flagIcon(lang) {
-            return '<img class="inline-block w-6 h-4" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+            return '<img class="inline-block w-6 h-4" width="24" height="18" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
         }
 
         function applyLang() {
@@ -214,7 +313,7 @@ cb_accept: 'Accept',
         }
 
         function getTheme() {
-            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+            return false ? 'light' : 'dark';
         }
 
         function applyTheme() {
@@ -275,6 +374,64 @@ cb_accept: 'Accept',
     b.classList.add('show');
 })();
 </script>
+<script>
+/* Bloquea el scroll del fondo mientras haya un modal abierto y lo
+   devuelve al cerrar. Se apoya en MutationObserver porque estos modales
+   se abren y cierran cambiando clases, no con eventos propios. */
+(function () {
+    var bloqueado = false;
+    function aplicar() {
+        var abierto = hayModal();
+        if (abierto === bloqueado) return;
+        bloqueado = abierto;
+        if (abierto) {
+            document.body.style.overflow = "hidden";
+            document.body.classList.add("od-scroll-locked");
+        } else {
+            document.body.style.overflow = "";
+            document.body.classList.remove("od-scroll-locked");
+        }
+    }
+    function hayModal() {
+        var m = document.querySelectorAll('[aria-modal="true"]');
+        for (var i = 0; i < m.length; i++) {
+            // si tiene la clase hidden esta cerrado, aunque el CSS todavia
+            // no la haya aplicado (Tailwind llega por CDN y tarde)
+            if (m[i].classList.contains("hidden")) continue;
+            if (m[i].getAttribute("aria-hidden") === "true") continue;
+            if (m[i].getClientRects().length > 0) return true;
+        }
+        return false;
+    }
+    var pendiente = false;
+    function pedir() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(function () {
+            pendiente = false;
+            aplicar();
+        });
+    }
+    new MutationObserver(pedir).observe(document.body, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["class", "style"],
+    });
+    document.addEventListener("click", pedir);
+    document.addEventListener("keyup", pedir);
+    window.addEventListener("resize", pedir);
+    // el primer analisis espera a que la pagina este pintada, para que
+    // Tailwind ya haya aplicado las clases hidden
+    if (document.readyState === "complete") setTimeout(aplicar, 200);
+    else window.addEventListener("load", function () { setTimeout(aplicar, 200); });
+    setTimeout(aplicar, 1200);
+})();
+</script>
+    <script src="js/analitica.js?v=144"></script>
+<script src="js/formulario.js?v=144"></script>
+    <script src="js/dala-art.js?v=144"></script>
+    <script src="js/dala-bg.js?v=144"></script>
+    <script src="js/dala-menu.js?v=144"></script>
 </body>
 
 </html>

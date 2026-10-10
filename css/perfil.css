@@ -1,0 +1,680 @@
+/* ===================================================================
+   perfil.css - la pagina de perfil del jugador
+   Solo lo especifico de esta pagina. Los botones y el menu vienen de
+   theme.css.
+   =================================================================== */
+
+.perfil-wrap {
+  width: 100%;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ---------- cabecera: banner + foto + nombre ---------- */
+
+.perfil-hero {
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(var(--od-border-rgb), 0.28);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+
+.perfil-banner {
+  position: relative;
+  height: 168px;
+  background:
+    radial-gradient(120% 140% at 18% 0%, rgba(234, 179, 8, 0.22) 0%, transparent 58%),
+    linear-gradient(160deg, rgba(10, 10, 10, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+  border-bottom: 1px solid rgba(var(--od-border-rgb), 0.28);
+  overflow: hidden;
+}
+
+.perfil-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.perfil-banner-vacio {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding-bottom: 2.2rem;
+  color: rgba(203, 213, 225, 0.4);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.perfil-banner-vacio svg {
+  width: 1.9rem;
+  height: 1.9rem;
+  opacity: 0.8;
+}
+
+.perfil-banner-btn {
+  position: absolute;
+  right: 0.85rem;
+  top: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--od-text-light);
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(var(--od-border-rgb), 0.5);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.perfil-banner-btn svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.perfil-hero:hover .perfil-banner-btn,
+.perfil-banner-btn:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.perfil-banner-btn:hover {
+  color: var(--od-gold-light);
+  border-color: rgba(234, 179, 8, 0.6);
+}
+
+/* La foto se solapa con el banner, como en las tarjetas de perfil */
+.perfil-ident {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+  padding: 0 1.75rem 1.4rem;
+  margin-top: -42px;
+  position: relative;
+}
+
+.perfil-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.perfil-avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(10, 10, 10, 0.95);
+  border: 3px solid rgba(0, 0, 0, 0.95);
+  outline: 3px solid var(--perfil-accent, var(--od-marine-accent));
+  outline-offset: -1px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  display: block;
+}
+
+.perfil-avatar-btn {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--od-ink);
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 60%, #d29a06 100%);
+  border: 2px solid rgba(0, 0, 0, 0.95);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.perfil-avatar-btn svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.perfil-avatar-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.08);
+}
+
+.perfil-nombre {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 0.3rem;
+}
+
+.perfil-nombre h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--perfil-accent, var(--od-text-light));
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+.perfil-meta {
+  font-size: 0.79rem;
+  color: rgba(203, 213, 225, 0.75);
+  margin: 0.3rem 0 0;
+}
+
+.perfil-bio {
+  font-size: 0.92rem;
+  color: rgba(248, 250, 252, 0.9);
+  margin: 0.55rem 0 0;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+
+.perfil-bio:empty {
+  display: none;
+}
+
+.perfil-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+
+.perfil-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.24rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--od-gold-light);
+  background: rgba(234, 179, 8, 0.13);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  border-radius: 999px;
+}
+
+/* ---------- aviso sin sesion ---------- */
+
+.perfil-login {
+  margin-top: 1.5rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(var(--od-border-rgb), 0.28);
+  border-radius: 20px;
+}
+
+.perfil-login h2 {
+  font-size: 1.35rem;
+  color: var(--od-text-light);
+  margin: 0 0 0.4rem;
+}
+
+.perfil-login p {
+  color: rgba(203, 213, 225, 0.8);
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
+}
+
+/* ---------- dos columnas ---------- */
+
+.perfil-cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: 1.15rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+
+.perfil-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  min-width: 0;
+}
+
+.perfil-col-izq {
+  position: sticky;
+  top: 5rem;
+}
+
+.perfil-card {
+  padding: 1.4rem 1.5rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(var(--od-border-rgb), 0.26);
+  border-radius: 18px;
+}
+
+.perfil-card__head h2 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--od-text-light);
+  margin: 0 0 0.25rem;
+}
+
+.perfil-card__head p {
+  font-size: 0.81rem;
+  color: rgba(203, 213, 225, 0.72);
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.perfil-card__head p:empty {
+  display: none;
+}
+
+/* ---------- botones pequenos ---------- */
+
+.btn-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--od-ink);
+  background: linear-gradient(180deg, #fde68a 0%, #eab308 60%, #d29a06 100%);
+  border: 1px solid rgba(253, 230, 138, 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.16s ease, filter 0.16s ease, background-color 0.16s ease,
+              border-color 0.16s ease, color 0.16s ease;
+}
+
+.btn-mini:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+.btn-mini-fantasma {
+  color: rgba(203, 213, 225, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(var(--od-border-rgb), 0.5);
+}
+
+.btn-mini-fantasma:hover {
+  color: var(--od-gold-light);
+  border-color: rgba(234, 179, 8, 0.55);
+  background: rgba(234, 179, 8, 0.1);
+}
+
+.btn-mini-peligro {
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.18);
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+.btn-mini-peligro:hover {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.34);
+  border-color: rgba(248, 113, 113, 0.6);
+}
+
+/* ---------- campos ---------- */
+
+.perfil-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: rgba(203, 213, 225, 0.8);
+  margin: 0 0 0.4rem;
+}
+
+.perfil-input {
+  width: 100%;
+  padding: 0.72rem 0.85rem;
+  margin-bottom: 1.15rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  color: var(--od-text-light);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(var(--od-border-rgb), 0.45);
+  border-radius: 11px;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.perfil-input:focus {
+  border-color: rgba(234, 179, 8, 0.7);
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.13);
+}
+
+.perfil-textarea {
+  resize: vertical;
+  min-height: 4.6rem;
+  line-height: 1.55;
+}
+
+.perfil-contador {
+  display: block;
+  margin: -0.9rem 0 1.15rem;
+  font-size: 0.72rem;
+  color: rgba(203, 213, 225, 0.6);
+  text-align: right;
+}
+
+.perfil-nota {
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.62);
+  line-height: 1.5;
+  margin: -0.9rem 0 0;
+}
+
+.perfil-linea-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 1.15rem;
+}
+
+.perfil-linea-input .perfil-input {
+  margin-bottom: 0;
+}
+
+.perfil-linea-input .btn-mini {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---------- color ---------- */
+
+.perfil-color {
+  margin-top: 0.2rem;
+}
+
+.perfil-color-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.perfil-color input[type=color] {
+  width: 50px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: 1px solid rgba(var(--od-border-rgb), 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.perfil-color-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-color-info strong {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--od-text-light);
+  letter-spacing: 0.04em;
+}
+
+.perfil-color-info small {
+  font-size: 0.72rem;
+  color: rgba(203, 213, 225, 0.62);
+  line-height: 1.4;
+}
+
+/* ---------- acciones al final de "Tus datos" ---------- */
+
+.perfil-acciones-datos {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: -0.35rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(var(--od-border-rgb), 0.22);
+}
+
+.perfil-estado {
+  font-size: 0.76rem;
+  color: rgba(203, 213, 225, 0.65);
+  margin-left: 0.2rem;
+  line-height: 1.4;
+}
+
+.perfil-estado.es-ok {
+  color: #86efac;
+}
+
+.perfil-estado.es-error {
+  color: #fca5a5;
+}
+
+.perfil-sep {
+  border: none;
+  border-top: 1px solid rgba(var(--od-border-rgb), 0.22);
+  margin: 0.2rem 0 0;
+}
+
+/* ---------- filas y separadores ---------- */
+
+.perfil-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(var(--od-border-rgb), 0.22);
+}
+
+.perfil-fila strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--od-text-light);
+}
+
+.perfil-fila small {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.65);
+  margin-top: 0.15rem;
+  line-height: 1.4;
+}
+
+.perfil-fila .btn-mini {
+  flex-shrink: 0;
+}
+
+
+/* ---------- tema claro ---------- */
+
+html.theme-light .perfil-hero,
+html.theme-light .perfil-card,
+html.theme-light .perfil-login {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+}
+
+html.theme-light .perfil-banner {
+  background:
+    radial-gradient(120% 140% at 18% 0%, rgba(234, 179, 8, 0.34) 0%, transparent 58%),
+    linear-gradient(160deg, rgba(241, 245, 249, 0.98) 0%, rgba(226, 232, 240, 0.98) 100%);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+html.theme-light .perfil-banner-vacio,
+html.theme-light .perfil-meta,
+html.theme-light .perfil-nota,
+html.theme-light .perfil-contador,
+html.theme-light .perfil-fila small,
+html.theme-light .perfil-color-info small,
+html.theme-light .perfil-label {
+  color: #9a9a9a;
+}
+
+html.theme-light .perfil-nombre h1,
+html.theme-light .perfil-card__head h2,
+html.theme-light .perfil-fila strong,
+html.theme-light .perfil-color-info strong,
+html.theme-light .perfil-bio,
+html.theme-light .perfil-login h2 {
+  color: #000000;
+}
+
+html.theme-light .perfil-card__head p,
+html.theme-light .perfil-login p {
+  color: #6b6b6b;
+}
+
+html.theme-light .perfil-input {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #000000;
+}
+
+html.theme-light .perfil-avatar {
+  border-color: #fff;
+}
+
+html.theme-light .perfil-banner-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #000000;
+}
+
+html.theme-light .btn-mini-fantasma {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #6b6b6b;
+}
+
+html.theme-light .perfil-fila {
+  border-color: rgba(0, 0, 0, 0.09);
+}
+
+/* ---------- movil ---------- */
+
+@media (max-width: 900px) {
+  .perfil-cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .perfil-col-izq {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .perfil-wrap {
+    padding: 1.25rem 1rem 3rem;
+  }
+
+  .perfil-banner {
+    height: 132px;
+  }
+
+  .perfil-ident {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.7rem;
+    padding: 0 1.15rem 1.3rem;
+    margin-top: -38px;
+  }
+
+  .perfil-nombre h1 {
+    font-size: 1.5rem;
+  }
+
+  .perfil-chips {
+    justify-content: center;
+  }
+
+  .perfil-bio {
+    font-size: 0.86rem;
+  }
+
+  .perfil-banner-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Aviso de "estás viendo el perfil de otro jugador" (perfil.html?u=nombre).
+   Se pinta justo debajo del cartel para que quede claro que la vista es de
+   solo lectura y no hay ningun ajuste disponible. */
+.perfil-aviso {
+    max-width: 46rem;
+    margin: 1rem auto 0;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--od-marine-accent-rgb), 0.4);
+    background: rgba(var(--od-marine-accent-rgb), 0.1);
+    color: var(--od-text-light);
+    font-size: 0.88rem;
+    text-align: center;
+}
+/* ---------- Vincular con Minecraft ---------- */
+.perfil-mc {
+    margin-top: 0.4rem;
+}
+
+.perfil-mc-linea {
+    margin: 0 0 0.7rem;
+    font-size: 0.88rem;
+    color: var(--od-text-dark);
+}
+
+.perfil-mc-codigo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.8rem 0.9rem;
+    margin-bottom: 0.8rem;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--od-marine-accent-rgb), 0.4);
+    background: rgba(var(--od-marine-accent-rgb), 0.08);
+}
+
+.perfil-mc-codigo strong {
+    font-size: 0.8rem;
+    color: var(--od-text-light);
+}
+
+.perfil-mc-codigo code {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--od-marine-accent);
+}
+
+.perfil-mc-codigo small {
+    font-size: 0.76rem;
+    color: var(--od-text-dark);
+}
+
+.perfil-mc-botones {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}

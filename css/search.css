@@ -1,0 +1,247 @@
+/* ============================================================
+   search.css - Ventana del buscador de jugadores.
+   Vive en su propio archivo para no tocar theme.css, que es
+   compartido por toda la web. Los colores salen de variables
+   --od-* para que el tema claro y el oscuro funcionen solos.
+   ============================================================ */
+
+/* ---------- Fondo ---------- */
+.buscador-fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6vh 1rem 1rem;
+    background: rgba(5, 9, 18, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow-y: auto;
+}
+
+.buscador-fondo[hidden] {
+    display: none;
+}
+
+/* ---------- Caja ---------- */
+.buscador-caja {
+    width: 100%;
+    max-width: 34rem;
+    border-radius: 16px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.7);
+    background: linear-gradient(180deg, rgba(var(--od-marine-medium-rgb), 0.98) 0%, rgba(var(--od-marine-darker-rgb), 0.98) 100%);
+    box-shadow: 0 30px 70px -28px rgba(0, 0, 0, 0.95);
+    overflow: hidden;
+}
+
+/* ---------- Campo ---------- */
+.buscador-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.8rem 0.9rem;
+    border-bottom: 1px solid rgba(var(--od-border-rgb), 0.5);
+}
+
+.buscador-lupa {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex: none;
+    color: var(--od-marine-accent);
+}
+
+.buscador-input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--od-text-light);
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    padding: 0.2rem 0;
+}
+
+.buscador-input::placeholder {
+    color: var(--od-text-dark);
+    opacity: 0.7;
+}
+
+/* Quita la cruz del input type=search, que rompe la alineacion */
+.buscador-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.buscador-cerrar {
+    flex: none;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.7);
+    background: transparent;
+    color: var(--od-text-dark);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.buscador-cerrar:hover,
+.buscador-cerrar:focus-visible {
+    color: var(--od-marine-accent);
+    border-color: rgba(var(--od-marine-accent-rgb), 0.7);
+    outline: none;
+}
+
+.buscador-pista {
+    margin: 0;
+    padding: 0.55rem 1rem;
+    font-size: 0.75rem;
+    color: var(--od-text-dark);
+    opacity: 0.75;
+    background: rgba(var(--od-marine-darker-rgb), 0.4);
+    border-bottom: 1px solid rgba(var(--od-border-rgb), 0.35);
+}
+
+/* ---------- Aviso ---------- */
+.buscador-estado {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--od-text-dark);
+}
+
+/* ---------- Resultados ---------- */
+.buscador-lista {
+    display: flex;
+    flex-direction: column;
+    max-height: min(52vh, 24rem);
+    overflow-y: auto;
+}
+
+.buscador-lista:empty {
+    display: none;
+}
+
+.buscador-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-top: 1px solid rgba(var(--od-border-rgb), 0.28);
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.13s ease;
+}
+
+.buscador-item:first-child {
+    border-top: 0;
+}
+
+.buscador-item:hover,
+.buscador-item:focus-visible {
+    background: rgba(255, 255, 255, 0.05);
+    outline: none;
+}
+
+html.theme-light .buscador-item:hover,
+html.theme-light .buscador-item:focus-visible {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.buscador-foto {
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--od-border-rgb), 0.8);
+}
+
+.buscador-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.buscador-inicial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #000000;
+}
+
+.buscador-datos {
+    flex: 1;
+    min-width: 0;
+}
+
+.buscador-nombre {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--od-marine-accent);
+}
+
+.buscador-mc {
+    display: block;
+    font-size: 0.74rem;
+    color: var(--od-text-dark);
+    opacity: 0.85;
+}
+
+.buscador-bio {
+    display: block;
+    font-size: 0.74rem;
+    color: var(--od-text-dark);
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.buscador-ver {
+    flex: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--od-marine-accent);
+    opacity: 0;
+    transition: opacity 0.13s ease;
+}
+
+.buscador-item:hover .buscador-ver,
+.buscador-item:focus-visible .buscador-ver {
+    opacity: 1;
+}
+
+/* ---------- Movil ---------- */
+@media (max-width: 640px) {
+    .buscador-fondo {
+        padding: 1rem 0.75rem;
+        align-items: flex-start;
+    }
+
+    .buscador-caja {
+        border-radius: 14px;
+    }
+
+    .buscador-ver {
+        display: none;
+    }
+}

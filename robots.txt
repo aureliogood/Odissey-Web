@@ -1,9 +1,22 @@
 # robots.txt de Odissey
+#
+# Este archivo le dice a los buscadores que pueden visitar la web y
+# donde esta el mapa de URLs. Vive en la raiz del dominio y se llama
+# exactamente "robots.txt" (sin extension visible).
+
 User-agent: *
 Allow: /
 
-# el panel de administracion no debe indexarse
+# El panel de administracion no debe indexarse. Ojo: hay que poner
+# las DOS formas. Con "Disallow: /admin" solo, un buscador que pide
+# /admin.html (que es como existe el fichero en el disco) se lo
+# come. Las dos lineas juntas tapan las dos URLs.
 Disallow: /admin
+Disallow: /admin.html
+
+# La pagina de verificacion de staff tambien es privada: muestra
+# datos del panel si alguien entra con sesion.
+Disallow: /staffverificar
 
 # rutas del bot (API de Discord, tickets y contenido)
 Disallow: /bot
@@ -11,4 +24,7 @@ Disallow: /bot
 # paginas privadas o de error
 Disallow: /404.html
 
+# El mapa de URLs le dice a Google exactamente que paginas existen.
+# Sin esto, Google solo lo descubre navigating y tarda mas en
+# indexar el contenido nuevo.
 Sitemap: https://odisseymc.site/sitemap.xml

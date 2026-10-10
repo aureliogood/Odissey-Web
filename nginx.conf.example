@@ -1,0 +1,258 @@
+# Nginx: configuracion de referencia para servir Odissey delante de un
+# bot de Node.js.
+#
+# Este archivo NO se sube al hosting. Es la alternativa al .htaccess
+# para cuando la web se sirve con Nginx en un VPS en vez de Apache en
+# un hosting compartido. Elige UNO de los dos, no los dos.
+#
+# Como montarlo:
+#   1. Instalar el certificado (ver la seccion SSL mas abajo).
+#   2. sudo cp odissey-security-headers.conf /etc/nginx/snippets/
+#   3. Copiar este archivo a /etc/nginx/sites-available/odissey
+#   4. ln -s /etc/nginx/sites-available/odissey /etc/nginx/sites-enabled/
+#   5. nginx -t && systemctl reload nginx
+
+# Limite general de peticiones por IP. Un visitante normal no pasa de
+# 100 peticiones por minuto al cargar la web entera.
+limit_req_zone $binary_remote_addr zone=odissey_general:10m rate=30r/s;
+limit_req_zone $binary_remote_addr zone=odissey_login:10m rate=12r/m;
+
+# Cuerpos maximos. El bot acepta JSON de formularios y un avatar; el
+# limite esta a la holgura para no romper nada pero corta los envios
+# gigantes que usan los escaneres.
+client_max_body_size 4m;
+client_body_timeout 15s;
+client_header_timeout 15s;
+send_timeout 20s;
+
+server {
+    # 80: todo se redirige a 443.
+    listen 80;
+    listen [::]:80;
+    server_name odisseymc.site www.odisseymc.site;
+
+    # Certbot deja aqui sus lineas para validar el dominio. Si
+    # instalaste el certificado con webroot, esta seccion se puede
+    # borrar; si usaste --nginx, se gestiona sola.
+    location ^~ /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name odisseymc.site www.odisseymc.site;
+
+    # ---------------------------------------------------------------
+    # SSL / TLS
+    # ---------------------------------------------------------------
+    # Certificado de Let's Encrypt (gratis, renovacion automatica con
+    # certbot). Con Cloudflare delante, en su lugar se pone el
+    # certificado que da Cloudflare (SSL/TLS > Origin Server >
+    # Create Certificate), que cubre odisseymc.site, www y *.
+    ssl_certificate     /etc/letsencrypt/live/odisseymc.site/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/odisseymc.site/privkey.pem;
+
+    # Solo TLS 1.2 y 1.3. TLS 1.0/1.1 estan rotos y ya no las acepta
+    # ningun navegador moderno.
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
+    # Stapling: el servidor manda la prueba de que el certificado es
+    # real en el propio handshake, para que el cliente no tenga que
+    # pedirla por separado. Mas rapido y mas dificil de interceptar.
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 1.1.1.1 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    # Cabecera Server generica: no dice la version de Nginx.
+    server_tokens off;
+
+    root /var/www/odisseymc.site;
+    index index.html;
+    charset utf-8;
+
+    # Cabeceras de seguridad. Van en un archivo aparte porque Nginx
+    # hace que un add_header dentro de un location ANULE los del
+    # bloque server (ver odissey-security-headers.conf).
+    include /etc/nginx/snippets/odissey-security-headers.conf;
+
+    # ---------------------------------------------------------------
+    # OCULTAR LA IP REAL DEL SERVIDOR
+    # ---------------------------------------------------------------
+    # Si hay un CDN delante (Cloudflare, BunnyCDN), el truco es poner
+    # el firewall para que SOLO acepte trafico del CDN. Asi, aunque
+    # alguien descubra la IP del servidor, no puede conectar
+    # directamente a ella.
+    #
+    # Guion de iptables equivalente (poner en un script de arranque,
+    # NO en el nginx.conf). Los rangos son los de Cloudflare; si usas
+    # otro CDN, cambialos por los suyos:
+    #
+    #   iptables -A INPUT -p tcp --dport 80 -j DROP
+    #   iptables -A INPUT -p tcp --dport 443 -j DROP
+    #   for R in 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 \
+    #            103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 \
+    #            190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 \
+    #            198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 \
+    #            104.24.0.0/14 172.64.0.0/13 131.0.72.0/22; do
+    #     iptables -A INPUT -p tcp --dport 80 -s $R -j ACCEPT
+    #     iptables -A INPUT -p tcp --dport 443 -s $R -j ACCEPT
+    #   done
+    #   iptables -A INPUT -p tcp --dport 22 -j ACCEPT   # SSH
+    #
+    # SIN CDN: deja las lineas de DROP fuera. Si las pones y no hay
+    # CDN delante, la web se cae y no vuelve hasta que quites las
+    # reglas por SSH.
+
+    # ---------------------------------------------------------------
+    # COMPRESION
+    # ---------------------------------------------------------------
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_min_length 512;
+    gzip_proxied any;
+    gzip_types text/plain text/css text/xml application/javascript application/json application/xml image/svg+xml font/woff font/woff2 application/manifest+json;
+
+    # ---------------------------------------------------------------
+    # LIMITE DE PETICIONES
+    # ---------------------------------------------------------------
+    location / {
+        limit_req zone=odissey_general burst=50 nodelay;
+        autoindex off;                     # sin listar carpetas
+        try_files $uri $uri/ $uri.html =404;
+    }
+
+    # ---------------------------------------------------------------
+    # RATE LIMIT EN LOS LOGINS (fuerza bruta)
+    # ---------------------------------------------------------------
+    # El limite REAL de intentos tiene que hacerlo el bot (por cuenta
+    # y con bloqueo temporal). Esto es la capa de red: frena a un
+    # atacante que prueba contrasenas desde IPs distintas.
+    location /bot/api/auth/login {
+        limit_req zone=odissey_login burst=5 nodelay;
+        limit_req_status 429;
+        proxy_pass http://127.0.0.1:3000;
+        include /etc/nginx/proxy_params;
+    }
+    location /bot/api/auth/register {
+        limit_req zone=odissey_login burst=3 nodelay;
+        limit_req_status 429;
+        proxy_pass http://127.0.0.1:3000;
+        include /etc/nginx/proxy_params;
+    }
+
+    # ---------------------------------------------------------------
+    # FICHEROS QUE NUNCA SE SIRVEN
+    # ---------------------------------------------------------------
+    location ~ /\.(?!well-known) {
+        deny all;
+        return 404;
+    }
+    location ~* \.(htaccess|htpasswd|ini|log|bak|old|orig|save|swp|swo|tmp|temp|sql|db|sqlite|cfg|conf|config|env|yml|yaml|ps1|bat|sh|py|rb|map|lock|zip|tar|gz|tgz|7z|rar|exe|dll|so)$ {
+        deny all;
+        return 404;
+    }
+    # Ficheros de desarrollo.
+    location ~* ^/(dev-server|package)\.(js|bat|ps1)$ {
+        deny all;
+        return 404;
+    }
+
+    # ---------------------------------------------------------------
+    # EL PANEL DE ADMIN
+    # ---------------------------------------------------------------
+    # Tres capas, todas apilables:
+    #   1. allow/deny por IP (si tienes IP fija, es la mas fuerte).
+    #   2. Basic Auth de Nginx (una segunda contraseña, gestionada por
+    #      el servidor y no por el JavaScript del navegador).
+    #   3. El propio login del bot, que ya existe en la web.
+    # Sin IP fija, deja la 1 como esta y usa la 2.
+    # Para crear el usuario de la capa 2:
+    #   sudo htpasswd -c /etc/nginx/.odissey-htpasswd odissey
+    location ~* ^/(admin|staffverificar) {
+        # allow 1.2.3.4;        # <- tu IP de aqui
+        # deny all;             # <- descomenta cuando tengas la de arriba
+        auth_basic "Odissey - Panel privado";
+        auth_basic_user_file /etc/nginx/.odissey-htpasswd;
+        # El panel nunca se cachea ni se indexa. Ojo: hay que volver
+        # a incluir las cabeceras, o este location se queda sin CSP.
+        include /etc/nginx/snippets/odissey-security-headers.conf;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, private" always;
+        add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+        try_files $uri $uri.html =404;
+    }
+
+    # ---------------------------------------------------------------
+    # EL BOT (Node.js)
+    # ---------------------------------------------------------------
+    # El bot corre en local (127.0.0.1:3000) y Nginx hace de proxy.
+    # Por eso, desde fuera, la IP del proceso del bot no se ve nunca.
+    location /bot/ {
+        proxy_pass http://127.0.0.1:3000/bot/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 120s;
+    }
+
+    # ---------------------------------------------------------------
+    # CACHE DE ESTATICOS
+    # ---------------------------------------------------------------
+    location ~* \.(png|jpe?g|webp|avif|svg|ico|woff2?)$ {
+        expires 30d;
+        include /etc/nginx/snippets/odissey-security-headers.conf;
+        add_header Cache-Control "public, max-age=2592000, immutable" always;
+        access_log off;
+    }
+    location ~* \.(css|js|json|xml)$ {
+        expires 7d;
+        include /etc/nginx/snippets/odissey-security-headers.conf;
+        add_header Cache-Control "public, max-age=604800" always;
+        access_log off;
+    }
+    # El service worker decide cuando se actualiza la cache: nunca.
+    location = /service-worker.js {
+        include /etc/nginx/snippets/odissey-security-headers.conf;
+        add_header Cache-Control "no-cache, must-revalidate" always;
+        add_header Service-Worker-Allowed "/" always;
+    }
+    # El HTML tampoco: un F5 normal ya debe mostrar la version nueva.
+    location ~* \.html$ {
+        include /etc/nginx/snippets/odissey-security-headers.conf;
+        add_header Cache-Control "no-cache, must-revalidate" always;
+    }
+
+    # ---------------------------------------------------------------
+    # PAGINAS DE ERROR
+    # ---------------------------------------------------------------
+    error_page 404 /404.html;
+
+    # ---------------------------------------------------------------
+    # LOGS DE AUDITORIA
+    # ---------------------------------------------------------------
+    # Formato combinado mas tiempo de respuesta. Con esto se puede
+    # ver de un vistazo un pico de trafico raro o un escaner.
+    log_format audit '$remote_addr - $remote_user [$time_local] '
+                      '"$request" $status $body_bytes_sent '
+                      '"$http_referer" "$http_user_agent" rt=$request_time';
+    access_log /var/log/nginx/odissey.access.log audit;
+    error_log  /var/log/nginx/odissey.error.log warn;
+}

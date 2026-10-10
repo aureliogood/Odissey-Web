@@ -1,0 +1,12 @@
+Contact: https://dc.gg/odisseymc
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: es, en
+Canonical: https://odisseymc.site/.well-known/security.txt
+Policy: https://odisseymc.site/privacidad
+
+# Si encuentras un fallo de seguridad en Odissey, avisanos por Discord
+# (https://dc.gg/odisseymc) o escribe al owner: Aurelio.
+#
+# Esto es un archivo de texto plano que los escaneres automaticos
+# leen en busca de una direccion de contacto. No contiene datos
+# sensibles y por eso se puede publicar.

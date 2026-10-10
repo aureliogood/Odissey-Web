@@ -64,12 +64,32 @@
         .then(function (res) { return res.json(); })
         .then(function (json) {
           if (!json || !json.ok) return false;
+          // El panel carga el contenido dos veces: primero desde /api/content y
+          // luego desde /api/admin/data. Si la segunda viene con alguna lista
+          // vacia, antes se perdia la que ya estaba bien cargada y el panel
+          // ENSENABA "no hay noticias" con las noticias a la vista en la web.
+          // Ahora, una lista vacia en la respuesta del panel no pisa la que
+          // trajo la carga publica: se espera que la respuesta vacia signifique
+          // de verdad que no hay contenido.
+          var previo = SiteData.data || {};
+          function lista(clave) {
+            var deAdmin = json[clave];
+            if (Array.isArray(deAdmin) && deAdmin.length) return deAdmin;
+            if (Array.isArray(previo[clave])) return previo[clave];
+            return Array.isArray(deAdmin) ? deAdmin : [];
+          }
           SiteData.data = {
-            news: json.news || [], events: json.events || [], gallery: json.gallery || [],
-            products: json.products || [], staff: json.staff || [], ratings: json.ratings || [],
-            reports: json.reports || [], orders: json.orders || [],
-            settings: json.settings || null, maintenance: json.maintenance || null,
-            log: json.log || []
+            news: lista('news'),
+            events: lista('events'),
+            gallery: lista('gallery'),
+            products: lista('products'),
+            staff: lista('staff'),
+            ratings: lista('ratings'),
+            reports: lista('reports'),
+            orders: lista('orders'),
+            settings: json.settings || previo.settings || null,
+            maintenance: json.maintenance || previo.maintenance || null,
+            log: lista('log')
           };
           SiteData.adminLoaded = true;
           SiteData.dispatch();
@@ -106,7 +126,15 @@
 
     reloadPublic() { return SiteData.loadPublic(); },
     reloadMy(token) { return SiteData.loadMy(token); },
-    reloadAdmin(token) { SiteData.adminLoaded = false; return SiteData.loadAdmin(token); },
+    // El panel recarga esto tras cada cambio. Primero la carga publica, para
+    // tener siempre la lista de contenido correcta como respaldo, y despues la
+    // del panel, que es la que manda en reportes, pedidos, ajustes y registro.
+    reloadAdmin(token) {
+      SiteData.adminLoaded = false;
+      return SiteData.loadPublic().then(function () {
+        return SiteData.loadAdmin(token);
+      });
+    },
 
     dispatch() {
       if (typeof window.SiteDataDispatch === 'function') {

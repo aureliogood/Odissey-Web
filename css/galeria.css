@@ -2,7 +2,7 @@ html {
             scroll-behavior: smooth;
         }
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--od-marine-dark);
             color: var(--od-text-light);
             min-height: 100vh;
@@ -29,7 +29,7 @@ html {
             flex-direction: column;
             justify-content: space-between;
         }
-           Fondo propio, sin depender de que Tailwind genere la clase.
+           /* Fondo propio, sin depender de que Tailwind genere la clase.
            Las filas de dentro van transparentes, como en la referencia. */
         /* Barra de navegacion: fondo propio para que no dependa de
            que Tailwind genere bg-marine-dark. Sin borde, para que no
@@ -81,7 +81,7 @@ html {
             min-height: 38px;
             padding: 0 16px;
             border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.8125rem;
             font-weight: 500;
             letter-spacing: 0.01em;
@@ -421,24 +421,6 @@ html {
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(234, 179, 8, 0.2);
         }
-        .staff-panel .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #2a2f3a;
-            border: none;
-            color: #ffffff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .staff-panel .close-btn:hover {
-            background: #3a4050;
-        }
         .staff-panel-header {
             display: flex;
             align-items: center;
@@ -508,7 +490,7 @@ html {
             font-weight: bold;
             font-size: 0.95rem;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .staff-panel .rating-btn:hover {
@@ -551,7 +533,7 @@ html {
             padding: 10px;
             resize: vertical;
             outline: none;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             box-sizing: border-box;
         }
         .rating-comment:focus {
@@ -582,7 +564,7 @@ html {
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.2s;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         .staff-panel .input-container input:focus {
             border-color: var(--od-marine-accent);
@@ -643,99 +625,6 @@ html {
             font-size: 0.7rem;
             top: 0.35rem;
         }
-        .login-card {
-            background-color: var(--od-marine-medium);
-            padding: 30px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(234, 179, 8, 0.2);
-        }
-        .login-card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .login-card .subtitle {
-            font-size: 0.85rem;
-            color: var(--od-text-dark);
-            margin-bottom: 25px;
-            line-height: 1.4;
-        }
-        .login-card .input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .login-card .input-container img#player-head {
-            position: absolute;
-            left: 10px;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            image-rendering: pixelated;
-        }
-        .login-card .input-container input {
-            width: 100%;
-            padding: 12px 12px 12px 52px;
-            background-color: var(--od-marine-darker);
-            border: 1px solid var(--od-marine-light);
-            border-radius: 6px;
-            color: var(--od-text-light);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .login-card .input-container input:focus {
-            border-color: var(--od-marine-accent);
-        }
-        .login-card .btn-continue {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--od-marine-accent) 0%, var(--od-gold-dark) 100%);
-            border: none;
-            border-radius: 6px;
-            color: var(--od-ink);
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .login-card .btn-continue:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 10px 20px rgba(234, 179, 8, 0.35);
-        }
-        .login-card .bedrock-toggle {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: var(--od-text-dark);
-        }
-        .login-card .btn-no {
-            background-color: #e53935;
-            color: #ffffff;
-            border: none;
-            padding: 4px 12px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .login-card .btn-yes {
-            background-color: #43a047;
-            color: #ffffff;
-            border: none;
-            padding: 4px 12px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
-        }
         .account-card {
             position: relative;
             background-color: var(--od-marine-medium);
@@ -745,24 +634,6 @@ html {
             max-width: 500px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(234, 179, 8, 0.2);
-        }
-        .account-card .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #2a2f3a;
-            border: none;
-            color: #ffffff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .account-card .close-btn:hover {
-            background: #3a4050;
         }
         .account-card .user-header {
             display: flex;
@@ -824,7 +695,7 @@ html {
         .account-card .divider {
             border: 0;
             height: 1px;
-            background: #2a2f3a;
+            background: #1f1f1f;
             margin: 20px 0;
         }
         .account-card .cart-empty {
@@ -852,7 +723,7 @@ html {
             gap: 8px;
         }
         .no-items {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.85rem;
             margin: 4px 0;
         }
@@ -900,7 +771,7 @@ html {
             color: var(--od-gold-light);
         }
         .pill-pagado {
-            background-color: #16324f;
+            background-color: #0a0a0a;
             color: #7dd3fc;
         }
         .pill-resuelto, .pill-entregado {
@@ -912,7 +783,7 @@ html {
             font-size: 0.78rem;
         }
         .account-item .date {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.72rem;
             margin-top: 2px;
         }
@@ -958,7 +829,7 @@ html {
             min-height: 38px;
             padding: 0 20px;
             border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.01em;
@@ -986,76 +857,7 @@ html {
             transform: translateY(0) scale(0.98);
             filter: brightness(0.97);
         }
-                /* =============================================================
-           Boton principal (CTA del hero y de las tarjetas)
-           Se mantiene el aire Minecraft: mayusculas, oro y peso fuerte,
-           pero como pildora limpia, sin el bloque extruido.
-           ============================================================= */
-                /* =============================================================
-           Boton principal (CTA del hero y de las tarjetas)
-           Se mantiene el aire Minecraft: mayusculas, oro y peso fuerte,
-           pero como pildora limpia, sin el bloque extruido.
-           ============================================================= */
-        .btn3d svg,
-        .btn-gold-inline svg {
-            width: 17px;
-            height: 17px;
-            flex-shrink: 0;
-        }
 
-        .btn3d {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 44px;
-            padding: 0 26px;
-            border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            line-height: 1;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            outline: none;
-            vertical-align: middle;
-            color: var(--od-ink);
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 55%, #ca8a04 100%);
-            border: 1px solid rgba(253, 230, 138, 0.55);
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
-                0 -1px 0 rgba(120, 53, 15, 0.3) inset,
-                0 6px 18px rgba(234, 179, 8, 0.24);
-            -webkit-tap-highlight-color: transparent;
-            transition: transform 0.18s ease, box-shadow 0.18s ease,
-                filter 0.18s ease, border-color 0.18s ease;
-        }
-        .btn3d:hover {
-            filter: brightness(1.06);
-            transform: translateY(-2px);
-            border-color: rgba(253, 230, 138, 0.85);
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset,
-                0 -1px 0 rgba(120, 53, 15, 0.3) inset,
-                0 12px 28px rgba(234, 179, 8, 0.34);
-        }
-        .btn3d:active {
-            transform: translateY(0) scale(0.98);
-            filter: brightness(0.97);
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset,
-                0 2px 8px rgba(234, 179, 8, 0.26);
-        }
-        .btn3d:focus-visible {
-            outline: 2px solid var(--od-marine-accent);
-            outline-offset: 3px;
-        }
-        .btn3d.btn-sm {
-            min-height: 34px;
-            padding: 0 16px;
-            font-size: 0.7rem;
-            letter-spacing: 0.05em;
-        }
         .mc-name-row {
             display: flex;
             align-items: center;
@@ -1071,12 +873,12 @@ html {
             flex: 1;
             min-width: 0;
             background-color: var(--od-marine-dark);
-            border: 2px solid #3d4d61;
+            border: 2px solid #2a2a2a;
             color: var(--od-text-light);
             border-radius: 3px;
             padding: 0.35em 0.6em;
             font-size: 0.8rem;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             outline: none;
         }
         .mc-name-input:focus {
@@ -1103,7 +905,7 @@ html {
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         .faq-question:hover {
             color: var(--od-marine-accent);
@@ -1221,12 +1023,12 @@ html {
             margin-bottom: 10px;
         }
         .testimonial-card .who {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.78rem;
         }
         .badge-noticia { background-color: var(--od-marine-accent); color: var(--od-ink); }
         .badge-actualizacion { background-color: #10b981; color: var(--od-ink); }
-        .badge-changelog { background-color: #a855f7; color: #ffffff; }
+        .badge-changelog { background-color: #eab308; color: #ffffff; }
         .badge-evento { background-color: #3b82f6; color: #ffffff; }
         .badge-mantenimiento { background-color: #f97316; color: var(--od-ink); }
         .event-badge {
@@ -1240,7 +1042,7 @@ html {
         }
         .event-badge-today { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); animation: pulse 2s infinite; }
         .event-badge-soon { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
-        .event-badge-past { background-color: rgba(var(--od-border-rgb), 0.2); color: #94a3b8; border: 1px solid rgba(var(--od-border-rgb), 0.4); }
+        .event-badge-past { background-color: rgba(var(--od-border-rgb), 0.2); color: #bdbdbd; border: 1px solid rgba(var(--od-border-rgb), 0.4); }
         .discord-btn {
             position: relative;
             z-index: 0;
@@ -1298,7 +1100,7 @@ html {
             border: 1px solid #111111;
             overflow: hidden;
             text-decoration: none;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             line-height: 1;
             flex-shrink: 0;
@@ -1361,7 +1163,7 @@ html {
             min-height: 40px;
             padding: 0 22px;
             border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.06em;
@@ -1414,8 +1216,8 @@ html {
         /* ===== Estilo UI Minecraft (cuadros sólidos, bordes nítidos, esquinas cuadradas) ===== */
         
         .staff-card {
-            background-color: #16202e;
-            border: 2px solid #3d4d61;
+            background-color: #0a0a0a;
+            border: 2px solid #2a2a2a;
             border-radius: 3px;
             padding: 2rem 1.25rem 1.5rem;
             margin-bottom: 6px;
@@ -1431,23 +1233,27 @@ html {
         }
         .staff-card:hover .staff-skin {
             box-shadow: none;
-        }
-        .faq-item,
+        }.faq-item,
+
         .news-card,
+
         .event-card,
+
         .testimonial-card,
+
         .gallery-item,
-        .login-card,
+
         .account-card,
+
         .staff-panel {
             border-radius: 3px;
-            border: 2px solid #3d4d61;
+            border: 2px solid #2a2a2a;
             box-shadow: 4px 4px 0 var(--od-marine-darker);
         }
         .content-empty {
             border-radius: 3px;
-            border: 2px dashed #4b5b72;
-            background-color: #141c28;
+            border: 2px dashed #3a3a3a;
+            background-color: #0a0a0a;
             box-shadow: 4px 4px 0 var(--od-marine-darker);
         }
         .news-badge,
@@ -1461,14 +1267,14 @@ html {
             border: 1px solid #b91c1c;
         }
         .event-badge-soon {
-            background-color: #1b2b44;
+            background-color: #0a0a0a;
             color: #93c5fd;
             border: 1px solid #2563eb;
         }
         .event-badge-past {
-            background-color: #1f2937;
-            color: #94a3b8;
-            border: 1px solid #475569;
+            background-color: #0a0a0a;
+            color: #bdbdbd;
+            border: 1px solid #6b6b6b;
         }
     .cart-count {
             display: inline-flex;
@@ -1517,14 +1323,18 @@ html {
             background-color: rgba(var(--od-glass-rgb), 0.25);
             backdrop-filter: blur(var(--glass-blur));
             -webkit-backdrop-filter: blur(var(--glass-blur));
-        }
-        .faq-item,
+        }.faq-item,
+
         .news-card,
+
         .event-card,
+
         .testimonial-card,
+
         .gallery-item,
-        .login-card,
+
         .account-card,
+
         .staff-panel {
             background-color: var(--glass-bg);
             backdrop-filter: blur(var(--glass-blur));
@@ -1534,26 +1344,34 @@ html {
             background-color: rgba(var(--od-glass-rgb), 0.2);
             backdrop-filter: blur(var(--glass-blur));
             -webkit-backdrop-filter: blur(var(--glass-blur));
-        }
-        /* Quitar el recuadro (borde + sombra dura) a las tarjetas */
-        .staff-card,
+        }.staff-card,
+
         .faq-item,
+
         .news-card,
+
         .event-card,
+
         .testimonial-card,
+
         .gallery-item,
-        .login-card,
+
         .account-card,
+
         .staff-panel,
+
         .content-empty {
             box-shadow: 0 8px 24px rgba(var(--od-shadow-rgb), 0.25);
-        }
-        .account-card .currency-selector select,
+        }.account-card .currency-selector select,
+
         .staff-panel .input-container input,
+
         .staff-panel select.rating-comment,
-        .login-card .input-container input,
+
         .account-card .mc-name-input,
+
         .rating-comment,
+
         .report-capture {
             background-color: rgba(var(--od-glass-rgb), 0.35);
             backdrop-filter: blur(var(--glass-blur));
@@ -1646,7 +1464,7 @@ html {
             border: 1px solid rgba(253, 230, 138, 0.6);
             background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
             color: var(--od-ink);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.8125rem;
             font-weight: 600;
             letter-spacing: 0.01em;
@@ -1741,7 +1559,7 @@ html {
                 0 4px 16px rgba(0, 0, 0, 0.35);
         }
         .news-filter-btn.active:hover {
-            background: #16203a;
+            background: #0a0a0a;
             color: var(--od-gold-light);
         }
         /* Accion positiva: el boton de aceptar. */
@@ -1762,37 +1580,6 @@ html {
             background: rgba(220, 38, 38, 0.34);
             color: #fee2e2;
         }
-        /* Cerrar: boton redondo de icono, sin texto. */
-        .close-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            min-height: 0;
-            padding: 0;
-            border-radius: 999px;
-            border: 1px solid rgba(253, 230, 138, 0.6);
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
-            color: var(--od-ink);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.15rem;
-            line-height: 1;
-            cursor: pointer;
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
-                0 3px 10px rgba(234, 179, 8, 0.24);
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.18s ease, color 0.18s ease,
-                transform 0.18s ease, box-shadow 0.18s ease;
-        }
-        .close-btn:hover) {
-            background: rgba(220, 38, 38, 0.3);
-            color: #ffffff;
-            transform: translateY(-1px);
-        }
-        .close-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
         /* Cantidad del carrito: botones pequenos y cuadrados. */
         .cart-qty-btn,
         .cart-remove {
@@ -1809,7 +1596,7 @@ html {
             border-color: rgba(253, 230, 138, 0.6);
             color: var(--od-ink);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             line-height: 1;

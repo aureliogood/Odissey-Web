@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');</script>
+    <script>document.documentElement.classList.toggle('theme-light', false);</script>
     <title>Odissey - Panel de admin</title>
   <meta property="og:url" content="https://odisseymc.site/admin">
   <link rel="canonical" href="https://odisseymc.site/admin">
@@ -20,39 +20,44 @@
   <meta name="twitter:title" content="Odissey - Panel de admin">
   <meta name="twitter:description" content="Panel de administracion de Odissey.">
   <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
-    <link rel="stylesheet" href="theme.css?v=26">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'marine-dark': 'var(--od-marine-dark)',
-                        'marine-medium': 'var(--od-marine-medium)',
-                        'marine-light': 'var(--od-marine-light)',
-                        'marine-accent': 'var(--od-marine-accent)',
-                        'gold-light': 'var(--od-gold-light)',
-                        'gold-dark': 'var(--od-gold-dark)',
-                        'text-light': 'var(--od-text-light)',
-                        'text-dark': 'var(--od-text-dark)',
-                        'marine-darker': 'var(--od-marine-darker)',
-                        'always-light': 'var(--od-always-light)',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark light">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/admin.css?v=26">
+    <link rel="stylesheet" href="css/admin.css?v=144">
+    <style>
+        /* Formulario de acceso del panel: usuario y contrasena (ya no Discord). */
+        .admin-login-form{display:flex;flex-direction:column;gap:.35rem;margin:1rem 0 .5rem;text-align:left}
+        .admin-login-form label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--od-text-dark);opacity:.8}
+        .admin-login-form input{width:100%;padding:.7rem .85rem;border-radius:10px;border:1px solid rgba(var(--od-border-rgb),.8);background:rgba(var(--od-marine-darker-rgb),.55);color:var(--od-text-light);font-size:.95rem;font-family:inherit;outline:none}
+        .admin-login-form input:focus{border-color:rgba(var(--od-marine-accent-rgb),.7)}
+        .admin-login-form .btn-continue{margin-top:.8rem}
+.admin-mc-help{margin:.9rem 0 0;font-size:.78rem;color:var(--od-text-dark)}
+        .admin-mc-help a{color:var(--od-marine-accent)}
+        /* Caja de conexion del plugin: el codigo se muestra grande porque se
+           teclea desde un movil y a veces con dos dedos. */
+        .admin-bridge{margin-top:2rem;padding:1.1rem 1.25rem;border-radius:14px;border:1px solid rgba(var(--od-border-rgb),.8);background:rgba(var(--od-marine-darker-rgb),.35)}
+        .bridge-codigo{margin-top:1rem;display:flex;flex-direction:column;gap:.45rem;align-items:flex-start}
+        /* El .hidden de Tailwind es de una sola clase y esta regla tambien, asi
+           que sin subir la especificidad el "display:flex" gana por orden de
+           carga y el bloque del codigo sale siempre. Con .bridge-codigo dos
+           veces (0,2,0) le gana al .hidden (0,1,0). */
+        .bridge-codigo.bridge-codigo.hidden{display:none}
+        .bridge-codigo p{margin:0;font-size:.85rem;color:var(--od-text-dark)}
+        .bridge-codigo code{display:inline-block;padding:.6rem .9rem;border-radius:10px;background:rgba(var(--od-marine-accent-rgb),.14);border:1px dashed rgba(var(--od-marine-accent-rgb),.55);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.15rem;letter-spacing:.16em;font-weight:700;color:var(--od-text-light);user-select:all}
+    </style>
+  <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
 </head>
 
 <body>
@@ -60,17 +65,32 @@
     <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
     <div class="overlay">
 
-        <nav class="nav-bar sticky top-0 z-50 w-full backdrop-blur-md border-b">
-            <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-3 max-w-6xl mx-auto w-full">
-                <a href="./" class="flex items-center shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+        <nav class="nav-bar sticky top-0 z-50 w-full">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
                 </a>
-                <span class="text-sm text-text-dark">Panel de administrador</span>
-                <button type="button" onclick="toggleTheme()" id="themeBtn"
+
+                <div class="nav-pill" role="navigation" aria-label="Secciones">
+                    <a href="tienda.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                            <a href="foro.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_foro">Foro</span></a>
+                            <a href="soporte.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                            <a href="reglas.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                            <a href="staff.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                            <a href="perfil.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                </div>
+
+                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
+                    
+                    
+                    <button type="button" onclick="toggleTheme()" id="themeBtn"
                     class="nav-button nav-button-secondary flex items-center justify-center w-10" title="Cambiar tema / Switch theme" aria-label="Cambiar tema">
                     <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
                     <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
+                    
+                    
+                </div>
             </div>
         </nav>
 
@@ -81,36 +101,67 @@
                 <div id="loginView">
                     <div class="login-form-card">
                         <h2>Panel de administrador</h2>
-                        <p class="subtitle" id="access-msg">Conecta con Discord para verificar tu acceso.</p>
-                        <button type="button" class="btn-continue" id="access-btn" onclick="handleAdminLogin()">CONECTAR CON DISCORD</button>
-                        <p class="error-msg" id="login-error"></p>
+                        <p class="subtitle" id="access-msg">Entra con tu cuenta de Odissey. Solo acceden los que son OP del servidor de Minecraft.</p>
+                        <!--
+                            <form> y no un div con un onclick. Con un form:
+                              - se envia con Enter sin pulsar el boton,
+                              - el navegador avisa antes de enviar si falta
+                                un campo obligatorio (required),
+                              - el gestor de contrasenas del navegador sabe
+                                que esto es un login (autocomplete) y ofrece
+                                guardar la clave.
+Antes era un div: Enter no hacia nada y un
+                            formulario sin campos obligatorios era un
+                            formulario que no avisaba de nada.
+                        -->
+                        <form class="admin-login-form" id="adminLoginForm" novalidate>
+                            <label for="adminUser">Usuario o correo</label>
+                            <input id="adminUser" name="username" type="text" autocomplete="username"
+                                spellcheck="false" autocapitalize="none" maxlength="254" required>
+                            <label for="adminPass">Contraseña</label>
+                            <input id="adminPass" name="password" type="password" autocomplete="current-password"
+                                maxlength="128" required>
+                            <button type="submit" class="btn-continue" id="access-btn">ENTRAR</button>
+                        </form>
+                        <p class="error-msg" id="login-error" role="alert" aria-live="polite"></p>
+                        <p class="admin-mc-help">¿Aún no has vinculado tu cuenta? <a href="perfil.html">Vincúlala desde tu perfil</a>.</p>
                     </div>
                 </div>
 
                 <!-- Vista del panel -->
                 <div id="dashboardView" class="hidden">
                     <div class="panel-card">
-                        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div class="admin-head">
                             <div>
-                                <h1 class="text-2xl md:text-3xl font-extrabold text-marine-accent">Panel de administrador</h1>
+                                <h1>Panel de administrador</h1>
                                 <p class="text-text-dark text-sm mt-1">Sesión iniciada como: <span
                                         class="text-marine-accent font-semibold" id="admin-welcome"></span></p>
                             </div>
                             <button type="button" class="btn-logout" onclick="handleAdminLogout()">Cerrar sesión</button>
                         </div>
 
-                        <!-- Pestañas -->
-                        <div class="flex flex-wrap gap-2 mb-8">
+                        <!-- Pestañas. Se mantiene la clase .tab-btn y el data-tab porque
+                             switchTab() las usa para cambiar de sección. Lo nuevo es la
+                             clase .admin-tabs, que la convierte en barra lateral. -->
+                        <div class="admin-tabs" role="tablist" aria-label="Secciones del panel">
                             <button type="button" class="tab-btn active" data-tab="inicio" onclick="switchTab('inicio')">Inicio</button>
+                            <div class="admin-tabgroup">General</div>
                             <button type="button" class="tab-btn" data-tab="mantenimiento" onclick="switchTab('mantenimiento')">Mantenimiento</button>
+                            <div class="admin-tabgroup">Contenido</div>
                             <button type="button" class="tab-btn" data-tab="noticias" onclick="switchTab('noticias')">Noticias</button>
                             <button type="button" class="tab-btn" data-tab="eventos" onclick="switchTab('eventos')">Eventos</button>
                             <button type="button" class="tab-btn" data-tab="galeria" onclick="switchTab('galeria')">Galería</button>
+                            <div class="admin-tabgroup">Comunidad</div>
+                            <button type="button" class="tab-btn" data-tab="buscar" onclick="switchTab('buscar')">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="tab-icon"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                                Buscar
+                            </button>
                             <button type="button" class="tab-btn" data-tab="staff" onclick="switchTab('staff')">Staff</button>
-                            <button type="button" class="tab-btn" data-tab="tienda" onclick="switchTab('tienda')">Tienda</button>
                             <button type="button" class="tab-btn" data-tab="calificaciones" onclick="switchTab('calificaciones')">Calificaciones</button>
                             <button type="button" class="tab-btn" data-tab="reportes" onclick="switchTab('reportes')">Reportes</button>
-                            <button type="button" class="tab-btn" data-tab="pedidos" onclick="switchTab('pedidos')">Pedidos</button>
+                            <div class="admin-tabgroup">Tienda</div>
+                            <button type="button" class="tab-btn" data-tab="tienda" onclick="switchTab('tienda')">Productos</button>
+                            <div class="admin-tabgroup">Sistema</div>
                             <button type="button" class="tab-btn" data-tab="ajustes" onclick="switchTab('ajustes')">Ajustes Web</button>
                             <button type="button" class="tab-btn" data-tab="registro" onclick="switchTab('registro')">Registro</button>
                         </div>
@@ -126,9 +177,10 @@
                                     <div class="num" id="stat-reports">0</div>
                                     <div class="label">Reportes</div>
                                 </div>
-                                <div class="stat-card">
-                                    <div class="num" id="stat-orders">0</div>
-                                    <div class="label">Pedidos</div>
+<div class="stat-card">
+                                    <div class="num" id="stat-sesiones">0</div>
+                                    <div class="label">Conectados</div>
+                                    <div class="stat-hint">cuentas con sesión abierta</div>
                                 </div>
                                 <div class="stat-card">
                                     <div class="num" id="stat-staff">0</div>
@@ -299,7 +351,7 @@
                                     </div>
                                 </div>
                                 <div id="gal-preview-container" class="mb-4 hidden">
-                                    <img id="gal-preview-img" src="" alt="Vista previa" class="max-h-48 rounded-lg border border-marine-light object-cover">
+                                    <img id="gal-preview-img" src="" alt="Vista previa" width="400" height="200" class="max-h-48 rounded-lg border border-marine-light object-cover">
                                 </div>
                                 <div class="flex gap-2">
                                     <button type="button" class="btn-gold" onclick="saveGalleryItem()">Añadir a la galería</button>
@@ -319,10 +371,37 @@
                                 </div>
                                 <button type="button" class="btn-gold" onclick="addStaffMember()">+ Añadir miembro</button>
                             </div>
-                            <div id="staff-fields" class="space-y-4"></div>
+<div id="staff-fields" class="space-y-4"></div>
                             <div class="flex flex-wrap gap-3 mt-6">
                                 <button type="button" class="btn-gold" onclick="saveStaff()">Guardar cambios</button>
                                 <button type="button" class="btn-action" onclick="resetStaff()">Restaurar original</button>
+                            </div>
+
+                            <!-- Conexion del plugin del servidor con la web.
+                                 Antes habia un secreto que copiar a mano en el
+                                 config.yml del plugin y en el config.json del bot:
+                                 si no coincidian, el panel respondia "la firma no
+                                 es valida" sin decir cual de los dos estaba mal.
+                                 Aqui sale un codigo de un solo uso que se escribe
+                                 en el juego con /staffwebsetup y el plugin se
+                                 conecta solo. -->
+                            <div class="admin-bridge">
+                                <div class="flex flex-wrap items-center justify-between gap-3">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-text-light">Servidor de Minecraft</h3>
+                                        <p class="text-text-dark text-sm" id="bridge-estado">Comprobando…</p>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button type="button" class="btn-gold" id="bridge-btn" onclick="bridgeConectar()">Conectar servidor</button>
+                                        <button type="button" class="btn-action" id="bridge-reset" onclick="bridgeDesconectar()">Desconectar</button>
+                                    </div>
+                                </div>
+                                <div id="bridge-codigo" class="bridge-codigo hidden">
+                                    <p>Escribe esto en el juego, como op:</p>
+                                    <code id="bridge-codigo-texto"></code>
+                                    <p class="text-text-dark text-sm">Caduca en 15 minutos y solo sirve una vez. En el juego:</p>
+                                    <code id="bridge-comando">/staffwebsetup</code>
+                                </div>
                             </div>
                         </div>
 
@@ -356,11 +435,98 @@
                             <div id="reports-list"></div>
                         </div>
 
-                        <!-- Tab: Pedidos -->
-                        <div id="tab-pedidos" class="tab-panel hidden">
-                            <h2 class="text-xl font-bold text-text-light mb-2">Pedidos de la tienda</h2>
-                            <p class="text-text-dark text-sm mb-6">Compra del "botón de comprar" de la tienda.</p>
-                            <div id="orders-list"></div>
+                        <!-- Tab: Buscar -->
+                        <!-- Lo unico del panel que enseña datos que el resto de
+                             visitors no ven: IP, dispositivo y toda la ficha de
+                             una cuenta. Todo lo de aqui va detrás de esAdminWeb
+                             en el bot; ocultar botones en el navegador no es
+                             seguridad, por eso la comprobación está en el
+                             servidor. -->
+                        <div id="tab-buscar" class="tab-panel hidden">
+                            <div class="admin-buscar-cabecera">
+                                <div>
+                                    <h2 class="text-xl font-bold text-text-light">Buscar personas</h2>
+                                    <p class="text-text-dark text-sm">Busca por usuario, correo o nombre de
+                                        Minecraft. Solo el staff ve lo que hay en esta pantalla.</p>
+                                </div>
+                            </div>
+
+                            <div class="buscador">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"
+                                    class="buscador-icon">
+                                    <circle cx="11" cy="11" r="7"></circle>
+                                    <path d="m20 20-3.5-3.5"></path>
+                                </svg>
+                                <input type="search" id="buscar-admin-input" placeholder="Escribe un usuario, correo o jugador…"
+                                    autocomplete="off" spellcheck="false" aria-label="Buscar usuarios">
+                                <button type="button" class="buscador-limpiar" id="buscar-admin-limpiar" aria-label="Borrar la búsqueda">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                                        <path d="M6 6l12 12M18 6 6 18"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div id="buscar-admin-resultados" class="buscar-resultados"></div>
+
+                            <div class="admin-subcabecera">
+                                <h3 class="text-lg font-bold text-text-light">Conectados ahora</h3>
+                                <button type="button" class="btn-action" id="buscar-admin-refrescar">Actualizar</button>
+                            </div>
+                            <div id="buscar-admin-sesiones" class="tabla-envoltorio">
+                                <div class="vacio">Cargando…</div>
+                            </div>
+
+                            <div class="admin-subcabecera">
+                                <h3 class="text-lg font-bold text-text-light">Últimos inicios de sesión</h3>
+                                <span class="text-text-dark text-sm">Incluye los intentos fallidos</span>
+                            </div>
+                            <div id="buscar-admin-logins" class="tabla-envoltorio">
+                                <div class="vacio">Cargando…</div>
+                            </div>
+                        </div>
+
+                        <!-- Ficha de usuario. Se abre encima de la pantalla cuando
+                             el staff pulsa a alguien en la lista. Se cierra con
+                             Escape, con el boton o pulsando fuera. -->
+                        <div id="ficha-fondo" class="ficha-fondo hidden" aria-hidden="true"></div>
+                        <aside id="ficha" class="ficha hidden" role="dialog" aria-modal="true"
+                            aria-labelledby="ficha-nombre">
+                            <div class="ficha-cabecera">
+                                <div class="ficha-avatar" id="ficha-avatar">?</div>
+                                <div class="ficha-ident">
+                                    <h2 id="ficha-nombre">…</h2>
+                                    <p id="ficha-sub" class="text-text-dark text-sm"></p>
+                                    <div id="ficha-chips" class="ficha-chips"></div>
+                                </div>
+                                <button type="button" class="ficha-cerrar" id="ficha-cerrar" aria-label="Cerrar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                                        <path d="M6 6l12 12M18 6 6 18"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="ficha-cuerpo" id="ficha-cuerpo"></div>
+
+                            <div class="ficha-pie">
+                                <h3 class="ficha-pie-titulo">Acciones de staff</h3>
+                                <div class="ficha-acciones" id="ficha-acciones"></div>
+                            </div>
+                        </aside>
+
+                        <!-- Confirmación de acciones que no tienen vuelta atrás
+                             (borrar la cuenta). -->
+                        <div id="ficha-confirmar" class="modal-fondo hidden" aria-hidden="true">
+                            <div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="confirmar-titulo">
+                                <h3 id="confirmar-titulo">¿Seguro?</h3>
+                                <p id="confirmar-texto" class="text-text-dark text-sm"></p>
+                                <div class="modal-acciones">
+                                    <button type="button" class="btn-action" id="confirmar-no">Cancelar</button>
+                                    <button type="button" class="btn-danger" id="confirmar-si">Sí, adelante</button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Tab: Ajustes Web -->
@@ -424,11 +590,10 @@
         </footer>
     </div>
 
-    <script src="site-config.js"></script>
-    <script src="admin-config.js"></script>
-    <script src="shop-config.js"></script>
-    <script src="staff-config.js"></script>
-    <script src="site-data.js"></script>
+    <script src="site-config.js?v=144"></script>
+    <script src="shop-config.js?v=144"></script>
+    <script src="staff-config.js?v=144"></script>
+    <script src="site-data.js?v=144"></script>
     <script>
         const loginView = document.getElementById('loginView');
         const dashboardView = document.getElementById('dashboardView');
@@ -463,18 +628,96 @@
             if (buttonText) {
                 accessBtn.textContent = buttonText;
                 accessBtn.classList.remove('hidden');
-                accessBtn.onclick = (buttonText === 'CONECTAR CON DISCORD') ? handleAdminLogin : checkAdminAccess;
+                accessBtn.onclick = (buttonText === 'ENTRAR') ? handleAdminLogin : checkAdminAccess;
             } else {
                 accessBtn.classList.add('hidden');
             }
             loginView.classList.remove('hidden');
             dashboardView.classList.add('hidden');
+            /* Si el panel deja de estar disponible, se vacian las copias en
+               memoria del token y de la ficha. Si no, seguirian mandandose
+               en peticiones posteriores aunque la pantalla ya no las
+               pidiera. */
+            if (buttonText === 'ENTRAR' || !buttonText) {
+                _adminToken = null;
+                _cuentaEnFicha = null;
+            }
+        }
+
+        // ---------- Conexion del plugin con la web ----------
+        // Saca un codigo de un solo uso para escribirlo en el juego. El plugin
+        // genera su propio secreto y se lo pasa a la web con ese codigo, asi que
+        // no hay ningun secreto que mantener sincronizado a mano.
+        async function bridgeEstado() {
+            const token = getSessionToken();
+            if (!token) return;
+            try {
+                const res = await fetch(API_BASE + '/api/staff/puente?token=' + encodeURIComponent(token));
+                const data = await res.json();
+                if (!data || !data.ok) return;
+                const estado = document.getElementById('bridge-estado');
+                const btn = document.getElementById('bridge-btn');
+                const reset = document.getElementById('bridge-reset');
+                if (data.conectado) {
+                    const cuando = data.actualizado ? new Date(data.actualizado).toLocaleString('es-ES') : '';
+                    estado.textContent = 'Conectado' + (data.huella ? ' · secreto ' + data.huella : '') + (cuando ? ' · ' + cuando : '');
+                    btn.textContent = 'Volver a conectar';
+                    reset.classList.remove('hidden');
+                } else {
+                    estado.textContent = 'Sin conectar. Los códigos de /staffweb no funcionarán hasta conectarlo.';
+                    btn.textContent = 'Conectar servidor';
+                    reset.classList.add('hidden');
+                }
+                // Si habia un codigo sin usar se muestra, por si se cerró la
+                // pestaña sin terminar de escribirlo en el juego.
+                if (data.codigoActivo) {
+                    mostrarCodigo(data.codigoActivo);
+                }
+            } catch (err) { /* si la API no responde se deja el texto como estaba */ }
+        }
+
+        function mostrarCodigo(codigo) {
+            document.getElementById('bridge-codigo').classList.remove('hidden');
+            document.getElementById('bridge-codigo-texto').textContent = codigo;
+            document.getElementById('bridge-comando').textContent = '/staffwebsetup ' + codigo;
+        }
+
+        async function bridgeConectar() {
+            const token = getSessionToken();
+            if (!token) return;
+            const btn = document.getElementById('bridge-btn');
+            btn.disabled = true;
+            btn.textContent = 'Generando…';
+            try {
+                const res = await fetch(API_BASE + '/api/staff/puente/codigo?token=' + encodeURIComponent(token), { method: 'POST' });
+                const data = await res.json();
+                if (data && data.ok) {
+                    mostrarCodigo(data.codigo);
+                    document.getElementById('bridge-estado').textContent = 'Código listo. Escríbelo en el juego.';
+                } else {
+                    document.getElementById('bridge-estado').textContent = (data && data.message) || 'No se pudo generar el código.';
+                }
+            } catch (err) {
+                document.getElementById('bridge-estado').textContent = 'No se pudo contactar con el servicio.';
+            }
+            btn.disabled = false;
+            await bridgeEstado();
+        }
+
+        async function bridgeDesconectar() {
+            if (!confirm('¿Desconectar el plugin del servidor? Tendrás que hacer /staffwebsetup otra vez.')) return;
+            const token = getSessionToken();
+            try {
+                await fetch(API_BASE + '/api/staff/puente/reset?token=' + encodeURIComponent(token), { method: 'POST' });
+                document.getElementById('bridge-codigo').classList.add('hidden');
+            } catch (err) { /* se actualiza al recargar */ }
+            await bridgeEstado();
         }
 
         async function checkAdminAccess() {
             const token = getSessionToken();
             if (!token) {
-                showAccess('Debes iniciar sesión con Discord para ver este panel.', 'CONECTAR CON DISCORD');
+                showAccess('Debes iniciar sesion para ver este panel.', 'ENTRAR');
                 return;
             }
             try {
@@ -492,24 +735,188 @@
                     }
                     logAdmin('Accedió al panel');
                     showDashboard();
+                    /* Vigilancia de la sesion. Antes se comprobaba el
+                       acceso UNA vez, al cargar. Si el token caducaba o se
+                       revocaba en otro sitio, el panel se quedaba
+                       dibujado y funcionando con todos sus botones hasta
+                       recargar. Ahora se repregunta cada 2 minutos y, si el
+                       servidor dice que ya no, se cierra la sesion y se
+                       bloquea la pantalla. */
+                    clearInterval(_vigilanciaSesion);
+                    _vigilanciaSesion = setInterval(vigilarSesion, 120000);
+                    /* Y al volver de otra pestaña: si en otra se cerró
+                       sesion, esta se cierra tambien. */
+                    window.removeEventListener('storage', _alCambiarStorage);
+                    _alCambiarStorage = function (ev) {
+                        if (ev.key === 'odissey_discord_session' && !ev.newValue) {
+                            _adminToken = null;
+                            _cuentaEnFicha = null;
+                            clearInterval(_vigilanciaSesion);
+                            showAccess('La sesión se cerró en otra pestaña.', 'ENTRAR');
+                        }
+                    };
+                    window.addEventListener('storage', _alCambiarStorage);
                 } else {
-                    showAccess('No puedes ver este panel. El acceso está restringido a los administradores.', null);
+                    showAccess('No puedes ver este panel. Necesitas estar vinculado a una cuenta de Minecraft que sea OP del servidor.', null);
                 }
             } catch (err) {
                 showAccess('No se pudo verificar tu acceso. Revisa que el servicio esté disponible e inténtalo de nuevo.', 'REINTENTAR');
             }
         }
 
-        // ---------- Login / Logout ----------
+        let _vigilanciaSesion = null;
+        let _alCambiarStorage = null;
+
+        /* Reconfirma que la sesion sigue viva. Si el servidor la da por
+           caducada, se borra el token local y se cierra el panel: es lo
+           que evita que una sesion revocada siga siendo utilizable desde
+           una pestana que se quedo abierta. */
+        async function vigilarSesion() {
+            const token = getSessionToken();
+            if (!token) {
+                cerrarPorSesion();
+                return;
+            }
+            try {
+                const res = await fetch(API_BASE + '/api/admin/check?token=' + encodeURIComponent(token), { cache: 'no-store' });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data || !data.ok || !data.isAdmin) cerrarPorSesion();
+            } catch (err) {
+                /* Fallo de red: no se cierra nada. Puede que el servidor
+                   este temporalmente caido y no quiero dejar al admin
+                   fuera por un fallo pasajero. */
+            }
+        }
+
+        function cerrarPorSesion() {
+            clearInterval(_vigilanciaSesion);
+            _vigilanciaSesion = null;
+            _adminToken = null;
+            _cuentaEnFicha = null;
+            try { localStorage.removeItem('odissey_discord_session'); } catch (e) { }
+            showAccess('Tu sesión caducó. Vuelve a entrar.', 'ENTRAR');
+        }
+
+// ---------- Login / Logout ----------
+        // El panel ya no se entra con Discord: se entra con la cuenta de Odissey y,
+        // para entrar de verdad, esa cuenta tiene que estar vinculada a un OP del
+        // servidor de Minecraft. El token se guarda en la misma clave que usaba
+        // antes, porque el resto del panel la sigue leyendo.
+        //
+        // DELANTE DE ESTO hay un enfriamiento de intentos. Un panel de
+        // administracion es el objetivo numero uno de un ataque de fuerza
+        // bruta: sin esto, un script puede probar miles de contrasenas por
+        // segundo desde el navegador de cualquiera. Con esto, tras 5 intentos
+        // fallidos el boton se bloquea y hay que esperar.
+        //
+        // OJO: esto es la capa de CLIENTE. Frena al que prueba desde el
+        // navegador. El limite de verdad (por cuenta y por IP, con bloqueo
+        // temporal) tiene que hacerlo el bot: ver SEGURIDAD.md.
+        const MAX_INTENTOS = 5;
+        const BLOQUEO_MS = 15 * 60 * 1000;   // 15 minutos
+        const CLAVE_INTENTOS = 'odissey_admin_intentos';
+
+        function leerIntentos() {
+            try {
+                const crudo = JSON.parse(localStorage.getItem(CLAVE_INTENTOS) || '{}');
+                return {
+                    fallos: Number(crudo.fallos) || 0,
+                    hasta: Number(crudo.hasta) || 0,
+                };
+            } catch (e) { return { fallos: 0, hasta: 0 }; }
+        }
+
+        function guardarIntentos(valor) {
+            try { localStorage.setItem(CLAVE_INTENTOS, JSON.stringify(valor)); } catch (e) { }
+        }
+
+        /* Segundos que quedan de bloqueo. 0 si no hay bloqueo. */
+        function bloqueoRestante() {
+            const { hasta } = leerIntentos();
+            return hasta > Date.now() ? Math.ceil((hasta - Date.now()) / 1000) : 0;
+        }
+
+        /* Cuenta atras en el boton mientras esta bloqueado. */
+        function iniciarCuentaAtras(boton, error) {
+            const pintar = () => {
+                const seg = bloqueoRestante();
+                if (seg <= 0) {
+                    boton.disabled = false;
+                    boton.textContent = 'ENTRAR';
+                    error.textContent = '';
+                    return;
+                }
+                boton.disabled = true;
+                const min = Math.floor(seg / 60);
+                boton.textContent = 'Espera ' + min + ':' + String(seg % 60).padStart(2, '0');
+                setTimeout(pintar, 1000);
+            };
+            pintar();
+        }
+
         function handleAdminLogin() {
-            window.location.href = API_BASE + '/discord/login';
+            const user = document.getElementById('adminUser');
+            const pass = document.getElementById('adminPass');
+            const boton = document.getElementById('access-btn');
+            const error = document.getElementById('login-error');
+            if (!user || !pass || !boton || !error) return;
+
+            /* 1) Bloqueo por intentos anteriores. */
+            const restantes = bloqueoRestante();
+            if (restantes > 0) {
+                error.textContent = 'Demasiados intentos fallidos. Espera ' +
+                    Math.ceil(restantes / 60) + ' min antes de volver a probar.';
+                iniciarCuentaAtras(boton, error);
+                return;
+            }
+
+            error.textContent = '';
+            boton.disabled = true;
+            boton.textContent = 'Entrando...';
+            fetch(API_BASE + '/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login: user.value.trim(), password: pass.value })
+            }).then(r => r.json().catch(() => ({}))).then(data => {
+                if (!data || !data.ok || !data.token) {
+                    throw new Error((data && data.message) || 'No se pudo iniciar sesion.');
+                }
+                guardarIntentos({ fallos: 0, hasta: 0 });
+                localStorage.setItem('odissey_discord_session', data.token);
+                pass.value = '';
+                checkAdminAccess();
+            }).catch(e => {
+                /* 2) Contar el fallo y avisar de lo que queda. */
+                const est = leerIntentos();
+                est.fallos = est.fallos + 1;
+                let msg = e.message || 'No se pudo iniciar sesion.';
+                if (est.fallos >= MAX_INTENTOS) {
+                    est.hasta = Date.now() + BLOQUEO_MS;
+                    msg = 'Demasiados intentos. El acceso queda bloqueado 15 minutos.';
+                } else {
+                    msg += ' (intento ' + est.fallos + ' de ' + MAX_INTENTOS + ')';
+                }
+                guardarIntentos(est);
+                pass.value = '';
+                error.textContent = msg;
+                if (est.fallos >= MAX_INTENTOS) iniciarCuentaAtras(boton, error);
+            }).then(() => {
+                if (bloqueoRestante() <= 0) {
+                    boton.disabled = false;
+                    boton.textContent = 'ENTRAR';
+                }
+            });
         }
 
         function handleAdminLogout() {
             logAdmin('Cerró sesión');
             const token = getSessionToken();
+            /* /api/auth/logout es la ruta real. Antes se llamaba a
+               /api/logout, que no existe en el bot: devolvia 404 y la
+               sesion se quedaba viva en el servidor aunque el panel ya
+               no la mostrara. */
             if (token) {
-                fetch(API_BASE + '/api/logout', {
+                fetch(API_BASE + '/api/auth/logout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token: token })
@@ -517,16 +924,69 @@
             }
             localStorage.removeItem('odissey_discord_session');
             localStorage.removeItem('odissey_admin_user');
-            showAccess('Cerraste sesión. Para volver a entrar, conecta con Discord.', 'CONECTAR CON DISCORD');
+            /* _adminToken es una copia del token en memoria que se hizo al
+               abrir el panel. Sin borrarla, seguiria mandando el token
+               viejo en cada accion. */
+            _adminToken = null;
+            _cuentaEnFicha = null;
+            guardarIntentos({ fallos: 0, hasta: 0 });
+            showAccess('Cerraste sesion. Para volver a entrar, entra con tu cuenta.', 'ENTRAR');
         }
 
         // ---------- Datos desde config + overrides ----------
+        /* Escapa para meter un valor dentro de HTML.
+           Se escapan los CINCO caracteres especiales, incluida la
+           comilla simple. Antes no se escapaba, y hay sitios donde el
+           valor acaba dentro de un onclick="f('...')": con solo escapar
+           < > & " un valor con una ' rompia el atributo y se colaba
+           codigo en el panel. Un usuario normal podia provocar eso al
+           registrarse con un nombre de cuenta assim. */
         function escapeHtml(value) {
             return String(value)
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        /* Un id de la API (reportes, cuentas) se usa dentro de un onclick.
+           Devolverlo escapado para HTML no basta del todo: como va entre
+           comillas simples dentro de un atributo, un id con un " invierte el
+           cierre. Se filtra a un formato cerrado, que es lo que el servidor
+           genera de verdad, y si algo se sale del formato no se pinta nada
+           en vez de romper el onclick. */
+        function escapeArgJs(value) {
+            var s = String(value == null ? '' : value);
+            /* Solo se admiten letras, numeros, guion, guion bajo y
+               punto. Los ids reales ("web:12", "r_1699999", UUID) entran
+               todos; un payload con parentesis o comillas se cae. */
+            if (!/^[A-Za-z0-9_.:-]{1,80}$/.test(s)) return '';
+            return s;
+        }
+
+        /* Una URL que viene de la base de datos (captura de un reporte,
+           imagen de la galeria) va dentro de un href o un src. Escapar
+           para HTML no impide un javascript: que en un <a> se ejecuta.
+           Aqui se comprueba el esquema ANTES de devolverla. */
+        function urlSegura(valor) {
+            var s = String(valor == null ? '' : valor).trim();
+            if (!s) return '';
+            /* Relativas del propio sitio: empieza por / y no por // (eso
+               seria un protocolo-relativo, o sea otro dominio). */
+            if (s.charAt(0) === '/' && s.charAt(1) !== '/') return escapeHtml(s);
+            /* Absolutas: solo http y https. Todo lo demas (javascript:,
+               data:, vbscript:, file:) se descarta. */
+            if (/^https?:\/\//i.test(s)) return escapeHtml(s);
+            return '';
+        }
+
+        /* Un color CSS (accent_color de una cuenta). Escaparlo para HTML
+           no impide algo como "red; } * { display:none", que romperia la
+           pagina entera. Aqui solo se dejan colores y nada mas. */
+        function colorCss(valor) {
+            const s = String(valor == null ? '' : valor).trim();
+            return /^[#a-zA-Z0-9 ,.()%_-]{1,40}$/.test(s) ? s : '';
         }
 
         function getStaff() {
@@ -561,8 +1021,31 @@
             return [];
         }
 
+        // Las listas de contenido (noticias, eventos, galeria, tienda, staff)
+        // llegan en dos sitios: /api/content, que es el que usa la web y siempre
+        // trae lo guardado, y /api/admin/data, que depende de la version del
+        // backend desplegado. Si este ultimo llega vacio, la lista se queda
+        // en blanco aunque haya contenido. Al abrir cualquiera de esas pestanas
+        // se vuelve a preguntar por /api/content si la lista esta vacia.
+        const PESTANAS_CONTENIDO = {
+            noticias: function () { return getList('odissey_news'); },
+            eventos: function () { return getList('odissey_events'); },
+            galeria: function () { return getList('odissey_gallery'); },
+            tienda: function () { return getProducts(); },
+            staff: function () { return getStaff(); }
+        };
+
+        async function asegurarContenido() {
+            const vacias = Object.keys(PESTANAS_CONTENIDO).filter(function (t) {
+                return !(PESTANAS_CONTENIDO[t]() || []).length;
+            });
+            if (!vacias.length) return false;
+            await SiteData.loadPublic();
+            return true;
+        }
+
         // ---------- Tabs ----------
-        function switchTab(name) {
+        async function switchTab(name) {
             currentTab = name;
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.toggle('active', b.dataset.tab === name);
@@ -570,16 +1053,25 @@
             document.querySelectorAll('.tab-panel').forEach(p => {
                 p.classList.toggle('hidden', p.id !== 'tab-' + name);
             });
+            if (PESTANAS_CONTENIDO[name]) {
+                await asegurarContenido();
+            }
             if (name === 'inicio') renderStats();
             if (name === 'mantenimiento') renderMaintenanceEditor();
             if (name === 'noticias') renderNewsEditor();
             if (name === 'eventos') renderEventsEditor();
             if (name === 'galeria') renderGalleryEditor();
-            if (name === 'staff') renderStaffEditor();
+            if (name === 'staff') {
+                    renderStaffEditor();
+                    bridgeEstado();
+                }
+            if (name === 'buscar') {
+                    renderRegistroSesiones();
+                    buscarAdmin('');
+                }
             if (name === 'tienda') renderProductEditor();
             if (name === 'calificaciones') renderRatings();
             if (name === 'reportes') renderReports();
-            if (name === 'pedidos') renderOrders();
             if (name === 'ajustes') renderSiteSettingsEditor();
             if (name === 'registro') renderLog();
         }
@@ -588,8 +1080,16 @@
         function renderStats() {
             document.getElementById('stat-ratings').textContent = getList('odissey_ratings').length;
             document.getElementById('stat-reports').textContent = getList('odissey_reports').length;
-            const orders = getList('odissey_orders');
-            document.getElementById('stat-orders').textContent = orders.filter(o => o.status !== 'entregado').length;
+            // El numero de conectados sale del registro de sesiones, que es lo
+            // unico en vivo del panel. Antes aqui iba el de pedidos.
+            const elSesiones = document.getElementById('stat-sesiones');
+            if (elSesiones) {
+                const token = getSessionToken();
+                fetch(API_BASE + '/api/admin/registro?limite=200&token=' + encodeURIComponent(token), { cache: 'no-store' })
+                    .then((r) => r.json())
+                    .then((r) => { if (r && r.ok && elSesiones) elSesiones.textContent = (r.sesiones || []).length; })
+                    .catch(() => {});
+            }
             document.getElementById('stat-staff').textContent = getStaff().length;
             document.getElementById('stat-news').textContent = getList('odissey_news').length;
             document.getElementById('stat-events').textContent = getList('odissey_events').length;
@@ -608,8 +1108,33 @@
 
         // ---------- Datos desde la API (BD del bot) ----------
         async function reloadAdminAndRedraw() {
-            await SiteData.reloadAdmin(getSessionToken());
+            const ok = await SiteData.reloadAdmin(getSessionToken());
             switchTab(currentTab);
+            return ok;
+        }
+
+        // Tras una accion destructiva, comprobar que el elemento desaparecio de
+        // verdad. Antes solo se confiaba en el 200 del servidor, asi que si la
+        // fila no se borraba el panel la seguia mostrando sin decir nada.
+        // deleted = 0 significa que el servidor no encontro ninguna fila con ese
+        // id, que es el sintoma clasico de un id que no coincide.
+        async function verificarBorrado(coleccion, id, etiqueta, result) {
+            if (result && result.json && typeof result.json.deleted === 'number' && result.json.deleted === 0) {
+                showToast('El servidor no encontro nada con id "' + (result.json.id || id) +
+                    '": no se borro ' + etiqueta + '. Revisa el id.');
+                await reloadAdminAndRedraw();
+                return;
+            }
+            const refresco = await reloadAdminAndRedraw();
+            if (!refresco) {
+                showToast('Aviso: la accion se envio, pero no se pudo refrescar la lista. Recarga con F5.');
+                return;
+            }
+            const sigue = getList(coleccion).some(function (x) { return String(x.id) === String(id); });
+            if (sigue) {
+                showToast('El servidor acepto la accion pero ' + etiqueta +
+                    ' sigue en la lista. Recarga con F5 para ver el estado real.');
+            }
         }
 
         // ---------- Mantenimiento ----------
@@ -737,14 +1262,18 @@
             const news = getList('odissey_news');
             const target = news[idx];
             if (!target) return;
+            if (!idValido(target.id)) {
+                showToast('Esta noticia no tiene id, no se puede eliminar.');
+                return;
+            }
             const result = await SiteData.del('/api/admin/news/' + encodeURIComponent(target.id) + '?token=' + encodeURIComponent(getSessionToken()));
             if (!result.ok) {
-                showToast('No se pudo eliminar la noticia.');
+                showToast(adminError(result, 'No se pudo eliminar la noticia.'));
                 return;
             }
             logAdmin('Eliminó noticia: ' + target.title);
             showToast('Noticia eliminada.');
-            await reloadAdminAndRedraw();
+            await verificarBorrado('odissey_news', target.id, 'la noticia', result);
         }
 
         // ---------- Eventos ----------
@@ -807,14 +1336,23 @@
             const events = getList('odissey_events');
             const target = events[idx];
             if (!target) return;
+            /* Comprobacion de id antes de borrar. Otras acciones del panel ya
+               lo hacen (noticias, calificaciones, reportes); aqui faltaba, y
+               un evento sin id hacia una peticion a /api/admin/events/undefined
+               que el servidor respondia 404 y el panelmentedia "eliminado"
+               cuando no se habia borrado nada. */
+            if (!idValido(target.id)) {
+                showToast('Este evento no tiene un id válido, no se puede borrar.');
+                return;
+            }
             const result = await SiteData.del('/api/admin/events/' + encodeURIComponent(target.id) + '?token=' + encodeURIComponent(getSessionToken()));
             if (!result.ok) {
-                showToast('No se pudo eliminar el evento.');
+                showToast(adminError(result, 'No se pudo eliminar el evento.'));
                 return;
             }
             logAdmin('Eliminó evento: ' + target.title);
             showToast('Evento eliminado.');
-            await reloadAdminAndRedraw();
+            await verificarBorrado('odissey_events', target.id, 'el evento', result);
         }
 
         // ---------- Galería ----------
@@ -848,7 +1386,7 @@
             }
             container.innerHTML = items.map((g, idx) => `
                 <div class="list-item flex flex-col justify-between">
-                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" loading="lazy" decoding="async" class="w-full h-36 object-cover rounded-lg mb-2" onerror="this.src='https://placehold.co/400x200/1e293b/eab308?text=Error+al+cargar+imagen';">
+                    <img src="${urlSegura(g.image) || PLACEHOLD}" alt="${escapeHtml(g.caption || 'Build')}" width="400" height="200" loading="lazy" decoding="async" class="w-full h-36 object-cover rounded-lg mb-2" onerror="this.onerror=null;this.src='${PLACEHOLD}';">
                     <div class="sub font-semibold mb-2">${escapeHtml(g.caption || 'Sin título')}</div>
                     <button type="button" class="btn-danger w-full mt-auto" onclick="deleteGalleryIndex(${idx})">Eliminar</button>
                 </div>`).join('');
@@ -859,6 +1397,14 @@
             const caption = document.getElementById('new-gal-caption').value.trim();
             if (!url) {
                 showToast('Introduce la URL de la imagen.');
+                return;
+            }
+            /* La URL la escribe una persona, pero sale luego en el <img width="1" height="1" alt=""> de
+               todas las paginas publicas. Si admite "javascript:" o "data:"
+               no es una imagen y hay que rechazarla aqui, no cuando ya esta
+               publicada. */
+            if (!urlSegura(url)) {
+                showToast('Esa URL no es válida. Usa una dirección que empiece por https:// o una ruta del sitio.');
                 return;
             }
             const item = {
@@ -884,15 +1430,26 @@
             const items = getList('odissey_gallery');
             const target = items[idx];
             if (!target) return;
+            /* Misma comprobacion de id que en noticias y eventos. */
+            if (!idValido(target.id)) {
+                showToast('Esta imagen no tiene un id válido, no se puede borrar.');
+                return;
+            }
             const result = await SiteData.del('/api/admin/gallery/' + encodeURIComponent(target.id) + '?token=' + encodeURIComponent(getSessionToken()));
             if (!result.ok) {
-                showToast('No se pudo eliminar la imagen.');
+                showToast(adminError(result, 'No se pudo eliminar la imagen.'));
                 return;
             }
             logAdmin('Eliminó imagen de la galería');
             showToast('Imagen eliminada.');
-            await reloadAdminAndRedraw();
+            await verificarBorrado('odissey_gallery', target.id, 'la imagen', result);
         }
+
+        // Imagen de reserva cuando una foto de la galería no carga.
+        // Nota: hace falta que este dominio esté en img-src de la CSP
+        // (ya está añadido) o el navegador lo bloquea y la imagen se
+        // queda rota, que es justo lo que se quería evitar.
+        const PLACEHOLD = 'https://placehold.co/400x200/1e293b/eab308?text=Error+al+cargar+imagen';
 
         // ---------- Ajustes Web ----------
         function getSiteSettings() {
@@ -1023,6 +1580,28 @@
                 n.style.opacity = '0';
                 n.addEventListener('transitionend', () => n.remove());
             }, 2500);
+        }
+
+        // Traduce la respuesta del servidor a un mensaje util. Antes, un 403
+        // (sesion sin permisos), un 404 (ya borrado) y un 500 (bot caido)
+        // mostraban todos el mismo texto, y no habia forma de saber cual era.
+        function adminError(result, fallback) {
+            if (!result) return fallback + ' Sin respuesta del servidor.';
+            const err = (result.json && result.json.error) || '';
+            if (result.status === 0) return 'No hay conexion con el servidor del bot.';
+            if (result.status === 401) return 'La sesion caduco. Cierra sesion y vuelve a entrar.';
+            if (result.status === 403 || err === 'forbidden') return 'Tu sesion no tiene permisos de admin. Cierra sesion y vuelve a entrar.';
+            if (result.status === 404 || err === 'not_found') return 'No se encontro: quiza ya estaba borrado.';
+            if (result.status >= 500) return 'Error interno del bot (HTTP ' + result.status + '). Revisa stderr.log en el hosting.';
+            return fallback + ' (HTTP ' + result.status + (err ? ', ' + err : '') + ')';
+        }
+
+        // Un id vacio o la cadena "undefined" significa que el objeto no trae id
+        // (dato antiguo o mal formado). Enviarlo borraria 0 filas y el panel
+        // diria "borrado" sin haber borrado nada, asi que se corta aqui.
+        function idValido(id) {
+            return !(id === undefined || id === null || id === '' ||
+                id === 'undefined' || id === 'null' || id === 'NaN');
         }
 
         // ---------- Staff editor ----------
@@ -1316,7 +1895,7 @@
                         </div>`).join('');
                 card.innerHTML = `
                     <div class="head">
-                        <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin">
+                        <img width="128" height="128" src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin">
                         <div>
                             <h3>${escapeHtml(member.name)}</h3>
                             <span class="role">${escapeHtml(member.role)} • Promedio: ${avg}</span>
@@ -1332,12 +1911,17 @@
             if (idx < 0 || idx >= ratings.length) return;
             const removed = ratings[idx];
             if (!confirm('¿Eliminar esta calificación de ' + (removed.userName || removed.user || 'usuario') + ' hacia ' + removed.staff + '?')) return;
-            const result = await SiteData.del('/api/admin/ratings/' + encodeURIComponent(removed.id) + '?token=' + encodeURIComponent(getSessionToken()));
-            if (!result.ok) {
-                showToast('No se pudo eliminar la calificación.');
+            if (!idValido(removed.id)) {
+                showToast('Esta calificación no tiene id, no se puede eliminar.');
                 return;
             }
-            await reloadAdminAndRedraw();
+            const result = await SiteData.del('/api/admin/ratings/' + encodeURIComponent(removed.id) + '?token=' + encodeURIComponent(getSessionToken()));
+            if (!result.ok) {
+                showToast(adminError(result, 'No se pudo eliminar la calificacion.'));
+                return;
+            }
+            showToast('Calificacion eliminada.');
+            await verificarBorrado('odissey_ratings', removed.id, 'la calificacion', result);
             logAdmin('Eliminó la calificación ' + (removed.stars || 0) + '⭐ de ' + (removed.userName || removed.user) + ' hacia ' + removed.staff);
         }
 
@@ -1356,9 +1940,30 @@
                     : r.status === 'proceso'
                         ? '<span class="status-pill status-proceso">En proceso</span>'
                         : '<span class="status-pill status-nuevo">Nuevo</span>';
-                const capture = r.capture
-                    ? `<a href="${escapeHtml(r.capture)}" target="_blank" rel="noopener noreferrer" class="text-marine-accent text-xs underline">Ver captura</a>`
+                /* La captura la pone el usuario que abre el reporte, asi
+                   que la URL esEJEMPLO de dato no confiable: pasa por
+                   urlSegura(), que descarta cualquier esquema que no sea
+                   http(s) o una ruta interna. Sin esto, un reporte con
+                   capture="javascript:..." ejecutaba codigo en el panel
+                   en cuanto el staff abria la lista. */
+                const urlCaptura = urlSegura(r.capture);
+                const capture = urlCaptura
+                    ? `<a href="${urlCaptura}" target="_blank" rel="noopener noreferrer nofollow" referrerpolicy="no-referrer" class="text-marine-accent text-xs underline">Ver captura</a>`
                     : '';
+                /* El id tambien lo elige el usuario (se lo da el servidor
+                   al crear el reporte, pero viaja por el navegador).
+                   Se pasa por escapeArgJs(): si no tiene el formato
+                   esperado, los botones salen sin onclick en vez de
+                   romper el HTML. */
+                const rid = escapeArgJs(r.id);
+                const botones = rid
+                    ? `<div class="flex flex-wrap gap-2">
+                        <button type="button" class="btn-action" onclick="setReportStatus('${rid}', 'nuevo')">Nuevo</button>
+                        <button type="button" class="btn-action" onclick="setReportStatus('${rid}', 'proceso')">En proceso</button>
+                        <button type="button" class="btn-action" onclick="setReportStatus('${rid}', 'resuelto')">Resuelto</button>
+                        <button type="button" class="btn-danger" onclick="deleteReport('${rid}')">Borrar</button>
+                    </div>`
+                    : '<div class="meta">Este reporte no tiene un id valido, no se puede gestionar.</div>';
                 const item = document.createElement('div');
                 item.className = 'list-item';
                 item.innerHTML = `
@@ -1369,12 +1974,7 @@
                     <div class="sub mb-2">Motivo: ${escapeHtml(r.reason)}</div>
                     ${r.detail ? `<div class="sub mb-2">${escapeHtml(r.detail)}</div>` : ''}
                     <div class="meta mb-3">De ${escapeHtml(r.userName || r.user || 'Desconocido')} • ${formatDate(r.date)} ${capture}</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button type="button" class="btn-action" onclick="setReportStatus('${r.id}', 'nuevo')">Nuevo</button>
-                        <button type="button" class="btn-action" onclick="setReportStatus('${r.id}', 'proceso')">En proceso</button>
-                        <button type="button" class="btn-action" onclick="setReportStatus('${r.id}', 'resuelto')">Resuelto</button>
-                        <button type="button" class="btn-danger" onclick="deleteReport('${r.id}')">Borrar</button>
-                    </div>`;
+                    ${botones}`;
                 list.appendChild(item);
             });
         }
@@ -1382,7 +1982,7 @@
         async function setReportStatus(id, status) {
             const result = await SiteData.post('/api/admin/reports/' + encodeURIComponent(id), { token: getSessionToken(), status: status });
             if (!result.ok) {
-                showToast('No se pudo cambiar el estado del reporte.');
+                showToast(adminError(result, 'No se pudo cambiar el estado del reporte.'));
                 return;
             }
             await reloadAdminAndRedraw();
@@ -1390,68 +1990,637 @@
         }
 
         async function deleteReport(id) {
-            const result = await SiteData.del('/api/admin/reports/' + encodeURIComponent(id) + '?token=' + encodeURIComponent(getSessionToken()));
-            if (!result.ok) {
-                showToast('No se pudo borrar el reporte.');
+            if (!idValido(id)) {
+                showToast('Este reporte no tiene id, no se puede borrar.');
                 return;
             }
-            await reloadAdminAndRedraw();
+            const result = await SiteData.del('/api/admin/reports/' + encodeURIComponent(id) + '?token=' + encodeURIComponent(getSessionToken()));
+            if (!result.ok) {
+                showToast(adminError(result, 'No se pudo borrar el reporte.'));
+                return;
+            }
+            showToast('Reporte borrado.');
+            await verificarBorrado('odissey_reports', id, 'el reporte', result);
             logAdmin('Borró un reporte');
         }
 
-        // ---------- Pedidos ----------
-        function renderOrders() {
-            const orders = getList('odissey_orders');
-            const list = document.getElementById('orders-list');
-            list.innerHTML = '';
-            if (orders.length === 0) {
-                list.innerHTML = '<div class="no-ratings">No hay pedidos.</div>';
-                return;
+        // ================================================================
+        // Pestaña Buscar: registro de gente y ficha completa de cada cuenta
+        // ================================================================
+        // Lo que se ve aquí NO lo puede ver nadie más que el staff: son las IP,
+        // los dispositivos y el historial de sesiones. Ocultar el HTML no sirve
+        // de nada, así que el filtro real está en el bot (esAdminWeb), no aquí.
+
+        let _adminToken = null;
+
+        function tokenAdmin() {
+            return _adminToken || getSessionToken();
+        }
+
+        function inicialesAdmin(nombre) {
+            const limpio = String(nombre || '?').replace(/[^a-zA-Z0-9]/g, '');
+            return (limpio.slice(0, 2) || '?').toUpperCase();
+        }
+
+        function avatarAdmin(cuenta) {
+            // Mismo criterio que el resto del sitio: si no hay avatar propio se
+            // usa la inicial, y nunca una URL de Discord que ya no existe.
+            if (cuenta && cuenta.avatar_url && /^\/uploads\//.test(cuenta.avatar_url)) {
+                return '<img width="64" height="64" src="' + escapeHtml(cuenta.avatar_url) + '" alt="" loading="lazy">';
             }
-            orders.slice().reverse().forEach(o => {
-                const pill = o.status === 'entregado'
-                    ? '<span class="status-pill status-resuelto">Entregado</span>'
-                    : o.status === 'pagado'
-                        ? '<span class="status-pill status-proceso">Pagado</span>'
-                        : '<span class="status-pill status-nuevo">Pendiente</span>';
-                const item = document.createElement('div');
-                item.className = 'list-item';
-                item.innerHTML = `
-                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                        <span class="title">🛒 ${escapeHtml(o.product)}${Number(o.qty) > 1 ? ` <span class="text-text-dark">× ${Number(o.qty)}</span>` : ''}</span>
-                        ${pill}
-                    </div>
-                    <div class="sub mb-2">Cliente: ${escapeHtml(o.userName || o.user || 'Desconocido')} • Precio base: $${Number(o.usd || 0).toFixed(2)} USD</div>
-                    <div class="meta mb-3">${formatDate(o.date)}</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button type="button" class="btn-action" onclick="setOrderStatus('${o.id}', 'pendiente')">Pendiente</button>
-                        <button type="button" class="btn-action" onclick="setOrderStatus('${o.id}', 'pagado')">Pagado</button>
-                        <button type="button" class="btn-action" onclick="setOrderStatus('${o.id}', 'entregado')">Entregado</button>
-                        <button type="button" class="btn-danger" onclick="deleteOrder('${o.id}')">Borrar</button>
-                    </div>`;
-                list.appendChild(item);
+            return '<span>' + inicialesAdmin(cuenta && cuenta.username) + '</span>';
+        }
+
+        function cuando(ms) {
+            if (!ms) return '—';
+            return new Date(Number(ms)).toLocaleString('es-ES', {
+                day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
             });
         }
 
-        async function setOrderStatus(id, status) {
-            const result = await SiteData.post('/api/admin/orders/' + encodeURIComponent(id), { token: getSessionToken(), status: status });
-            if (!result.ok) {
-                showToast('No se pudo cambiar el estado del pedido.');
-                return;
-            }
-            await reloadAdminAndRedraw();
-            logAdmin('Cambió estado de un pedido a ' + status);
+        function haceCuanto(ms) {
+            if (!ms) return 'nunca';
+            const seg = Math.floor((Date.now() - Number(ms)) / 1000);
+            if (seg < 60) return 'hace ' + seg + 's';
+            if (seg < 3600) return 'hace ' + Math.floor(seg / 60) + ' min';
+            if (seg < 86400) return 'hace ' + Math.floor(seg / 3600) + ' h';
+            return 'hace ' + Math.floor(seg / 86400) + ' d';
         }
 
-        async function deleteOrder(id) {
-            const result = await SiteData.del('/api/admin/orders/' + encodeURIComponent(id) + '?token=' + encodeURIComponent(getSessionToken()));
-            if (!result.ok) {
-                showToast('No se pudo borrar el pedido.');
+        function chipAdmin(texto, tipo) {
+            return '<span class="chip chip-' + (tipo || 'neutro') + '">' + escapeHtml(texto) + '</span>';
+        }
+
+        // ---------- El registro de los que están conectados ----------
+
+        async function renderRegistroSesiones() {
+            const cajaSes = document.getElementById('buscar-admin-sesiones');
+            const cajaLog = document.getElementById('buscar-admin-logins');
+            if (cajaSes) cajaSes.innerHTML = '<div class="vacio">Cargando…</div>';
+
+            try {
+                const r = await fetch(API_BASE + '/api/admin/registro?limite=60&token=' + encodeURIComponent(tokenAdmin()), { cache: 'no-store' })
+                    .then((x) => x.json());
+                if (!r || !r.ok) {
+                    if (cajaSes) cajaSes.innerHTML = '<div class="vacio">' + escapeHtml((r && r.message) || 'No se pudo cargar.') + '</div>';
+                    return;
+                }
+                dibujarSesiones(r.sesiones || []);
+                dibujarLogins(r.logins || []);
+            } catch (e) {
+                if (cajaSes) cajaSes.innerHTML = '<div class="vacio">No se pudo contactar con el servidor.</div>';
+            }
+        }
+
+        function dibujarSesiones(sesiones) {
+            const caja = document.getElementById('buscar-admin-sesiones');
+            if (!caja) return;
+            if (!sesiones.length) {
+                caja.innerHTML = '<div class="vacio">Ahora mismo no hay nadie con la sesión abierta.</div>';
                 return;
             }
-            await reloadAdminAndRedraw();
-            logAdmin('Borró un pedido');
+            caja.innerHTML =
+                '<table class="tabla"><thead><tr>' +
+                '<th>Persona</th><th>Minecraft</th><th>Desde</th><th>IP</th><th>Dispositivo</th><th></th>' +
+                '</tr></thead><tbody>' +
+                sesiones.map((s) => {
+                    const cBg = colorCss(s.accent_color);
+                    const color = cBg ? ' style="background:' + cBg + '"' : '';
+                    /* El uid va dentro de un onclick. escapeArgJs lo
+                       deja en un formato cerrado, o devuelve "" si el
+                       valor se sale de ese formato. Con "" el boton no
+                       tendria sentido, asi que en ese caso se pinta el
+                       texto sin boton. */
+                    const uid = escapeArgJs(s.uid);
+                    const boton = uid
+                        ? '<button type="button" class="btn-ficha" onclick="abrirFicha(\'' + uid + '\')">Ver ficha</button>'
+                        : '<span class="gris">—</span>';
+                    return '<tr>' +
+                        '<td><span class="celda-persona">' +
+                        '<span class="mini-avatar"' + color + '>' + avatarAdmin(s) + '</span>' +
+                        '<span><span class="celda-nombre">' + escapeHtml(s.username) + '</span>' +
+                        (s.suspendido_hasta ? chipAdmin('suspendido', 'peligro') : '') + '</span>' +
+                        '</span></td>' +
+                        '<td>' + (s.mc_name ? escapeHtml(s.mc_name) : '<span class="gris">—</span>') + '</td>' +
+                        '<td class="gris" title="' + escapeHtml(cuando(s.sesion_desde)) + '">' + escapeHtml(haceCuanto(s.sesion_desde)) + '</td>' +
+                        '<td><code class="ip">' + escapeHtml(s.ip || '—') + '</code></td>' +
+                        '<td class="gris">' + escapeHtml(s.device || '—') + '</td>' +
+                        '<td>' + boton + '</td>' +
+                        '</tr>';
+                }).join('') +
+                '</tbody></table>';
         }
+
+        function dibujarLogins(logins) {
+            const caja = document.getElementById('buscar-admin-logins');
+            if (!caja) return;
+            if (!logins.length) {
+                caja.innerHTML = '<div class="vacio">Todavía no hay ningún inicio de sesión registrado.</div>';
+                return;
+            }
+            caja.innerHTML =
+                '<table class="tabla"><thead><tr>' +
+                '<th>Cuenta</th><th>Resultado</th><th>Cuándo</th><th>IP</th><th>Dispositivo</th>' +
+                '</tr></thead><tbody>' +
+                logins.slice(0, 40).map((l) => {
+                    const res = l.correcto
+                        ? chipAdmin('entró', 'bien')
+                        : chipAdmin(l.motivo === 'suspendido' ? 'suspendida' : 'fallo', 'peligro');
+                    const nombre = l.username || l.login || 'desconocido';
+                    const uid = escapeArgJs(l.uid);
+                    return '<tr>' +
+                        '<td>' + (uid ? '<button type="button" class="enlace-ficha" onclick="abrirFicha(\'' + uid + '\')">' + escapeHtml(nombre) + '</button>' : escapeHtml(nombre)) + '</td>' +
+                        '<td>' + res + '</td>' +
+                        '<td class="gris" title="' + escapeHtml(cuando(l.creado)) + '">' + escapeHtml(haceCuanto(l.creado)) + '</td>' +
+                        '<td><code class="ip">' + escapeHtml(l.ip || '—') + '</code></td>' +
+                        '<td class="gris">' + escapeHtml(l.device || '—') + '</td>' +
+                        '</tr>';
+                }).join('') +
+                '</tbody></table>';
+        }
+
+        // ---------- La lupa ----------
+
+        let _buscadorTimer = null;
+
+        async function buscarAdmin(texto) {
+            const caja = document.getElementById('buscar-admin-resultados');
+            if (!caja) return;
+            const q = String(texto || '').trim();
+
+            if (q.length < 2) {
+                caja.innerHTML = '';
+                caja.classList.remove('abierto');
+                return;
+            }
+            // Se espera a que dejes de escribir. Sin esto se lanza una petición
+            // por cada tecla y llegan desordenadas: la respuesta de "oc" puede
+            // llegar después de la de "ocampo05" y pintar la lista corta.
+            clearTimeout(_buscadorTimer);
+            await new Promise((r) => { _buscadorTimer = setTimeout(r, 260); });
+
+            try {
+                const r = await fetch(API_BASE + '/api/admin/buscar?q=' + encodeURIComponent(q) + '&token=' + encodeURIComponent(tokenAdmin()), { cache: 'no-store' })
+                    .then((x) => x.json());
+                if (!r || !r.ok) {
+                    caja.innerHTML = '<div class="vacio">' + escapeHtml((r && r.message) || 'No se pudo buscar.') + '</div>';
+                    return;
+                }
+                const res = r.resultados || [];
+                if (!res.length) {
+                    caja.innerHTML = '<div class="vacio">Nadie coincide con "' + escapeHtml(q) + '".</div>';
+                    caja.classList.add('abierto');
+                    return;
+                }
+                caja.innerHTML = res.map((c) => {
+                    const cBg = colorCss(c.accent_color);
+                    const color = cBg ? ' style="background:' + cBg + '"' : '';
+                    const uid = escapeArgJs(c.uid);
+                    if (!uid) return '';
+                    return '<button type="button" class="resultado" onclick="abrirFicha(\'' + uid + '\')">' +
+                        '<span class="mini-avatar"' + color + '>' + avatarAdmin(c) + '</span>' +
+                        '<span class="resultado-texto">' +
+                        '<span class="resultado-nombre">' + escapeHtml(c.username) + '</span>' +
+                        '<span class="resultado-sub">' +
+                        (c.mc_name ? escapeHtml(c.mc_name) + ' · ' : '') +
+                        escapeHtml(c.email || 'sin correo') +
+                        ' · visto ' + escapeHtml(haceCuanto(c.last_seen)) +
+                        '</span></span>' +
+                        (c.suspendido_hasta ? chipAdmin('suspendido', 'peligro') : (c.role !== 'user' ? chipAdmin(c.role, 'info') : '')) +
+                        '</button>';
+                }).join('');
+                caja.classList.add('abierto');
+            } catch (e) {
+                caja.innerHTML = '<div class="vacio">No se pudo contactar con el servidor.</div>';
+                caja.classList.add('abierto');
+            }
+        }
+
+        // ---------- La ficha completa ----------
+
+        let _fichaActual = null;
+
+        async function abrirFicha(uid) {
+            const panel = document.getElementById('ficha');
+            const cuerpo = document.getElementById('ficha-cuerpo');
+            if (!panel || !cuerpo) return;
+            panel.classList.remove('hidden');
+            document.getElementById('ficha-fondo').classList.remove('hidden');
+            cuerpo.innerHTML = '<div class="vacio">Cargando…</div>';
+            document.getElementById('ficha-acciones').innerHTML = '';
+
+            try {
+                const r = await fetch(API_BASE + '/api/admin/usuario?uid=' + encodeURIComponent(uid) + '&token=' + encodeURIComponent(tokenAdmin()), { cache: 'no-store' })
+                    .then((x) => x.json());
+                if (!r || !r.ok) {
+                    cuerpo.innerHTML = '<div class="vacio">' + escapeHtml((r && r.message) || 'No se pudo cargar la ficha.') + '</div>';
+                    return;
+                }
+                _fichaActual = r.ficha;
+                dibujarFicha(r.ficha);
+            } catch (e) {
+                cuerpo.innerHTML = '<div class="vacio">No se pudo contactar con el servidor.</div>';
+            }
+        }
+
+        function cerrarFicha() {
+            _fichaActual = null;
+            const panel = document.getElementById('ficha');
+            if (panel) panel.classList.add('hidden');
+            const fondo = document.getElementById('ficha-fondo');
+            if (fondo) fondo.classList.add('hidden');
+        }
+
+        function filaAdmin(etiqueta, valor, extra) {
+            if (valor === null || valor === undefined || valor === '') return '';
+            return '<div class="ficha-fila">' +
+                '<span class="ficha-etiqueta">' + escapeHtml(etiqueta) + '</span>' +
+                '<span class="ficha-valor"' + (extra || '') + '>' + valor + '</span>' +
+                '</div>';
+        }
+
+        function dibujarFicha(f) {
+            const c = f.cuenta;
+            const mc = f.minecraft;
+
+            document.getElementById('ficha-avatar').innerHTML = avatarAdmin(c);
+            document.getElementById('ficha-nombre').textContent = c.username;
+            document.getElementById('ficha-sub').textContent = mc ? mc.mc_name : 'sin Minecraft vinculado';
+
+            const chips = document.getElementById('ficha-chips');
+            let html = chipAdmin(c.role === 'user' ? 'jugador' : c.role, c.role === 'admin' ? 'oro' : (c.role === 'staff' ? 'info' : 'neutro'));
+            if (mc && mc.es_op) html += chipAdmin('OP del servidor', 'oro');
+            if (mc && mc.verificado) html += chipAdmin('verificado', 'bien');
+            else if (mc) html += chipAdmin('sin verificar', 'neutro');
+            if (c.suspendido_hasta) html += chipAdmin('suspendido', 'peligro');
+            chips.innerHTML = html;
+
+            const act = f.actividad;
+            let cuerpo =
+                '<div class="ficha-stats">' +
+                '<div><b>' + (act.sesiones || 0) + '</b><span>sesiones</span></div>' +
+                '<div><b>' + (act.reportes || 0) + '</b><span>reportes</span></div>' +
+                '<div><b>' + (act.calificaciones || 0) + '</b><span>calificaciones</span></div>' +
+                '<div><b>' + (act.tickets || 0) + '</b><span>tickets</span></div>' +
+                '</div>';
+
+            cuerpo += '<div class="ficha-bloque"><h4>Cuenta</h4>' +
+                filaAdmin('Usuario', escapeHtml(c.username)) +
+                filaAdmin('Correo', c.email ? escapeHtml(c.email) : null) +
+                filaAdmin('Contraseña', c.tiene_password ? 'puesta' : '<span class="gris">ninguna</span>') +
+                filaAdmin('Se registró', escapeHtml(cuando(c.creado))) +
+                filaAdmin('Última vez', escapeHtml(haceCuanto(c.visto))) +
+                filaAdmin('Biografía', c.bio ? escapeHtml(c.bio) : null) +
+                '</div>';
+
+            cuerpo += '<div class="ficha-bloque"><h4>Desde dónde entra</h4>' +
+                filaAdmin('Última IP', '<code class="ip">' + escapeHtml(c.ultima_ip || '—') + '</code>') +
+                filaAdmin('Último dispositivo', escapeHtml(c.ultimo_dispositivo || '—')) +
+                (c.suspendido_hasta
+                    ? filaAdmin('Suspendida', '<span class="rojo">' + escapeHtml(c.suspendido_hasta === 0 ? 'hasta que se levante' : cuando(c.suspendido_hasta)) + '</span> · ' + escapeHtml(c.suspendido_motivo || 'sin motivo') + ' <span class="gris">(' + escapeHtml(c.suspendido_por || '?') + ')</span>')
+                    : '') +
+                '</div>';
+
+            if (mc) {
+                cuerpo += '<div class="ficha-bloque"><h4>Minecraft</h4>' +
+                    filaAdmin('Nombre', escapeHtml(mc.mc_name)) +
+                    filaAdmin('UUID', '<code class="ip">' + escapeHtml(String(mc.mc_uuid).slice(0, 18)) + '…</code>') +
+                    filaAdmin('OP del servidor', mc.es_op ? 'sí' : 'no') +
+                    filaAdmin('Verificado por el servidor', mc.verificado ? 'sí' : 'no') +
+                    filaAdmin('Enlazado', escapeHtml(cuando(mc.desde))) +
+                    '</div>';
+            }
+
+            if (f.sesiones && f.sesiones.length) {
+                cuerpo += '<div class="ficha-bloque"><h4>Sesiones abiertas</h4><ul class="ficha-lista">' +
+                    f.sesiones.map((s) =>
+                        '<li><code class="ip">' + escapeHtml(s.ip || '—') + '</code> · ' +
+                        escapeHtml(s.device || 'dispositivo desconocido') +
+                        ' <span class="gris">· ' + escapeHtml(haceCuanto(s.desde)) + '</span></li>'
+                    ).join('') + '</ul></div>';
+            }
+
+            if (f.logins && f.logins.length) {
+                cuerpo += '<div class="ficha-bloque"><h4>Historial</h4><ul class="ficha-lista">' +
+                    f.logins.slice(0, 12).map((l) =>
+                        '<li class="' + (l.correcto ? '' : 'fallo') + '">' +
+                        (l.correcto ? 'entró' : escapeHtml(l.motivo || 'fallo')) +
+                        ' <span class="gris">' + escapeHtml(cuando(l.cuando)) + '</span> · ' +
+                        '<code class="ip">' + escapeHtml(l.ip || '—') + '</code> · ' +
+                        escapeHtml(l.device || '—') + '</li>'
+                    ).join('') + '</ul></div>';
+            }
+
+            document.getElementById('ficha-cuerpo').innerHTML = cuerpo;
+            dibujarAcciones(c);
+        }
+
+        /* Los botones de la ficha se montan con atributos data-*, no con
+           onclick="f('${uid}')". Motivo: el uid y el nombre de usuario
+           vienen de la base de datos y meterlos dentro de un atributo
+           onclick es meter datos no confiables en codigo. Con data-*
+           el valor viaja como TEXTO y un unico delegado (abajo) decide
+           que hacer. Es la unica forma de que esto no dependa de que
+           el valor "no tenga caracteres raros". */
+        function dibujarAcciones(c) {
+            const caja = document.getElementById('ficha-acciones');
+            if (!caja) return;
+            const suspendida = !!c.suspendido_hasta;
+
+            let html =
+                '<select class="ficha-select" data-accion="rol" aria-label="Cambiar rol">' +
+                ['user', 'staff', 'admin'].map((r) =>
+                    '<option value="' + r + '"' + (c.role === r ? ' selected' : '') + '>' +
+                    (r === 'user' ? 'Jugador' : r === 'staff' ? 'Staff' : 'Admin') + '</option>'
+                ).join('') + '</select>';
+
+            html += '<button type="button" class="btn-action" data-accion="cerrar-sesiones">Cerrar sus sesiones</button>';
+
+            if (c.minecraft) {
+                html += '<button type="button" class="btn-action" data-accion="desenlazar">Desvincular Minecraft</button>';
+            }
+
+            if (suspendida) {
+                html += '<button type="button" class="btn-ok" data-accion="reactivar">Reactivar cuenta</button>';
+            } else {
+                html += '<button type="button" class="btn-peligro-suave" data-accion="preguntar-suspender">Suspender…</button>';
+            }
+
+            html += '<button type="button" class="btn-action" data-accion="preguntar-password">Cambiar contraseña</button>';
+            html += '<button type="button" class="btn-danger" data-accion="preguntar-borrar">Borrar cuenta</button>';
+
+            /* La cuenta a la que se refiere esta ficha. Se guarda aqui en
+               memoria, no en el HTML: es el unico sitio de donde sale. */
+            _cuentaEnFicha = { uid: String(c.uid || ''), username: String(c.username || ''), role: String(c.role || 'user') };
+
+            caja.innerHTML = html;
+        }
+
+        let _cuentaEnFicha = null;
+
+        /* Un solo listener para todos los botones de la ficha. Se registra
+           una vez (en iniciarBuscarAdmin) y va leyendo data-accion. */
+        function iniciarDelegacionAcciones() {
+            const caja = document.getElementById('ficha-acciones');
+            if (!caja || caja.dataset.delegado === '1') return;
+            caja.dataset.delegado = '1';
+
+            caja.addEventListener('change', (ev) => {
+                const sel = ev.target.closest('select[data-accion="rol"]');
+                if (!sel || !_cuentaEnFicha) return;
+                const nuevo = sel.value;
+                if (nuevo === _cuentaEnFicha.role) return;
+                /* Antes el cambio de rol salia solo al mover el desplegable.
+                   Dar admin es la operacion mas peligrosa del panel (crea
+                   otro panel), asi que ahora pide confirmacion. */
+                preguntarCambiarRol(_cuentaEnFicha.uid, _cuentaEnFicha.username, _cuentaEnFicha.role, nuevo);
+                sel.value = _cuentaEnFicha.role;   // se vuelve a pintar hasta confirmar
+            });
+
+            caja.addEventListener('click', (ev) => {
+                const b = ev.target.closest('[data-accion]');
+                if (!b || !_cuentaEnFicha) return;
+                const uid = _cuentaEnFicha.uid;
+                const nombre = _cuentaEnFicha.username;
+                switch (b.getAttribute('data-accion')) {
+                    case 'cerrar-sesiones': adminAccion(uid, 'cerrar-sesiones'); break;
+                    case 'desenlazar': adminAccion(uid, 'desenlazar'); break;
+                    case 'reactivar': adminAccion(uid, 'reactivar'); break;
+                    case 'preguntar-suspender': preguntarSuspenderForm(uid); break;
+                    case 'preguntar-password': preguntarPassword(uid, nombre); break;
+                    case 'preguntar-borrar': preguntarBorrar(uid, nombre); break;
+                }
+            });
+        }
+
+        // ---------- Acciones ----------
+
+        // adminAccion(uid, accion, extra) -> extra son campos sueltos: {rol},
+        // {motivo, dias}, {password}...
+        async function adminAccion(uid, accion, extra) {
+            const cuerpo = Object.assign({ uid: uid, accion: accion }, extra || {});
+            try {
+                const r = await SiteData.post('/api/admin/usuario/accion', { token: tokenAdmin(), ...cuerpo });
+                if (!r.ok) {
+                    showToast(adminError(r, 'No se pudo hacer.'));
+                    return;
+                }
+                showToast(r.mensaje + (r.sesionesCerradas ? ' (' + r.sesionesCerradas + ' sesión cerrada)' : '') + '.');
+                logAdmin('Admin: ' + accion + ' sobre ' + (r.usuario || uid));
+                await abrirFicha(uid);
+                renderRegistroSesiones();
+            } catch (e) {
+                showToast('No se pudo contactar con el servidor.');
+            }
+        }
+
+        async function aplicarSuspender(uid) {
+            const entrada = document.getElementById('admin-suspender-motivo');
+            const diasEl = document.getElementById('admin-suspender-dias');
+            const motivo = entrada ? entrada.value.trim() : '';
+            const dias = diasEl ? Number(diasEl.value) : 0;
+            cerrarPregunta();
+            await adminAccion(uid, 'suspender', { motivo: motivo, dias: dias });
+        }
+
+        function abrirPregunta(html) {
+            const caja = document.getElementById('ficha-confirmar');
+            if (!caja) return;
+            document.getElementById('confirmar-titulo').textContent = '';
+            const cuerpo = caja.querySelector('.modal');
+            let extra = cuerpo.querySelector('.modal-extra');
+            if (!extra) {
+                extra = document.createElement('div');
+                extra.className = 'modal-extra';
+                cuerpo.insertBefore(extra, cuerpo.querySelector('.modal-acciones'));
+            }
+            extra.innerHTML = html;
+            extra.style.display = 'block';
+            caja.classList.remove('hidden');
+        }
+
+        function cerrarPregunta() {
+            const caja = document.getElementById('ficha-confirmar');
+            if (caja) caja.classList.add('hidden');
+        }
+
+        function preguntarSuspenderForm(uid) {
+            document.getElementById('confirmar-titulo').textContent = 'Suspender la cuenta';
+            document.getElementById('confirmar-texto').textContent =
+                'Le cerramos las sesiones abiertas y no podrá entrar hasta que se levante la suspensión. El motivo se le enseña al intentar entrar.';
+            document.getElementById('confirmar-si').textContent = 'Suspender';
+            abrirPregunta(
+                '<label class="modal-label" for="admin-suspender-motivo">Motivo (se lo verá al usuario)</label>' +
+                '<input id="admin-suspender-motivo" class="modal-input" type="text" maxlength="300" ' +
+                'placeholder="Por ejemplo: cuentas de spam">' +
+                '<label class="modal-label" for="admin-suspender-dias">Hasta</label>' +
+                '<select id="admin-suspender-dias" class="modal-input">' +
+                '<option value="1">1 día</option><option value="7">7 días</option>' +
+                '<option value="30">30 días</option><option value="0" selected>Hasta que se levante</option>' +
+                '</select>'
+            );
+            document.getElementById('confirmar-si').onclick = () => aplicarSuspender(uid);
+        }
+
+        /* Cambiar la contraseña de otra persona es una acción muy delicada: si
+           el panel se abre sin querer en un movil y se pulsa, se le cambia
+           la clave a un jugador. Por eso, desde esta version hay que:
+             1. Escribir la NUEVA clave (y que sea robusta, ver validarClave).
+             2. Escribir la CONTRASENA DEL ADMIN que esta operando.
+           El paso 2 es lo que se llama "reautenticacion": aunque alguien
+           llegue al panel con una sesion robada, sin la clave del admin no
+           puede cambiar la clave de nadie. */
+        function preguntarPassword(uid, nombre) {
+            document.getElementById('confirmar-titulo').textContent = 'Cambiar la contraseña de ' + (nombre || 'esta cuenta');
+            document.getElementById('confirmar-texto').textContent =
+                'Se pondrá la que escribas y se cerrarán las sesiones abiertas de esa persona. ' +
+                'Por seguridad hay que confirmar también con tu propia contraseña.';
+            document.getElementById('confirmar-si').textContent = 'Cambiar';
+            abrirPregunta(
+                '<label class="modal-label" for="admin-nueva-password">Contraseña nueva de la cuenta</label>' +
+                '<input id="admin-nueva-password" class="modal-input" type="password" minlength="12" maxlength="128" ' +
+                'autocomplete="new-password" spellcheck="false" placeholder="Mínimo 12 caracteres">' +
+                '<p class="modal-ayuda" id="admin-clave-ayuda">Debe tener al menos 12 caracteres y combinar letras, ' +
+                'números y símbolos. Una contraseña corta o solo de letras se puede adivinar.</p>' +
+                '<label class="modal-label" for="admin-mia-password">Tu contraseña (para confirmar que eres tú)</label>' +
+                '<input id="admin-mia-password" class="modal-input" type="password" maxlength="128" ' +
+                'autocomplete="current-password" spellcheck="false" placeholder="La tuya, no la del otro">'
+            );
+            document.getElementById('confirmar-si').onclick = async () => {
+                const el = document.getElementById('admin-nueva-password');
+                const mia = document.getElementById('admin-mia-password');
+                const nueva = el ? el.value : '';
+                const propia = mia ? mia.value : '';
+                /* No se hace trim() a la contraseña: los espacios son un
+                   caracter valido y forman parte de la clave. */
+                cerrarPregunta();
+                const problema = validarClave(nueva);
+                if (problema) { showToast(problema); return; }
+                if (!propia) { showToast('Escribe también tu propia contraseña para confirmar.'); return; }
+                await adminAccion(uid, 'password', { password: nueva, admin_password: propia });
+            };
+        }
+
+        /* Comprueba que una contraseña no sea facil de adivinar. No sustituye
+           al bot (que tambien tiene que validar), pero evita mandar al
+           servidor una clave que se rompe en dos semanas. */
+        function validarClave(clave) {
+            const c = String(clave || '');
+            if (c.length < 12) return 'La contraseña necesita 12 caracteres o más.';
+            if (c.length > 128) return 'La contraseña es demasiado larga.';
+            if (!/[a-z]/.test(c)) return 'La contraseña necesita al menos una minúscula.';
+            if (!/[A-Z]/.test(c)) return 'La contraseña necesita al menos una mayúscula.';
+            if (!/[0-9]/.test(c)) return 'La contraseña necesita al menos un número.';
+            if (!/[^A-Za-z0-9]/.test(c)) return 'La contraseña necesita al menos un símbolo.';
+            return '';
+        }
+
+        function preguntarCambiarRol(uid, nombre, actual, nuevo) {
+            const texto = { user: 'Jugador', staff: 'Staff', admin: 'Admin' };
+            document.getElementById('confirmar-titulo').textContent =
+                'Cambiar el rol de ' + (nombre || 'esta cuenta') + ' a ' + (texto[nuevo] || nuevo);
+            document.getElementById('confirmar-texto').textContent = nuevo === 'admin'
+                ? 'Ojo: le vas a dar acceso al panel de administración. Solo para gente de confianza absoluta.'
+                : (actual === 'admin'
+                    ? 'Le vas a quitar el acceso al panel de administración. Se le cerrarán las sesiones.'
+                    : 'Se le cerrarán las sesiones abiertas para que el cambio se aplique.');
+            document.getElementById('confirmar-si').textContent = 'Sí, cambiar';
+            abrirPregunta('');
+            document.getElementById('confirmar-si').onclick = async () => {
+                cerrarPregunta();
+                await adminAccion(uid, 'rol', { rol: nuevo });
+            };
+        }
+
+        function preguntarBorrar(uid, nombre) {
+            document.getElementById('confirmar-titulo').textContent = 'Borrar la cuenta de ' + nombre;
+            document.getElementById('confirmar-texto').textContent =
+                'Esto no tiene vuelta atrás. Se borra la cuenta con sus sesiones, su enlace de Minecraft, sus reportes y todo su historial. Si solo quieres dejarle fuera, suspéndela en vez de borrarla.';
+            document.getElementById('confirmar-si').textContent = 'Borrar para siempre';
+            abrirPregunta('<label class="modal-label">Escribe BORRAR para confirmar</label><input id="admin-confirmar-borrar" class="modal-input" type="text" autocomplete="off">');
+            document.getElementById('confirmar-si').onclick = async () => {
+                const el = document.getElementById('admin-confirmar-borrar');
+                const escrito = el ? el.value.trim().toUpperCase() : '';
+                cerrarPregunta();
+                if (escrito !== 'BORRAR') { showToast('No coincide. No se ha borrado nada.'); return; }
+                try {
+                    const r = await SiteData.post('/api/admin/usuario/accion', { token: tokenAdmin(), uid: uid, accion: 'borrar' });
+                    if (!r.ok) { showToast(adminError(r, 'No se pudo borrar.')); return; }
+                    showToast('Cuenta de ' + r.usuario + ' borrada.');
+                    logAdmin('Admin borró la cuenta ' + r.usuario);
+                    cerrarFicha();
+                    renderRegistroSesiones();
+                    buscarAdmin(document.getElementById('buscar-admin-input').value);
+                } catch (e) {
+                    showToast('No se pudo contactar con el servidor.');
+                }
+            };
+        }
+
+        // ---------- Registro: quitado del panel ----------
+        // ---------- Pedidos: quitado del panel ----------
+
+        // Se engancha todo lo de la pestaña Buscar en un unico sitio, cuando
+        // el panel ya esta autenticado. Si se hiciera al cargar la pagina sin
+        // mas, los botones se buscarian antes de que exista el HTML y no se
+        // encontrarian.
+        function iniciarBuscarAdmin() {
+            if (_adminToken) return;
+            _adminToken = getSessionToken();
+
+            /* Los botones de la ficha se atienden por delegacion, asi que
+               su enganche va aqui (que es cuando la ficha ya existe). */
+            iniciarDelegacionAcciones();
+
+            const input = document.getElementById('buscar-admin-input');
+            const limpiar = document.getElementById('buscar-admin-limpiar');
+            const refrescar = document.getElementById('buscar-admin-refrescar');
+            const cerrar = document.getElementById('ficha-cerrar');
+            const fondo = document.getElementById('ficha-fondo');
+            const modal = document.getElementById('ficha-confirmar');
+
+            if (input) {
+                input.addEventListener('input', () => {
+                    if (limpiar) limpiar.classList.toggle('visible', input.value.length > 0);
+                    buscarAdmin(input.value);
+                });
+                // Enter no hace nada raro: la lupa ya busca mientras escribes.
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') { input.value = ''; if (limpiar) limpiar.classList.remove('visible'); buscarAdmin(''); }
+                });
+            }
+            if (limpiar) {
+                limpiar.addEventListener('click', () => {
+                    if (!input) return;
+                    input.value = '';
+                    limpiar.classList.remove('visible');
+                    buscarAdmin('');
+                    input.focus();
+                });
+            }
+            if (refrescar) refrescar.addEventListener('click', () => { renderRegistroSesiones(); buscarAdmin(input ? input.value : ''); });
+
+            if (cerrar) cerrar.addEventListener('click', cerrarFicha);
+            if (fondo) fondo.addEventListener('click', cerrarFicha);
+
+            if (modal) {
+                // Pulsar fuera del cuadro tambien cierra la pregunta, sin tocar
+                // el boton de dentro.
+                modal.addEventListener('click', (e) => { if (e.target === modal) cerrarPregunta(); });
+            }
+            const no = document.getElementById('confirmar-no');
+            if (no) no.addEventListener('click', cerrarPregunta);
+
+            // Escape cierra lo que este abierto, de fuera hacia dentro.
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (modal && !modal.classList.contains('hidden')) cerrarPregunta();
+                else if (!document.getElementById('ficha').classList.contains('hidden')) cerrarFicha();
+            });
+        }
+        // Las compras no son pedidos todavia. Cuando se|traducen en compras reales
+        // se anade aqui lo que haga falta, con sus propias rutas en el bot.
+        // ---------- Pedidos ----------
 
         // ---------- Registro ----------
         function renderLog() {
@@ -1472,8 +2641,17 @@
         }
 
         // ---------- Tema (oscuro / claro) ----------
+        /* Antes esto era "return false ? 'light' : 'dark'", una condicion
+           siempre falsa: el boton de cambiar tema estaba muerto y el valor
+           que se guardaba en localStorage no se leia nunca. Ahora lee lo
+           que el usuario eligio, igual que en el resto de paginas. */
         function getTheme() {
-            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+            try {
+                const g = localStorage.getItem('odissey_theme');
+                if (g === 'light' || g === 'dark') return g;
+            } catch (e) { }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+            return 'dark';
         }
 
         function applyTheme() {
@@ -1497,11 +2675,58 @@
             adminWelcome.textContent = getCurrentSession();
             loginView.classList.add('hidden');
             dashboardView.classList.remove('hidden');
+            // Antes de dibujar nada: enganchar los botones de la pestaña
+            // Buscar, que solo existen cuando el panel ya esta dentro.
+            iniciarBuscarAdmin();
             switchTab('inicio');
         }
 
         applyTheme();
         checkAdminAccess();
+
+        /* El formulario de acceso ahora es un <form> de verdad, asi que
+           el envio se escucha en el evento submit y no en un onclick.
+           Al reenviar, el boton se pone a "Entrando..." desde el propio
+           listener: asi tambien se desactiva el pulsar Enter. */
+        (function () {
+            var form = document.getElementById('adminLoginForm');
+            if (!form) return;
+            form.addEventListener('submit', function (ev) {
+                ev.preventDefault();
+                var user = document.getElementById('adminUser');
+                var pass = document.getElementById('adminPass');
+                if (!user || !pass) return;
+                if (!user.value.trim() || !pass.value) {
+                    var err = document.getElementById('login-error');
+                    if (err) err.textContent = 'Escribe tu usuario y tu contraseña.';
+                    return;
+                }
+                handleAdminLogin();
+            });
+        })();
+
+        /* Aviso de sesion: avisa de que el panel se va a cerrar solo tras
+           un rato sin actividad. Un panel de administracion deberia
+           cerrarse solo: si te sales de la pestaña y vuelves 20 minutos
+           después, tiene sentido tener que entrar otra vez. */
+        (function () {
+            var AVISO_MS = 14 * 60 * 1000;
+            var aviso = null;
+
+            function resetear() {
+                clearTimeout(aviso);
+                aviso = setTimeout(function () {
+                    if (document.getElementById('dashboardView').classList.contains('hidden')) return;
+                    showToast('Tu sesión del panel se cerró por inactividad.');
+                    cerrarPorSesion();
+                }, AVISO_MS);
+            }
+
+            ['click', 'keydown', 'mousemove'].forEach(function (ev) {
+                document.addEventListener(ev, resetear, { passive: true });
+            });
+            document.addEventListener('DOMContentLoaded', resetear);
+        })();
     </script>
 <!-- Aviso de cookies -->
 <style>
@@ -1542,6 +2767,65 @@
     b.classList.add('show');
 })();
 </script>
-</body>
+<script>
+/* Bloquea el scroll del fondo mientras haya un modal abierto y lo
+   devuelve al cerrar. Se apoya en MutationObserver porque estos modales
+   se abren y cierran cambiando clases, no con eventos propios. */
+(function () {
+    var bloqueado = false;
+    function aplicar() {
+        var abierto = hayModal();
+        if (abierto === bloqueado) return;
+        bloqueado = abierto;
+        if (abierto) {
+            document.body.style.overflow = "hidden";
+            document.body.classList.add("od-scroll-locked");
+        } else {
+            document.body.style.overflow = "";
+            document.body.classList.remove("od-scroll-locked");
+        }
+    }
+    function hayModal() {
+        var m = document.querySelectorAll('[aria-modal="true"]');
+        for (var i = 0; i < m.length; i++) {
+            // si tiene la clase hidden esta cerrado, aunque el CSS todavia
+            // no la haya aplicado (Tailwind llega por CDN y tarde)
+            if (m[i].classList.contains("hidden")) continue;
+            if (m[i].getAttribute("aria-hidden") === "true") continue;
+            if (m[i].getClientRects().length > 0) return true;
+        }
+        return false;
+    }
+    var pendiente = false;
+    function pedir() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(function () {
+            pendiente = false;
+            aplicar();
+        });
+    }
+    new MutationObserver(pedir).observe(document.body, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["class", "style"],
+    });
+    document.addEventListener("click", pedir);
+    document.addEventListener("keyup", pedir);
+    window.addEventListener("resize", pedir);
+    // el primer analisis espera a que la pagina este pintada, para que
+    // Tailwind ya haya aplicado las clases hidden
+    if (document.readyState === "complete") setTimeout(aplicar, 200);
+    else window.addEventListener("load", function () { setTimeout(aplicar, 200); });
+    setTimeout(aplicar, 1200);
+})();
+</script>
+    <script src="js/analitica.js?v=144"></script>
+<script src="js/formulario.js?v=144"></script>
+    <script src="js/dala-art.js?v=144"></script>
+    <script src="js/dala-bg.js?v=144"></script>
+    <script src="js/dala-menu.js?v=144"></script>
+        <script src="js/dala-nav.js?v=144"></script>
+    </body>
 
 </html>

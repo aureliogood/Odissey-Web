@@ -1,0 +1,1559 @@
+/* ============================================================================
+   ODISSEY · SISTEMA DE DISEÑO "VOID"
+   ----------------------------------------------------------------------------
+   Basado en la referencia Dala: lienzo negro absoluto, tipografía blanca de
+   gran escala con pesos ligeros, un único acento dorado y una constelación de
+   partículas triangulares como imagen de marca.
+   ----------------------------------------------------------------------------
+   Paleta: negro #000000 · blanco #ffffff · dorado #eab308 · ámbar #ffb829
+   Tipografía: Inter (sustituto de PPNeueMontreal).
+   Este archivo se enlaza el ÚLTIMO en todas las páginas para imponer el tema
+   sobre el CSS de cada página.
+   ============================================================================ */
+
+:root {
+  --font-dala: 'Inter', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --dala-void: #000000;
+  --dala-white: #ffffff;
+  --dala-ash: #9a9a9a;
+  --dala-silver: #bdbdbd;
+  --dala-gold: #eab308;
+  --dala-amber: #ffb829;
+  --dala-gold-light: #fde68a;
+
+  /* Escala tipográfica */
+  --text-caption: 0.75rem;      /* 12px */
+  --text-nav: 0.875rem;         /* 14px */
+  --text-body: 1.125rem;        /* 18px */
+  --text-h2xs: 1.5rem;          /* 24px */
+  --text-hxs: 1.6875rem;        /* 27px */
+  --text-sub: 2.25rem;          /* 36px */
+  --text-hsm: 2.625rem;         /* 42px */
+  --text-h: 3rem;               /* 48px */
+  --text-hlg: 4.875rem;         /* 78px */
+  --text-display: 7.0625rem;    /* 113px */
+
+  --ease-dala: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ----------------------------------------------------------------------------
+   1. BASE — el vacío
+   ---------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  background: var(--dala-void);
+}
+
+body {
+  font-family: var(--font-dala);
+  font-weight: 200;
+  font-feature-settings: 'ss01' on, 'cv05' on;
+  letter-spacing: -0.006em;
+  background-color: var(--dala-void) !important;
+  color: var(--dala-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* OJO: el sitio usaba overflow-x:hidden. Eso convierte al propio <body> en
+     contenedor de scroll, y entonces el nav sticky no se ancla nunca: se va
+     con la pagina y el menu desplegable cuelga en mitad del contenido.
+     "clip" recorta igual de bien SIN crear contenedor de scroll. */
+  overflow-x: clip !important;
+}
+
+/* Dala no usa fotografía: se retira la imagen de fondo y cualquier velo. */
+.bg-layer {
+  display: none !important;
+}
+.overlay {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* Los orbes difusos dejan paso a la constelación de partículas. */
+.orb {
+  display: none !important;
+}
+
+::selection {
+  background: rgba(234, 179, 8, 0.28);
+  color: #ffffff;
+}
+
+/* ----------------------------------------------------------------------------
+   2. TIPOGRAFÍA — escala, no peso
+   ---------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-dala);
+  font-weight: 400 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--dala-white);
+}
+
+/* Titulares de sección: grandes, blancos, con tracking negativo. */
+.section-title,
+.section-title--lead {
+  font-weight: 400 !important;
+  color: var(--dala-white) !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.05;
+}
+.section-title {
+  font-size: clamp(2rem, 5.2vw, var(--text-hlg)) !important;
+  padding-bottom: 0 !important;
+}
+.section-title--lead {
+  font-size: clamp(2.4rem, 7vw, var(--text-display)) !important;
+  margin-bottom: 1.75rem !important;
+}
+/* Sin filetes: la jerarquía la da la escala, no las líneas. */
+.section-title::after,
+.section-title--lead::after {
+  display: none !important;
+}
+
+/* Etiqueta de énfasis ámbar (eyebrow), para acompañar a los titulares. */
+.dala-eyebrow,
+.eyebrow {
+  display: inline-block;
+  font-size: var(--text-nav);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: var(--dala-amber);
+  margin-bottom: 0.75rem;
+}
+
+/* Párrafos de apoyo: ligeros y aireados. */
+p, li, .guide-list, .why-card-text, .faq-answer, .testimonial-card .quote {
+  font-weight: 200;
+}
+.why-card-text,
+.faq-answer,
+.guide-list {
+  color: var(--dala-silver) !important;
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+strong, b {
+  font-weight: 600;
+  color: var(--dala-white);
+}
+
+/* Texto de énfasis y enlaces: oro/ámbar, nunca azul por defecto. */
+a {
+  color: inherit;
+}
+.text-gold-light,
+.hover\:text-gold-light:hover {
+  color: var(--dala-gold-light) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   3.b BARRA SUPERIOR — enlaces siempre visibles
+   ---------------------------------------------------------------------------- */
+/* Ya no hay menu desplegable: los enlaces viven en una pastilla centrada,
+   como en la referencia. En pantallas estrechas no caben, asi que ahi se
+   deja el boton de hamburguesa, que es la unica opcion que queda. */
+
+nav.nav-bar .nav-inner {
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+/* La pastilla: solo un borde fino que la separa del vacio. Sin fondo
+   solido, porque el sitio es negro y un relleno gris lo ensucia. */
+/* La pastilla se ajusta a lo que ocupa y se centra con margin:auto.
+   Con flex:1 1 auto se estiraba al ancho disponible y, al quitarse
+   cuatro enlaces, quedaban huecos vacios a los lados. */
+.nav-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.28rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+.nav-pill__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 9999px;
+  font-family: var(--font-dala) !important;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--dala-ash) !important;
+  text-decoration: none;
+  transition: color 150ms ease-out, background-color 150ms ease-out;
+}
+.nav-pill__link:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.06);
+}
+/* La pagina en la que estas */
+.nav-pill__link[aria-current='page'] {
+  color: var(--dala-gold) !important;
+  background: rgba(234, 179, 8, 0.10);
+}
+.nav-pill__icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  opacity: 0.75;
+}
+.nav-pill__link:hover .nav-pill__icon { opacity: 1; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+}
+
+/* Con la barra completa no hace falta el desplegable. El boton lleva la
+   clase "flex" de Tailwind, asi que sin !important se impone ella. */
+/* El boton de hamburguesa solo tiene sentido cuando la pastilla no cabe.
+   Se oculta con visibility, que el navegador aplica de forma más fiable
+   que display cuando hay otras reglas con !important peleándose. */
+@media (min-width: 1001px) {
+  .nav-actions .menu-toggle {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .nav-actions .menu-toggle * { visibility: hidden !important; }
+}
+
+/* Panel que se genera en movil (js/dala-nav.js). Solo existe por debajo
+   de 1000px, que es cuando la pastilla deja de caber. */
+.nav-menu-panel {
+  position: absolute !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 60 !important;
+  background: #0b0b0b;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(234, 179, 8, 0.22);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+}
+.nav-menu-panel.hidden { display: none; }
+
+.menu-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.6rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.menu-panel .nav-pill__link,
+.nav-menu-panel .nav-pill__link {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.9375rem;
+  border-radius: 12px;
+  color: #d4d4d4 !important;
+}
+.nav-menu-panel .nav-pill__link:hover {
+  background: rgba(234, 179, 8, 0.10);
+  color: #fff !important;
+}
+.nav-menu-panel .nav-pill__icon { display: block; width: 17px; height: 17px; }
+
+/* el boton hamburguesa se pone en aspa cuando el panel esta abierto */
+.nav-actions .menu-toggle.is-open .bar:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.nav-actions .menu-toggle.is-open .bar:nth-child(2) { opacity: 0; }
+.nav-actions .menu-toggle.is-open .bar:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+/* Si no caben todos los enlaces, se recorta de forma ordenada: primero
+   se van los menos usados (staff, perfil, reglas) y el resto sigue
+   visible. Con overflow:hidden y flex lo hace el navegador solo, pero
+   se dejan visibles los importantes. */
+@media (max-width: 1180px) {
+  .nav-pill__link { padding: 0.5rem 0.6rem; font-size: 0.78rem; }
+  .nav-pill__icon { display: none; }
+}
+@media (max-width: 1000px) {
+  /* ya no caben: se oculta la pastilla y vuelve el boton de menu */
+  .nav-pill { display: none; }
+  .nav-actions .menu-toggle { display: flex !important; }
+}
+
+@media (max-width: 640px) {
+  nav.nav-bar .nav-inner {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+  }
+  .nav-actions { gap: 0.3rem !important; }
+}
+
+/* ----------------------------------------------------------------------------
+   4. NAVEGACIÓN — barra fantasma sobre el vacío
+   ---------------------------------------------------------------------------- */
+/* Sin fondo, sin línea, sin sombra: solo flota el contenido. */
+nav.nav-bar {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+/* El nav debe quedar FIJO arriba. Si algo lo descarga, se va con la pagina y
+   el desplegable acaba encima del contenido. */
+nav.nav-bar {
+  position: sticky !important;
+  top: 0 !important;
+}
+/* La fila del nav va por encima del desplegable: asi el panel nunca puede
+   tapar "Entrar", el carrito o el logo, pase lo que pase.
+   OJO: :not(#menuDropdown) es imprescindible. El desplegable tambien es un
+   <div> hijo directo del nav, y sin este :not heredaria position:relative,
+   perder su position:absolute y dejar de colgar justo debajo del nav. */
+nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
+  position: relative;
+  z-index: 2;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* Los botones de la barra dejan de ser pastillas: texto con jerarquía. */
+.nav-button {
+  font-family: var(--font-dala) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  padding: 0.5rem 0 !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--dala-ash) !important;
+  transition: color 0.18s var(--ease-dala), opacity 0.18s var(--ease-dala);
+}
+.nav-button:hover {
+  color: var(--dala-white) !important;
+  background: transparent !important;
+}
+.nav-button-shop {
+  color: var(--dala-amber) !important;
+}
+
+/* Los iconos sueltos (idioma, menú) necesitan zona clicable real: sin esto
+   quedan aplastados en una línea fina. */
+nav #langBtn,
+nav #menuBtn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0.5rem !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: var(--dala-silver) !important;
+  transition: color 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala);
+}
+nav #langBtn:hover,
+nav #menuBtn:hover {
+  color: var(--dala-white) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+nav #langBtn .lang-flag-img,
+nav #langBtn img {
+  width: 22px !important;
+  height: 16px !important;
+  object-fit: cover;
+}
+nav #menuBtn svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* El botón de menú se convierte en aspa al abrirse. */
+nav #menuBtn {
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+.menu-toggle { position: relative !important; }
+.menu-toggle .bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.32s var(--ease-dala), opacity 0.2s var(--ease-dala), width 0.32s var(--ease-dala);
+  transform-origin: center;
+}
+.menu-toggle .bar + .bar { margin-top: 5px; }
+body.menu-open .menu-toggle .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.menu-open .menu-toggle .bar:nth-child(2) { opacity: 0; width: 0; }
+body.menu-open .menu-toggle .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Despliegue del menú: cae desde arriba, se estira y se asienta.
+   El guion lo lleva js/dala-menu.js, que separa mostrar de animar para que la
+   transicion llegue a ejecutarse de verdad. */
+#menuDropdown {
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(-10px) scaleY(0.92);
+  filter: blur(6px);
+  /* El hueco separa el panel del nav: nunca queda pegado ni lo pisa. */
+  margin-top: 0;
+  transition: opacity 0.3s var(--ease-dala), transform 0.36s var(--ease-dala),
+    filter 0.3s var(--ease-dala), margin-top 0.36s var(--ease-dala);
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 1;
+}
+#menuDropdown.menu-open {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+  filter: blur(0);
+  margin-top: 10px;
+  pointer-events: auto;
+}
+
+/* Cada botón entra con retardo propio, como una cascada. */
+#menuDropdown .nav-button {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.94);
+  transition: opacity 0.32s var(--ease-dala), transform 0.36s var(--ease-dala),
+    background-color 0.18s var(--ease-dala), color 0.18s var(--ease-dala);
+}
+#menuDropdown.menu-open .nav-button {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#menuDropdown.menu-open .nav-button:nth-child(1) { transition-delay: 0.05s; }
+#menuDropdown.menu-open .nav-button:nth-child(2) { transition-delay: 0.10s; }
+#menuDropdown.menu-open .nav-button:nth-child(3) { transition-delay: 0.15s; }
+#menuDropdown.menu-open .nav-button:nth-child(4) { transition-delay: 0.20s; }
+#menuDropdown.menu-open .nav-button:nth-child(5) { transition-delay: 0.25s; }
+#menuDropdown.menu-open .nav-button:nth-child(6) { transition-delay: 0.30s; }
+#menuDropdown.menu-open .nav-button:nth-child(7) { transition-delay: 0.35s; }
+#menuDropdown.menu-open .nav-button:nth-child(8) { transition-delay: 0.40s; }
+
+/* El selector de idioma es un icono, no una píldora. */
+nav .lang-btn {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0.4rem 0.15rem !important;
+  min-height: 0 !important;
+  color: var(--dala-silver) !important;
+  box-shadow: none !important;
+}
+nav .lang-btn::before {
+  display: none !important;
+}
+nav .lang-btn:hover {
+  color: var(--dala-white) !important;
+  background: transparent !important;
+}
+
+/* Sólo dos accionesaries conservan la píldora dorada: carrito y entrar. */
+.nav-button-primary {
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  min-height: 38px !important;
+  padding: 0 15px !important;
+  color: #0a0a0a !important;
+  box-shadow: none !important;
+}
+.nav-button-primary:hover {
+  background: var(--dala-amber) !important;
+  transform: none;
+}
+.nav-button-primary .cart-count {
+  background-color: #0a0a0a !important;
+  color: var(--dala-gold-light) !important;
+}
+
+/* Con sesión iniciada este botón es solo el avatar. Antes salía como una bola
+   dorada con la foto aplastada dentro, por dos motivos encadenados:
+     1) el padding genérico de .nav-button-primary pisaba el padding:0 que
+        theme.css aplica en modo avatar, y
+     2) el preflight de Tailwind trae "img { max-width:100% }", que resolvía
+        contra la caja del botón y dejaba el avatar en 10px de ancho.
+   Aquí se anulan los dos y se pinta como una ficha de cuenta sobria. */
+.nav-button-primary.nav-button--avatar {
+  padding: 0 !important;
+  gap: 0 !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  background: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: none !important;
+}
+.nav-button-primary.nav-button--avatar:hover {
+  background: #161616 !important;
+  border-color: var(--dala-gold) !important;
+  transform: none;
+}
+.nav-button--avatar .nav-avatar,
+#enterNavAvatar {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  border-radius: 999px !important;
+  object-fit: cover !important;
+  background: #0a0a0a !important;
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+/* El menú desplegable sí es una superficie: velo negro y filas sueltas. */
+.menu-panel {
+  background: rgba(0, 0, 0, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 24px !important;
+  padding: 0.75rem !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px) !important;
+}
+.menu-panel .nav-button {
+  border-radius: 14px !important;
+  padding: 0.6rem 0.85rem !important;
+  background: transparent !important;
+}
+.menu-panel .nav-button:not([aria-current='page']) {
+  background: transparent !important;
+  color: var(--dala-silver) !important;
+}
+.menu-panel .nav-button:not([aria-current='page']):hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: var(--dala-white) !important;
+}
+.menu-panel .nav-button[aria-current='page'] {
+  background: var(--dala-gold) !important;
+  color: #0a0a0a !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4. BOTONES — una sola píldora dorada
+   ---------------------------------------------------------------------------- */
+/* El barrido del hover se hace con un degradado de FONDO, no con un pseudo
+   elemento por encima. Antes se usaba ::before, pero como el texto de estos
+   botones es un nodo suelto (no un elemento), el pseudo se dibujaba encima y
+   tapaba la letra al pasar el raton. Un degradado de fondo siempre queda
+   debajo del texto y el efecto de barrido se mantiene. */
+.btn3d,
+.btn-gold,
+.btn-gold-inline,
+.btn-continue,
+.btn-online,
+.btn-action,
+.gold-btn,
+.lang-btn,
+.rating-btn,
+.rating-submit,
+.news-filter-btn,
+.cb-btn,
+.btn-copy-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 24px;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  background-color: var(--dala-gold) !important;
+  background-image: linear-gradient(100deg,
+      #ffffff 0%, #ffffff 50%,
+      rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%) !important;
+  background-repeat: no-repeat !important;
+  background-size: 220% 100% !important;
+  background-position: 100% 0 !important;
+  color: #0a0a0a !important;
+  font-family: var(--font-dala) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase;
+  overflow: hidden;
+  box-shadow: none !important;
+  transition: background-position 0.36s var(--ease-dala),
+    transform 0.18s var(--ease-dala), box-shadow 0.18s var(--ease-dala);
+}
+.btn3d:hover,
+.btn-gold:hover,
+.btn-gold-inline:hover,
+.btn-continue:hover,
+.btn-online:hover,
+.btn-action:hover,
+.gold-btn:hover,
+.lang-btn:hover,
+.rating-btn:hover,
+.rating-submit:hover,
+.news-filter-btn:hover,
+.cb-btn:hover,
+.btn-copy-tag:hover {
+  /* al pasar el raton el blanco entra desde la izquierda */
+  background-position: 0% 0 !important;
+  color: #0a0a0a !important;
+  transform: translateY(-2px);
+  box-shadow: none !important;
+}
+.btn3d:active,
+.gold-btn:active,
+.btn-action:active {
+  transform: translateY(0) scale(0.98);
+}
+.btn3d.btn-sm {
+  min-height: 36px !important;
+  padding: 0 16px !important;
+  font-size: 0.66rem !important;
+}
+/* Los iconos dentro de los botones heredan el color del texto. */
+.btn3d svg,
+.btn-gold svg,
+.btn-action svg,
+.gold-btn svg,
+.btn-continue svg,
+.btn-online svg,
+.news-filter-btn svg,
+.rating-btn svg {
+  color: currentColor !important;
+}
+
+/* La página actual del menú también es una píldora dorada. */
+.nav-button[aria-current='page'] {
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Botones secundarios / fantasma. */
+.btn-secondary,
+.close-btn {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  color: var(--dala-silver) !important;
+}
+.close-btn:hover {
+  backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+/* ----------------------------------------------------------------------------
+   5. SUPERFICIES — sin cajas. Los elementos flotan en el vacío.
+   ---------------------------------------------------------------------------- */
+.liquid-glass-container,
+.why-card,
+.news-card,
+.event-card,
+.testimonial-card,
+.gallery-item,
+.staff-card,
+.faq-item,
+.content-empty,
+.account-card,
+.staff-panel,
+.account-item,
+.gallery-item {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+/* Conserva el ritmo vertical donde antes había relleno de caja. */
+.why-card,
+.news-card,
+.event-card,
+.testimonial-card,
+.gallery-item {
+  border-radius: 24px !important;
+  padding: 1.5rem 0 !important;
+}
+/* El documento largo de reglas mantiene solo un respiro horizontal. */
+#reglas .liquid-glass-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 2.5rem 0 !important;
+}
+
+/* Las tarjetas con imagen sí necesitan un marco geométrico limpio. */
+.gallery-item {
+  border-radius: 24px !important;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.gallery-item img {
+  border-radius: 0;
+}
+
+/* Superficies que antes eran navy dejan ver el fondo de constelación. */
+.bg-marine-dark,
+.bg-marine-medium,
+.bg-marine-darker {
+  background-color: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Modales y tarjetas de acceso: único punto donde se permite un borde fino. */
+.login-card,
+.auth-window,
+.modal-box,
+#loginModal .login-card {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+   6. FORMULARIOS
+   ---------------------------------------------------------------------------- */
+input, textarea, select,
+.auth-input,
+.mc-name-input,
+.rating-comment {
+  font-family: var(--font-dala) !important;
+  background-color: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 14px !important;
+  color: var(--dala-white) !important;
+}
+input:focus, textarea:focus, select:focus,
+.auth-input:focus,
+.mc-name-input:focus,
+.rating-comment:focus {
+  outline: none !important;
+  border-color: var(--dala-gold) !important;
+  box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.14) !important;
+}
+input::placeholder,
+textarea::placeholder {
+  color: rgba(189, 189, 189, 0.45) !important;
+}
+
+/* Pestañas de acceso */
+.auth-tabs {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.auth-tab.is-activa {
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  color: #0a0a0a !important;
+  box-shadow: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+   6. BUSCADOR DE JUGADORES — ventana Dala
+   ---------------------------------------------------------------------------- */
+.buscador-fondo {
+  background: rgba(0, 0, 0, 0.82) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  backdrop-filter: blur(14px) !important;
+}
+.buscador-caja {
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #0a0a0a !important;
+  box-shadow: none !important;
+  animation: dalaPop 0.28s var(--ease-dala) both;
+}
+@keyframes dalaPop {
+  from { opacity: 0; transform: translateY(-12px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.buscador-cabecera {
+  padding: 1.1rem 1.15rem !important;
+  border-bottom: 0 !important;
+}
+.buscador-lupa {
+  color: var(--dala-gold) !important;
+}
+.buscador-input {
+  color: var(--dala-white) !important;
+  font-size: 1.1rem !important;
+  font-weight: 200 !important;
+}
+.buscador-input::placeholder {
+  color: var(--dala-ash) !important;
+  opacity: 1 !important;
+}
+.buscador-cerrar {
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 999px !important;
+  color: var(--dala-silver) !important;
+}
+.buscador-cerrar:hover,
+.buscador-cerrar:focus-visible {
+  color: var(--dala-white) !important;
+  border-color: var(--dala-gold) !important;
+  background: transparent !important;
+}
+.buscador-pista {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  color: var(--dala-ash) !important;
+  opacity: 1 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.04em;
+}
+.buscador-estado {
+  color: var(--dala-silver) !important;
+}
+.buscador-item {
+  padding: 0.85rem 1.15rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+.buscador-item:hover,
+.buscador-item:focus-visible {
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+.buscador-foto {
+  border: 0 !important;
+  border-radius: 14px !important;
+}
+.buscador-inicial {
+  font-weight: 400 !important;
+  color: var(--dala-gold) !important;
+  background: rgba(234, 179, 8, 0.1);
+}
+.buscador-nombre {
+  font-weight: 400 !important;
+  color: var(--dala-white) !important;
+}
+.buscador-mc,
+.buscador-bio {
+  color: var(--dala-ash) !important;
+  opacity: 1 !important;
+}
+.buscador-ver {
+  color: var(--dala-amber) !important;
+  font-weight: 600 !important;
+}
+
+/* ----------------------------------------------------------------------------
+   6b. TARJETAS CON NÚMERO — puros números, sin recuadro
+   ---------------------------------------------------------------------------- */
+.why-card,
+.testimonial-card,
+.staff-card,
+.faq-item {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.why-card-icon {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 999px !important;
+  color: var(--dala-gold) !important;
+  box-shadow: none !important;
+}
+.why-card-title {
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--dala-white) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   6c. VENTANA DE ACCESO — Steve, no el logo
+   ---------------------------------------------------------------------------- */
+#loginModal .login-card {
+  max-width: 430px !important;
+  padding: 0 30px 26px !important;
+  text-align: left;
+}
+
+/* La cabecera solo sostiene a Steve, bien centrado y sin línea de adorno. */
+.auth-cabecera--steve {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 0 0.25rem !important;
+  padding: 18px 0 6px !important;
+  overflow: visible !important;
+}
+/* Steve va en SVG; sus medidas estan en css/dala-steve.css. */
+.auth-steve {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Las pestañas se quedan, pero planas: segmentado sin fondo pesado. */
+#loginModal .auth-tabs {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 999px !important;
+  padding: 4px !important;
+  gap: 4px !important;
+  margin-bottom: 1.4rem !important;
+}
+#loginModal .auth-tab {
+  flex: 1 !important;
+  min-height: 36px !important;
+  border-radius: 999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase;
+  color: var(--dala-ash) !important;
+  background: transparent !important;
+  border: 0 !important;
+  transition: color 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala);
+}
+#loginModal .auth-tab:hover {
+  color: var(--dala-white) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+#loginModal .auth-tab.is-activa {
+  background: var(--dala-gold) !important;
+  color: #0a0a0a !important;
+}
+
+#loginModal .auth-title {
+  font-size: 1.75rem !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--dala-white) !important;
+  margin: 0 44px 0.3rem 0 !important;
+}
+#loginModal .auth-sub {
+  font-size: 0.95rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-silver) !important;
+  margin: 0 0 1.6rem !important;
+  line-height: 1.55 !important;
+}
+#loginModal .auth-label {
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: var(--dala-ash) !important;
+}
+/* Los campos: oscuros, redondeados, con el icono en gris. */
+#loginModal .auth-input-wrap,
+#loginModal .auth-field {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+}
+#loginModal .auth-input-wrap:focus-within {
+  border-color: var(--dala-gold) !important;
+  box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.12) !important;
+}
+#loginModal .auth-input,
+#loginModal .auth-input-icon {
+  color: var(--dala-white) !important;
+}
+#loginModal .auth-input::placeholder {
+  color: rgba(189, 189, 189, 0.5) !important;
+}
+#loginModal .auth-ayuda {
+  font-size: 0.78rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+}
+#loginModal .auth-pie {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  font-size: 0.75rem !important;
+  font-weight: 200 !important;
+  color: var(--dala-ash) !important;
+}
+#loginModal .auth-error {
+  background: rgba(248, 113, 113, 0.1) !important;
+  border: 1px solid rgba(248, 113, 113, 0.3) !important;
+  border-radius: 14px !important;
+  color: #fca5a5 !important;
+  font-weight: 300 !important;
+}
+/* El boton de enviar ocupa todo el ancho, como una pastilla dorada. */
+#loginModal .auth-boton {
+  min-height: 48px !important;
+  border-radius: 999px !important;
+}
+
+/* ----------------------------------------------------------------------------
+   7. PÍLDORAS Y ETIQUETAS
+   ---------------------------------------------------------------------------- */
+.news-badge,
+.event-date,
+.rating-submit {
+  background-color: var(--dala-gold) !important;
+  background-image: none !important;
+  color: #0a0a0a !important;
+  box-shadow: none !important;
+}
+/* El contador de jugadores es una cifra grande, no una píldora. */
+.playerCount {
+  min-width: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  color: var(--dala-white) !important;
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem) !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+}
+.news-badge,
+.event-badge,
+.event-date {
+  border-radius: 9999px !important;
+}
+.event-date {
+  border-radius: 16px !important;
+}
+
+/* ----------------------------------------------------------------------------
+   8. PARTÍCULAS — constelación animada de fondo
+   ---------------------------------------------------------------------------- */
+/* El fondo lo dibuja js/dala-bg.js en un canvas fijo a pantalla completa. */
+.dala-bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+/* Las partículas estáticas antiguas quedan desactivadas: las sustituye el canvas. */
+.page-particles {
+  display: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+   8b. HERO — composición de dos columnas estilo Dala
+   ---------------------------------------------------------------------------- */
+.dala-hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Rejilla del hero definida aquí para no depender de utilidades Tailwind
+   compiladas (lg:grid-cols-2 no existe en el tailwind.css del proyecto). */
+.dala-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .dala-hero-grid {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 3.5rem;
+  }
+}
+
+.dala-hero-title {
+  font-size: clamp(2.75rem, 7.2vw, var(--text-display)) !important;
+  font-weight: 400 !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--dala-white);
+  margin: 0 0 1.5rem;
+}
+
+.dala-hero-sub {
+  max-width: 30rem;
+  font-size: var(--text-body);
+  font-weight: 200;
+  line-height: 1.55;
+  color: var(--dala-silver);
+  margin: 0;
+}
+
+.dala-ghost-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-nav);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--dala-white);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  transition: color 0.18s var(--ease-dala), border-color 0.18s var(--ease-dala);
+}
+.dala-ghost-link:hover {
+  color: var(--dala-amber);
+  border-color: var(--dala-amber);
+}
+
+/* Fila de estado del servidor: misma estructura en las tres columnas. */
+.dala-status {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem 2rem;
+  align-items: start;
+}
+.dala-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.dala-stat-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dala-ash);
+}
+#serverStatusDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 9999px;
+  background-color: #4ade80;
+  box-shadow: 0 0 9px rgba(74, 222, 128, 0.85);
+}
+/* El estado lo dicta el JS (verde / ámbar) según la situación real. */
+#serverStatusDot.state-online {
+  background-color: #4ade80;
+  box-shadow: 0 0 9px rgba(74, 222, 128, 0.85);
+}
+#serverStatusDot.state-maintenance {
+  background-color: var(--dala-amber);
+  box-shadow: 0 0 9px rgba(255, 184, 41, 0.85);
+}
+#serverStatusDot.state-offline {
+  background-color: #ef4444;
+  box-shadow: 0 0 9px rgba(239, 68, 68, 0.85);
+}
+#serverStatusText {
+  color: #4ade80;
+}
+#serverStatusText.state-online {
+  color: #4ade80;
+}
+#serverStatusText.state-maintenance {
+  color: var(--dala-amber);
+}
+#serverStatusText.state-offline {
+  color: #ef4444;
+}
+.dala-stat-value {
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--dala-white);
+}
+.dala-stat-value-sm,
+#serverVersion {
+  font-size: 1.1rem;
+  font-weight: 400 !important;
+  line-height: 1.3;
+  color: var(--dala-white) !important;
+}
+.dala-stat-caption {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--dala-ash);
+}
+@media (max-width: 640px) {
+  .dala-status {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Lienzo de la constelación */
+.dala-constellation-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  margin-left: auto;
+}
+.dala-constellation {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1023px) {
+  .dala-hero {
+    min-height: auto;
+  }
+  .dala-constellation-wrap {
+    margin: 0 auto;
+    max-width: 420px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   9. VARIOS
+   ---------------------------------------------------------------------------- */
+/* El tema claro está desactivado: ocultamos su interruptor. */
+#themeBtn {
+  display: none !important;
+}
+
+/* Búsqueda del nav: campo inline, sin caja. */
+.nav-search,
+#searchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 999px !important;
+  color: var(--dala-silver) !important;
+  padding: 0.45rem 1rem !important;
+  transition: border-color 0.18s var(--ease-dala), color 0.18s var(--ease-dala);
+}
+.nav-search:hover,
+#searchBtn:hover {
+  border-color: var(--dala-gold) !important;
+  color: var(--dala-white) !important;
+}
+
+/* Enlaces del menú lateral / desplegables: sin subrayado por defecto. */
+#menuDropdown a,
+.menu-panel a {
+  text-decoration: none !important;
+}
+
+/* Pie: negro, sin líneas, con la misma tipografía del sitio. */
+footer {
+  border: 0 !important;
+  border-top: 0 !important;
+  background: transparent !important;
+  color: var(--dala-ash) !important;
+}
+footer a {
+  color: var(--dala-silver) !important;
+  text-decoration: none !important;
+  transition: color 0.18s var(--ease-dala);
+}
+footer a:hover {
+  color: var(--dala-amber) !important;
+}
+.footer-link {
+  color: var(--dala-silver) !important;
+}
+
+/* Modales y overlays: negro puro, sin degradados heredados. */
+.overlay-fixed,
+.modal-backdrop,
+.cb-overlay {
+  background: rgba(0, 0, 0, 0.82) !important;
+}
+
+/* Scrollbar coherente con el vacío. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dala-gold);
+}
+
+/* Foco dorado consistente. */
+:focus-visible {
+  outline: 2px solid var(--dala-gold) !important;
+  outline-offset: 3px !important;
+}
+
+/* Aviso de lectura: enlaces de texto en ámbar o blanco, nunca azul. */
+
+/* ----------------------------------------------------------------------------
+   11. ANULACIÓN DE LAS CAJAS HEREDADAS
+   ----------------------------------------------------------------------------
+   Estas reglas del CSS original venían con !important y ganaban a las
+   anteriores. Aquí se desmontan por completo: Dala no usa cajas.
+   ---------------------------------------------------------------------------- */
+.liquid-glass-container,
+#porque-odissey .why-card,
+#porque-odissey .testimonial-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 2.5rem 0.75rem !important;
+}
+.liquid-glass-container {
+  max-width: 62rem !important;
+}
+
+/* Píldoras que heredaban degradado o sombra. */
+.event-card,
+.news-card,
+.faq-item,
+.guide-card,
+.staff-card,
+.account-card {
+  box-shadow: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+   10. RESPONSIVE
+   ---------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .section-title {
+    font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
+  }
+  .section-title--lead {
+    font-size: clamp(2.1rem, 11vw, 3.25rem) !important;
+  }
+  .why-card-text,
+  .faq-answer,
+  .guide-list {
+    font-size: 1rem;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   10.b MÓVIL — la barra no puede empujar la pagina ni comerse la pantalla
+   ---------------------------------------------------------------------------- */
+/* El padding vertical de la nav estaba fijo en 1.5rem. En 375px, sumado al
+   margen lateral y al logo grande, la barra se salia por arriba y "Entrar"
+   quedaba pegado al borde. Aqui se aprieta en vertical. */
+@media (max-width: 640px) {
+  nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
+    padding-top: 0.7rem !important;
+    padding-bottom: 0.7rem !important;
+  }
+  /* el logo no debe empujar al boton de entrar fuera de la pantalla */
+  nav.nav-bar img {
+    height: 30px !important;
+    max-width: 104px !important;
+    width: auto !important;
+  }
+  /* menos margen lateral: el ancho util se lo queda el contenido */
+  nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+  }
+  /* separaciones mas cortas entre los botones de la barra */
+  nav.nav-bar .gap-3,
+  nav.nav-bar .gap-2 {
+    gap: 0.45rem !important;
+  }
+  /* el boton de entrar no se comprime a un nano: mantiene su ancho util */
+  nav.nav-bar .nav-button--primary {
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+  }
+}
+
+/* Pantallas muy estrechas (iPhone SE, 320px): todo mas apretado aun. */
+@media (max-width: 359px) {
+  nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+  }
+  nav.nav-bar img {
+    height: 26px !important;
+    max-width: 88px !important;
+  }
+  /* la letra del boton de entrar se aprieta */
+  nav.nav-bar .nav-button--primary {
+    font-size: 0.7rem !important;
+    letter-spacing: 0.04em !important;
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+  }
+}
+
+/* El hero en movil: menos aire entre el texto y el diorama, para que se vea
+   la isla sin tener que bajar mucho. */
+@media (max-width: 767px) {
+  .dala-hero {
+    padding-top: 1.5rem !important;
+    gap: 1.25rem !important;
+  }
+  .dala-hero-title {
+    font-size: clamp(2rem, 9vw, 2.9rem) !important;
+    line-height: 1.08 !important;
+  }
+  .dala-hero-sub {
+    font-size: 1rem !important;
+    line-height: 1.55 !important;
+  }
+  .dala-constellation-wrap {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  /* los botones del hero, a lo ancho y apilados */
+  /* OJO: el padre del grupo de botones tiene items-start, asi que este
+     contenedor se ajusta a su contenido. Sin darle width:100%, los hijos
+     con width:100% no tienen una referencia y se quedan a su tamano. */
+  .dala-hero-grid .mt-9 {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.9rem !important;
+    margin-top: 1.75rem !important;
+  }
+  .dala-hero-grid .mt-9 > * {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  /* el enlace de Discord no debe estirar la linea de abajo */
+  .dala-hero-grid .mt-9 .dala-ghost-link {
+    width: 100% !important;
+  }
+  /* la leyenda del servidor: una sola columna y a todo el ancho */
+  .dala-hero-grid .dala-status {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    margin-top: 2.25rem !important;
+    width: 100% !important;
+  }
+  .dala-hero-grid .dala-status .dala-stat {
+    width: 100% !important;
+  }
+  /* el enlace de Discord, centrado y sin la raya descolgada */
+  .dala-hero-grid .mt-9 .dala-ghost-link {
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+}
+
+/* Pantallas muy bajas (moviles en horizontal): la nav no debe ocupar
+   media pantalla. */
+@media (max-height: 520px) and (max-width: 1023px) {
+  nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   ESTRELLAS DE VALORACION
+   ----------------------------------------------------------------------------
+   Estas reglas van al final y con !important a proposito: cada pagina trae
+   su propia hoja (index.css, tienda.css...) con .star-rating button en
+   color var(--od-marine-light), que es #2a2a2a. Sobre fondo negro eso
+   daba un contraste de 1,46:1, muy por debajo del 4,5:1 que pide la
+   normativa, y las estrellas no se veian.
+   Aqui se imponen tonos del sitio: dorado claro al rellenarse y gris
+   claro al estar vacias. */
+.star-rating button {
+  color: #6b6b6b !important;              /* vacia: se distingue sin leer */
+}
+.star-rating button:hover,
+.star-rating button:focus-visible {
+  color: #fde68a !important;             /* al pasar por encima */
+}
+.star-rating button.on {
+  color: #facc15 !important;             /* relleno: dorado */
+}
+.star-rating button:focus-visible {
+  outline: 2px solid #eab308;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* ----------------------------------------------------------------------------
+   11. TOQUES Y ACCESIBILIDAD EN MOVIL
+   ---------------------------------------------------------------------------- */
+/* Los botones y enlaces interactivos necesitan un area tactil minima de
+   44x44, que es la guia de Apple/Google. */
+@media (pointer: coarse) {
+  nav.nav-bar a,
+  nav.nav-bar button,
+  .dala-btn,
+  .btn-dala {
+    min-height: 44px;
+  }
+  /* los botones normales ya son grandes; solo los chiqueninos se agrandan */
+  nav.nav-bar .nav-button--shop,
+  nav.nav-bar .nav-button--avatar {
+    min-width: 44px;
+  }
+  /* el desplegable del menu, comodo al dedo */
+  #menuDropdown a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Que al pulsar no quede el rastro azul del navegador */
+@media (pointer: coarse) {
+  a,
+  button {
+    -webkit-tap-highlight-color: rgba(234, 179, 8, 0.18);
+  }
+}
+
+/* Si el usuario tiene el texto mas grande del sistema, no se rompe nada */
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-particle,
+  body::before {
+    display: none !important;
+  }
+}

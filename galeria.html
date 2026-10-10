@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        document.documentElement.classList.toggle('theme-light', localStorage.getItem('odissey_theme') === 'light');
+        document.documentElement.classList.toggle('theme-light', false);
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -18,7 +18,7 @@
     <title>Galería - Odissey</title>
   <link rel="canonical" href="https://odisseymc.site/galeria">
     <meta name="description" content="Las mejores construcciones y builds de la comunidad de Odissey.">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Odissey Minecraft Server">
@@ -31,52 +31,84 @@
     <meta name="twitter:title" content="Odissey - Servidor de Minecraft Java">
     <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia leyenda en Odissey.">
     <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "VideoGame",
-      "name": "Odissey Minecraft Server",
-      "description": "Servidor de Minecraft Java Survival Custom. IP: Próximamente",
-      "genre": ["Survival", "Multiplayer", "Custom RPG"],
-      "gamePlatform": ["PC"],
-      "applicationCategory": "Game",
-      "url": "https://odisseymc.site",
-      "operatingSystem": "Minecraft 1.20 - 1.21"
-    }
-    </script>
-    <link rel="stylesheet" href="theme.css?v=26">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/tailwind.css?v=144">
+    <link rel="stylesheet" href="theme.css?v=144">
+    <link rel="stylesheet" href="css/search.css?v=144">
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'marine-dark': 'var(--od-marine-dark)',
-                        'marine-medium': 'var(--od-marine-medium)',
-                        'marine-light': 'var(--od-marine-light)',
-                        'marine-accent': 'var(--od-marine-accent)',
-                        'gold-light': 'var(--od-gold-light)',
-                        'gold-dark': 'var(--od-gold-dark)',
-                        'text-light': 'var(--od-text-light)',
-                        'text-dark': 'var(--od-text-dark)',
-                        'marine-darker': 'var(--od-marine-darker)',
-                        'always-light': 'var(--od-always-light)',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/galeria.css?v=26">
+    <link rel="stylesheet" href="css/galeria.css?v=144">
+  <link rel="stylesheet" href="css/dala.css?v=144">
+    <link rel="stylesheet" href="css/dala-steve.css?v=144">
+    <script src="js/seguro.js?v=144"></script>
+    <script src="js/animacion.js?v=144"></script>
+        <script type="application/ld+json">
+{
+"@context":  "https://schema.org",
+"@graph":  [
+{
+"@type":  "WebSite",
+"@id":  "https://odisseymc.site/#website",
+"url":  "https://odisseymc.site/",
+"name":  "Odissey Minecraft Server",
+"inLanguage":  "es",
+"publisher":  {
+"@type":  "Organization",
+"@id":  "https://odisseymc.site/#org",
+"name":  "Odissey",
+"url":  "https://odisseymc.site/",
+"logo":  {
+"@type":  "ImageObject",
+"url":  "https://odisseymc.site/img/logo-web.webp",
+"width":  900,
+"height":  382
+}
+}
+},
+{
+"@type":  "ImageGallery",
+"@id":  "https://odisseymc.site/galeria#pagina",
+"url":  "https://odisseymc.site/galeria",
+"name":  "Galeria de construcciones de Odissey",
+"inLanguage":  "es",
+"isPartOf":  {
+"@id":  "https://odisseymc.site/#website"
+},
+"publisher":  {
+"@id":  "https://odisseymc.site/#org"
+}
+},
+{
+"@type":  "BreadcrumbList",
+"@id":  "https://odisseymc.site/galeria#miga",
+"itemListElement":  [
+{
+"@type":  "ListItem",
+"position":  1,
+"name":  "Inicio",
+"item":  "https://odisseymc.site/"
+},
+{
+"@type":  "ListItem",
+"position":  2,
+"name":  "Galeria"
+}
+]
+},
+{
+"@id":  "https://odisseymc.site/#website"
+}
+]
+}
+    </script>
+    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
+    <link rel="stylesheet" href="css/auth.css?v=144">
+    <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
+    <link rel="stylesheet" href="css/turnstile.css?v=144">
 </head>
 <body>
   <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
@@ -102,11 +134,21 @@
         </div>
         <!-- Sticky Navigation -->
         <nav class="nav-bar sticky top-0 z-50 w-full">
-            <div class="flex items-center justify-between gap-3 px-6 py-3 max-w-7xl mx-auto w-full">
-                <a href="./" class="flex items-center shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
+            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
+                <a href="./" class="nav-logo flex items-center shrink-0">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
                 </a>
-                <div class="flex items-center gap-2 flex-shrink-0">
+
+                <div class="nav-pill" role="navigation" aria-label="Secciones">
+                    <a href="tienda.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
+                            <a href="foro.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_foro">Foro</span></a>
+                            <a href="soporte.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+                            <a href="reglas.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
+                            <a href="staff.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
+                            <a href="perfil.html" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                </div>
+
+                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
                     <button type="button" id="cartBtn" onclick="openLoginModal()"
                         class="nav-button nav-button-primary" title="Carrito" aria-label="Carrito">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
@@ -119,29 +161,15 @@
                         <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
                         <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                     </button>
-                    <button type="button" id="menuBtn" onclick="toggleMenu()"
-                        class="nav-button nav-button-secondary flex items-center justify-center" title="Menú" aria-label="Abrir menú">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+                    <button type="button" id="menuBtn" onclick="toggleMenu()" aria-expanded="false"
+                        class="nav-button nav-button-secondary menu-toggle" title="Menú" aria-label="Abrir menú">
+                        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
                     </button>
                     <button type="button" id="enterNavBtn" onclick="openLoginModal()"
                         class="nav-button nav-button-primary">
-                        <span id="enterNavText">Entrar</span>
+                        <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
                         <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                     </button>
-                </div>
-            </div>
-            <div id="menuDropdown" class="menu-panel hidden absolute top-full left-0 right-0 z-40 shadow-xl"
-                onclick="closeMenu()">
-                <div class="px-6 py-4 max-w-7xl mx-auto w-full">
-                    <div class="flex flex-wrap items-center justify-center gap-2">
-                                                  <a href="staff.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
-                          <a href="reglas.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
-                          <a href="noticias.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_noticias">Noticias</span></a>
-                          <a href="eventos.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg><span data-i18n="nav_eventos">Eventos</span></a>
-                          <a href="galeria.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span data-i18n="nav_galeria">Galería</span></a>
-                          <a href="soporte.html" class="nav-button nav-button-secondary"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
-                          <a href="tienda.html" class="nav-button nav-button-shop"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
-                      </div>
                 </div>
             </div>
         </nav>
@@ -177,7 +205,7 @@
             <section id="galeria" class="px-4 py-16 scroll-mt-24">
                 <div class="liquid-glass-container max-w-6xl mx-auto">
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-2">
-                        <h2 class="text-3xl md:text-4xl font-extrabold text-marine-accent reveal" data-i18n="gallery_title">Galería de construcciones</h2>
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-marine-accent reveal" data-i18n="gallery_title">Galería de construcciones</h1>
                         <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="btn3d"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg><span data-i18n="gallery_share_btn">Comparte tu build en Discord</span></a>
                     </div>
                     <p class="text-text-light text-lg mb-8 reveal" data-i18n="gallery_subtitle">Las mejores builds del mes aparecerán aquí.</p>
@@ -190,7 +218,7 @@
             class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
             <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
                 <a href="#" aria-label="Odissey" class="shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
+                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
                 </a>
                 <div class="flex flex-col items-center gap-3">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
@@ -226,20 +254,12 @@
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
         style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
         <div id="loginView" class="login-card">
-            <h2 data-i18n="login_title">Conecta con Discord</h2>
-            <p class="subtitle" data-i18n="login_sub">
-                Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito de la web.
-            </p>
-            <button type="button" class="btn3d w-full" onclick="startDiscordLogin()" data-i18n="login_discord_btn">
-                CONECTAR CON DISCORD
-            </button>
-            <button type="button" onclick="closeLoginModal()"
-                class="mt-4 text-xs text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="close">Cerrar</button>
+            <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
         </div>
         <div id="accountView" class="account-card hidden">
             <button class="close-btn" onclick="closeLoginModal()">&times;</button>
             <div class="user-header">
-                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head">
+                <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
                 <div class="user-info">
                     <h3><span data-i18n="account_title">Cuenta de</span> <span id="username-display"></span></h3>
                     <div class="user-actions">
@@ -258,7 +278,7 @@
             <hr class="divider">
             <div class="mc-name-row">
                 <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
-                <input id="mcNameInput" type="text" class="mc-name-input" maxlength="16" autocomplete="off" placeholder="Steve">
+                <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
                 <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
             </div>
             <hr class="divider">
@@ -270,7 +290,7 @@
                     <span data-i18n="cart_total">Total:</span>
                     <span id="cart-total">$0.00</span>
                 </div>
-                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
             </div>
             <hr class="divider">
             <div class="flex items-center gap-2 mb-2">
@@ -295,7 +315,7 @@
         <div id="ratingView" class="staff-panel">
             <button class="close-btn" onclick="closeRatingModal()">&times;</button>
             <div class="staff-panel-header">
-                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin">
+                <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin" width="128" height="128">
                 <div>
                     <h3 id="rating-title"><span data-i18n="rating_title_prefix">Calificar a</span> <span id="rating-name">aureliogood</span></h3>
                     <p class="staff-panel-role" data-i18n="rating_subtitle">Tu opinión nos ayuda a mejorar</p>
@@ -310,9 +330,9 @@
                 <button type="button" data-value="4" aria-label="4 estrellas">★</button>
                 <button type="button" data-value="5" aria-label="5 estrellas">★</button>
             </div>
-            <textarea id="rating-comment" class="rating-comment" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
+            <textarea id="rating-comment" name="comentario" class="rating-comment" maxlength="500" rows="3" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
             <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-i18n="rating_submit_btn">Enviar calificación</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn">Enviar calificación</button>
         </div>
     </div>
     <!-- Modal de reporte de jugador -->
@@ -322,7 +342,7 @@
         <div id="reportView" class="staff-panel">
             <button class="close-btn" onclick="closeReportModal()">&times;</button>
             <div class="staff-panel-header">
-                <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head">
+                <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head" width="128" height="128">
                 <div>
                     <h3 data-i18n="report_title">Reportar un jugador</h3>
                     <p class="staff-panel-role" data-i18n="report_sub">Tu reporte lo revisará el staff</p>
@@ -331,8 +351,8 @@
             <hr class="divider">
             <p class="staff-panel-info" data-i18n="report_info">Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).</p>
             <div class="input-container mt-4">
-                <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa">
-                <input type="text" id="report-target" placeholder="Jugador a reportar" autocomplete="off" maxlength="16">
+                <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa" width="40" height="40">
+                <input type="text" id="report-target" name="jugador" placeholder="Jugador a reportar" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="16" pattern="[A-Za-z0-9_]{1,16}" required aria-label="Nombre del jugador a reportar">
             </div>
             <select id="report-reason" class="rating-comment mt-4">
                 <option value="Trampa / Hacks">Trampa / Hacks</option>
@@ -342,10 +362,17 @@
                 <option value="Griefing">Griefing</option>
                 <option value="Otro">Otro</option>
             </select>
-            <textarea id="report-detail" class="rating-comment mt-4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
-            <input id="report-capture" class="rating-comment mt-4" placeholder="Enlace de captura (opcional)" autocomplete="off">
+            <textarea id="report-detail" name="detalle" class="rating-comment mt-4" maxlength="1500" rows="4" placeholder="Cuéntanos más detalles (opcional)..."></textarea>
+            <input id="report-capture" name="captura" type="url" inputmode="url" spellcheck="false" class="rating-comment mt-4" maxlength="500" autocomplete="off" placeholder="https://... (opcional)" aria-label="Enlace de la captura, opcional">
+                        <!-- Campo trampa anti-spam. Esta oculto y no lo rellena
+                 ninguna persona: solo los robots que rellenan todos los
+                 campos que encuentran. Si llega relleno, se descarta el
+                 envio (ver js/formulario.js). -->
+            <input type="text" id="report-trampa" class="form-trampa"
+                tabindex="-1" autocomplete="off" aria-hidden="true"
+                name="sitio_web" value="">
             <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-i18n="report_submit_btn">Enviar reporte</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn">Enviar reporte</button>
         </div>
     </div>
     <!-- Modal Lightbox para la Galería de Builds -->
@@ -354,7 +381,7 @@
         style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
         <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
         <div class="flex flex-col items-center max-w-4xl w-full">
-            <img id="lightboxImg" src="" alt="Build" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
+            <img id="lightboxImg" src="" alt="Build" width="1280" height="720" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
             <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
         </div>
     </div>
@@ -376,19 +403,12 @@
         if (bgLayer) setInterval(changeBackground, 15000);
     </script>
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
     </script>
-    <script src="site-config.js"></script>
-    <script src="shop-config.js"></script>
-    <script src="staff-config.js"></script>
-    <script src="site-data.js"></script>
+    <script src="site-config.js?v=144"></script>
+    <script src="shop-config.js?v=144"></script>
+    <script src="staff-config.js?v=144"></script>
+    <script src="site-data.js?v=144"></script>
     <script>
         function copyToClipboard(text, message) {
             const textArea = document.createElement("textarea");
@@ -694,19 +714,66 @@ try {
         function renderAccountView() {
             const info = getDiscordUser();
             usernameDisplay.textContent = info ? (info.username || getCurrentUser()) : '';
-            userBust.src = info && info.avatar
-                ? `https://cdn.discordapp.com/avatars/${info.id}/${info.avatar}.png?size=128`
-                : 'https://mc-heads.net/avatar/steve/100';
+            userBust.onerror = function () {
+                userBust.onerror = null;
+                userBust.src = 'img/logo-web.webp';
+            };
+            userBust.src = discordAvatarUrl(info, 128) || 'img/logo-web.webp';
             if (mcNameInput) mcNameInput.value = (info && info.mcName) || '';
             if (currencySelect) currencySelect.value = getCurrency();
             renderCart();
             renderMyReportsAndTickets();
         }
+                function discordDefaultAvatar(u) {
+            // Avatar por defecto de Discord: el indice sale de los ultimos
+            // bits del id. Antes se caia a una cabeza de Steve de mc-heads.
+            if (!u || !u.id) return '';
+            let n = 0;
+            try { n = Number((BigInt(u.id) >> 22n) % 6n); } catch (e) { n = 0; }
+            return `https://cdn.discordapp.com/embed/avatars/${n}.png`;
+        }
+        function discordAvatarUrl(u, size) {
+            if (!u || !u.id) return '';
+            if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=${size}`;
+            return discordDefaultAvatar(u);
+        }
         function updateNavButton() {
             const u = getDiscordUser();
-            const label = u ? (u.username || '') : (getLang() === 'en' ? 'Log in' : 'Entrar');
             const txt = document.getElementById('enterNavText');
-            if (txt) txt.textContent = label;
+            const img = document.getElementById('enterNavAvatar');
+            const btn = document.getElementById('enterNavBtn');
+            if (!u) {
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = getLang() === 'en' ? 'Log in' : 'Entrar'; }
+                if (img) { img.classList.add('hidden'); img.removeAttribute('src'); }
+                if (btn) { btn.classList.remove('nav-button--avatar'); btn.removeAttribute('title'); }
+                return;
+            }
+            const nombre = u.username || '';
+            const url = discordAvatarUrl(u, 64);
+            // Con foto, la barra muestra el avatar; sin ella, el nombre.
+            if (img && url) {
+                // Si la foto no llega a cargar (hash antiguo, CDN, red), se cae
+                // al avatar por defecto en vez de dejar un circulo vacio.
+                img.onerror = function () {
+                    img.onerror = null;
+                    img.src = discordDefaultAvatar(u);
+                };
+                img.src = url;
+                img.alt = nombre;
+                img.classList.remove('hidden');
+                if (txt) txt.classList.add('hidden');
+                if (btn) btn.classList.add('nav-button--avatar');
+            } else {
+                if (img) img.classList.add('hidden');
+                if (txt) { txt.classList.remove('hidden'); txt.textContent = nombre; }
+                if (btn) btn.classList.remove('nav-button--avatar');
+            }
+            // El nombre se mantiene en title y aria-label, porque en la barra
+            // ya no se ve como texto.
+            if (btn) {
+                btn.title = nombre;
+                btn.setAttribute('aria-label', (getLang() === 'en' ? 'Your account' : 'Tu cuenta') + ': ' + nombre);
+            }
         }
         function openAccountOrLoginModal() {
             const loggedIn = !!getCurrentUser();
@@ -959,19 +1026,14 @@ try {
             saveCart([]);
             updateCartBadge();
             renderCart();
-            showNotification('📦 ' + (getLang() === 'en' ? 'Order registered!' : '¡Pedido registrado!'));
+            showNotification("¡Pedido registrado! Te lo preparamos en el juego.");
             SiteData.reloadMy(token);
         }
+
         updateCartBadge();
         loadRates();
         const staffModal = document.getElementById('staffModal');
-        function escapeHtml(value) {
-            return String(value)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
-        }
+        
         function getStaff() {
             const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
             if (window.SiteData && SiteData.publicLoaded) {
@@ -992,7 +1054,7 @@ try {
                     <p class="text-marine-accent text-lg">${escapeHtml(member.role)}</p>
                     <p class="text-text-dark mt-2 text-sm">${escapeHtml(member.bio || member.description)}</p>
                 </div>`).join('');
-            grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            grid.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
             grid.querySelectorAll('.staff-trigger').forEach(button => {
                 button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
             });
@@ -1145,6 +1207,36 @@ try {
             }, 400);
         });
         async function submitReport() {
+        /* ---------- Proteccion anti-spam (js/formulario.js) ----------
+         * Comprueba tres cosas antes de dejar salir nada:
+         *   - que no se hayan enviado ya 5 mensajes en 10 minutos,
+         *   - que el campo trampa siga vacio (los robots lo rellenan),
+         *   - que no sea alguien soltando envios en bucle.
+         *
+         * El aviso NO dice cual de las tres fallo. Si lo dijera, un
+         * bot aprenderia a esquivarlo cambiando solo esa parte. */
+        const controlAntiSpam = (window.OdisseyFormulario && window.OdisseyFormulario.puedeEnviar())
+            ? window.OdisseyFormulario.puedeEnviar()
+            : { ok: true };
+        if (!controlAntiSpam.ok) {
+            if (reportMsg) reportMsg.textContent = controlAntiSpam.motivo;
+            showNotification(controlAntiSpam.motivo);
+            return;
+        }
+
+        /* La captura la escribe quien abre el reporte y acaba en un
+         * href que pincha el staff dentro del panel. Si trae un esquema
+         * raro (javascript:, data:, vbscript:) se ejecuta al pincharlo,
+         * asi que se descarta aqui. */
+        if (reportCapture && reportCapture.value.trim() &&
+            !(window.OdisseyFormulario && window.OdisseyFormulario.enlaceSeguro(reportCapture.value))) {
+            const avisoCaptura = 'Ese enlace no es valido. Pega una direccion que empiece por https://';
+            if (reportMsg) reportMsg.textContent = avisoCaptura;
+            showNotification(avisoCaptura);
+            return;
+        }
+
+
             const target = reportTarget.value.trim();
             if (!/^[A-Za-z0-9_]{1,16}$/.test(target)) {
                 showNotification('Escribe el nombre del jugador a reportar (letras, números y _).');
@@ -1191,7 +1283,12 @@ try {
                 if (reportMsg) reportMsg.textContent = msg;
                 showNotification(msg);
                 return;
-            }
+            }            /* Se cuenta el envio aqui y no antes: si el servidor
+             * devuelve un error, el visitante no ha perdido ninguno
+             * de sus cinco intentos. */
+            if (window.OdisseyFormulario) window.OdisseyFormulario.registrarEnvio();
+
+
             const reportId = result.json && result.json.report ? result.json.report.id : null;
             reportTarget.value = '';
             reportDetail.value = '';
@@ -1220,6 +1317,13 @@ try {
                     : 'Reporte guardado. No se pudo abrir el ticket.');
             }
             SiteData.reloadMy(token).then(() => renderMyReportsAndTickets());
+
+            /* A la pagina de gracias: el visitante ve que si, que esta
+               hecho y cual es el siguiente paso, en vez de un aviso
+               verde que se le pasa en dos segundos. Va AL FINAL porque
+               antes se sale de la pagina mientras se abre el ticket de
+               Discord, y esa peticion se cancela al navegar. */
+            irAGracias('reporte');
         }
         renderStaff();
         // ================= Nuevas secciones de contenido =================
@@ -1324,7 +1428,7 @@ try {
             }
             grid.innerHTML = items.map(g => `
                 <a href="${escapeHtml(g.image)}" class="gallery-item block group" data-gallery-image="${escapeHtml(g.image)}" data-gallery-caption="${escapeHtml(g.caption || '')}">
-                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" loading="lazy" decoding="async" loading="lazy" class="transition-transform duration-300 group-hover:scale-105" onerror="this.closest('.gallery-item').remove();">
+                    <img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.caption || 'Build')}" width="640" height="360" loading="lazy" decoding="async" class="transition-transform duration-300 group-hover:scale-105" onerror="this.closest('.gallery-item').remove();">
                     ${g.caption ? `<div class="cap">${escapeHtml(g.caption)}</div>` : ''}
                 </a>`).join('');
             grid.querySelectorAll('.gallery-item').forEach(item => {
@@ -1404,6 +1508,21 @@ try {
         // ================= Cambio de idioma (ES/EN) =================
         const I18N = {
             es: {
+                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
+                cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
+                btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
+                btn_cancelar: 'Cancelar', btn_cerrar: 'Cerrar', btn_enviar: 'Enviar',
+                btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
+                btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
+                btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
+                faq_title: 'Preguntas frecuentes',
+                err_carga: 'No se ha podido cargar. Recarga la página.',
+                err_red: 'Sin conexión. Comprueba tu internet.',
+                err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
+                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
 nav_eventos: 'Eventos',
 nav_galeria: 'Galería',
 gallery_title: 'Galería de construcciones',
@@ -1420,7 +1539,7 @@ report_submit_btn: 'Enviar reporte',
 cb_decline: 'Rechazar',
 cb_accept: 'Aceptar',
     skip_link: 'Ir al contenido',
-                nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_noticias: 'Noticias',
+                nav_guia: 'Guía', nav_staff: 'Staff', nav_reglas: 'Reglas', nav_wiki: 'Wiki', nav_perfil: 'Perfil', nav_noticias: 'Noticias', nav_foro: 'Foro',
                 nav_soporte: 'Soporte', nav_tienda: 'Tienda', nav_back: 'Volver al inicio', nav_entrar: 'Entrar',
                 faq_title: 'Preguntas frecuentes', guide_title: 'Cómo entrar al servidor',
                 hero_click_copy: 'haz click para copiar',
@@ -1429,9 +1548,7 @@ cb_accept: 'Aceptar',
                 discord_box_title: 'Comunidad activa en Discord',
                 discord_box_sub: 'Únete a cientos de jugadores en tiempo real para enterarte de eventos, sorteos y recibir ayuda del staff.',
                 discord_box_btn: 'Abrir Discord',
-                login_title: 'Conecta con Discord',
-                login_sub: 'Vincula tu cuenta de Discord para gestionar tus tickets, reportes y tu carrito. Debes estar dentro del Discord de Odissey.',
-                login_discord_btn: 'CONECTAR CON DISCORD', close: 'Cerrar',
+                close: 'Cerrar',
                 account_title: 'Cuenta de', nav_logout: 'Cerrar sesión', currency_label: 'Moneda:',
                 cart_total: 'Total:', cart_checkout: 'REALIZAR PEDIDO',
                 my_orders_title: 'Mis pedidos', no_orders: 'Aún no tienes pedidos.',
@@ -1440,6 +1557,21 @@ cb_accept: 'Aceptar',
                 new_pill: 'NUEVO', staff_replied: 'El staff respondió a tu ticket #',
             },
             en: {
+                cta_jugar: 'Join the server', cta_discord: 'Join our Discord',
+                cta_tienda: 'See the store', cta_entrar: 'Log in', cta_salir: 'Log out',
+                cta_registro: 'Create account', cta_entrar_cuenta: 'Log in to my account',
+                btn_entrar: 'Log in', btn_crear: 'Create account', btn_guardar: 'Save',
+                btn_cancelar: 'Cancel', btn_cerrar: 'Close', btn_enviar: 'Send',
+                btn_copiar: 'Copy', btn_volver: 'Back', btn_salir: 'Log out',
+                btn_soporte: 'Get support', btn_reportar: 'Report a player',
+                btn_valorar: 'Rate', btn_comprar: 'Buy', btn_carrito: 'Cart',
+                btn_menu: 'Open menu', btn_whatsapp: 'Message us on WhatsApp',
+                menu_abrir: 'Open menu', menu_cerrar: 'Close menu',
+                faq_title: 'Frequently asked questions',
+                err_carga: 'Could not load. Reload the page.',
+                err_red: 'No connection. Check your internet.',
+                err_generico: 'Something went wrong. Try again.',
+                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
 nav_eventos: 'Events',
 nav_galeria: 'Gallery',
 gallery_title: 'Build gallery',
@@ -1456,7 +1588,7 @@ report_submit_btn: 'Submit report',
 cb_decline: 'Reject',
 cb_accept: 'Accept',
     skip_link: 'Skip to content',
-                nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_noticias: 'News',
+                nav_guia: 'Guide', nav_staff: 'Staff', nav_reglas: 'Rules', nav_wiki: 'Wiki', nav_perfil: 'Profile', nav_noticias: 'News', nav_foro: 'Forum',
                 nav_soporte: 'Support', nav_tienda: 'Shop', nav_back: 'Back to home', nav_entrar: 'Log in',
                 faq_title: 'Frequently asked questions', guide_title: 'How to join the server',
                 hero_click_copy: 'click to copy IP',
@@ -1465,9 +1597,7 @@ cb_accept: 'Accept',
                 discord_box_title: 'Active Discord Community',
                 discord_box_sub: 'Join hundreds of players in real-time for events, giveaways, and staff support.',
                 discord_box_btn: 'Open Discord',
-                login_title: 'Connect with Discord',
-                login_sub: 'Link your Discord account to manage your tickets, reports and cart. You must be inside the Odissey Discord.',
-                login_discord_btn: 'CONNECT WITH DISCORD', close: 'Close',
+                close: 'Close',
                 account_title: 'Account of', nav_logout: 'Log out', currency_label: 'Currency:',
                 cart_total: 'Total:', cart_checkout: 'CHECKOUT',
                 my_orders_title: 'My orders', no_orders: 'You have no orders yet.',
@@ -1480,7 +1610,7 @@ cb_accept: 'Accept',
             return localStorage.getItem('odissey_lang') === 'en' ? 'en' : 'es';
         }
         function flagIcon(lang) {
-            return '<img class="lang-flag-img" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
+            return '<img class="lang-flag-img" width="24" height="18" src="https://flagcdn.com/24x18/' + (lang === 'es' ? 'es' : 'gb') + '.png" alt="' + (lang === 'es' ? 'Spanish' : 'English') + '">';
         }
         function applyLang() {
             const lang = getLang();
@@ -1489,6 +1619,10 @@ cb_accept: 'Accept',
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
                 if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                const k = el.dataset.i18nAria;
+                if (dict[k] !== undefined) el.setAttribute('aria-label', dict[k]);
             });
             const langBtn = document.getElementById('langBtn');
             if (langBtn) langBtn.innerHTML = flagIcon(lang);
@@ -1500,7 +1634,7 @@ cb_accept: 'Accept',
             applyLang();
         }
         function getTheme() {
-            return localStorage.getItem('odissey_theme') === 'light' ? 'light' : 'dark';
+            return false ? 'light' : 'dark';
         }
         function applyTheme() {
             const light = getTheme() === 'light';
@@ -1549,7 +1683,7 @@ cb_accept: 'Accept',
             }
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=26').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=144').catch(() => { });
         }
     </script>
 <!-- Aviso de cookies -->
@@ -1591,5 +1725,71 @@ cb_accept: 'Accept',
     b.classList.add('show');
 })();
 </script>
-</body>
+<script>
+/* Bloquea el scroll del fondo mientras haya un modal abierto y lo
+   devuelve al cerrar. Se apoya en MutationObserver porque estos modales
+   se abren y cierran cambiando clases, no con eventos propios. */
+(function () {
+    var bloqueado = false;
+    function aplicar() {
+        var abierto = hayModal();
+        if (abierto === bloqueado) return;
+        bloqueado = abierto;
+        if (abierto) {
+            document.body.style.overflow = "hidden";
+            document.body.classList.add("od-scroll-locked");
+        } else {
+            document.body.style.overflow = "";
+            document.body.classList.remove("od-scroll-locked");
+        }
+    }
+    function hayModal() {
+        var m = document.querySelectorAll('[aria-modal="true"]');
+        for (var i = 0; i < m.length; i++) {
+            // si tiene la clase hidden esta cerrado, aunque el CSS todavia
+            // no la haya aplicado (Tailwind llega por CDN y tarde)
+            if (m[i].classList.contains("hidden")) continue;
+            if (m[i].getAttribute("aria-hidden") === "true") continue;
+            if (m[i].getClientRects().length > 0) return true;
+        }
+        return false;
+    }
+    var pendiente = false;
+    function pedir() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(function () {
+            pendiente = false;
+            aplicar();
+        });
+    }
+    new MutationObserver(pedir).observe(document.body, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["class", "style"],
+    });
+    document.addEventListener("click", pedir);
+    document.addEventListener("keyup", pedir);
+    window.addEventListener("resize", pedir);
+    // el primer analisis espera a que la pagina este pintada, para que
+    // Tailwind ya haya aplicado las clases hidden
+    if (document.readyState === "complete") setTimeout(aplicar, 200);
+    else window.addEventListener("load", function () { setTimeout(aplicar, 200); });
+    setTimeout(aplicar, 1200);
+})();
+</script>
+    <script src="js/search.js?v=144"></script>
+    <!-- Cloudflare Turnstile: aporta OdisseyTurnstile. Va antes de auth.js porque
+     auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
+     no esta aqui, vive en el bot (odisseymc.site/bot). -->
+    <script src="js/turnstile.js?v=144" defer></script>
+    <script src="auth.js?v=144"></script>
+    <script src="js/analitica.js?v=144"></script>
+<script src="js/formulario.js?v=144"></script>
+<script src="js/dala-art.js?v=144"></script>
+    <script src="js/dala-bg.js?v=144"></script>
+    <script src="js/dala-menu.js?v=144"></script>
+    <script src="js/dala-auth-steve.js?v=144"></script>
+        <script src="js/dala-nav.js?v=144"></script>
+    </body>
 </html>

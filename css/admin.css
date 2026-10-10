@@ -1,5 +1,5 @@
 body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--od-marine-dark);
             color: var(--od-text-light);
             min-height: 100vh;
@@ -73,7 +73,7 @@ body {
             outline: none;
             margin-bottom: 14px;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .login-form-card input:focus {
@@ -99,7 +99,7 @@ body {
             font-size: 0.85rem;
             cursor: pointer;
             transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             white-space: nowrap;
         }
 
@@ -186,13 +186,13 @@ body {
         }
 
         .rating-item .meta {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.78rem;
             margin-top: 6px;
         }
 
         .no-ratings {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.9rem;
         }
 
@@ -218,7 +218,7 @@ body {
             font-size: 0.9rem;
             outline: none;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .admin-input:focus,
@@ -250,7 +250,7 @@ body {
         }
 
         .list-item .meta {
-            color: #64748b;
+            color: #9a9a9a;
             font-size: 0.75rem;
         }
 
@@ -270,7 +270,7 @@ body {
         }
 
         .status-proceso {
-            background-color: #16324f;
+            background-color: #0a0a0a;
             color: #7dd3fc;
         }
 
@@ -309,7 +309,7 @@ body {
         }
 
         .log-item .time {
-            color: #64748b;
+            color: #9a9a9a;
             min-width: 130px;
             font-size: 0.75rem;
         }
@@ -324,7 +324,7 @@ body {
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             text-align: left;
         }
 
@@ -350,7 +350,7 @@ body {
             min-height: 38px;
             padding: 0 18px;
             border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.875rem;
             font-weight: 500;
             letter-spacing: 0.01em;
@@ -390,7 +390,7 @@ body {
             min-height: 38px;
             padding: 0 14px;
             border-radius: 999px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.875rem;
             font-weight: 500;
             letter-spacing: 0.01em;
@@ -499,7 +499,7 @@ body {
             border: 1px solid rgba(253, 230, 138, 0.6);
             background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
             color: var(--od-ink);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.8125rem;
             font-weight: 600;
             letter-spacing: 0.01em;
@@ -514,7 +514,7 @@ body {
                 color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease,
                 filter 0.18s ease;
         }
-        .nav-button svg),
+        .nav-button svg,
         .news-filter-btn svg,
         .cb-btn svg,
         .btn-copy-tag svg,
@@ -594,7 +594,7 @@ body {
                 0 4px 16px rgba(0, 0, 0, 0.35);
         }
         .news-filter-btn.active:hover {
-            background: #16203a;
+            background: #0a0a0a;
             color: var(--od-gold-light);
         }
         /* Accion positiva: el boton de aceptar. */
@@ -615,37 +615,6 @@ body {
             background: rgba(220, 38, 38, 0.34);
             color: #fee2e2;
         }
-        /* Cerrar: boton redondo de icono, sin texto. */
-        .close-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            min-height: 0;
-            padding: 0;
-            border-radius: 999px;
-            border: 1px solid rgba(253, 230, 138, 0.6);
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
-            color: var(--od-ink);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.15rem;
-            line-height: 1;
-            cursor: pointer;
-            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
-                0 3px 10px rgba(234, 179, 8, 0.24);
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.18s ease, color 0.18s ease,
-                transform 0.18s ease, box-shadow 0.18s ease;
-        }
-        .close-btn:hover) {
-            background: rgba(220, 38, 38, 0.3);
-            color: #ffffff;
-            transform: translateY(-1px);
-        }
-        .close-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
         /* Cantidad del carrito: botones pequenos y cuadrados. */
         .cart-qty-btn,
         .cart-remove {
@@ -662,7 +631,7 @@ body {
             border-color: rgba(253, 230, 138, 0.6);
             color: var(--od-ink);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             line-height: 1;
@@ -732,3 +701,1171 @@ body {
         .btn-ghost:active {
             transform: translateY(0) scale(0.98);
         }
+
+/* ======================================================================== */
+/* PANEL DE ADMINISTRACION                                                  */
+/* Rediseño completo del panel. Antes era una tarjeta con doce botones de    */
+/* pestaña en una fila que se partía en tres líneas, sin jerarquía.          */
+/* El HTML no se reestructura: switchTab() depende de .tab-btn y .tab-panel,  */
+/* así que el reparto en dos columnas se hace con grid sobre .panel-card.    */
+/* Este bloque va al final porque admin.css es la última hoja que carga.     */
+/* ======================================================================== */
+
+/* ---------------------------------------------------------- Estructura */
+.panel-card {
+    display: grid;
+    grid-template-columns: 268px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 32px;
+    align-items: start;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 26px 28px 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.22);
+    background: linear-gradient(180deg,
+        rgba(var(--od-marine-medium-rgb), 0.7) 0%,
+        rgba(var(--od-marine-darker-rgb), 0.82) 100%);
+    box-shadow: 0 28px 70px rgba(var(--od-shadow-rgb), 0.45);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+}
+
+.admin-head {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 22px;
+    margin-bottom: 26px;
+    border-bottom: 1px solid rgba(var(--od-border-rgb), 0.18);
+}
+.admin-head h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: var(--od-text-light);
+}
+.admin-head h1::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 3px;
+    margin-top: 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--od-marine-accent), rgba(234, 179, 8, 0));
+}
+.admin-head p { margin: 10px 0 0; }
+.admin-head .btn-logout {
+    padding: 9px 18px;
+    min-height: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.4);
+    background: rgba(var(--od-glass-rgb), 0.3);
+    color: var(--od-text-dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    /* La regla base compartida con .btn-gold y compañía deja un halo
+       dorado; aquí el botón es discreto, así que se anula. */
+    box-shadow: none;
+}
+.admin-head .btn-logout:hover {
+    background: rgba(220, 38, 38, 0.18);
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #fecaca;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.22);
+}
+
+/* ------------------------------------------------------- Barra lateral */
+.admin-tabs {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    position: sticky;
+    top: 88px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+}
+.admin-tabgroup {
+    margin: 16px 0 6px;
+    padding-left: 13px;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: 0.65;
+}
+.admin-tabgroup:first-child { margin-top: 0; }
+.admin-tabs .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    min-height: 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--od-text-dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+/* Punto de estado delante de cada sección: da ritmo a la lista sin icons. */
+.admin-tabs .tab-btn::before {
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.3;
+    transition: opacity 0.16s ease, box-shadow 0.16s ease;
+}
+.admin-tabs .tab-btn:not(.active):hover {
+    background: rgba(var(--od-glass-rgb), 0.32);
+    color: var(--od-text-light);
+    transform: none;
+}
+.admin-tabs .tab-btn.active {
+    background: linear-gradient(180deg, rgba(253, 230, 138, 0.16), rgba(234, 179, 8, 0.08));
+    border-color: rgba(253, 230, 138, 0.4);
+    color: var(--od-gold-light);
+    font-weight: 600;
+    box-shadow: none;
+}
+.admin-tabs .tab-btn.active::before {
+    background: var(--od-marine-accent);
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.18);
+}
+
+/* ------------------------------------------------------------- Paneles */
+.tab-panel {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+}
+.tab-panel > h2 {
+    margin: 0 0 6px;
+    font-size: 1.28rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--od-text-light);
+}
+.tab-panel > h2 + p {
+    margin: 0 0 22px;
+    max-width: 62ch;
+    color: var(--od-text-dark);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+.tab-panel h3 {
+    margin: 26px 0 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--od-text-light);
+}
+
+/* --------------------------------------------------------- Estadísticas */
+.stat-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 18px 15px;
+    border-radius: 14px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.2);
+    background: linear-gradient(180deg, rgba(var(--od-glass-rgb), 0.32), rgba(var(--od-glass-rgb), 0.12));
+    overflow: hidden;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+}
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--od-marine-accent), rgba(234, 179, 8, 0));
+}
+.stat-card:hover {
+    border-color: rgba(253, 230, 138, 0.35);
+    transform: translateY(-2px);
+}
+.stat-card .num {
+    margin: 0;
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--od-gold-light);
+}
+.stat-card .label {
+    margin-top: 5px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+}
+
+/* ----------------------------------------------------- Acciones rápidas */
+.quick-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.2);
+    background: rgba(var(--od-glass-rgb), 0.24);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+.quick-btn:hover {
+    background: rgba(var(--od-glass-rgb), 0.42);
+    border-color: rgba(253, 230, 138, 0.4);
+    color: var(--od-text-light);
+    transform: translateY(-2px);
+}
+.quick-btn .block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--od-gold-light);
+}
+
+/* ------------------------------------------------------------- Formularios */
+.admin-input,
+.admin-select,
+.admin-textarea,
+.login-form-card input {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.34);
+    background: rgba(var(--od-marine-darker-rgb), 0.5);
+    color: var(--od-text-light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus,
+.login-form-card input:focus {
+    border-color: rgba(234, 179, 8, 0.75);
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.14);
+}
+.admin-select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--od-text-dark) 50%),
+        linear-gradient(135deg, var(--od-text-dark) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 34px;
+}
+.admin-textarea { min-height: 88px; resize: vertical; line-height: 1.55; }
+.admin-input::placeholder,
+.admin-textarea::placeholder { color: rgba(148, 163, 184, 0.7); }
+
+/* ------------------------------------------------------------- Listas */
+.list-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 17px;
+    border-radius: 13px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.2);
+    background: rgba(var(--od-glass-rgb), 0.24);
+    margin-bottom: 12px;
+    transition: border-color 0.18s ease;
+}
+.list-item:hover { border-color: rgba(253, 230, 138, 0.3); }
+.list-item .title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--od-text-light);
+}
+.list-item .sub {
+    color: var(--od-text-dark);
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+.list-item .meta {
+    color: rgba(148, 163, 184, 0.85);
+    font-size: 0.75rem;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 3px 11px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+.status-nuevo {
+    background: rgba(234, 179, 8, 0.14);
+    color: var(--od-gold-light);
+    border-color: rgba(234, 179, 8, 0.3);
+}
+.status-proceso {
+    background: rgba(56, 189, 248, 0.12);
+    color: #7dd3fc;
+    border-color: rgba(56, 189, 248, 0.28);
+}
+.status-resuelto {
+    background: rgba(34, 197, 94, 0.12);
+    color: #86efac;
+    border-color: rgba(34, 197, 94, 0.28);
+}
+
+/* ------------------------------------------------- Valoraciones y registro */
+.staff-rating-card {
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.2);
+    background: linear-gradient(180deg, rgba(var(--od-glass-rgb), 0.3), rgba(var(--od-glass-rgb), 0.12));
+}
+.staff-rating-card .head img {
+    border: 2px solid rgba(234, 179, 8, 0.55);
+}
+.rating-item {
+    padding: 13px 15px;
+    border-radius: 11px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.18);
+    background: rgba(var(--od-marine-darker-rgb), 0.4);
+    margin-bottom: 10px;
+}
+.rating-item .comment { line-height: 1.6; }
+.log-item {
+    padding: 11px 14px;
+    border-radius: 10px;
+    background: rgba(var(--od-glass-rgb), 0.2);
+    border: 1px solid rgba(var(--od-border-rgb), 0.14);
+}
+.no-ratings {
+    padding: 26px 18px;
+    border-radius: 13px;
+    border: 1px dashed rgba(var(--od-border-rgb), 0.35);
+    color: var(--od-text-dark);
+    text-align: center;
+}
+
+/* ------------------------------------------ Ficha de acceso, como el login */
+.login-form-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 30px 28px 26px;
+    border-radius: 18px;
+    border: 1px solid rgba(var(--od-border-rgb), 0.22);
+    background: linear-gradient(180deg,
+        rgba(var(--od-marine-medium-rgb), 0.97) 0%,
+        rgba(var(--od-marine-darker-rgb), 0.98) 100%);
+    box-shadow: 0 24px 60px rgba(var(--od-shadow-rgb), 0.45);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    text-align: left;
+}
+.login-form-card h2 {
+    margin: 0 0 8px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--od-text-light);
+}
+.login-form-card .subtitle {
+    margin: 0 0 22px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--od-text-dark);
+}
+.login-form-card .btn-continue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: auto;
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 12px;
+    border: 1px solid rgba(146, 64, 14, 0.35);
+    background: linear-gradient(180deg, #fcd34d 0%, #efb420 100%);
+    color: var(--od-ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+.login-form-card .btn-continue:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+}
+.error-msg {
+    margin: 14px 0 0;
+    min-height: 1.2em;
+    font-size: 0.84rem;
+    color: #fca5a5;
+}
+
+/* ------------------------------------------------------------- Móvil */
+/* En pantallas estrechas la barra lateral se convierte en una fila de
+   pestañas que scrollea, para no dejar el contenido en 200px. */
+@media (max-width: 1023px) {
+    .panel-card {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto minmax(0, 1fr);
+        padding: 20px 18px 24px;
+        border-radius: 16px;
+    }
+    .admin-tabs {
+        grid-column: 1;
+        grid-row: 2;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        position: static;
+        max-height: none;
+        margin-bottom: 22px;
+        padding-bottom: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    .admin-tabgroup { display: none; }
+    .admin-tabs .tab-btn {
+        width: auto;
+        flex: none;
+        white-space: nowrap;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+    }
+    .tab-panel { grid-column: 1; grid-row: 3; }
+    .admin-head h1 { font-size: 1.4rem; }
+}
+@media (max-width: 640px) {
+    .stat-card { padding: 13px 14px; }
+    .stat-card .num { font-size: 1.5rem; }
+    .admin-head { align-items: flex-start; }
+    .admin-head .btn-logout { padding: 8px 14px; font-size: 0.78rem; }
+}
+
+/* ======================================================================== */
+/* PESTANA BUSCAR: lupa, tablas de sesiones y ficha de usuario               */
+/* ======================================================================== */
+/* Va al final porque admin.css es la ultima hoja que carga: asi estas reglas */
+/* pisan a las anteriores sin tener que buscarlas.                            */
+/* ======================================================================== */
+
+/* ---------------------------------------------------------- Barra lateral */
+
+/* El icono de la lupa dentro del boton. El texto va seguido, no debajo, que
+   es lo que pasaba con los botones que tenian icono y texto a la vez. */
+.tab-btn .tab-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 7px;
+    opacity: .65;
+    vertical-align: -2px;
+    flex: none;
+}
+
+.tab-btn:hover .tab-icon { opacity: 1; }
+.tab-btn.active .tab-icon { opacity: 1; }
+
+/* El grupo ("Comunidad", "Tienda") va con menos peso que los botones, para que
+   se lea como separador y no como otra opcion pulsable. */
+.admin-tabgroup {
+    margin: 14px 0 5px;
+    padding: 0 4px;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: .45;
+}
+
+/* Foco visible: sin esto se navega con el teclado sin ver donde estas. */
+.tab-btn:focus-visible,
+.btn-action:focus-visible,
+.btn-gold:focus-visible,
+.btn-danger:focus-visible,
+.btn-ficha:focus-visible,
+.resultado:focus-visible {
+    outline: 2px solid var(--od-marine-accent);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- Encabezados */
+
+.admin-buscar-cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.admin-subcabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 34px 0 14px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(var(--od-border-rgb), .22);
+}
+
+.admin-subcabecera:first-of-type { margin-top: 26px; }
+
+.stat-hint {
+    margin-top: 4px;
+    font-size: .68rem;
+    color: var(--od-text-dark);
+    opacity: .55;
+    line-height: 1.3;
+}
+
+/* ------------------------------------------------------------------- Lupa */
+
+.buscador {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.buscador-icon {
+    position: absolute;
+    left: 17px;
+    width: 19px;
+    height: 19px;
+    color: var(--od-text-dark);
+    opacity: .5;
+    pointer-events: none;
+    transition: opacity .2s ease, color .2s ease;
+}
+
+.buscador input {
+    width: 100%;
+    padding: 15px 46px 15px 48px;
+    border-radius: 14px;
+    border: 1px solid rgba(var(--od-border-rgb), .45);
+    background: rgba(var(--od-marine-darker-rgb), .5);
+    color: var(--od-text-light);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.buscador input::placeholder { color: var(--od-text-dark); opacity: .5; }
+
+/* Al escribir, el borde se pone dorado y sale un halo. Es la unica pista de
+   que la lupa esta viva, y evita tener que un boton de "buscar". */
+.buscador input:focus {
+    border-color: rgba(var(--od-marine-accent-rgb), .75);
+    background: rgba(var(--od-marine-darker-rgb), .72);
+    box-shadow: 0 0 0 4px rgba(var(--od-marine-accent-rgb), .12);
+}
+
+.buscador input:focus + .buscador-limpiar + .buscador-icon,
+.buscador:focus-within .buscador-icon { color: var(--od-marine-accent); opacity: 1; }
+
+/* Se quita la "x" del input type=search: el navegador pone una suya que no
+   guarda el estilo del sitio y sale en un sitio raro. */
+.buscador input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+
+.buscador-limpiar {
+    position: absolute;
+    right: 12px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 9px;
+    background: rgba(var(--od-chip-rgb), var(--od-chip-alpha));
+    color: var(--od-text-dark);
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+}
+
+.buscador-limpiar.visible { display: flex; }
+.buscador-limpiar:hover { background: rgba(var(--od-chip-rgb), .14); color: var(--od-text-light); }
+.buscador-limpiar svg { width: 15px; height: 15px; }
+
+/* ------------------------------------------------------------- Resultados */
+
+.buscar-resultados {
+    display: none;
+    margin-top: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(var(--od-border-rgb), .3);
+    background: rgba(var(--od-marine-darker-rgb), .42);
+    overflow: hidden;
+}
+
+.buscar-resultados.abierto { display: block; }
+
+.resultado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 14px;
+    border: 0;
+    border-bottom: 1px solid rgba(var(--od-border-rgb), .15);
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-size: .93rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.resultado:last-child { border-bottom: 0; }
+.resultado:hover { background: rgba(var(--od-chip-rgb), .06); }
+
+.resultado-texto { flex: 1; min-width: 0; }
+
+.resultado-nombre {
+    display: block;
+    font-weight: 650;
+    color: var(--od-text-light);
+}
+
+.resultado-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: .78rem;
+    color: var(--od-text-dark);
+    opacity: .7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mini-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(var(--od-marine-accent-rgb), .18);
+    color: var(--od-gold-light);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.celda-persona { display: flex; align-items: center; gap: 10px; }
+.celda-nombre { display: block; font-weight: 650; color: var(--od-text-light); }
+
+/* ---------------------------------------------------------------- Tablas */
+
+.tabla-envoltorio {
+    border-radius: 14px;
+    border: 1px solid rgba(var(--od-border-rgb), .28);
+    background: rgba(var(--od-marine-darker-rgb), .34);
+    overflow: auto;
+    /* Que la cabecera se quede pegada al subir: si no, con 40 filas no sabes
+       de qué columna estás leyendo. */
+    max-height: 460px;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .87rem;
+}
+
+.tabla thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: .7;
+    background: rgba(var(--od-marine-dark-rgb), .96);
+    border-bottom: 1px solid rgba(var(--od-border-rgb), .35);
+    white-space: nowrap;
+}
+
+.tabla tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(var(--od-border-rgb), .13);
+    color: var(--od-text-light);
+    vertical-align: middle;
+}
+
+.tabla tbody tr:last-child td { border-bottom: 0; }
+.tabla tbody tr:hover td { background: rgba(var(--od-chip-rgb), .045); }
+
+.tabla .gris { color: var(--od-text-dark); opacity: .72; font-size: .82rem; }
+.tabla .rojo { color: #f1948a; }
+
+.ip {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .78rem;
+    color: var(--od-text-dark);
+    background: rgba(var(--od-chip-rgb), .06);
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.enlace-ficha {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--od-marine-accent);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 650;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.enlace-ficha:hover { color: var(--od-gold-light); }
+
+.btn-ficha {
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--od-border-rgb), .5);
+    background: rgba(var(--od-chip-rgb), .05);
+    color: var(--od-text-light);
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 650;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease;
+}
+
+.btn-ficha:hover {
+    background: rgba(var(--od-marine-accent-rgb), .16);
+    border-color: rgba(var(--od-marine-accent-rgb), .5);
+}
+
+.btn-peligro-suave {
+    padding: 7px 14px;
+    border-radius: 9px;
+    border: 1px solid rgba(241, 148, 138, .45);
+    background: rgba(241, 148, 138, .12);
+    color: #f1948a;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.btn-peligro-suave:hover { background: rgba(241, 148, 138, .22); }
+
+.btn-ok {
+    padding: 7px 14px;
+    border-radius: 9px;
+    border: 1px solid rgba(88, 214, 141, .45);
+    background: rgba(88, 214, 141, .12);
+    color: #58d68d;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.btn-ok:hover { background: rgba(88, 214, 141, .22); }
+
+/* Los chips: pila corta de texto para el estado. */
+.chip {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.chip-neutro { background: rgba(var(--od-chip-rgb), .09); color: var(--od-text-dark); }
+.chip-info { background: rgba(56, 189, 248, .16); color: #7dd3fc; }
+.chip-bien { background: rgba(88, 214, 141, .16); color: #58d68d; }
+.chip-peligro { background: rgba(241, 148, 138, .18); color: #f1948a; }
+.chip-oro { background: rgba(var(--od-marine-accent-rgb), .2); color: var(--od-gold-light); }
+
+.vacio {
+    padding: 26px 18px;
+    text-align: center;
+    font-size: .88rem;
+    color: var(--od-text-dark);
+    opacity: .65;
+}
+
+/* ------------------------------------------------------- Ficha de usuario */
+
+.ficha-fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(2, 6, 16, .6);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    animation: aparecer .18s ease;
+}
+
+.ficha {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    width: min(460px, 100vw);
+    background: linear-gradient(180deg,
+            rgba(var(--od-marine-medium-rgb), .97) 0%,
+            rgba(var(--od-marine-darker-rgb), .99) 100%);
+    border-left: 1px solid rgba(var(--od-border-rgb), .5);
+    box-shadow: -20px 0 60px rgba(var(--od-shadow-rgb), .6);
+    animation: entrar-ficha .22s cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes entrar-ficha {
+    from { transform: translateX(26px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.ficha-cabecera {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid rgba(var(--od-border-rgb), .3);
+}
+
+.ficha-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(var(--od-marine-accent-rgb), .2);
+    color: var(--od-gold-light);
+    font-size: 1.15rem;
+    font-weight: 800;
+    border: 2px solid rgba(var(--od-border-rgb), .5);
+}
+
+.ficha-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.ficha-ident { flex: 1; min-width: 0; padding-top: 4px; }
+.ficha-ident h2 { margin: 0; font-size: 1.2rem; font-weight: 800; color: var(--od-text-light); }
+.ficha-ident p { margin: 3px 0 0; }
+.ficha-chips { margin-top: 8px; }
+
+.ficha-cerrar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(var(--od-chip-rgb), .07);
+    color: var(--od-text-dark);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+
+.ficha-cerrar:hover { background: rgba(var(--od-chip-rgb), .15); color: var(--od-text-light); }
+.ficha-cerrar svg { width: 16px; height: 16px; }
+
+.ficha-cuerpo { flex: 1; overflow-y: auto; padding: 16px 18px; }
+
+.ficha-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.ficha-stats > div {
+    padding: 10px 6px;
+    border-radius: 11px;
+    background: rgba(var(--od-chip-rgb), .05);
+    text-align: center;
+}
+
+.ficha-stats b {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--od-gold-light);
+    line-height: 1.1;
+}
+
+.ficha-stats span {
+    display: block;
+    margin-top: 3px;
+    font-size: .64rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: .65;
+}
+
+.ficha-bloque { margin-bottom: 20px; }
+
+.ficha-bloque h4 {
+    margin: 0 0 9px;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--od-marine-accent);
+    opacity: .9;
+}
+
+.ficha-fila {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px dashed rgba(var(--od-border-rgb), .25);
+    font-size: .86rem;
+}
+
+.ficha-fila:last-child { border-bottom: 0; }
+
+.ficha-etiqueta {
+    flex: none;
+    color: var(--od-text-dark);
+    opacity: .72;
+    font-size: .8rem;
+}
+
+.ficha-valor {
+    color: var(--od-text-light);
+    text-align: right;
+    word-break: break-word;
+    min-width: 0;
+}
+
+.ficha-lista { margin: 0; padding: 0; list-style: none; }
+
+.ficha-lista li {
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(var(--od-border-rgb), .2);
+    font-size: .8rem;
+    color: var(--od-text-light);
+}
+
+.ficha-lista li:last-child { border-bottom: 0; }
+.ficha-lista li.fallo { color: #f1948a; }
+.ficha-lista .gris { color: var(--od-text-dark); opacity: .6; font-size: .74rem; }
+
+.ficha-pie {
+    padding: 15px 18px 18px;
+    border-top: 1px solid rgba(var(--od-border-rgb), .3);
+    background: rgba(var(--od-marine-darker-rgb), .6);
+}
+
+.ficha-pie-titulo {
+    margin: 0 0 11px;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: .7;
+}
+
+.ficha-acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.ficha-select {
+    padding: 7px 11px;
+    border-radius: 9px;
+    border: 1px solid rgba(var(--od-border-rgb), .5);
+    background: rgba(var(--od-marine-darker-rgb), .8);
+    color: var(--od-text-light);
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+/* ------------------------------------------------------- Pregunta al salir */
+
+.modal-fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2, 6, 16, .72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: aparecer .16s ease;
+}
+
+.modal {
+    width: min(420px, 100%);
+    padding: 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(var(--od-border-rgb), .5);
+    background: linear-gradient(180deg,
+            rgba(var(--od-marine-medium-rgb), .98) 0%,
+            rgba(var(--od-marine-darker-rgb), .99) 100%);
+    box-shadow: 0 26px 70px rgba(var(--od-shadow-rgb), .7);
+    animation: subir-modal .2s cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes subir-modal {
+    from { transform: translateY(12px) scale(.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal h3 { margin: 0 0 8px; font-size: 1.1rem; font-weight: 800; color: var(--od-text-light); }
+.modal p { margin: 0 0 14px; line-height: 1.55; }
+.modal-extra { margin-bottom: 16px; }
+.modal-acciones { display: flex; justify-content: flex-end; gap: 9px; }
+
+.modal-label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--od-text-dark);
+    opacity: .75;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--od-border-rgb), .5);
+    background: rgba(var(--od-marine-darker-rgb), .8);
+    color: var(--od-text-light);
+    font-family: inherit;
+    font-size: .9rem;
+    outline: none;
+}
+
+.modal-input:focus {
+    border-color: rgba(var(--od-marine-accent-rgb), .7);
+    box-shadow: 0 0 0 3px rgba(var(--od-marine-accent-rgb), .12);
+}
+
+/* --------------------------------------------------------------- Detalles */
+
+/* Barra de scroll discreta. La de por defecto es muy clara sobre fondo
+   oscuro y se come el ancho de la tabla. */
+.tabla-envoltorio::-webkit-scrollbar,
+.ficha-cuerpo::-webkit-scrollbar,
+.buscar-resultados::-webkit-scrollbar { width: 9px; height: 9px; }
+
+.tabla-envoltorio::-webkit-scrollbar-thumb,
+.ficha-cuerpo::-webkit-scrollbar-thumb,
+.buscar-resultados::-webkit-scrollbar-thumb {
+    background: rgba(var(--od-border-rgb), .85);
+    border-radius: 999px;
+}
+
+.tabla-envoltorio::-webkit-scrollbar-track,
+.ficha-cuerpo::-webkit-scrollbar-track { background: transparent; }
+
+.tabla-envoltorio::-webkit-scrollbar-thumb:hover,
+.ficha-cuerpo::-webkit-scrollbar-thumb:hover { background: rgba(var(--od-marine-accent-rgb), .5); }
+
+/* En movil la ficha ocupa la pantalla entera y las tablas hacen scroll
+   lateral: si no, se sale del borde y no hay forma de leer la última columna. */
+@media (max-width: 640px) {
+    .ficha { width: 100vw; }
+    .ficha-stats { grid-template-columns: repeat(2, 1fr); }
+    .tabla { min-width: 620px; }
+    .admin-tabgroup { margin: 10px 0 4px; }
+}
+/* ------------------------------------------------------------- Correccion */
+/* La clase .hidden de Tailwind es ".hidden{display:none}", de una sola clase.
+   Mis reglas de la ficha y de la ventana de confirmacion tambien son de una
+   sola clase (.ficha{display:flex}, .modal-fondo{display:flex}), y como
+   admin.css carga DESPUES de tailwind.css, ganaban por orden: la ficha y el
+   "¿Seguro?" se veian siempre, el fondo oscuro tapaba el panel entero y los
+   botones no hacian nada porque en realidad estaban debajo del velo.
+
+   Se sube la especificidad escribiendo el elemento con sus dos clases
+   (.ficha.ficha.hidden) en vez de meter un !important. Es mas especifico que
+   un .hidden suelto y no rompe nada de Tailwind. */
+.ficha.ficha.hidden,
+.ficha-fondo.ficha-fondo.hidden,
+.modal-fondo.modal-fondo.hidden,
+.bridge-codigo.bridge-codigo.hidden,
+.list-item.list-item.hidden {
+    display: none;
+}
