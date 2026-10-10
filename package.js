@@ -52,6 +52,9 @@ const EXCLUIDOS = [
   'SEGURIDAD.md',
   'WAF.md',
   'SEO.md',
+  /* Guia de la migracion a Supabase. Se lee desde el repositorio, no
+     desde el hosting. */
+  'MIGRACION-SUPABASE.md',
   /* Codigo del BOT. La verificacion del captcha va en el proyecto Node
      (odisseymc.site/bot), no en la web. Este archivo se queda aqui para
      poder consultarlo y pegar el modulo, pero NO se sube. */
@@ -79,6 +82,10 @@ function fueraDePublicacion(nombre) {
      cuela, llega al zip. Por eso el filtro va aqui, en copiar(), que
      es lo que decide de verdad. */
   if (/^_.*\.cjs$/i.test(nombre)) return true;
+  /* Los SQL de Supabase se ejecutan en el panel de supabase.co, no en el
+     hosting. La carpeta va en EXCLUIDOS, porque aqui solo llega el nombre
+     sin ruta y un /^supabase\// no encajaria nunca. */
+  if (nombre.toLowerCase() === 'supabase') return true;
   return false;
 }
 
@@ -123,6 +130,9 @@ const NUNCA_PUBLICO = [
      no rompe nada, pero publica en el hosting las pruebas y deja a
      cualquiera ver como esta hecho. */
   /^_.*\.cjs$/i,
+  /* Los SQL de Supabase se ejecutan en el panel de supabase.co, no en el
+     hosting. No son secretos, pero tampoco tienen por que estar ahi. */
+  /^supabase\//i,
   /^\.env/i,
   /^\.git\//,
   /^\.git$/,

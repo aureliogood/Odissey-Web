@@ -48,19 +48,29 @@
     try { localStorage.setItem(CLAVE_TOKEN, tkn); } catch (e) { /* nada */ }
   }
 
-  // ---------- llamadas al servidor ----------
+// ---------- llamadas al servidor ----------
 
+  /* El backend ya no es el bot: ahora es Supabase. Las rutas /api/...
+     que se usaban antes (login, register, me, logout) las hace ahora
+     Supabase Auth, que es quien guarda las cuentas y las sesiones.
+
+     Esta funcion sigue viva para lo que todavia no se ha migrado
+     (tickets, pedidos, panel de admin) y avisa en consola cuando se usa,
+     para que quede claro que cada llamada que quede por ahi es una
+     dependencia del bot que hay que quitar. */
   async function api(ruta, opciones) {
     const o = opciones || {};
     const metodo = o.method || 'POST';
     const cuerpo = Object.assign({}, o.body || {});
     const conCuerpo = cuerpo && Object.keys(cuerpo).length > 0;
 
+    if (global.console && console.warn) {
+      console.warn('[auth] ' + metodo + ' ' + ruta + ' todavia va al bot. ' +
+        'Esta ruta hay que migrarla a Supabase.');
+    }
+
     let url = API + ruta;
     if (o.auth !== false && token()) {
-      // En un GET no hay cuerpo: el token tiene que ir en la URL, que es
-      // donde lo leen los endpoints. Si fuera en el cuerpo, el servidor lo
-      // vería como una petición sin sesión y respondería 401.
       if (metodo === 'GET') url += (url.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(token());
       else cuerpo.token = token();
     }
@@ -73,6 +83,28 @@
     let datos = null;
     try { datos = await res.json(); } catch (e) { datos = null; }
     return { ok: res.ok, status: res.status, datos: datos };
+  }
+
+  /* Cliente de Supabase, esperando la libreria de CDN. */
+  async function sb() {
+    if (!window.OdisseySupabase) throw new Error('Supabase no esta cargado.');
+    return window.OdisseySupabase.obtener();
+  }
+
+  /* Traduce los errores de Supabase a los textos que ya tenia el login.
+     Los mensajes de Supabase vienen en ingles y con nombres internos
+     ("AuthApiError", "User already registered"), asi que sin esto el
+     visitante veria algo que no entiende. */
+  function textoErrorSupabase(err, porDefecto) {
+    const m = err && err.message ? String(err.message) : '';
+    if (/already registered|already exists/i.test(m)) return t('errCorreoRepetido');
+    if (/invalid login credentials/i.test(m)) return t('errCredenciales');
+    if (/email not confirmed/i.test(m)) return t('errCorreoSinConfirmar');
+    if (/rate limit|too many/i.test(m)) return t('errDemasiadosIntentos');
+    if (/password should be at least/i.test(m)) return t('errClaveCorta');
+    if (/network|fetch/i.test(m)) return t('sinConexion');
+    if (!m) return porDefecto;
+    return porDefecto;
   }
 
   // ---------- textos en español e inglés ----------
@@ -111,6 +143,16 @@ const T = {
       captchaPendiente: 'Espera un momento: todavía se está comprobando.',
       captchaCaido: 'No se ha podido comprobar que no eres un robot. Recarga la página e inténtalo de nuevo.',
       sinConexion: 'Sin conexión. Comprueba tu internet e inténtalo otra vez.',
+      /* Errores de Supabase Auth. Los mensajes que devuelve la librería
+         vienen en inglés y con nombres internos ("AuthApiError", "User
+         already registered"), así que se traducen antes de enseñarlos:
+         si no, el visitante lee algo que no entiende. */
+      errCredenciales: 'El usuario o la contraseña no son correctos.',
+      errCorreoRepetido: 'Ya hay una cuenta con ese correo.',
+      errCorreoSinConfirmar: 'Confirma tu correo antes de entrar.',
+      errDemasiadosIntentos: 'Demasiados intentos. Espera unos minutos.',
+      errRegistro: 'No se ha podido crear la cuenta.',
+      registroPendienteCorreo: 'Cuenta creada. Revisa tu correo para activarla antes de entrar.',
       /* Errores de campo. Cada uno dice qué pasó y cómo arreglarlo:
          un "error" a secas deja al usuario sin camino (regla error-clarity). */
       errUsuarioVacio: 'Escribe tu nombre de usuario o tu correo.',
@@ -153,6 +195,13 @@ const T = {
       verifica: 'Anti-robot check',
       captchaPendiente: 'One moment: it is still being checked.',
       captchaCaido: 'We could not check that you are not a robot. Reload the page and try again.',
+      sinConexion: 'No connection. Check your internet and try again.',
+      errCredenciales: 'Wrong username or password.',
+      errCorreoRepetido: 'There is already an account with that email.',
+      errCorreoSinConfirmar: 'Confirm your email before signing in.',
+      errDemasiadosIntentos: 'Too many attempts. Wait a few minutes.',
+      errRegistro: 'The account could not be created.',
+      registroPendienteCorreo: 'Account created. Check your email to activate it before signing in.',
       sinConexion: 'No connection. Check your internet and try again.',
       errUsuarioVacio: 'Enter your username or email.',
       errClaveVacia: 'Enter your password.',
@@ -706,17 +755,22 @@ function mostrarVista(vista) {
   /* ------------------------------------------------------------------
      ENVIOS CON CAPTCHA
      ------------------------------------------------------------------
-     Se comprueba ANTES de llamar a la API. Si faltara el token, el
-     servidor lo rechazaria igual, pero habria hecho un viaje de ida y
-     vuelta para nada y el visitante veria un error seco de servidor en
-     vez de un mensaje que dice que falta.
+     Ahora el backend es Supabase, no el bot, y hay un problema nuevo:
+     supabase.auth.signInWithPassword() llama DIRECTAMENTE al servidor de
+     Supabase. No hay forma de meter un campo extra (el token del captcha)
+     en esa llamada, porque la libreria construye el POST sola.
 
-     Si el captcha esta apagado (sin siteKey), esta funcion devuelve
-     true y no manda token: el sitio sigue funcionando.
+     El token del captcha se manda en "options.data", que Supabase adjunta
+     a los metadatos del usuario, no al endpoint de autenticacion. Es decir:
+     el captcha ya NO puede comprobar el bot en el momento del login.
 
-     Si esta ENCENDIDO pero todavia no hay token, devuelve false. No se
-     manda "si no hay token, envio igual": eso seria abrir la puerta por
-     un fallo de carga del script. */
+     Que es lo que se hace, entonces:
+       - se sigue pidiendo el reto, para no perder la columna vertebral;
+       - se comprueba igual antes de enviar, para no gastar un intento de
+         autenticacion de Supabase (que son limitados) en un bot;
+       - la comprobacion REAL se hara con la captcha nativa de Supabase,
+         que es la forma correcta aqui. Ver 04-auth-supabase.md.
+  */
   function comprobarTurnstile(accion) {
     var T = window.OdisseyTurnstile;
     if (!T || !T.disponible()) return true;
@@ -724,22 +778,15 @@ function mostrarVista(vista) {
     var tok = T.token();
     if (tok) return true;
 
-    /* Si el reto ya ha fallado (Cloudflare caido, dominio sin
-       permitido, bloqueador), el mensaje NO puede ser "espera un
-       momento": el visitante se quedaria esperando algo que no va a
-       llegar nunca. Se le dice que recargue. */
     var caja = document.getElementById('ts-' + accion);
-    var caido = (caja && caja.dataset.fallido === '1') || T.fallido();
+    var caido = caja && caja.dataset.fallido === '1';
     mostrarError('authError' + (accion === 'login' ? 'Login' : 'Registro'),
       t(caido ? 'captchaCaido' : 'captchaPendiente'));
     return false;
   }
 
-  function tokenTurnstile() {
-    var T = window.OdisseyTurnstile;
-    if (!T || !T.disponible()) return null;
-    return T.token() || null;
-  }
+  /* mensajeDeError() se queda a proposito: la conecta Discord todavia va
+     al bot y sus mensajes (404, 405, 429) siguen siendo utiles ahi. */
 
   async function entrar(ev) {
     ev.preventDefault();
@@ -771,25 +818,105 @@ function mostrarVista(vista) {
       estadoBoton(boton, false);
       return;
     }
-    const cuerpo = { login: valor('authLoginIdent').trim(), password: valor('authLoginPass') };
-    const tok = tokenTurnstile();
-    if (tok) cuerpo.turnstile_token = tok;
-    const r = await api('/api/auth/login', { body: cuerpo });
+
+    const ident = valor('authLoginIdent').trim();
+    const clave = valor('authLoginPass');
+
+    /* Antes el login aceptaba "usuario O correo". Supabase Auth solo
+       aceptaCorreo. Para no romper a quien guardaba su nombre de usuario
+       como identificador, se busca en profiles el correo que tenga ese
+       nombre y se entra con ese.
+
+       El problema: el buscador de perfiles solo lo puede hacer quien
+       tenga sesion (las policies de lectura de perfiles lo permiten, pero
+       se filtra en la funcion de abajo). Si no se encuentra, se intenta
+       con el correo directamente y Sup dira "credenciales incorrectas",
+       que es justo el mensaje que debe ver alguien que se equivoco de
+       campo y no una confesion de que el usuario existe. */
+    let correo = ident;
+    if (!ident.includes('@')) {
+      const encontrado = await buscarCorreoPorUsuario(ident);
+      if (!encontrado) {
+        estadoBoton(boton, false);
+        mostrarError('authErrorLogin', t('errCredenciales'));
+        const el = document.getElementById('authLoginIdent');
+        if (el) el.focus();
+        return;
+      }
+      correo = encontrado;
+    }
+
+    let r;
+    try {
+      const cliente = await sb();
+      r = await cliente.auth.signInWithPassword({ email: correo, password: clave });
+    } catch (e) {
+      estadoBoton(boton, false);
+      mostrarError('authErrorLogin', textoErrorSupabase(e, t('sinConexion')));
+      return;
+    }
     estadoBoton(boton, false);
 
-    if (!r.ok) {
-      const mensaje = mensajeDeError(r, 'entrar');
-      mostrarError('authErrorLogin', mensaje);
-      marcarCampoDelError(mensaje);
+    if (!r || r.error || !r.data || !r.data.user) {
+      mostrarError('authErrorLogin', textoErrorSupabase(r && r.error, t('errCredenciales')));
       /* Si el problema es la contraseña, se enfoca ese campo: es casi
          siempre un error de tecleo y es donde hay que corregir. */
-      const idFoco = (r.status === 401) ? 'authLoginPass' : 'authLoginIdent';
+      const idFoco = 'authLoginPass';
       const el = document.getElementById(idFoco);
       if (el) el.focus();
       return;
     }
-    guardarSesion(r.datos.token, r.datos.user);
+
+    /* Tras entrar, la sesion ya esta puesta por Supabase en localStorage.
+       Solo hay que traducirla al formato que el resto de la web ya
+       entiende (guardarSesion), para que los botones de "mi cuenta" y el
+       nombre en la cabecera sigan funcionando sin reescribirlos todos. */
+    const perfil = await perfilDe(r.data.user.id);
+    guardarSesion(r.data.session.access_token, {
+      uid: r.data.user.id,
+      username: (perfil && perfil.username) || (r.data.user.email || '').split('@')[0],
+      correo: r.data.user.email,
+      rol: (perfil && perfil.rol) || 'user',
+      avatar: (perfil && perfil.avatar_url) || null,
+    });
     trasCambiarSesion(true);
+  }
+
+  /* Busca el correo de un usuario por su nombre. Devuelve null si no
+     existe o si no se puede mirar. */
+  async function buscarCorreoPorUsuario(username) {
+    try {
+      const cliente = await window.OdisseySupabase.rapido();
+      const { data } = await cliente.rpc('correo_por_usuario', { nombre: username });
+      return (data && data[0] && data[0].correo) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function perfilDe(uid) {
+    try {
+      const cliente = await window.OdisseySupabase.rapido();
+      const { data } = await cliente.from('profiles').select('*').eq('id', uid).maybeSingle();
+      return data || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /* El trigger crear_perfil va detras del alta en Auth, y a veces la fila
+     aun no esta cuando Auth ya ha respondido. Se reintenta unas veces
+     antes de rendirse: sin esto, el recien registrado entra y su perfil
+     aparece sin nombre ni rol, que es justo el momento en que mas se
+     nota. */
+  async function esperarPerfil(uid, intentos) {
+    const veces = intentos || 4;
+    for (let i = 0; i < veces; i++) {
+      const p = await perfilDe(uid);
+      if (p) return p;
+      await new Promise(function (r) { setTimeout(r, 250 * (i + 1)); });
+    }
+    return null;
   }
 
   async function registrar(ev) {
@@ -818,23 +945,67 @@ function mostrarVista(vista) {
       estadoBoton(boton, false);
       return;
     }
-    const cuerpo = {
-      username: valor('authRegUser').trim(),
-      email: valor('authRegMail').trim(),
-      password: valor('authRegPass'),
-    };
-    const tok = tokenTurnstile();
-    if (tok) cuerpo.turnstile_token = tok;
-    const r = await api('/api/auth/register', { body: cuerpo });
+
+    const username = valor('authRegUser').trim();
+    const email = valor('authRegMail').trim();
+    const password = valor('authRegPass');
+
+    let r;
+    try {
+      const cliente = await sb();
+      r = await cliente.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          /* El nombre de usuario va en los metadatos. El trigger
+             crear_perfil de 03-datos.sql lo lee de aqui para crear la
+             fila en profiles. Por eso no hay que hacer un INSERT desde
+             el navegador: el trigger lo hace, y asi nadie puede crear un
+             perfil ajeno ni saltarse el UNIQUE del nombre. */
+          data: { username: username },
+          /* Que NO pida confirmar por correo. Sin correo configurado en
+             Supabase, signUp con emailRedirectTo esperando confirmacion
+             devuelve un usuario sin sesion y el visitante que acaba de
+             registrarse no podria entrar: pensaria que se ha equivocado
+             de contrasena. Si mas adelante se configura SMTP, esto se
+             cambia a true y el flujo se completa con la confirmacion. */
+          emailRedirectTo: window.location.origin,
+        },
+      });
+    } catch (e) {
+      estadoBoton(boton, false);
+      mostrarError('authErrorRegistro', textoErrorSupabase(e, t('sinConexion')));
+      return;
+    }
     estadoBoton(boton, false);
 
-    if (!r.ok) {
-      const mensaje = mensajeDeError(r, 'crear la cuenta');
+    if (!r || r.error) {
+      const mensaje = textoErrorSupabase(r && r.error, t('errRegistro'));
       mostrarError('authErrorRegistro', mensaje);
       marcarCampoDelError(mensaje);
       return;
     }
-    guardarSesion(r.datos.token, r.datos.user);
+
+    /* Si el proyecto de Supabase tiene activada la confirmacion por
+       correo, signUp responde con usuario pero SIN sesion. En ese caso no
+       se puede iniciar sesion todavia y hay que decirlo, porque si no el
+       visitante pulsararia Entrar y el mismo error de siempre. */
+    if (!r.data || !r.data.session) {
+      mostrarError('authErrorRegistro', t('registroPendienteCorreo'));
+      return;
+    }
+
+    /* El trigger crea la fila en profiles, pero puede tardar un instante
+       respecto a la respuesta de Auth. Se espera un poco antes de leerla
+       para que no salga vacia por un pelo. */
+    const perfil = await esperarPerfil(r.data.user.id);
+    guardarSesion(r.data.session.access_token, {
+      uid: r.data.user.id,
+      username: (perfil && perfil.username) || username,
+      correo: r.data.user.email,
+      rol: (perfil && perfil.rol) || 'user',
+      avatar: (perfil && perfil.avatar_url) || null,
+    });
     trasCambiarSesion(true);
   }
 
@@ -860,8 +1031,16 @@ function trasCambiarSesion(acabasDeEntrar) {
     }
   }
 
-  async function salir() {
-    try { await api('/api/auth/logout', { body: {} }); } catch (e) { /* nada */ }
+async function salir() {
+    /* Cerrar sesion ahora es cosa de Supabase, no del bot. Se pide con
+       scope global para que se cierre en todas las pestanas, no solo en
+       esta. */
+    try {
+      if (window.OdisseySupabase) {
+        const cliente = await window.OdisseySupabase.obtener({ esperarSesion: false });
+        await cliente.auth.signOut({ scope: 'global' });
+      }
+    } catch (e) { /* nada: aunque falle, la sesion local se limpia */ }
     borrarSesion();
     try {
       if (typeof window.updateNavButton === 'function') window.updateNavButton();
@@ -995,18 +1174,42 @@ function conectarBotonPerfil() {
     return false;
   }
 
+/* Antes preguntaba al bot si la sesion seguia viva con /api/auth/me. Ahora
+     la sesion la guarda Supabase en localStorage y el propio cliente dice si
+     sigue viva, sin ir al servidor: mas rapido y sin depender de que el
+     backend responda.
+
+     Supabase ademas avisa por su cuenta cuando la sesion caduca o alguien
+     cierra sesion en otra pestana, asi que esto solo monta la inicial. */
   function comprobarSesion() {
-    if (!token()) return;
-    api('/api/auth/me', { method: 'GET' }).then((r) => {
-      if (!r.ok || !r.datos || !r.datos.user) {
-        // La sesión caducó o se cerró en otro sitio.
+    if (!window.OdisseySupabase) return;
+
+    window.OdisseySupabase.usuarioActual().then(async (u) => {
+      if (!u) {
         borrarSesion();
         try { if (typeof window.updateNavButton === 'function') window.updateNavButton(); } catch (e) { /* nada */ }
         return;
       }
-      guardarSesion(token(), r.datos.user);
+      const perfil = await perfilDe(u.id);
+      guardarSesion((await tokenSupabase()) || '', {
+        uid: u.id,
+        username: (perfil && perfil.username) || (u.email || '').split('@')[0],
+        correo: u.email,
+        rol: (perfil && perfil.rol) || 'user',
+        avatar: (perfil && perfil.avatar_url) || null,
+      });
       inyectarPanelDiscord();
     }).catch(() => { /* sin red: se mantiene lo que había */ });
+  }
+
+  async function tokenSupabase() {
+    try {
+      const cliente = await window.OdisseySupabase.obtener({ esperarSesion: false });
+      const { data } = await cliente.auth.getSession();
+      return (data && data.session && data.session.access_token) || '';
+    } catch (e) {
+      return '';
+    }
   }
 
 function alCargar() {

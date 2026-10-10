@@ -19,6 +19,22 @@ window.DEFAULT_SITE_CONFIG = {
     discordServerId: '1542393721318940782',
 
     // ------------------------------------------------------
+//  SUPABASE
+// ------------------------------------------------------
+    //  project URL (raiz del proyecto, no /rest/v1). La usan los
+    //  clientes JS para talking to Auth, Postgres y Storage.
+    supabaseUrl: 'https://cffpnxmtwfaublkvrobt.supabase.co',
+    //  publishable key. ES PUBLICA: va en el JavaScript del navegador y
+    //  cualquiera puede verla con F12. Es como una clave de mapas: no
+    //  da acceso a nada por si sola, porque quien decide que se puede
+    //  leer o escribir cada cosa son las politicas RLS de la base.
+    //
+    //  La secret key NO va aqui. Va en Supabase > Project Settings >
+    //  API, en las variables de entorno del servidor, y solo se usa
+    //  desde el backend o desde una Edge Function.
+    supabaseKey: 'sb_publishable_BOU0olDLB4gZyp9fNr0OBw_SkIbB_w4',
+
+    // ------------------------------------------------------
     //  CLOUDFLARE TURNSTILE (captcha)
     // ------------------------------------------------------
     //  siteKey: la clave PUBLICA del widget. Se puede poner aqui: es

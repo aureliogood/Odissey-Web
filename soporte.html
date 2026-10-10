@@ -1936,6 +1936,10 @@ cb_accept: 'Accept',
      auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
      no esta aqui, vive en el bot (odisseymc.site/bot). -->
     <script src="js/turnstile.js?v=144" defer></script>
+        <!-- Supabase: aporta OdisseySupabase. Va antes de auth.js porque
+         el login lo necesita desde el primer momento. Solo lleva la
+         publishable key, que es publica; la secret va en el servidor. -->
+    <script src="js/supabase.js?v=144" defer></script>
     <script src="auth.js?v=144"></script>
     <script src="js/analitica.js?v=144"></script>
 <script src="js/formulario.js?v=144"></script>
