@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=144 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v162';
+var CACHE_NAME = 'odissey-v163';
 
 var PRECACHE_URLS = [
   './',
@@ -214,8 +214,19 @@ self.addEventListener('fetch', function (event) {
   /* fetch() normal RESPETA la cache HTTP del navegador, y ahi los .css/.js
      duran una semana. Con cache:'no-cache' la peticion va siempre a la red
      (revalidando), que es lo que se quiere en una web pequena y es lo que
-     hace que un F5 normal muestre la version nueva. */
-  var opciones = req.cache === 'only-if-cached' || esHtml ? undefined : { cache: 'no-cache' };
+     hace que un F5 normal muestre la version nueva.
+
+     Esto antes se saltaba el HTML: `|| esHtml ? undefined : ...`. O sea,
+     justo lo contrario de lo que decia el comentario. GitHub Pages sirve
+     el HTML con Cache-Control de 10 minutos, asi que durante esos 10
+     minutos un visitante que vuelve ve la pagina VIEJA: los <script> que
+     le faltan no se cargan y las cosas nuevas no aparecen. Es
+     exactamente "en mi movil no sale, en el tuyo si".
+
+     La cache de aqui solo se usa cuando NO hay red, que es a lo que
+     sirve de verdad. */
+  var opciones = req.cache === 'only-if-cached' ? undefined : { cache: 'no-cache' };
+  void esHtml;
 
   event.respondWith(
     fetch(req, opciones).then(function (respuesta) {
