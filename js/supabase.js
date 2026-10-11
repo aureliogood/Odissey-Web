@@ -171,6 +171,11 @@
     return ficha.cache ? ficha.perfil : null;
   }
 
+  /** Id del usuario con sesion, o null. De un vistazo, sin esperar. */
+  function usuarioActualSync() {
+    return sesion.cache ? sesion.id : null;
+  }
+
   function marcarSesion(u) {
     sesion.usuario = u || null;
     sesion.id = (u && u.id) || null;
@@ -232,9 +237,35 @@
     }
   }
 
-  /** Id del usuario con sesion, o null. De un vistazo, sin esperar. */
-  function usuarioActualSync() {
-    return sesion.cache ? sesion.id : null;
+/** Id del usuario con sesion, o null. De un vistazo, sin esperar. */
+  function perfilActualSync() {
+    return ficha.cache ? ficha.perfil : null;
+  }
+
+  /* Espera a que la sesion este DE VERDAD decidida.
+
+     obtener() resuelve en cuanto el cliente esta creado, que no es lo
+     mismo: la sesion se lee despues, en segundo plano. Quien necesite
+     saber si hay alguien dentro tiene que esperar a esto, no a obtener().
+
+     Sin esto pasa esto: la pagina se monta, pregunta, no hay sesion todavia
+     y enseña "entra con tu cuenta" a alguien que si ha entrado. */
+  var esperandoSesion = null;
+  function sesionLista() {
+    if (sesion.cache) return Promise.resolve(sesion.id);
+    if (esperandoSesion) return esperandoSesion;
+    esperandoSesion = new Promise(function (listo) {
+      var n = 0;
+      var reloj = setInterval(function () {
+        n++;
+        if (sesion.cache || n > 120) {
+          clearInterval(reloj);
+          esperandoSesion = null;
+          listo(sesion.id);
+        }
+      }, 30);
+    });
+    return esperandoSesion;
   }
 
   /**
@@ -274,6 +305,7 @@
     usuarioActualSync,
     marcarSesion,
     perfilActualSync,
+    sesionLista,
     refrescarPerfil,
     perfilActual,
     hayConfig,

@@ -199,8 +199,21 @@
     if (usuario) pintar();
   }
 
+/* "¿Hay sesion?"
+
+     Antes miraba el token del bot de Discord en localStorage. Ese bot ya
+     no existe y Supabase no escribe ahi, asi que esto SIEMPRE devolvia
+     falso: el perfil no le llegaba a enseñarse a nadie, y todo el que
+     entraba con su cuenta se encontraba con un "Necesitas una cuenta".
+
+     Ahora se pregunta a Supabase, que es quien tiene la sesion. */
   function token() {
-    try { return localStorage.getItem('odissey_discord_session'); } catch (e) { return null; }
+    try {
+      if (window.OdisseySupabase && typeof OdisseySupabase.usuarioActualSync === 'function') {
+        if (OdisseySupabase.usuarioActualSync()) return 'supabase';
+      }
+      return localStorage.getItem('odissey_discord_session');
+    } catch (e) { return null; }
   }
 
   // Avatar por defecto: una inicial sobre el color elegido, para que el perfil
@@ -634,6 +647,16 @@
   }
 
   async function cargar() {
+    /* Supabase restaura la sesion de forma asincrona: al abrir la pagina
+       todavia no sabe quien eres. Si se pregunta antes de tiempo, token()
+       devuelve null y el perfil enseña "Necesitas una cuenta" a un
+       usuario que si ha entrado.
+       esperar obtener() NO sirve: resuelve en cuanto el cliente existe,
+       no cuando la sesion se ha leido. sesionLista() si. */
+    if (window.OdisseySupabase && typeof OdisseySupabase.sesionLista === 'function') {
+      try { await OdisseySupabase.sesionLista(); } catch (e) { /* sin sesion, se sigue */ }
+    }
+
     // Si la URL trae ?u= se busca ese usuario, no el de la sesion.
     const nombre = new URLSearchParams(location.search).get('u');
     if (nombre && nombre.trim()) return cargarPublico(nombre.trim());
