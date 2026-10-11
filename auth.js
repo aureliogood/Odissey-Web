@@ -37,10 +37,51 @@
     try { return localStorage.getItem(CLAVE_TOKEN); } catch (e) { return null; }
   }
 
+  /* Quien esta dentro, ahora mismo.
+ *
+ * Antes esto solo miraba localStorage, que era donde el bot de Discord
+ * dejaba el usuario. Con Supabase la sesion vive en otro sitio y aqui no
+ * hay nunca nada, asi que TODO lo que preguntaba por usuarioGuardado()
+ * CREIA QUE NO HABIA NADIE CONECTADO. Entre otras cosas, el boton de la
+ * cabecera con el nombre no llevaba al perfil: abria el login, porque
+ * para el era como si estuvieras desconectado.
+ *
+ * Ahora se pregunta primero a Supabase y, si no hay, se mira el sitio
+ * viejo como reserva por si queda alguna sesion a medias. */
   function usuarioGuardado() {
     try {
-      const u = JSON.parse(localStorage.getItem(CLAVE_USUARIO) || 'null');
-      return u && u.id ? u : null;
+      if (window.OdisseySupabase && typeof OdisseySupabase.usuarioActualSync === 'function') {
+        var id = OdisseySupabase.usuarioActualSync();
+        if (id) {
+          /* El perfil de Supabase: de ahi salen el nombre de verdad y el
+             avatar. Sin esto el boton de la cabecera acababa mostrando
+             los 8 primeros caracteres del id (2370d42b) en vez del
+             nombre, porque no habia nada mas de donde sacarlo. */
+          var ficha = (typeof OdisseySupabase.perfilActualSync === 'function')
+            ? OdisseySupabase.perfilActualSync() : null;
+          if (ficha) {
+            return {
+              id: ficha.id || id,
+              username: ficha.username || '',
+              avatar: ficha.avatar_url || '',
+              banner: ficha.banner_url || '',
+              accent: ficha.accent_color || '',
+              mcName: ficha.mc_name || '',
+              rol: ficha.rol || 'user',
+            };
+          }
+          var guardados = null;
+          try {
+            guardados = JSON.parse(localStorage.getItem(CLAVE_USUARIO) || 'null');
+          } catch (x) { guardados = null; }
+          var u = (guardados && guardados.id) ? guardados : {};
+          u.id = id;
+          if (!u.username) u.username = id.slice(0, 8);
+          return u;
+        }
+      }
+      var v = JSON.parse(localStorage.getItem(CLAVE_USUARIO) || 'null');
+      return v && v.id ? v : null;
     } catch (e) { return null; }
   }
 
@@ -1243,12 +1284,40 @@ function alCargar() {
        Es lo que hace que las llamadas a /api/... dejen de ir al bot: se
        atienden desde Supabase. Sin esto, cada pagina intentaria hablar
        con un servidor que ya no existe. */
-    if (window.OdisseyDatos && !window.OdisseyDatos.instalado) {
-      Promise.resolve(window.OdisseySupabase && window.OdisseySupabase.obtener({ esperarSesion: false }))
-        .then(function () { return window.OdisseyDatos.instalar(); })
-        .then(function () { window.OdisseyDatos.instalado = true; })
-        .catch(function () { /* si Supabase no llega, las /api/ fallaran de forma limpia */ });
-    }
+if (window.OdisseyDatos && !window.OdisseyDatos.instalado) {
+    Promise.resolve(window.OdisseySupabase && window.OdisseySupabase.obtener({ esperarSesion: false }))
+      .then(function () { return window.OdisseyDatos.instalar(); })
+      .then(function () { window.OdisseyDatos.instalado = true; })
+      .catch(function () { /* si Supabase no llega, las /api/ fallaran de forma limpia */ });
+  }
+
+  /* Volver a pintar el boton de la cabecera cuando la sesion ya este
+     resuelta.
+     actualizarBotonNav() se llama al final de este mismo script, pero en
+     ese momento Supabase todavia no ha-traducido la sesion de
+     localStorage: usuarioGuardado() devuelve null y el boton se queda
+     puesto en "Entrar" aunque haya alguien dentro. Es una carrera, y se
+     nota en cada recarga.
+
+     Se escucha el aviso de js/supabase.js, que es quien sabe cuando la
+     sesion esta de verdad. Asi da igual el orden de carga. */
+  if (typeof document !== 'undefined') {
+    document.addEventListener('odissey-sesion-lista', function () {
+      if (typeof actualizarBotonNav === 'function') actualizarBotonNav();
+      if (typeof actualizarBotonAdmin === 'function') actualizarBotonAdmin();
+    });
+  }
+
+  /* Y tambien se pide el perfil, que es lo que le da nombre y avatar al
+     boton. Puede llegar un instante despues que la sesion. */
+  if (window.OdisseySupabase) {
+    Promise.resolve(window.OdisseySupabase.obtener({ esperarSesion: false }))
+      .then(function () { return window.OdisseySupabase.refrescarPerfil(); })
+      .then(function () {
+        if (typeof actualizarBotonNav === 'function') actualizarBotonNav();
+      })
+      .catch(function () { /* sin sesion, el boton se queda en "Entrar" */ });
+  }
 
     // Los formularios sustituyen al botón de Discord que había antes.
     const loginView = document.getElementById('loginView');

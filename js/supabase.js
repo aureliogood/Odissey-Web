@@ -153,11 +153,47 @@
    * ------------------------------------------------------------------ */
   const sesion = { usuario: null, id: null, cache: false };
 
+  /* El perfil (nombre, avatar, color) tambien se necesita de un vistazo.
+     Hay codigo que monta la cabecera con el nombre y el avatar antes de
+     que ninguna promesa haya resuelto: si solo hubiera una version con
+     Promise, el boton se dibujaria vacio y luego cambiaria solo, que se
+     ve como un parpadeo. */
+  const ficha = { perfil: null, cache: false };
+
+  function marcarPerfil(p) {
+    ficha.perfil = p || null;
+    ficha.cache = true;
+    return ficha.perfil;
+  }
+
+  /** Perfil del usuario con sesion, o null. De un vistazo, sin esperar. */
+  function perfilActualSync() {
+    return ficha.cache ? ficha.perfil : null;
+  }
+
   function marcarSesion(u) {
     sesion.usuario = u || null;
     sesion.id = (u && u.id) || null;
     sesion.cache = true;
+    avisarSesion();
     return sesion.usuario;
+  }
+
+  /* Avisa de que la sesion ya esta decidida. Lo escucha auth.js para
+     repintar el boton de la cabecera.
+
+     Se dispara desde aqui y no desde un promise suelto en la pagina
+     porque el orden no esta garantizado: la cabecera se pinta al
+     principio, antes de que Supabase haya leido la sesion del
+     almacenamiento, y se quedaba en "Entrar" con el usuario dentro. */
+  function avisarSesion() {
+    try {
+      if (typeof document !== 'undefined' && typeof CustomEvent === 'function') {
+        document.dispatchEvent(new CustomEvent('odissey-sesion-lista', {
+          detail: { id: sesion.id },
+        }));
+      }
+    } catch (e) { /* si no se puede despachar, la pagina sigue igual */ }
   }
 
   async function observarSesion(sb) {
@@ -167,13 +203,32 @@
     } catch (e) {
       marcarSesion(null);
     }
+    /* El perfil no se puede pedir hasta saber quien es. Se pide aqui y en
+       cada cambio de sesion, para que la cabecera tenga el nombre y el
+       avatar desde el principio y no un instante mas tarde. */
+    await refrescarPerfil();
     try {
       sb.auth.onAuthStateChange(function (_evento, s) {
         marcarSesion(s ? s.user : null);
+        marcarPerfil(null);
+        refrescarPerfil();
       });
     } catch (e) {
       /* Si no se puede observar, el cache se queda con lo que hubiera.
-         Las funciones que lo usan comprueban sesion.cache antes. */
+         Las funciones que lo usan comprueban ficha.cache antes. */
+    }
+  }
+
+  /** Vuelve a pedir el perfil y lo deja en la cache. */
+  async function refrescarPerfil() {
+    try {
+      const u = usuarioActualSync();
+      if (!u) { marcarPerfil(null); return null; }
+      const sb = await rapido();
+      const { data } = await sb.from('profiles').select('*').eq('id', u).maybeSingle();
+      return marcarPerfil(data || null);
+    } catch (e) {
+      return marcarPerfil(null);
     }
   }
 
@@ -204,7 +259,9 @@
       if (!u) return null;
       const sb = await rapido();
       const { data } = await sb.from('profiles').select('*').eq('id', u.id).maybeSingle();
-      return data || null;
+      // Se deja en la cache tambien, para que el codigo sincronico que
+      // dibuja la cabecera lo tenga sin tener que esperar otra vez.
+      return marcarPerfil(data || null);
     } catch (e) {
       return null;
     }
@@ -216,6 +273,8 @@
     usuarioActual,
     usuarioActualSync,
     marcarSesion,
+    perfilActualSync,
+    refrescarPerfil,
     perfilActual,
     hayConfig,
     URL: URL_SUPABASE,

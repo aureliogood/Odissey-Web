@@ -572,11 +572,37 @@ try {
             if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) return 'supabase';
             return localStorage.getItem('odissey_discord_session');
         }
+        /* El bot guardaba aqui el usuario de Discord. Ese bot ya no existe, asi
+         * que esto solo se llenaba cuando el servidor de Discord回答aba, y con
+         * Supabase nunca se llenaba: la tarjeta de cuenta salia con "Cuenta de"
+         * y despues en blanco, y el boton de la cabecera no llevaba al perfil.
+         *
+         * Ahora sale del perfil de Supabase, con la misma forma de siempre. */
         function getDiscordUser() {
             try {
-                const u = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
-                return u && u.id ? u : null;
-            } catch (err) { return null; }
+                var guardado = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
+                if (guardado && guardado.id) return guardado;
+            } catch (err) { /* un valor roto no debe romper la pagina */ }
+        
+            var P = window.OdisseySupabase;
+            if (!P) return null;
+            var ficha = (typeof P.perfilActualSync === 'function') ? P.perfilActualSync() : null;
+            if (ficha) {
+                return {
+                    id: ficha.id,
+                    username: ficha.username || '',
+                    avatar: ficha.avatar_url || '',
+                    banner: ficha.banner_url || '',
+                    accent: ficha.accent_color || '',
+                    bio: ficha.bio || '',
+                    mcName: ficha.mc_name || '',
+                    rol: ficha.rol || 'user',
+                };
+            }
+            // Hay sesion pero el perfil todavia no ha llegado: se devuelve lo
+            // minimo para que la pagina sepa que hay alguien dentro.
+            var id = (typeof P.usuarioActualSync === 'function') ? P.usuarioActualSync() : null;
+            return id ? { id: id, username: '', avatar: '' } : null;
         }
         function getCurrentUser() {
             /* Primero Supabase; el metodo viejo queda como reserva. */
