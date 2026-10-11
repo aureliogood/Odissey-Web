@@ -2,41 +2,35 @@
 --  Odissey — almacenamiento de imágenes   ·   5 de 5
 --  EJECUTAR DESPUÉS de 01, 02 y 03.
 --
---  QUE HACE
---  ---------------------------------------------------------------------------
---  El bot guardaba los avatares y los banners en una carpeta del proyecto y
---  servía las URLs. En Supabase eso es "Storage": un sitio pensado para
---  subir archivos sin montarte nada.
+--  ESTE FICHERO SOLO CREA COSAS. NO TIENE COMPROBACIONES.
 --
---  EL CUBO
---  ---------------------------------------------------------------------------
---  'perfiles' es publico para LEER: el avatar se pinta en las tarjetas de
---  la web y en el perfil del staff, y ahi no hay sesion de por medio.
+--  Por qué: el editor de Supabase ejecuta el script entero como UNA sola
+--  transacción. Si la última consulta falla, se deshace TODO, incluido el
+--  cubo. Pasó dos veces: una comprobación con "public" sin comillas (que
+--  es palabra reservada) y otra con max() sobre un booleano (que no
+--  existe en Postgres) tiraron abajo la creación del cubo.
 --
---  Para ESCRIBIR no es publico: solo quien tenga sesion puede subir, y
---  solo a SU carpeta. Eso se comprueba con que la primera carpeta de la
---  ruta sea su propio id de usuario. Sin eso, cualquiera autenticado
---  podria cambiar el avatar de otro.
+--  Las comprobaciones se hacen aparte, desde fuera, contra la API pública
+--  de Storage. Menos piezas que pueden romperse, y el resultado es el que
+--  ve de verdad el navegador.
 --
---  LA RUTA DE LOS ARCHIVOS
---  ---------------------------------------------------------------------------
---     perfiles/<uuid del usuario>/avatar.jpg
---     perfiles/<uuid del usuario>/banner.jpg
---
---  El uuid es obligatorio en la ruta: es lo que permite que la politica
---  separe "mi imagen" de "la de otro" sin mirar el contenido del archivo.
 -- ============================================================================
 
 -- ---------------------------------------------------------------------------
---  El cubo
+--  EL CUBO
 -- ---------------------------------------------------------------------------
+--  'perfiles' es publico para LEER: el avatar se pinta en las tarjetas de
+--  la web y en el perfil del staff, y ahi no hay sesion de por medio.
+--
+--  Para ESCRIBIR no es publico: eso lo cisplatin las cuatro politicas de
+--  abajo, no el cubo.
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
   'perfiles',
   'perfiles',
   true,
   -- 4 MB. Es el mismo tope que ponia el bot, y de sobra para un avatar o
-  -- un banner. Un limite aqui evita que alguien llene el almacenamiento
+  -- un banner. El limite evita que alguien llene el almacenamiento
   -- subiendo un video por error.
   4194304,
   ARRAY['image/png', 'image/jpeg', 'image/gif', 'image/webp']
@@ -45,8 +39,10 @@ ON CONFLICT (id) DO NOTHING;
 
 
 -- ---------------------------------------------------------------------------
---  Lectura: todo el que este en el cubo
+--  LECTURA: cualquiera puede ver las imagenes
 -- ---------------------------------------------------------------------------
+--  Se lee a traves de una URL publica (getPublicUrl), sin sesion. Por eso
+--  esta politica no exige estar autenticado.
 DROP POLICY IF EXISTS "perfiles lectura" ON storage.objects;
 CREATE POLICY "perfiles lectura" ON storage.objects
   FOR SELECT
@@ -54,14 +50,22 @@ CREATE POLICY "perfiles lectura" ON storage.objects
 
 
 -- ---------------------------------------------------------------------------
---  Escritura: solo la carpeta que lleva tu propio id
+--  ESCRITURA: solo a la carpeta que lleva TU id
 -- ---------------------------------------------------------------------------
--- storage.foldername(name) devuelve las carpetas de la ruta. Con
--- 'd4f1.../avatar.jpg' devuelve ['d4f1...']. Se compara con el id de
--- quien esta autenticado.
+--  LA RUTA ES  perfiles/<uuid del usuario>/avatar.jpg
 --
--- Si alguien intentara subir a 'otra-carpeta/avatar.jpg', la carpeta seria
--- ['otra-carpeta'] y no coincidiria con su id: se rechaza.
+--  El uuid va SIEMPRE en la ruta, y no por capricho: es lo que permite
+--  que estas politicas digan "esta imagen es tuya" sin abrir el archivo ni
+--  mirar sus metadatos. Se lee con storage.foldername(name), que devuelve
+--  las carpetas de la ruta: para 'd4f1.../avatar.jpg' devuelve
+--  ['d4f1...'].
+--
+--  Si alguien intentara escribir en 'otra-carpeta/avatar.jpg', la carpeta
+--  seria ['otra-carpeta'], no coincidiria con su id y se rechaza. Esa es
+--  toda la proteccion: una comparacion, y no se puede saltar desde el
+--  navegador porque no es codigo del navegador, es la base de datos.
+-- ---------------------------------------------------------------------------
+
 DROP POLICY IF EXISTS "perfiles subir" ON storage.objects;
 CREATE POLICY "perfiles subir" ON storage.objects
   FOR INSERT
@@ -71,6 +75,8 @@ CREATE POLICY "perfiles subir" ON storage.objects
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
 
+-- Para cambiar (subir otra vez encima) y para borrar, con el mismo
+-- criterio: su carpeta y no la de otro.
 DROP POLICY IF EXISTS "perfiles cambiar" ON storage.objects;
 CREATE POLICY "perfiles cambiar" ON storage.objects
   FOR UPDATE
@@ -93,37 +99,16 @@ CREATE POLICY "perfiles borrar" ON storage.objects
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
 
-
--- ---------------------------------------------------------------------------
---  COMPROBACION
--- ---------------------------------------------------------------------------
---  1) ¿Existe el cubo?
-SELECT '1. Cubo perfiles' AS comprobacion,
-       CASE WHEN count(*) = 1 THEN 'ok' ELSE 'FALTA' END AS estado,
-       public::text AS resultado
-FROM storage.buckets WHERE id = 'perfiles';
-
---  2) ¿Las cuatro politicas?
-SELECT '2. Politicas' AS comprobacion,
-       count(*)::text || ' (se esperan 4)' AS resultado,
-       CASE WHEN count(*) = 4 THEN 'ok' ELSE 'REVISAR' END AS estado
-FROM pg_policies
-WHERE schemaname = 'storage' AND tablename = 'objects'
-  AND policyname LIKE 'perfiles %';
-
---  3) Anon NO puede escribir. Debe salir 0.
-SET LOCAL ROLE anon;
-SELECT '3. Anon puede subir' AS comprobacion,
-       CASE WHEN count(*) = 0 THEN 'ok' ELSE 'PELIGRO' END AS estado,
-       'intentos permitidos: ' || count(*)::text AS resultado
-FROM storage.buckets
-WHERE id = 'perfiles' AND public = true AND false;
-RESET ROLE;
-
---  4) El limite de tamaño y los tipos validos.
-SELECT '4. Limites del cubo' AS comprobacion,
-       (file_size_limit / 1048576)::text || ' MB, tipos: ' ||
-         array_length(allowed_mime_types, 1)::text AS resultado,
-       CASE WHEN file_size_limit = 4194304 AND array_length(allowed_mime_types, 1) = 4
-            THEN 'ok' ELSE 'REVISAR' END AS estado
-FROM storage.buckets WHERE id = 'perfiles';
+-- ============================================================================
+--  FIN
+--
+--  Comprobaciones (NO forman parte de este script, van aparte contra la
+--  API, y las hace quien te ayude con esto):
+--    1. El cubo 'perfiles' existe y es publico.
+--    2. Hay 4 politicas llamadas 'perfiles ...'.
+--    3. Ninguna politica de escritura es de tipo INSERT, UPDATE o DELETE
+--       para el rol 'anon'.
+--    4. Las tres de escritura comprueban (storage.foldername(name))[1]
+--       contra auth.uid().
+--    5. El limite son 4 MB y hay 4 tipos de imagen admitidos.
+-- ============================================================================
