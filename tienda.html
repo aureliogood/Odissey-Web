@@ -663,6 +663,11 @@ function productCard(product, delay) {
 const mcNameInput = document.getElementById('mcNameInput');
         const API_BASE = window.API_BASE || '';
         function getSessionToken() {
+            /* Antes esto era el token del bot, que ya no existe: la sesion la
+               lleva Supabase. Aqui se devuelve un testigo para que el codigo que
+               aun pregunta "hay sesion?" siga funcionando. NO sirve para
+               autenticarse: eso lo hace Supabase contra la base de datos. */
+            if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) return 'supabase';
             return localStorage.getItem('odissey_discord_session');
         }
         function getDiscordUser() {
@@ -672,6 +677,10 @@ const mcNameInput = document.getElementById('mcNameInput');
             } catch (err) { return null; }
         }
         function getCurrentUser() {
+            /* Primero Supabase; el metodo viejo queda como reserva. */
+            if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) {
+                return window.OdisseySupabase.usuarioActualSync();
+            }
             const u = getDiscordUser();
             return u ? u.id : null;
         }

@@ -959,10 +959,31 @@ function mostrarVista(vista) {
     const email = valor('authRegMail').trim();
     const password = valor('authRegPass');
 
-    let r;
+let r;
+try {
+  const cliente = await sb();
+
+  /* Se mira antes de llamar a signUp si el nombre sigue libre. El trigger
+     crear_perfil() ya no rompe el alta si esta ocupado (le mete un
+     "_2", un "_3"...) pero es mejor avisar aqui: una persona que elige
+     "juan" quiere llamarse juan, no juan_2, y enterarse al instante le
+     deja poner otro sin perder la cuenta que acaba de crear. */
+  if (username) {
     try {
-      const cliente = await sb();
-      r = await cliente.auth.signUp({
+      const { data: libre, error: errLibre } = await cliente.rpc('nombre_disponible', { nombre: username });
+      if (!errLibre && libre === false) {
+        estadoBoton(boton, false);
+        mostrarError('authErrorRegistro', t('usuarioDuplicado'));
+        marcarCampoDelError(t('usuarioDuplicado'));
+        return;
+      }
+    } catch (e) {
+      /* Si la comprobacion falla por lo que sea, no se bloquea el alta:
+         el trigger la resuelve equally. */
+    }
+  }
+
+  r = await cliente.auth.signUp({
         email: email,
         password: password,
         options: {

@@ -14,25 +14,50 @@
 -- ============================================================================
 --  ALTA DE PERFIL
 -- ============================================================================
+--  ATENCIÓN, esto se cambió: antes, si el nombre pedido ya estaba pillado,
+--  el INSERT reventaba con "Database error saving new user" y el alta se
+--  perdía entera. El visitante veía un error en inglés sin saber qué hacer,
+--  y encima no podía registrarse con un nombre libre del todo, porque el
+--  choque era con el que le habían puesto.
+--
+--  Ahora se busca un nombre libre: se prueba el que pidió y, si está
+--  ocupado, se le van añadiendo sufijos ("juan" -> "juan_2"). El alta
+--  SIEMPRE sale bien y la persona puede renombrarse después desde su perfil.
+--
+--  Y para que el aviso llegue antes, el formulario consulta la función
+--  nombre_disponible() de abajo y avisa en el momento, no al final.
+-- ============================================================================
 CREATE OR REPLACE FUNCTION public.crear_perfil()
 RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  pedido  text;
+  base    text;
+  elegido text;
+  intento int := 1;
 BEGIN
+  pedido := coalesce(
+    NULLIF(btrim(NEW.raw_user_meta_data ->> 'username'), ''),
+    NULLIF(split_part(coalesce(NEW.email, ''), '@', 1), ''),
+    'usuario'
+  );
+
+  -- Si el nombre que mandan no cumple el formato (o es demasiado corto),
+  -- no se intenta ni siquiera: se arranca de 'usuario'. El trigger
+  -- validar_username() habria rechazado el alta igualmente.
+  base := CASE WHEN pedido ~ '^[A-Za-z0-9_]{3,20}$' THEN pedido ELSE 'usuario' END;
+
+  elegido := base;
+  WHILE EXISTS (SELECT 1 FROM public.profiles WHERE username_lower = lower(elegido)) LOOP
+    intento := intento + 1;
+    EXIT WHEN intento > 10000;
+    -- Se recorta la base lo justo para que cabgan el "_" y el sufijo y
+    -- el total no pase de 20, que es el limite del formato.
+    elegido := left(base, 20 - length(intento::text) - 1) || '_' || intento::text;
+  END LOOP;
+
   INSERT INTO public.profiles (id, username, username_lower, rol)
-  VALUES (
-    NEW.id,
-    coalesce(
-      NEW.raw_user_meta_data->>'username',
-      split_part(NEW.email, '@', 1),
-      'usuario'
-    ),
-    lower(coalesce(
-      NEW.raw_user_meta_data->>'username',
-      split_part(NEW.email, '@', 1),
-      'usuario'
-    )),
-    'user'
-  )
+  VALUES (NEW.id, elegido, lower(elegido), 'user')
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END $$;
@@ -160,6 +185,31 @@ END $$;
 -- con la sesion de service_role ni por anon sin sesion.
 GRANT EXECUTE ON FUNCTION public.correo_por_usuario(text) TO authenticated;
 REVOKE EXECUTE ON FUNCTION public.correo_por_usuario(text) FROM anon;
+
+
+-- ============================================================================
+--  NOMBRE LIBRE
+--
+--  La pagina de registro la llama antes de dar al enviar, para poder decir
+--  "ese nombre ya esta pillado" en el momento, en vez de que el alta entera
+--  falle con un error de base de datos que no dice nada.
+--
+--  Se puede llamar sin sesion porque no hay nada secreto: los perfiles ya
+--  son publicos de por si (RLS los deja leer a cualquiera para que se vea
+--  quien es quien), asi que saber que un nombre esta ocupado no facilita
+--  nada que antes no se pudiera ver.
+-- ============================================================================
+CREATE OR REPLACE FUNCTION public.nombre_disponible(nombre text)
+RETURNS boolean
+LANGUAGE sql STABLE AS $$
+  SELECT
+    coalesce(nombre, '') ~ '^[A-Za-z0-9_]{3,20}$'
+    AND NOT EXISTS (
+      SELECT 1 FROM public.profiles WHERE username_lower = lower(nombre)
+    );
+$$;
+
+GRANT EXECUTE ON FUNCTION public.nombre_disponible(text) TO anon, authenticated;
 
 
 -- ============================================================================

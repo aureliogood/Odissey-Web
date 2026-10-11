@@ -405,6 +405,73 @@
       return responder({ ok: true, users: data || [] });
     }
 
+    // ---- valoraciones ----
+    /* La RLS ya obliga a que user_id sea el de la sesion, asi que aqui no
+       se toca: se manda user_id: u.id y si alguien manipulase el cuerpo,
+       la base de datos lo rechazaria igual. */
+    if (ruta === '/api/ratings' && metodo === 'POST') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const staff = cuerpo && cuerpo.staff ? String(cuerpo.staff).trim().toLowerCase() : '';
+      const stars = Number(cuerpo && cuerpo.stars);
+      const comentario = cuerpo && cuerpo.comment ? String(cuerpo.comment).trim().slice(0, 500) : '';
+      const dispositivo = cuerpo && cuerpo.deviceId ? String(cuerpo.deviceId) : '';
+      if (!staff || !(stars >= 1 && stars <= 5)) {
+        return responder({ ok: false, error: 'datos_invalidos' }, 400);
+      }
+      /* Un solo voto por miembro del staff. Antes lo controlaba el bot por
+         dispositivo; aqui se comprueba por dispositivo Y por cuenta, que
+         es lo mismo pero mas dificil de esquivar cambiando de navegador. */
+      const { data: previas } = await sb.from('ratings').select('user_id,device_id')
+        .eq('staff', staff);
+      const repetido = (previas || []).some(function (r) {
+        return r.user_id === u.id || (dispositivo && r.device_id === dispositivo);
+      });
+      if (repetido) return responder({ ok: false, error: 'ya_valorado' }, 409);
+      const id = 'rt_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      const { data, error } = await sb.from('ratings').insert({
+        id: id, user_id: u.id, staff: staff, stars: stars,
+        comment: comentario, device_id: dispositivo,
+      }).select().single();
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      return responder({ ok: true, rating: data });
+    }
+
+    /* Quitar tu propia valoracion. La RLS solo deja borrar las propias, y
+       el .eq('user_id') es una comprobacion extra, no la unica. */
+    if (ruta.indexOf('/api/ratings/') === 0 && metodo === 'DELETE') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      let staff = ruta.slice('/api/ratings/'.length);
+      try { staff = decodeURIComponent(staff); } catch (e) { /* se usa tal cual */ }
+      staff = String(staff).trim().toLowerCase();
+      const { error } = await sb.from('ratings').delete().eq('staff', staff).eq('user_id', u.id);
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      return responder({ ok: true });
+    }
+
+    // ---- reportes ----
+    if (ruta === '/api/reports' && metodo === 'POST') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const target = cuerpo && cuerpo.target ? String(cuerpo.target).trim().slice(0, 64) : '';
+      const reason = cuerpo && cuerpo.reason ? String(cuerpo.reason).trim().slice(0, 120) : 'Reporte';
+      const detail = cuerpo && cuerpo.detail ? String(cuerpo.detail).trim().slice(0, 2000) : '';
+      const capture = cuerpo && cuerpo.capture ? String(cuerpo.capture).trim().slice(0, 500) : '';
+      if (!target) return responder({ ok: false, error: 'datos_invalidos' }, 400);
+      const id = 'rp_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      const { data, error } = await sb.from('reports').insert({
+        id: id, user_id: u.id, target: target, reason: reason,
+        detail: detail, capture: capture, status: 'nuevo',
+      }).select().single();
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      return responder({ ok: true, report: data });
+    }
+
+    /* Los reportes ya no abren ticket de Discord: eso se retiro. La pagina
+       sigue llamando aqui, asi que se responde sin hacer nada en vez de
+       dejar un error suelto en la consola. */
+    if (ruta === '/api/reports/ticket' && metodo === 'POST') {
+      return responder({ ok: true, ignorado: true });
+    }
+
     // ---- listings ----
     const LISTAS = {
       '/api/reports': 'reports',

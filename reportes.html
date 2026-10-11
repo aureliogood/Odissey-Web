@@ -543,6 +543,11 @@ try {
         const mcNameInput = document.getElementById('mcNameInput');
         const API_BASE = window.API_BASE || '';
         function getSessionToken() {
+            /* Antes esto era el token del bot, que ya no existe: la sesion la
+               lleva Supabase. Aqui se devuelve un testigo para que el codigo que
+               aun pregunta "hay sesion?" siga funcionando. NO sirve para
+               autenticarse: eso lo hace Supabase contra la base de datos. */
+            if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) return 'supabase';
             return localStorage.getItem('odissey_discord_session');
         }
         function getDiscordUser() {
@@ -552,6 +557,10 @@ try {
             } catch (err) { return null; }
         }
         function getCurrentUser() {
+            /* Primero Supabase; el metodo viejo queda como reserva. */
+            if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) {
+                return window.OdisseySupabase.usuarioActualSync();
+            }
             const u = getDiscordUser();
             return u ? u.id : null;
         }
@@ -1367,28 +1376,13 @@ function roleKey(role) {
             reportDetail.value = '';
             reportCapture.value = '';
             closeReportModal();
-            const message = `**Jugador reportado:** ${target}\n**Motivo:** ${reason}` +
-                (detail ? `\n**Detalles:** ${detail}` : '') +
-                (capture ? `\n**Captura:** ${capture}` : '');
-            let ticketResult = null;
-            try {
-                const r = await fetch(API_BASE + '/api/tickets', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token, category: 'reporte', message: message })
-                });
-                ticketResult = await r.json();
-            } catch (err) { ticketResult = null; }
-            if (ticketResult && ticketResult.ok) {
-                if (reportId) {
-                    SiteData.post('/api/reports/ticket', { token: token, id: reportId, ticketId: String(ticketResult.ticket.id) });
-                }
-                showNotification('📩 Reporte enviado. Ticket #' + ticketResult.ticket.id + ' abierto en Discord.');
-            } else {
-                showNotification(getLang() === 'en'
-                    ? 'Report saved. Opening the ticket failed.'
-                    : 'Reporte guardado. No se pudo abrir el ticket.');
-            }
+            
+            /* Los tickets de Discord se retiraron. El reporte queda
+               guardado en Supabase y lo revisa el staff desde el panel,
+               asi que aqui no hay que avisar de ningun fallo. */
+            showNotification(getLang() === 'en'
+                ? 'Report sent. Our staff will review it soon.'
+                : 'Reporte enviado. Nuestro staff lo revisara pronto.');
             SiteData.reloadMy(token).then(() => renderMyReportsAndTickets());
 
             /* A la pagina de gracias: el visitante ve que si, que esta

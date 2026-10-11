@@ -618,6 +618,11 @@ Antes era un div: Enter no hacia nada y un
 
         // ---------- Estado de sesión ----------
         function getSessionToken() {
+            /* Antes esto era el token del bot, que ya no existe: la sesion la
+               lleva Supabase. Aqui se devuelve un testigo para que el codigo que
+               aun pregunta "hay sesion?" siga funcionando. NO sirve para
+               autenticarse: eso lo hace Supabase contra la base de datos. */
+            if (window.OdisseySupabase && window.OdisseySupabase.usuarioActualSync()) return 'supabase';
             return localStorage.getItem('odissey_discord_session');
         }
 

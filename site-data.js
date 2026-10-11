@@ -190,4 +190,32 @@
 
   if (typeof window !== 'undefined') window.SiteData = SiteData;
   if (typeof module !== 'undefined' && module.exports) module.exports = SiteData;
+
+  /* ------------------------------------------------------------------
+   * irAGracias(tipo)
+   *
+   * lleva a gracias.html con el motivo, para que quien acaba de enviar
+   * algo vea un "ya lo hemos recibido" y el siguiente paso, en vez de un
+   * aviso verde que se le pasa en dos segundos.
+   *
+   * ESTA FUNCION SE LLAMABA DESDE 13 PAGINAS Y NO ESTABA DEFINIDA EN NINGUNA.
+   * No se notaba porque la ruta de reportes se paraba antes de llegar aqui
+   * (por el bug de la sesion); al arreglar eso, salto el error de golpe.
+   *
+   * El tipo se comprueba contra una lista y se pasa por encodeURIComponent,
+   * para que nada que venga de fuera se able meter en la URL.
+   * ------------------------------------------------------------------ */
+  if (typeof window !== 'undefined') {
+    var TIPOS_GRACIAS = ['reporte', 'valoracion', 'soporte', 'compra', 'postulacion', 'general'];
+
+    window.irAGracias = function irAGracias(tipo) {
+      var t = TIPOS_GRACIAS.indexOf(tipo) !== -1 ? tipo : 'general';
+      try {
+        window.location.href = 'gracias.html?tipo=' + encodeURIComponent(t);
+      } catch (err) {
+        /* Si la navegacion falla (por ejemplo dentro de un iframe), no
+           pasa nada grave: el formulario ya esta enviado y guardado. */
+      }
+    };
+  }
 })();

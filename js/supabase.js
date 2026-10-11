@@ -119,6 +119,7 @@
         },
       });
       cliente = nuevo;
+      observarSesion(nuevo);
       return nuevo;
     })();
 
@@ -136,6 +137,51 @@
     return obtener({ esperarSesion: false });
   }
 
+  /* ------------------------------------------------------------------
+   * Usuario con sesion, pero SIN esperar.
+   *
+   * Hay sitios que necesitan saber al instante si hay alguien dentro, y no
+   * pueden esperar a una promesa: los formularios que avisan antes de enviar
+   * ("conectate para reportar"), el boton de mi cuenta, el badge de la
+   * cabecera. Con Promise, el boton se pintaria "entrar" durante un instante
+   * aunque haya sesion, y eso se ve como un parpadeo.
+   *
+   * Asi que se guarda una copia sincronica que se refresca sola con
+   * onAuthStateChange. Si en algun momento el listener no llegara a
+   * dispararse, es_cache() se queda en false y el codigo que dependa de
+   * esto cae por el camino viejo, que es lo seguro.
+   * ------------------------------------------------------------------ */
+  const sesion = { usuario: null, id: null, cache: false };
+
+  function marcarSesion(u) {
+    sesion.usuario = u || null;
+    sesion.id = (u && u.id) || null;
+    sesion.cache = true;
+    return sesion.usuario;
+  }
+
+  async function observarSesion(sb) {
+    try {
+      const { data } = await sb.auth.getSession();
+      marcarSesion(data && data.session ? data.session.user : null);
+    } catch (e) {
+      marcarSesion(null);
+    }
+    try {
+      sb.auth.onAuthStateChange(function (_evento, s) {
+        marcarSesion(s ? s.user : null);
+      });
+    } catch (e) {
+      /* Si no se puede observar, el cache se queda con lo que hubiera.
+         Las funciones que lo usan comprueban sesion.cache antes. */
+    }
+  }
+
+  /** Id del usuario con sesion, o null. De un vistazo, sin esperar. */
+  function usuarioActualSync() {
+    return sesion.cache ? sesion.id : null;
+  }
+
   /**
    * Usuario con sesion abierta, o null.
    * No lanza: casi ningun sitio necesita Handlebars cuando no hay nadie
@@ -145,7 +191,7 @@
     try {
       const sb = await obtener({ esperarSesion: false });
       const { data } = await sb.auth.getSession();
-      return (data && data.session && data.session.user) || null;
+      return marcarSesion((data && data.session && data.session.user) || null);
     } catch (e) {
       return null;
     }
@@ -168,6 +214,8 @@
     obtener,
     rapido,
     usuarioActual,
+    usuarioActualSync,
+    marcarSesion,
     perfilActual,
     hayConfig,
     URL: URL_SUPABASE,
