@@ -1,14 +1,25 @@
 /* ============================================================================
-   ODISSEY — La isla del hero
+   ODISSEY — Degradado iridiscente del hero
    ----------------------------------------------------------------------------
-   Isla flotante en isometrico con Steve encima, un arbol, una antorcha que
-   parpadea y unas luciernagas. Todo con los sprites que ya habia en
-   js/dala-art.js: no se anade ninguna imagen ni ninguna fuente.
+   Un verde salvia que se disuelve en ambar y acaba en oxblood, moviéndose
+   despacio y sin parar. Es el unico color de la pagina: la interfaz es
+   negra y blanca, y esto va detras, como luz.
 
-   POR QUE EXISTE
-   El <canvas id="dalaConstellation"> estaba en el HTML desde el principio,
-   con su CSS y su espacio reservado... y sin una linea de codigo que lo
-   pintara. La columna derecha se quedaba en negro.
+   QUE NO ES
+   No es un degradado plano. Un linear-gradient se queda quieto y se lee
+   como una franja de color; esto se mueve y nunca se repite igual, que es
+   lo que lo hace parecer liquido.
+
+   COMO ESTA HECHO
+   Se dibuja en un lienzo DIMINUTO (unos 100 px de lado) y luego se escala
+   al tamaño real. Al ampliarlo, el navegador interpola y sale suave de
+   verdad. Es el mismo truco que usan los fondos de niebla: ademas de
+   quedar mejor, es muchisimo mas barato que difuminar un lienzo grande,
+   que obliga a la GPU a repintar millones de pixeles por fotograma.
+
+   Ademas lleva un grano finísimo encima. Sin el, un degradado tan grande
+   en unos pocos tonos produce bandas horizontales visibles en pantallas
+   normales: el "escalonado" de los colores. El grano las rompe.
    ============================================================================ */
 (function (global) {
   'use strict';
@@ -19,61 +30,72 @@
   var ctx = lienzo.getContext('2d');
   if (!ctx) return;
 
-  function arte() { return global.DalaArt; }
+  /* Los tres colores de la referencia:
+       salvia -> ambar -> oxblood, con un blanco para los brillos. */
+  var SALVIA = [160, 224, 171];
+  var AMBAR = [255, 172, 46];
+  var OXBLOOD = [165, 45, 37];
+  var HUES = [SALVIA, AMBAR, OXBLOOD, SALVIA, AMBAR, OXBLOOD, [255, 236, 210]];
 
-  /* Antorcha: poste de madera con la punta encendida. Se pinta aqui con la
-     MISMA paleta que exporta el motor, para que el color sea exactamente
-     el de los bloques de al lado. */
-  var ANTORCHA = [
-    '...yyy...',
-    '..yfyfy..',
-    '..yfyfy..',
-    '...fFf...',
-    '....b....',
-    '....b....',
-    '....b....',
-    '....b....',
-    '....B....',
-    '...BBB...',
-  ];
+  /* Lado del lienzo diminuto. 96 px da una transicion muy suave al
+     ampliar y sigue siendo barato de pintar. */
+  var LADO = 96;
 
-  /* Steve sin las cuatro filas de suelo.
-     El sprite de dala-art.js acaba con cuatro filas de hierba y tierra:
-     estaba pensado para un dibujo donde el personaje salia sobre un bloque
-     y asi no hacia falta sombra. Aqui, con el bloque ya dibujado debajo,
-     esas filas salian como una barra oscura bajo los pies y parecian que
-     Steve flotaba. Se quitan y se le pone su propia sombra. */
-  var STEVE = [
-    '....jjjjjjjj....', '....jJJJJJJj....', '....jjjjjjjj....', '....qqqqqqqq....',
-    '....qVVvVVVq....', '....qVVvVVVq....', '....qNNNNNNq....', '....qqqqqqqq....',
-    'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz',
-    'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz',
-    'AAAAAAAAAAAAaaAA', 'aaaaAAAAaaaaaaAA', 'aaaaAAAAaaaaaaAA', 'aaaaAAAAaaaaaaAA',
-    'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa',
-  ];
+  var chico = document.createElement('canvas');
+  chico.width = LADO;
+  chico.height = LADO;
+  var cctx = chico.getContext('2d');
 
-  function pintarSprite(cnv, filas, x, y, px) {
-    var PAL = arte().PAL;
-    var ancho = filas[0].length;
-    var x0 = Math.round(x - (ancho * px) / 2);
-    var y0 = Math.round(y - (filas.length * px) / 2);
-    for (var f = 0; f < filas.length; f++) {
-      var fila = filas[f];
-      for (var c = 0; c < ancho; c++) {
-        var ch = fila.charAt(c);
-        if (ch === '.' || !PAL[ch]) continue;
-        cnv.fillStyle = PAL[ch];
-        cnv.fillRect(x0 + c * px, y0 + f * px, px, px);
-      }
+  /* Cada mancha: color, amplitud y ritmo propios. Con numeros distintos
+     los periodos no coinciden nunca y el conjunto no se repite a la vista,
+     aunque en realidad sea periodico. */
+  var manchas = HUES.map(function (color, i) {
+    var semilla = i * 2.399963; /* numero aureo: reparte bien los fases */
+    return {
+      color: color,
+      fx: 0.10 + (i % 3) * 0.037,
+      fy: 0.083 + ((i + 1) % 4) * 0.029,
+      px: semilla,
+      py: semilla * 1.7,
+      cx: 0.5 + 0.30 * Math.sin(semilla),
+      cy: 0.5 + 0.26 * Math.cos(semilla * 0.8),
+      ax: 0.26 + (i % 2) * 0.11,
+      ay: 0.21 + ((i + 1) % 3) * 0.08,
+      r0: 0.34 + ((i * 5) % 7) * 0.035,
+      rf: 0.13 + ((i * 3) % 5) * 0.028,
+      rp: semilla * 2.3,
+    };
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* El grano que rompe las bandas de color                              */
+  /* ------------------------------------------------------------------ */
+
+  var grano = null;
+  function granoPatron(cnv) {
+    if (grano) return grano;
+    var t = document.createElement('canvas');
+    t.width = 64;
+    t.height = 64;
+    var c = t.getContext('2d');
+    var img = c.createImageData(64, 64);
+    var d = img.data;
+    for (var i = 0; i < d.length; i += 4) {
+      /* Ruido entre 0 y 255, pero repartido: se usa como alfa. */
+      var v = 118 + Math.floor(Math.random() * 74);
+      d[i] = d[i + 1] = d[i + 2] = v;
+      d[i + 3] = 26;
     }
+    c.putImageData(img, 0, 0);
+    grano = cnv.createPattern(t, 'repeat');
+    return grano;
   }
 
   /* ------------------------------------------------------------------ */
-  /* Medidas                                                             */
+  /* Pintado                                                              */
   /* ------------------------------------------------------------------ */
 
   var e = null;
-  var RADIO = 4.6;
 
   function medir() {
     var caja = lienzo.parentElement;
@@ -81,212 +103,94 @@
     var alto = caja ? caja.clientHeight : 0;
     if (!ancho || !alto) return false;
 
-    var dpr = Math.min(global.devicePixelRatio || 1, 2);
-    lienzo.width = Math.round(ancho * dpr);
-    lienzo.height = Math.round(alto * dpr);
+    var dpr = Math.min(global.devicePixelRatio || 1, 1.5);
+    lienzo.width = Math.max(1, Math.round(ancho * dpr));
+    lienzo.height = Math.max(1, Math.round(alto * dpr));
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    /* La isla ocupa de lado a lado 4 * RADIO * hw. Se elige hw para que
-       entre con aire: si se pasa de ancho, la isla toca los bordes y
-       parece una plancha recortada en vez de una isla. */
-    var hw = Math.max(8, Math.min(ancho, alto) / (RADIO * 4 + 1));
-
-    e = {
-      ancho: ancho,
-      alto: alto,
-      hw: hw,
-      hh: hw / 2,
-      /* Canto del bloque. Un poco MAS que la mitad del ancho del rombo,
-         que es lo que hace que un bloque parezca un cubo y no una
-         lamina. Con 0,42 (lo que habia) las capas de abajo se metian
-         debajo de las de arriba y la isla salia sin fondo. */
-      hgt: Math.round(hw * 0.50),
-      cx: ancho / 2,
-      cy: alto * 0.46,
-    };
-    /* Steve mide casi dos bloques de alto. Es la mascara de la pagina:
-       un poco mas grande de lo real, para que se lea desde el movil. */
-    e.pxSteve = Math.max(3, Math.round(hw / 7));
+    e = { ancho: ancho, alto: alto };
     return true;
   }
 
-  /* Posicion de la cara superior del bloque (gx, gy).
-       nivel  = por debajo de la superficie (positivo = mas abajo)
-       altura = por encima (un arbol, una antorcha) */
-  function casilla(gx, gy, nivel, altura) {
-    return {
-      x: e.cx + (gx - gy) * e.hw,
-      y: e.cy + (gx + gy) * e.hh + (nivel || 0) * e.hgt - (altura || 0) * e.hgt,
-    };
-  }
+  function pintar(t) {
+    if (!e) return;
 
-  /* La superficie, que es donde se pisan las cosas. */
-  function suelo(gx, gy, altura) {
-    var p = casilla(gx, gy, 0, altura);
-    return { x: p.x, y: p.y + e.hgt };
-  }
+    /* --- 1. Fondo, en el lienzo diminuto --- */
+    cctx.globalCompositeOperation = 'source-over';
+    cctx.fillStyle = '#05060a';
+    cctx.fillRect(0, 0, LADO, LADO);
 
-  /* ------------------------------------------------------------------ */
-  /* La isla                                                              */
-  /* ------------------------------------------------------------------ */
+    /* --- 2. Las manchas, sumandolas ('lighter') --- */
+    /* 'lighter' es lo que hace que se.sumen las luces y no que se
+       tapan: dos manchas de color distintas se mezclan en un tono
+       nuevo en vez de que la de encima tape a la de abajo. */
+    cctx.globalCompositeOperation = 'lighter';
 
-  /* Casillas de un circulo, no de un rombo. Un rombo con los mismos lados
-     es una plancha de esquinas: es lo que parecia la primera version. */
-  function circulo(r) {
-    var out = [];
-    var n = Math.ceil(r);
-    for (var gx = -n; gx <= n; gx++) {
-      for (var gy = -n; gy <= n; gy++) {
-        if (gx * gx + gy * gy <= r * r) out.push([gx, gy]);
-      }
-    }
-    return out;
-  }
+    manchas.forEach(function (m) {
+      var x = m.cx + m.ax * Math.sin(t * m.fx + m.px);
+      var y = m.cy + m.ay * Math.cos(t * m.fy + m.py);
+      var r = m.r0 + m.rf * Math.sin(t * m.rf + m.rp);
 
-/* La segunda capa mantiene el MISMO radio que la primera, y por eso se ve
-     entera: al no estrecharse, su cara de delante cae justo debajo de la
-     de arriba y no queda tapada. Si se estrecha desde el primer nivel, la
-     roca se mete por dentro de la tierra y la isla sale como un disco
-     verde con un filo. A partir de la segunda ya se va encogiendo, que
-     es lo que le da la forma de isla flotante. */
-  var CAPAS = [
-    { r: RADIO, nivel: 0, tex: { top: 'cesped_top', left: 'cesped_lado', right: 'cesped_lado' } },
-    { r: RADIO, nivel: 1, tex: { top: 'dirt', side: 'dirt' } },
-    { r: RADIO - 1.0, nivel: 2, tex: { top: 'dirt', side: 'dirt' } },
-    { r: RADIO - 1.7, nivel: 3, tex: { top: 'piedra', side: 'piedra' } },
-    { r: RADIO - 2.3, nivel: 4, tex: { top: 'piedra', side: 'piedra' } },
-    { r: RADIO - 2.9, nivel: 5, tex: { top: 'piedra', side: 'piedra' } },
-  ];
+      var cx = x * LADO;
+      var cy = y * LADO;
+      var rr = r * LADO;
+      var c = m.color;
 
-  /* Un arbol: tronco de dos bloques y copa de hojas. */
-  var ARBOL = { gx: -2, gy: -1 };
-  var MONTANA = { gx: 2, gy: -2, altura: [1, 2] };
+      var g = cctx.createRadialGradient(cx, cy, 0, cx, cy, rr);
+      /* El centro casi opaco y el borde del todo transparente: si se
+         llega al final con opacidad 0 de golpe se ve un aro.
 
-  function bloques() {
-    var lista = [];
-    CAPAS.forEach(function (capa) {
-      circulo(capa.r).forEach(function (g) {
-        lista.push({ gx: g[0], gy: g[1], nivel: capa.nivel, altura: 0, tex: capa.tex });
-      });
+         Y los numeros son bajos a proposito. La referencia pide una luz
+         fundida, no un cartel fluorescente: con estos valores se ve el
+         color pero el negro de la pagina sigue mandando, que es lo que
+         hace que encaje al lado de texto blanco. */
+      g.addColorStop(0, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.62)');
+      g.addColorStop(0.45, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.24)');
+      g.addColorStop(1, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0)');
+      cctx.fillStyle = g;
+      cctx.fillRect(0, 0, LADO, LADO);
     });
 
-/* El arbol va ENCIMA de la superficie, asi que altura > 0.
-       Tronco de dos bloques y copa de cuatro, en cruz, como en el juego. */
-    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 0, tex: { top: 'tronco', side: 'tronco' } });
-    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 1, tex: { top: 'tronco', side: 'tronco' } });
-    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 2, tex: { top: 'tronco', side: 'tronco' } });
-    [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]].forEach(function (d) {
-      lista.push({
-        gx: ARBOL.gx + d[0], gy: ARBOL.gy + d[1], nivel: 0, altura: 3,
-        tex: { top: 'hojas', side: 'hojas' },
-      });
-    });
-lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 4, tex: { top: 'hojas', side: 'hojas' } });
+    /* --- 2b. Borde blando ---
+       Sin esto el lienzo es un cuadrado de color con los lados rectos
+       encima de una pagina negra, y se ve como una pegatina. Se borra
+       hacia fuera con 'destination-in', que va dejando los pixeles
+       transparentes en vez de pintarlos de negro. */
+    cctx.globalCompositeOperation = 'destination-in';
+    /* El radio es MENOR que la mitad del lado, para que la mascara llegue
+       a cero ANTES de los bordes del cuadrado. Si llega justo al borde, en
+       el centro de cada lado todavia queda algo de alpha y se ve un
+       rectangulo claro alrededor de la mancha. */
+    var mask = cctx.createRadialGradient(LADO / 2, LADO / 2, 0, LADO / 2, LADO / 2, LADO * 0.54);
+    mask.addColorStop(0, 'rgba(0,0,0,1)');
+    mask.addColorStop(0.5, 'rgba(0,0,0,0.72)');
+    mask.addColorStop(0.78, 'rgba(0,0,0,0.20)');
+    mask.addColorStop(1, 'rgba(0,0,0,0)');
+    cctx.fillStyle = mask;
+    cctx.fillRect(0, 0, LADO, LADO);
 
-    /* Orden del pintor: primero lo de atras (gx+gy pequeno), y a igual
-       profundidad primero lo de mas abajo. Si se hace al reves se ven las
-       caras a traves de las de delante. */
-    lista.sort(function (a, b) {
-      if (a.gx + a.gy !== b.gx + b.gy) return (a.gx + a.gy) - (b.gx + b.gy);
-      if (a.nivel !== b.nivel) return b.nivel - a.nivel;
-      return a.altura - b.altura;
-    });
-    return lista;
-  }
+    /* --- 3. Volcar el diminuto al grande, ampliandolo con suavizado --- */
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, e.ancho, e.alto);
+    var antes = ctx.imageSmoothingEnabled;
+    ctx.imageSmoothingEnabled = true;
+    /* La forma "cover": el diminuto se estira hasta cubrir el lienzo, y si
+       sobra se recorta por el centro. */
+    ctx.drawImage(chico, 0, 0, LADO, LADO, 0, 0, e.ancho, e.alto);
+    ctx.imageSmoothingEnabled = antes;
 
-  function dibujarIsla(desplaz) {
-    var A = arte();
-    bloques().forEach(function (b) {
-      var p = casilla(b.gx, b.gy, b.nivel, b.altura);
-      A.cube(ctx, p.x, p.y + desplaz, e.hw, e.hh, e.hgt, b.tex);
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Steve                                                                */
-  /* ------------------------------------------------------------------ */
-
-function dibujarSteve(t, des) {
-    var px = e.pxSteve;
-    var altoSprite = STEVE.length * px;
-    var pie = suelo(2, 1, 0);
-    pie.y += des;
-
-    ctx.save();
-    ctx.globalAlpha = 0.20;
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.ellipse(pie.x, pie.y - 1, px * 0.85, px * 0.26, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    var bamboleo = Math.sin(t / 1500) * (e.hgt * 0.15);
-    pintarSprite(ctx, STEVE, pie.x, pie.y - altoSprite / 2 + bamboleo, px);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Antorcha                                                             */
-  /* ------------------------------------------------------------------ */
-
-  function dibujarAntorcha(t, des) {
-    var px = Math.max(3, Math.round(e.hw / 5));
-    var altoSprite = ANTORCHA.length * px;
-    var base = suelo(-1, 2, 0);
-    base.y += des;
-    var luzY = base.y - altoSprite;
-
-    /* No hay sprite de fuego. Se hace con un halo: un fuego dibujado con
-       caracteres de la paleta quedaria mas falso que una luz que late. */
-    var latido = 0.86 + Math.sin(t / 170) * 0.09 + Math.sin(t / 60) * 0.05;
-    var r = px * 11 * latido;
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    var halo = ctx.createRadialGradient(base.x, luzY, 0, base.x, luzY, r);
-    halo.addColorStop(0, 'rgba(255,200,110,' + (0.40 * latido).toFixed(3) + ')');
-    halo.addColorStop(0.35, 'rgba(255,145,45,0.14)');
-    halo.addColorStop(1, 'rgba(255,120,30,0)');
-    ctx.fillStyle = halo;
-    ctx.beginPath();
-    ctx.arc(base.x, luzY, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    pintarSprite(ctx, ANTORCHA, base.x, base.y - altoSprite / 2, px);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Luciernagas                                                          */
-  /* ------------------------------------------------------------------ */
-
-  var chispas = [];
-  function sembrar(n) {
-    chispas = [];
-    for (var i = 0; i < n; i++) {
-      chispas.push({
-        x: Math.random(), y: Math.random(),
-        v: 0.00012 + Math.random() * 0.00030,
-        f: 0.0015 + Math.random() * 0.003,
-        fase: Math.random() * Math.PI * 2,
-      });
-    }
-  }
-
-  function dibujarChispas(t, dt) {
-    for (var i = 0; i < chispas.length; i++) {
-      var c = chispas[i];
-      c.y -= c.v * dt;
-      if (c.y < -0.05) { c.y = 1.05; c.x = Math.random(); }
-      var x = c.x * e.ancho + Math.sin(t * c.f + c.fase) * 22;
-      var y = c.y * e.alto;
-      var brillo = 0.32 + 0.44 * Math.sin(t * c.f * 1.7 + c.fase);
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = 'rgba(255,214,120,' + brillo.toFixed(3) + ')';
-      ctx.beginPath();
-      ctx.arc(x, y, 2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
+    /* --- 4. El grano, encima ---
+       'source-atop' y no 'overlay': source-atop solo pinta donde YA hay
+       algo dibujado. Con overlay el grano se extendia por todo el
+       rectangulo del lienzo, tambien por las partes que la mascara habia
+       dejado transparentes, y se veia un borde vertical claro alrededor
+       de la mancha. */
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = granoPatron(ctx);
+    ctx.globalAlpha = 0.5;
+    ctx.fillRect(0, 0, e.ancho, e.alto);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
   }
 
   /* ------------------------------------------------------------------ */
@@ -295,7 +199,6 @@ function dibujarSteve(t, des) {
 
   var raf = null;
   var t0 = 0;
-  var ultimo = 0;
 
   function sinMovimiento() {
     try {
@@ -303,24 +206,10 @@ function dibujarSteve(t, des) {
     } catch (x) { return false; }
   }
 
-function pintar(t) {
-    ctx.clearRect(0, 0, e.ancho, e.alto);
-    /* El vaiven. Lo que esta SOBRE la isla tiene que moverse con ella:
-       si Steve se queda quieto, cuando la isla sube le come las piernas
-       y parece que se hunde. */
-    var des = Math.sin(t / 2300) * (e.hgt * 0.35);
-    dibujarIsla(des);
-    dibujarAntorcha(t, des);
-    dibujarSteve(t, des);
-  }
-
   function paso(ahora) {
     raf = global.requestAnimationFrame(paso);
-    if (!t0) { t0 = ahora; ultimo = ahora; }
-    var dt = Math.min(ahora - ultimo, 64);
-    ultimo = ahora;
-    pintar(ahora - t0);
-    dibujarChispas(ahora - t0, dt);
+    if (!t0) t0 = ahora;
+    pintar((ahora - t0) / 1000);
   }
 
   function arrancar() {
@@ -331,27 +220,18 @@ function pintar(t) {
     raf = global.requestAnimationFrame(paso);
   }
 
-  /* Con "reducir movimiento" se pinta UN fotograma y se para. */
+  /* Con "reducir movimiento" se pinta un fotograma y se para. Se ve igual
+     pero quieto, que es lo que pide quien tenga esa opcion puesta. */
   function pintarQuieto() {
     if (!medir()) return;
-    ctx.clearRect(0, 0, e.ancho, e.alto);
-    pintar(0);
-    ctx.save();
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.fillStyle = 'rgba(255,214,120,0.5)';
-    for (var i = 0; i < 20; i++) {
-      ctx.beginPath();
-      ctx.arc(Math.random() * e.ancho, Math.random() * e.alto, 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
+    pintar(3.4);
   }
 
   function iniciar() {
-    sembrar(26);
     if (sinMovimiento()) { pintarQuieto(); return; }
 
-    /* Fuera de pantalla no se dibuja. */
+    /* Fuera de pantalla no se dibuja: un rAF en una pestaña en segundo
+       plano es bateria gastada sin que se vea nada. */
     if (global.IntersectionObserver) {
       var io = new global.IntersectionObserver(function (entradas) {
         if (entradas[0].isIntersecting) {
@@ -369,18 +249,12 @@ function pintar(t) {
       clearTimeout(esperando);
       esperando = setTimeout(function () {
         if (sinMovimiento()) pintarQuieto(); else arrancar();
-      }, 160);
+      }, 180);
     });
 
     arrancar();
   }
 
-  if (global.DalaArt) {
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
-    else iniciar();
-  } else {
-    document.addEventListener('DOMContentLoaded', function () {
-      if (global.DalaArt) iniciar();
-    });
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+  else iniciar();
 })(window);
