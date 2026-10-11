@@ -172,6 +172,16 @@ DROP POLICY IF EXISTS reports_gestionar ON public.reports;
 CREATE POLICY reports_gestionar ON public.reports
   FOR UPDATE USING (public.es_staff(auth.uid())) WITH CHECK (public.es_staff(auth.uid()));
 
+-- Borrar un reporte NO lo puede hacer el propio usuario que lo envio, ni
+-- aunque sea suyo. Solo staff. Es lo que hace el bot y lo que espera el
+-- panel: hay un boton "Borrar" al lado de cada reporte.
+--
+-- Sin esta politica el DELETE lo rechazaba la RLS siempre y el boton del
+-- panel no hacia nada, aunque devolviera "borrado".
+DROP POLICY IF EXISTS reports_borrar ON public.reports;
+CREATE POLICY reports_borrar ON public.reports
+  FOR DELETE USING (public.es_staff(auth.uid()));
+
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS orders_leer ON public.orders;
 CREATE POLICY orders_leer ON public.orders

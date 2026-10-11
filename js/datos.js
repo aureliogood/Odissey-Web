@@ -144,6 +144,19 @@
     return data || null;
   }
 
+  /* ¿Quien llama es staff o admin?
+
+     Esto se comprueba aqui Y en la RLS de la tabla, por dos motivos
+     distintos: la RLS es la que de verdad protege los datos, y esto evita
+     gastar una consulta en intentarlo cuando la respuesta va a ser que no
+     de todas formas. Si alguien someday se equivoca al escribir una
+     politica, esta comprobacion sigue barring la puerta. */
+  async function esStaff(sb, user) {
+    if (!user) return false;
+    const p = await perfilDe(sb, user.id);
+    return !!(p && (p.rol === 'admin' || p.rol === 'staff'));
+  }
+
   /* Forma de la respuesta que ya esperaba la web.
 
      OJO con los nombres: la web habla en camelCase (user.avatar,
@@ -470,6 +483,49 @@
        dejar un error suelto en la consola. */
     if (ruta === '/api/reports/ticket' && metodo === 'POST') {
       return responder({ ok: true, ignorado: true });
+    }
+
+    // ---- gestion de reportes (solo staff) ----
+    /* El panel llama PUT/POST a /api/admin/reports/:id para cambiar el
+       estado y DELETE para borrarlo. Las dos comprueban el rol aqui y la
+       RLS lo vuelve a comprobar en la tabla. */
+    if (ruta.indexOf('/api/admin/reports/') === 0) {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      if (!(await esStaff(sb, u))) {
+        return responder({ ok: false, error: 'sin_permiso' }, 403);
+      }
+      let id = ruta.slice('/api/admin/reports/'.length);
+      try { id = decodeURIComponent(id); } catch (e) { /* se usa tal cual */ }
+      id = String(id).trim();
+      if (!id) return responder({ ok: false, error: 'id_invalido' }, 400);
+
+      if (metodo === 'DELETE') {
+        const { data, error } = await sb.from('reports').delete().eq('id', id).select('id');
+        if (error) return responder({ ok: false, error: error.message }, 400);
+        /* deleted = 0 significa que no habia ninguna fila con ese id. No es
+           un fallo, pero el panel lo comprueba para avisar de que el boton
+           no ha borrado nada de verdad. */
+        return responder({ ok: true, deleted: (data || []).length });
+      }
+
+      if (metodo === 'POST' || metodo === 'PUT') {
+        const estado = cuerpo && cuerpo.status ? String(cuerpo.status).trim() : '';
+        /* Los estados que el panel ofrece. Sin esta lista, cualquiera podria
+           dejar el reporte en un estado inventado que luego el panel no sabe
+           pintar. */
+        if (['nuevo', 'proceso', 'resuelto'].indexOf(estado) === -1) {
+          return responder({ ok: false, error: 'estado_invalido' }, 400);
+        }
+        const { data, error } = await sb.from('reports').update({ status: estado })
+          .eq('id', id).select('id,status');
+        if (error) return responder({ ok: false, error: error.message }, 400);
+        if (!(data || []).length) {
+          return responder({ ok: false, error: 'no_encontrado' }, 404);
+        }
+        return responder({ ok: true, report: data[0] });
+      }
+
+      return responder({ ok: false, error: 'metodo_no_permitido' }, 405);
     }
 
     // ---- listings ----
