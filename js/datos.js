@@ -101,6 +101,26 @@
     }
   }
 
+  /* Lee el cuerpo como bytes, que es lo que lleva la subida de imagen.
+     Se intenta arrayBuffer() y, si no existe (navegador antiguo), se
+     recurre a FileReader sobre el blob. */
+  function cuerpoBinario(peticion) {
+    if (!peticion) return Promise.resolve(null);
+    if (typeof peticion.arrayBuffer === 'function') {
+      return peticion.arrayBuffer().then(function (b) { return new Uint8Array(b); })
+        .catch(function () { return null; });
+    }
+    return new Promise(function (resolver) {
+      try {
+        const lector = new FileReader();
+        lector.onload = function () { resolver(new Uint8Array(lector.result)); };
+        lector.onerror = function () { resolver(null); };
+        lector.readAsArrayBuffer(peticion);
+      } catch (e) { resolver(null); }
+    });
+  }
+
+
   function responder(datos, codigo) {
     return Promise.resolve({
       ok: true,
@@ -124,22 +144,52 @@
     return data || null;
   }
 
-  /* Forma de la respuesta que ya esperaba la web. */
+  /* Forma de la respuesta que ya esperaba la web.
+
+     OJO con los nombres: la web habla en camelCase (user.avatar,
+     user.accent, user.banner) porque asi lo hacia el bot, y la base de
+     datos usa snake_case (avatar_url, accent_color). Se devuelven LAS
+     DOS: la primera para el codigo que ya existe, la segunda para lo
+     nuevo. Si solo se devolviera una, el perfil se pintaria a medias. */
   function usuarioPlano(u, p) {
+    const perfil = p || {};
     return {
       uid: u.id,
-      username: (p && p.username) || (u.email || '').split('@')[0],
+      username: perfil.username || (u.email || '').split('@')[0],
       email: u.email,
-      rol: (p && p.rol) || 'user',
-      role: (p && p.rol) || 'user',
-      avatar_url: p && p.avatar_url,
-      mc_name: p && p.mc_name,
-      accent_color: p && p.accent_color,
-      bio: p && p.bio,
-      isAdmin: p && p.rol === 'admin',
-      isStaff: p && (p.rol === 'staff' || p.rol === 'admin'),
+      rol: perfil.rol || 'user',
+      role: perfil.rol || 'user',
+      bio: perfil.bio,
+      mcName: perfil.mc_name,
+      accent: perfil.accent_color,
+      avatar: perfil.avatar_url,
+      banner: perfil.banner_url,
+      // Los mismos en snake_case, para lo que se escriba de nuevo.
+      mc_name: perfil.mc_name,
+      accent_color: perfil.accent_color,
+      avatar_url: perfil.avatar_url,
+      banner_url: perfil.banner_url,
+      isAdmin: perfil.rol === 'admin',
+      isStaff: perfil.rol === 'staff' || perfil.rol === 'admin',
     };
   }
+
+  /* La web manda los campos en camelCase y la tabla los tiene en
+     snake_case. Esta tabla es la unica forma de traducirlo: si se
+     aceptara cualquiera de los dos, un cambio de nombre en un sitio
+     romperia el otro en silencio. */
+  const CAMPOS_PERFIL = {
+    username: 'username',
+    bio: 'bio',
+    mcName: 'mc_name',
+    mc_name: 'mc_name',
+    accent: 'accent_color',
+    accent_color: 'accent_color',
+    avatarUrl: 'avatar_url',
+    avatar_url: 'avatar_url',
+    bannerUrl: 'banner_url',
+    banner_url: 'banner_url',
+  };
 
   /* Las fechas venían como texto ("2026-10-10") y Postgres las devuelve
      como timestamptz ("2026-10-10T00:00:00+00"). El codigo de la web las
@@ -156,7 +206,7 @@
     };
   }
 
-  async function manejar(ruta, query, cuerpo, metodo, sb) {
+  async function manejar(ruta, query, cuerpo, metodo, sb, peticion) {
     const u = await usuario(sb);
 
     // ---- sesion y estado ----
@@ -192,16 +242,55 @@
         return responder({ ok: true, user: usuarioPlano(u, p) });
       }
       const campos = {};
-      ['username', 'mc_name', 'bio', 'accent_color', 'banner_url'].forEach(function (k) {
-        if (cuerpo && cuerpo[k] !== undefined) campos[k] = cuerpo[k];
+      Object.keys(CAMPOS_PERFIL).forEach(function (clave) {
+        if (cuerpo && cuerpo[clave] !== undefined) campos[CAMPOS_PERFIL[clave]] = cuerpo[clave];
       });
-      if (cuerpo && cuerpo.avatar_url !== undefined) campos.avatar_url = cuerpo.avatar_url;
-      if (!Object.keys(campos).length) return responder({ ok: false }, 400);
+      if (!Object.keys(campos).length) return responder({ ok: false, error: 'nada_que_guardar' }, 400);
       // El id lo pone la RLS: el cliente no puede tocar el perfil de otro.
       const { error } = await sb.from('profiles').update(campos).eq('id', u.id);
       if (error) return responder({ ok: false, error: error.message }, 400);
       const p = await perfilDe(sb, u.id);
       return responder({ ok: true, user: usuarioPlano(u, p) });
+    }
+
+    /* Subida de avatar o banner. El bot guardaba el archivo en una carpeta
+       y devolvia la ruta. Aqui va a Storage, con la ruta
+       <id del usuario>/<tipo>.<ext>.
+
+       El id va SIEMPRE en la ruta y la politica de Storage comprueba que
+       esa carpeta sea la del usuario que sube. Sin eso, cualquiera
+       autenticado podria escribir en la carpeta de otro. */
+    if (ruta === '/api/auth/profile/image') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+
+      const tipo = query.kind === 'banner' ? 'banner' : 'avatar';
+      const ext = (query.ext || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+      const buffer = await cuerpoBinario(peticion);
+
+      if (!buffer || !buffer.length) {
+        return responder({ ok: false, error: 'archivo_vacio' }, 400);
+      }
+      // Mismo tope que el bot: 4 MB.
+      if (buffer.length > 4194304) {
+        return responder({ ok: false, error: 'demasiado_grande' }, 413);
+      }
+
+      const ruta = u.id + '/' + tipo + '.' + ext;
+      const { error } = await sb.storage.from('perfiles').upload(ruta, buffer, {
+        upsert: true,
+        contentType: (query.tipo || 'image/jpeg'),
+        cacheControl: '31536000',
+      });
+      if (error) return responder({ ok: false, error: error.message }, 400);
+
+      const { data: url } = sb.storage.from('perfiles').getPublicUrl(ruta);
+
+      // Se guarda en el perfil para que no haya que reconstruir la URL
+      // cada vez que se pinta la cabecera.
+      const columna = tipo === 'banner' ? { banner_url: url.publicUrl } : { avatar_url: url.publicUrl };
+      await sb.from('profiles').update(columna).eq('id', u.id);
+
+      return responder({ ok: true, path: url.publicUrl, url: url.publicUrl, ...columna });
     }
 
     if (ruta === '/api/auth/password') {
@@ -361,6 +450,15 @@
           return { text: async function () { return opciones.body; } };
         };
         p2.text = async function () { return opciones.body; };
+        /* Un cuerpo que no es texto (una imagen) llega como ArrayBuffer o
+           Blob. Se envuelve para que jsonDe y cuerpoBinario lo lean. */
+        p2.arrayBuffer = async function () {
+          if (opciones.body instanceof ArrayBuffer) return opciones.body;
+          if (opciones.body && typeof opciones.body.arrayBuffer === 'function') {
+            return opciones.body.arrayBuffer();
+          }
+          return new ArrayBuffer(0);
+        };
       }
 
       return window.OdisseySupabase.obtener({ esperarSesion: false })
@@ -369,7 +467,7 @@
             if (estaRetirada(p.ruta)) {
               return responder({ ok: false, ...RETIRADO }, 501);
             }
-            return manejar(p.ruta, p.query, cuerpo, metodo, sb);
+            return manejar(p.ruta, p.query, cuerpo, metodo, sb, p2);
           });
         })
         .catch(function (err) {
