@@ -1320,8 +1320,17 @@ if (window.OdisseyDatos && !window.OdisseyDatos.instalado) {
   }
 
     // Los formularios sustituyen al botón de Discord que había antes.
+    //
+    // OJO: en admin.html este MISMO id es el login del panel, no el del
+    // sitio. Antes se sustituria siempre, y el login publico se comia el
+    // del admin: en /admin aparecia "Entra en tu cuenta" con las pestañas
+    // "Entrar / Crear cuenta" en vez del formulario del panel, y el
+    // #adminLoginForm dejaba de existir, asi que el acceso del panel
+    // quedaba muerto. Por eso hay que mirar si la pagina trae ya su
+    // propio formulario antes de pisarlo.
     const loginView = document.getElementById('loginView');
-    if (loginView) {
+    const loginPropio = document.getElementById('adminLoginForm');
+    if (loginView && !loginPropio) {
       loginView.innerHTML = formularioAcceso();
       // La validación en el blur se engancha también en el primer
       // render, no solo al cambiar de pestaña.

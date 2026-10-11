@@ -144,17 +144,24 @@
     return data || null;
   }
 
-  /* ¿Quien llama es staff o admin?
+  /* ¿Quien llama es ADMIN?
 
      Esto se comprueba aqui Y en la RLS de la tabla, por dos motivos
      distintos: la RLS es la que de verdad protege los datos, y esto evita
      gastar una consulta en intentarlo cuando la respuesta va a ser que no
      de todas formas. Si alguien someday se equivoca al escribir una
-     politica, esta comprobacion sigue barring la puerta. */
-  async function esStaff(sb, user) {
+     politica, esta comprobacion sigue cerrando la puerta.
+
+     Solo "admin". Antes habia tambien esStaff(), que aceptaba "staff", y
+     se usaba en /api/admin/data y en la gestion de reportes. El panel
+     admin.html solo deja entrar a los admin (mira isAdmin), asi que
+     those rutas eran una puerta de atrás: un staff no podia abrir el
+     panel pero si llamar a la API a mano y sacarse todos los datos, o
+     vaciar la lista de reportes. Ya no queda ninguna llamada a esStaff. */
+  async function esAdmin(sb, user) {
     if (!user) return false;
     const p = await perfilDe(sb, user.id);
-    return !!(p && (p.rol === 'admin' || p.rol === 'staff'));
+    return !!(p && p.rol === 'admin');
   }
 
   /* Forma de la respuesta que ya esperaba la web.
@@ -364,13 +371,14 @@
       return responder({ ok: true, reports: reports.data || [], orders: orders.data || [] });
     }
 
-    /* Lo que ve el panel de admin. La RLS no deja ni leer ni escribir a
-       quien no sea staff: si la consulta falla, se devuelve el error en
-       vez de inventarse una respuesta vacia. */
+    /* Lo que ve el panel de admin. Solo rol "admin": el panel no deja
+       entrar a los staff, asi que dejarles la API abierta seria una
+       puerta de atrás. La RLS tampoco les deja leer estas tablas, asi que
+       esto no es lo unico que protege: si la consulta falla, se devuelve
+       el error en vez de inventarse una respuesta vacia. */
     if (ruta === '/api/admin/data') {
       if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
-      const p = await perfilDe(sb, u.id);
-      if (!p || (p.rol !== 'admin' && p.rol !== 'staff')) {
+      if (!(await esAdmin(sb, u))) {
         return responder({ ok: false, error: 'sin_permiso' }, 403);
       }
       const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log] =
@@ -485,13 +493,15 @@
       return responder({ ok: true, ignorado: true });
     }
 
-    // ---- gestion de reportes (solo staff) ----
-    /* El panel llama PUT/POST a /api/admin/reports/:id para cambiar el
-       estado y DELETE para borrarlo. Las dos comprueban el rol aqui y la
-       RLS lo vuelve a comprobar en la tabla. */
+    // ---- gestion de reportes (solo admin) ----
+    /* El panel llama POST a /api/admin/reports/:id para cambiar el estado
+       y DELETE para borrarlo. Las dos comprueban el rol aqui y la RLS lo
+       vuelve a comprobar en la tabla. Solo "admin", igual que el resto
+       del panel: si se dejara a "staff", un staff podria vaciar la lista
+       de reportes sin haber visto nunca el panel. */
     if (ruta.indexOf('/api/admin/reports/') === 0) {
       if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
-      if (!(await esStaff(sb, u))) {
+      if (!(await esAdmin(sb, u))) {
         return responder({ ok: false, error: 'sin_permiso' }, 403);
       }
       let id = ruta.slice('/api/admin/reports/'.length);

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -33,6 +33,14 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/admin.css?v=144">
+    <!-- css/dala.css faltaba aqui, y hace falta: es el que pone
+         position:fixed al canvas del fondo que inyecta js/dala-bg.js. Sin
+         esa regla el canvas se queda en el flujo normal y empuja el
+         panel 800 px hacia abajo: se abre la pagina y solo se ve el
+         fondo, con el formulario de acceso fuera de la pantalla. Tambien
+         trae los estilos de .overlay y de la barra de navegacion, que
+         esta pagina usa. -->
+    <link rel="stylesheet" href="css/dala.css?v=144">
     <style>
         /* Formulario de acceso del panel: usuario y contrasena (ya no Discord). */
         .admin-login-form{display:flex;flex-direction:column;gap:.35rem;margin:1rem 0 .5rem;text-align:left}
@@ -116,7 +124,7 @@ Antes era un div: Enter no hacia nada y un
                             formulario que no avisaba de nada.
                         -->
                         <form class="admin-login-form" id="adminLoginForm" novalidate>
-                            <label for="adminUser">Usuario o correo</label>
+                            <label for="adminUser">Correo electronico</label>
                             <input id="adminUser" name="username" type="text" autocomplete="username"
                                 spellcheck="false" autocapitalize="none" maxlength="254" required>
                             <label for="adminPass">Contraseña</label>
@@ -125,7 +133,7 @@ Antes era un div: Enter no hacia nada y un
                             <button type="submit" class="btn-continue" id="access-btn">ENTRAR</button>
                         </form>
                         <p class="error-msg" id="login-error" role="alert" aria-live="polite"></p>
-                        <p class="admin-mc-help">¿Aún no has vinculado tu cuenta? <a href="perfil.html">Vincúlala desde tu perfil</a>.</p>
+                        <p class="admin-mc-help">¿Todavía no tienes cuenta? <a href="perfil.html">Créala desde tu perfil</a>.</p>
                     </div>
                 </div>
 
@@ -786,7 +794,7 @@ Antes era un div: Enter no hacia nada y un
                     };
                     window.addEventListener('storage', _alCambiarStorage);
                 } else {
-                    showAccess('No puedes ver este panel. Necesitas estar vinculado a una cuenta de Minecraft que sea OP del servidor.', null);
+                    showAccess('No puedes ver este panel. Esta cuenta necesita rol de administrador.', null);
                 }
             } catch (err) {
                 showAccess('No se pudo verificar tu acceso. Revisa que el servicio esté disponible e inténtalo de nuevo.', 'REINTENTAR');
@@ -902,19 +910,46 @@ Antes era un div: Enter no hacia nada y un
             error.textContent = '';
             boton.disabled = true;
             boton.textContent = 'Entrando...';
-            fetch(API_BASE + '/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ login: user.value.trim(), password: pass.value })
-            }).then(r => r.json().catch(() => ({}))).then(data => {
-                if (!data || !data.ok || !data.token) {
-                    throw new Error((data && data.message) || 'No se pudo iniciar sesion.');
-                }
-                guardarIntentos({ fallos: 0, hasta: 0 });
-                localStorage.setItem('odissey_discord_session', data.token);
-                pass.value = '';
-                checkAdminAccess();
-            }).catch(e => {
+
+            /* Antes esto hacia POST a /api/auth/login, que era la ruta del
+               bot de Discord. Ese bot ya no existe, asi que la peticion se
+               iba a la red y Github Pages contestaba 404: el formulario de
+               acceso del panel no podia entrar ni con la clave correcta.
+               Ahora entra con Supabase, que es quien lleva las cuentas.
+
+               Y despues de entrar se comprueba el ROL. Que la clave sea
+               correcta no basta: si la cuenta no es administradora se
+               cierra la sesion en el acto y no se entra al panel. */
+            Promise.resolve(window.OdisseySupabase && window.OdisseySupabase.obtener())
+                .then(function (sb) {
+                    var correo = user.value.trim();
+                    if (!correo || correo.indexOf('@') === -1) {
+                        throw new Error('Escribe tu correo electronico.');
+                    }
+                    return sb.auth.signInWithPassword({ email: correo, password: pass.value })
+                        .then(function (r) {
+                            if (r.error) throw new Error('Correo o contrasena no correctos.');
+                            return sb;
+                        });
+                })
+                .then(function (sb) {
+                    return window.OdisseySupabase.perfilActual().then(function (perfil) {
+                        if (!perfil || perfil.rol !== 'admin') {
+                            // Cierra la sesion: si no, se queda dentro con
+                            // una cuenta que no es admin y puede tocar la
+                            // pagina.
+                            return sb.auth.signOut().then(function () {
+                                throw new Error('Esta cuenta no es administradora.');
+                            });
+                        }
+                        return true;
+                    });
+                })
+                .then(function () {
+                    guardarIntentos({ fallos: 0, hasta: 0 });
+                    pass.value = '';
+                    return checkAdminAccess();
+                }).catch(e => {
                 /* 2) Contar el fallo y avisar de lo que queda. */
                 const est = leerIntentos();
                 est.fallos = est.fallos + 1;
