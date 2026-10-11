@@ -115,10 +115,10 @@ const T = {
     es: {
       pieSeguro: 'Tus datos se guardan en Odissey y no se comparten con nadie.',
       titulo: 'Entra en tu cuenta',
-      sub: 'Usa tu nombre de usuario o tu correo.',
-      tituloRegistro: 'Crea tu cuenta',
-      subRegistro: 'Tarda menos de un minuto y no hace falta Discord.',
-      usuario: 'Nombre de usuario o correo',
+sub: 'Entra con el correo con el que te registraste.',
+ tituloRegistro: 'Crea tu cuenta',
+ subRegistro: 'Tarda menos de un minuto y no hace falta Discord.',
+ usuario: 'Correo electrónico',
       clave: 'Contraseña',
       verClave: 'Mostrar contraseña',
       ocultarClave: 'Ocultar contraseña',
@@ -129,7 +129,7 @@ const T = {
       nuevoUsuario: 'Nombre de usuario',
       nuevoCorreo: 'Correo electrónico',
       nuevaClave: 'Contraseña',
-      phUsuario: 'tu nombre de usuario',
+      phUsuario: 'tu@correo.com',
       phClave: '',
       phNuevaClave: '',
       ayudaClave: 'Mínimo 12 caracteres, con mayúsculas, minúsculas, números y un símbolo.',
@@ -147,7 +147,7 @@ const T = {
          vienen en inglés y con nombres internos ("AuthApiError", "User
          already registered"), así que se traducen antes de enseñarlos:
          si no, el visitante lee algo que no entiende. */
-      errCredenciales: 'El usuario o la contraseña no son correctos.',
+      errCredenciales: 'El correo o la contraseña no son correctos.',
       errCorreoRepetido: 'Ya hay una cuenta con ese correo.',
       errCorreoSinConfirmar: 'Confirma tu correo antes de entrar.',
       errDemasiadosIntentos: 'Demasiados intentos. Espera unos minutos.',
@@ -155,7 +155,7 @@ const T = {
       registroPendienteCorreo: 'Cuenta creada. Revisa tu correo para activarla antes de entrar.',
       /* Errores de campo. Cada uno dice qué pasó y cómo arreglarlo:
          un "error" a secas deja al usuario sin camino (regla error-clarity). */
-      errUsuarioVacio: 'Escribe tu nombre de usuario o tu correo.',
+      errUsuarioVacio: 'Escribe tu correo electronico.',
       errClaveVacia: 'Escribe tu contraseña.',
       errClaveCorta: 'La contraseña necesita 12 caracteres o más.',
       errClaveSimple: 'Añade al menos una mayúscula, una minúscula, un número y un símbolo.',
@@ -168,10 +168,10 @@ const T = {
     en: {
       pieSeguro: 'Your data stays on Odissey and is never shared.',
       titulo: 'Log in to your account',
-      sub: 'Use your username or your email.',
+      sub: 'Log in with the email you registered with.',
       tituloRegistro: 'Create your account',
       subRegistro: 'It takes less than a minute and Discord is not needed.',
-      usuario: 'Username or email',
+      usuario: 'Email',
       clave: 'Password',
       verClave: 'Show password',
       ocultarClave: 'Hide password',
@@ -182,7 +182,7 @@ const T = {
       nuevoUsuario: 'Username',
       nuevoCorreo: 'Email',
       nuevaClave: 'Password',
-      phUsuario: 'your username',
+      phUsuario: 'you@email.com',
       phClave: '',
       phNuevaClave: '',
       ayudaClave: 'At least 12 characters, with capitals, lowercase, numbers and a symbol.',
@@ -196,14 +196,14 @@ const T = {
       captchaPendiente: 'One moment: it is still being checked.',
       captchaCaido: 'We could not check that you are not a robot. Reload the page and try again.',
       sinConexion: 'No connection. Check your internet and try again.',
-      errCredenciales: 'Wrong username or password.',
+      errCredenciales: 'Wrong email or password.',
       errCorreoRepetido: 'There is already an account with that email.',
       errCorreoSinConfirmar: 'Confirm your email before signing in.',
       errDemasiadosIntentos: 'Too many attempts. Wait a few minutes.',
       errRegistro: 'The account could not be created.',
       registroPendienteCorreo: 'Account created. Check your email to activate it before signing in.',
       sinConexion: 'No connection. Check your internet and try again.',
-      errUsuarioVacio: 'Enter your username or email.',
+      errUsuarioVacio: 'Enter your email address.',
       errClaveVacia: 'Enter your password.',
       errClaveCorta: 'The password needs 12 characters or more.',
       errClaveSimple: 'Add at least one capital, one lowercase, one number and one symbol.',
@@ -416,12 +416,18 @@ const T = {
       '<h2 class="auth-title" id="auth-titulo">' + escapar(t('titulo')) + '</h2>' +
       '<p class="auth-sub">' + escapar(t('sub')) + '</p>' +
       '<form id="authFormLogin" novalidate aria-labelledby="auth-titulo">' +
-      campo({
-        id: 'authLoginIdent', name: 'login', etiqueta: t('usuario'),
-        tipo: 'text', autocomplete: 'username', icono: ICONO.usuario,
-        placeholder: t('phUsuario'), maxlength: 254,
-        extra: 'autocapitalize="none" spellcheck="false"',
-      }) +
+campo({
+ id: 'authLoginIdent', name: 'login', etiqueta: t('usuario'),
+ /* Se deja en "text" y no en "email" a proposito. Con type="email" el
+    navegador pone su propio aviso en su propio idioma cuando el campo no
+    es un correo, y esos avisos no se pueden traducir ni con el estilo de
+    la pagina. Asi el error sale siempre en el idioma que tenga el visitante.
+    inputmode="email" es lo que pone el teclado con @ en el movil, que es
+    lo que de verdad ayuda. */
+ tipo: 'text', autocomplete: 'username', icono: ICONO.usuario,
+ placeholder: t('phUsuario'), maxlength: 254,
+ extra: 'autocapitalize="none" spellcheck="false" inputmode="email"',
+ }) +
       campo({
         id: 'authLoginPass', name: 'password', etiqueta: t('clave'),
         tipo: 'password', autocomplete: 'current-password', icono: ICONO.clave,
@@ -831,29 +837,31 @@ function mostrarVista(vista) {
     const ident = valor('authLoginIdent').trim();
     const clave = valor('authLoginPass');
 
-    /* Antes el login aceptaba "usuario O correo". Supabase Auth solo
-       aceptaCorreo. Para no romper a quien guardaba su nombre de usuario
-       como identificador, se busca en profiles el correo que tenga ese
-       nombre y se entra con ese.
-
-       El problema: el buscador de perfiles solo lo puede hacer quien
-       tenga sesion (las policies de lectura de perfiles lo permiten, pero
-       se filtra en la funcion de abajo). Si no se encuentra, se intenta
-       con el correo directamente y Sup dira "credenciales incorrectas",
-       que es justo el mensaje que debe ver alguien que se equivoco de
-       campo y no una confesion de que el usuario existe. */
-    let correo = ident;
-    if (!ident.includes('@')) {
-      const encontrado = await buscarCorreoPorUsuario(ident);
-      if (!encontrado) {
-        estadoBoton(boton, false);
-        mostrarError('authErrorLogin', t('errCredenciales'));
-        const el = document.getElementById('authLoginIdent');
-        if (el) el.focus();
-        return;
-      }
-      correo = encontrado;
-    }
+/* El acceso es SOLO con correo.
+ *
+ * Antes decia "usuario o correo" convertia un nombre de usuario a correo
+ * llamando a correo_por_usuario(). Eso nunca llego a funcionar: la funcion
+ * exige sesion (IF auth.uid() IS NULL THEN RETURN), y al iniciar sesion
+ * todavia no la hay, asi que siempre devolvia cero filas y el acceso por
+ * nombre terminaba en "credenciales incorrectas".
+ *
+ * Por que no se abre a anon para arreglarlo: profiles no guarda el correo,
+ * asi que esa funcion es el unico puente hasta auth.users.email. Darsela a
+ * cualquiera permitiria sacar los correos de todos los registrados con una
+ * llamada, que es justo lo que hay que evitar. Para tener acceso por nombre
+ * haria falta una Edge Function con service_role, y eso mete un servidor en
+ * una web que es estatica a proposito.
+ *
+ * Se dice "incorrectas" tambien cuando el campo no lleva un @, para que no
+ * se sepa si el nombre existe o no. */
+const correo = ident;
+if (!correo.includes('@')) {
+ estadoBoton(boton, false);
+ mostrarError('authErrorLogin', t('errCredenciales'));
+ const el = document.getElementById('authLoginIdent');
+ if (el) el.focus();
+ return;
+}
 
     let r;
     try {
@@ -889,18 +897,6 @@ function mostrarVista(vista) {
       avatar: (perfil && perfil.avatar_url) || null,
     });
     trasCambiarSesion(true);
-  }
-
-  /* Busca el correo de un usuario por su nombre. Devuelve null si no
-     existe o si no se puede mirar. */
-  async function buscarCorreoPorUsuario(username) {
-    try {
-      const cliente = await window.OdisseySupabase.rapido();
-      const { data } = await cliente.rpc('correo_por_usuario', { nombre: username });
-      return (data && data[0] && data[0].correo) || null;
-    } catch (e) {
-      return null;
-    }
   }
 
   async function perfilDe(uid) {
