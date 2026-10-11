@@ -1,28 +1,21 @@
-Perfil rediseñado
+El logo del pie seguia gigante en 4 paginas
 
-La cabecera estaba encimada: .perfil-ident tenia margin-top:-54px, que
-subia el bloque entero sobre el banner, foto Y nombre. El nombre se
-quedaba a medio camino, montado en el borde de la imagen.
+El arreglo anterior solo funciono en 10 de las 14. El script buscaba la
+etiqueta con los atributos en un orden exacto (src, width, height, alt,
+class) y en perfil, reglas, staffverificar y wiki el orden es otro: la
+clase va antes que width y height. No cuadraba y se las saltaba.
 
-Ahora solo la foto pisa el borde, que es el truco de siempre, y el nombre
-empieza debajo, a su lado.
+Peor: el propio script decia "Ninguna pagina conserva el logo viejo",
+porque la comprobacion final buscaba la clase de la version anterior y no
+la que se habia quedado sin arreglar. Se declaraba bien con una prueba
+que no miraba lo que pretendia mirar.
 
-Lo demas:
+Ahora se busca por la clase, que es lo unico que identifica al logo del
+pie, y da igual como esten los atributos alrededor.
 
-- El nombre baja a 48 px en peso 300. Antes era dorado y grande, que se
-  leia como una alarma en vez de como un nombre. Sigue llevando el color
-  que elige el jugador, que para eso existe.
-- El dato de debajo (nombre de Minecraft o fecha) pasa a gris y a
-  mayusculas espaciadas: es un dato, no un titulo.
-- La foto deja de ser un cuadrado dorado con borde grueso: sin radio, con
-  borde de un pixel, y del tamaño de una foto y no de un boton.
-- Las dos columnas se reequilibran. La izquierda eran 19 rem fijos con UN
-  solo control dentro, el color, y todo lo que de verdad importa en la
-  derecha. Ahora son 15 rem.
-- Tarjetas, campos y botones con el sistema del resto del sitio: sin
-  sombras, bordes de un pixel, esquinas vivas solo en botones.
+Comprobacion nueva: recorre las 16 paginas y mide CADA logo que
+encuentra, no solo el del pie. Asi aparece tambien el logo heroe de la
+tienda, que ese si es grande a proposito y antes la comprobacion lo
+contaba como fallo.
 
-Nota: el archivo se llamaba perfil-v2.css pero _css.cjs tenia escrito el
-nombre del sistema dentro, asi que al pasarle perfil.html fue a anadir
-odiseo.css otra vez y el nuevo se quedo en disco sin enlazar. Por eso la
-primera vez no cambio NADA y casi lo doy por bueno sin mirar.
+Las 16 quedan en 94x40, que es lo mismo que el de la barra.
