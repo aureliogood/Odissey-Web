@@ -164,6 +164,27 @@
     return !!(p && p.rol === 'admin');
   }
 
+  /* El mantenimiento se lee con los dos nombres.
+
+   La columna se llama "activo" (asi se llamaba en el bot) pero el panel, la
+   pagina publica y la vista previa usan "active". Con solo uno de los dos,
+   lo que se guarda y lo que se lee nunca casan: el banner se activaba,
+   se guardaba, y la pagina no lo veia porque buscaba una clave que no
+   existia. Salia "activado" en el panel y no aparecia nada en la web.
+
+   Se devuelve con las dos claves y asi no importa cual use cada sitio. */
+function mantenimientoPlano(m) {
+    if (!m) return null;
+    return {
+      id: m.id,
+      activo: !!m.activo,
+      active: !!m.activo,
+      message: m.message || '',
+      status: m.status || 'online',
+      updated_at: m.updated_at,
+    };
+  }
+
   /* Forma de la respuesta que ya esperaba la web.
 
      OJO con los nombres: la web habla en camelCase (user.avatar,
@@ -351,7 +372,7 @@
         staff: staff.data || [],
         ratings: ratings.data || [],
         settings: ajustes.data || null,
-        maintenance: mantenimiento.data || null,
+        maintenance: mantenimientoPlano(mantenimiento.data),
         productsConfigured: true,
         productsEmpty: !(products.data || []).length,
         staffConfigured: true,
@@ -381,7 +402,7 @@
       if (!(await esAdmin(sb, u))) {
         return responder({ ok: false, error: 'sin_permiso' }, 403);
       }
-      const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log] =
+      const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log, mant] =
         await Promise.all([
           sb.from('news').select('*'),
           sb.from('events').select('*'),
@@ -393,6 +414,11 @@
           sb.from('orders').select('*').order('created_at', { ascending: false }),
           sb.from('site_settings').select('*').maybeSingle(),
           sb.from('admin_log').select('*').order('creado', { ascending: false }).limit(200),
+          /* El mantenimiento faltaba aqui. El panel lo lee de esta
+             respuesta, asi que sin esta consulta la casilla salia vacia
+             siempre y la vista previa decia "inactivo" aunque estuviera
+             activado en la web. */
+          sb.from('maintenance').select('*').eq('id', 1).maybeSingle(),
         ]);
       return responder({
         ok: true,
@@ -405,6 +431,7 @@
         reports: reports.data || [],
         orders: orders.data || [],
         settings: ajustes.data || null,
+        maintenance: mantenimientoPlano(mant.data),
         log: log.data || [],
       });
     }
@@ -536,6 +563,240 @@
       }
 
       return responder({ ok: false, error: 'metodo_no_permitido' }, 405);
+    }
+
+    // ---- escritura del panel (solo admin) ----
+    /* El panel llama a nueve rutas para guardar y no existia NINGUNA. Solo
+       estaban las de lectura, asi que Salvar mantenimiento, noticias,
+       eventos, galeria, tienda, staff y ajustes noMake nada: la peticion
+       salia, el servidor contestaba "ruta_desconocida" y el panel decia
+       que si, guardando.
+
+       Todas son admin solo. La idea es no escribir nueve codigos casi
+       iguales: cada tabla dice que campos admite, y aqui se quita
+       cualquier otro que venga en el cuerpo.
+
+       WHY se filtra: el cuerpo viene del navegador. Aunque la RLS suelte
+       la escritura, si se metiera un campo de mas se podria cambiar algo
+       que no debería tocarse (por ejemplo 'rol' en una tabla de perfiles).
+       Aqui la lista blanca manda. */
+    const ESCRITURA_ADMIN = {
+      news: { tabla: 'news', campos: ['id', 'title', 'category', 'text', 'date'] },
+      events: { tabla: 'events', campos: ['id', 'title', 'date', 'description'] },
+      gallery: { tabla: 'gallery', campos: ['id', 'image', 'caption'] },
+      products: { tabla: 'products', campos: ['id', 'name', 'price', 'category', 'icon', 'badge', 'image', 'sort_order'] },
+      staff: { tabla: 'staff_members', campos: ['id', 'name', 'role', 'description', 'bio', 'minecraft', 'discord', 'sort_order'] },
+    };
+
+    /* Se queda solo con los campos que la tabla admite. */
+    function soloCampos(permitidos, objeto) {
+      var limpio = {};
+      if (!objeto || typeof objeto !== 'object') return limpio;
+      permitidos.forEach(function (campo) {
+        if (objeto[campo] !== undefined) limpio[campo] = objeto[campo];
+      });
+      return limpio;
+    }
+
+    /* Un id corto y unico. El panel envia algunos, pero no todos, y sin
+       id la fila no tendria clave primaria. */
+    function nuevoId(prefijo) {
+      return prefijo + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    }
+
+    /* ---- /api/admin/<tabla>  POST: crear o guardar una fila ---- */
+    if (ruta.indexOf('/api/admin/') === 0 && metodo === 'POST') {
+      var resto = ruta.slice('/api/admin/'.length);
+      var sinId = resto.split('/')[0];
+      var conId = resto.indexOf('/') !== -1 ? resto.split('/')[1] : null;
+
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      if (!(await esAdmin(sb, u))) {
+        return responder({ ok: false, error: 'sin_permiso' }, 403);
+      }
+
+      /* --- registro de acciones del admin --- */
+      if (sinId === 'log') {
+        var accion = cuerpo && cuerpo.action ? String(cuerpo.action).slice(0, 300) : '';
+        if (!accion) return responder({ ok: false, error: 'sin_accion' }, 400);
+        var perfilAdmin = await perfilDe(sb, u.id);
+        await sb.from('admin_log').insert({
+          admin: (perfilAdmin && perfilAdmin.username) || 'admin',
+          action: accion,
+          date: new Date().toISOString(),
+        });
+        return responder({ ok: true });
+      }
+
+      /* --- mantenimiento --- */
+      if (sinId === 'maintenance') {
+        var m = (cuerpo && cuerpo.maintenance) || {};
+        /* Aqui esta el fallo que hacia que el banner no saliera: la
+           columna se llama "activo" y el panel, la pagina y el preview
+           usan "active". Se guardaba una cosa y se leia otra, asi que
+           el banner no aparecia nunca. Se acepta cualquiera de las dos y
+           se devuelve ambas. */
+        var activo = m.activo !== undefined ? !!m.activo : !!m.active;
+        var fila = {
+          activo: activo,
+          message: m.message ? String(m.message).slice(0, 300) : null,
+          status: m.status ? String(m.status).slice(0, 40) : (activo ? 'maintenance' : 'online'),
+          updated_at: new Date().toISOString(),
+        };
+        var { error: errM } = await sb.from('maintenance').update(fila).eq('id', 1);
+        if (errM) return responder({ ok: false, error: errM.message }, 400);
+        return responder({ ok: true, maintenance: { id: 1, active: activo, activo: activo, message: fila.message, status: fila.status } });
+      }
+
+      /* --- ajustes del sitio --- */
+      if (sinId === 'settings') {
+        if (cuerpo && cuerpo.reset) {
+          /* Restaurar: se deja la fila como estaba con los valores de
+             fabrica. No se borra, para no romper los NOT NULL. */
+          var { error: errR } = await sb.from('site_settings').update({
+            server_ip: 'odisseymc.net', server_port: '25565', gamemode: 'Survival Custom',
+            discord_invite: 'https://discord.gg/odisseymc', discord_server_id: null,
+            version: '1.20 - 1.21', updated_at: new Date().toISOString(),
+          }).eq('id', 1);
+          if (errR) return responder({ ok: false, error: errR.message }, 400);
+          return responder({ ok: true, reset: true });
+        }
+        var s = soloCampos(
+          ['server_ip', 'server_port', 'gamemode', 'discord_invite', 'discord_server_id', 'version'],
+          cuerpo && cuerpo.settings
+        );
+        s.updated_at = new Date().toISOString();
+        var { error: errS } = await sb.from('site_settings').update(s).eq('id', 1);
+        if (errS) return responder({ ok: false, error: errS.message }, 400);
+        return responder({ ok: true });
+      }
+
+      /* --- accion sobre una cuenta --- */
+      if (sinId === 'usuario' && conId === 'accion') {
+        var objetivo = cuerpo && cuerpo.uid ? String(cuerpo.uid) : '';
+        var que = cuerpo && cuerpo.accion ? String(cuerpo.accion) : '';
+        if (!objetivo || !que) return responder({ ok: false, error: 'peticion_incompleta' }, 400);
+
+        var destino = await perfilDe(sb, objetivo);
+        var nombreDestino = (destino && destino.username) || 'cuenta';
+
+        /* Un admin no se puede quitar a si mismo el rol: si se queda el
+           panel sin ningun admin, nadie vuelve a entrar. */
+        if (objetivo === u.id && (que === 'rol' || que === 'borrar')) {
+          if (que === 'rol' && cuerpo && cuerpo.rol !== 'admin') {
+            return responder({ ok: false, error: 'No puedes quitarte a ti mismo el rol de admin.' }, 400);
+          }
+          if (que === 'borrar') {
+            return responder({ ok: false, error: 'No puedes borrar tu propia cuenta desde el panel.' }, 400);
+          }
+        }
+
+        if (que === 'rol') {
+          var rolNuevo = String((cuerpo && cuerpo.rol) || 'user');
+          if (['user', 'staff', 'admin'].indexOf(rolNuevo) === -1) {
+            return responder({ ok: false, error: 'rol_invalido' }, 400);
+          }
+          var { error: errR2 } = await sb.from('profiles').update({ rol: rolNuevo }).eq('id', objetivo);
+          if (errR2) return responder({ ok: false, error: errR2.message }, 400);
+          return responder({ ok: true, mensaje: 'Rol cambiado a ' + rolNuevo, usuario: nombreDestino });
+        }
+
+        if (que === 'borrar') {
+          /* Borrar la cuenta de Supabase Auth necesita service_role, que
+             el navegador no tiene. Se marca para borrar y se dice claro:
+             fingir que se ha borrado seria peor. */
+          var { error: errB } = await sb.from('profiles').update({ mc_name: null, bio: null }).eq('id', objetivo);
+          if (errB) return responder({ ok: false, error: errB.message }, 400);
+          return responder({
+            ok: false,
+            error: 'La cuenta se limpia, pero borrarla del todo hay que hacerlo en Supabase > Authentication > Users.',
+            mensaje: 'Cuenta limpiada',
+            usuario: nombreDestino,
+          });
+        }
+
+        if (que === 'nombre') {
+          var nuevoNombre = String((cuerpo && cuerpo.nombre) || '').trim();
+          if (!/^[A-Za-z0-9_]{3,20}$/.test(nuevoNombre)) {
+            return responder({ ok: false, error: 'El nombre solo admite 3-20 caracteres de letra, numero o guion bajo.' }, 400);
+          }
+          var { error: errN } = await sb.from('profiles').update({ username: nuevoNombre }).eq('id', objetivo);
+          if (errN) return responder({ ok: false, error: errN.message }, 400);
+          return responder({ ok: true, mensaje: 'Nombre cambiado a ' + nuevoNombre, usuario: nuevoNombre });
+        }
+
+        return responder({ ok: false, error: 'accion_desconocida' }, 400);
+      }
+
+      /* --- contenido: noticias, eventos, galeria, tienda, staff --- */
+      var spec = ESCRITURA_ADMIN[sinId];
+      if (spec) {
+        /* Guardar una lista entera (lo usan tienda y staff). */
+        var lista = cuerpo && (cuerpo[sinId] || cuerpo.items || cuerpo.products || cuerpo.staff);
+        if (Array.isArray(lista)) {
+          var { error: errL } = await sb.from(spec.tabla).delete().neq('id', '___nunca___');
+          if (errL) return responder({ ok: false, error: errL.message }, 400);
+          var filas = [];
+          for (var i = 0; i < lista.length; i++) {
+            var limpia = soloCampos(spec.campos, lista[i]);
+            if (!limpia.id) limpia.id = nuevoId(sinId.slice(0, 2) + '_');
+            if (limpia.sort_order === undefined) limpia.sort_order = i;
+            filas.push(limpia);
+          }
+          if (filas.length) {
+            var { error: errI } = await sb.from(spec.tabla).insert(filas);
+            if (errI) return responder({ ok: false, error: errI.message }, 400);
+          }
+          return responder({ ok: true, guardados: filas.length });
+        }
+
+        /* Guardar una fila suelta. */
+        var item = cuerpo && (cuerpo.item || cuerpo[sinId]);
+        var fila1 = soloCampos(spec.campos, item);
+        if (!Object.keys(fila1).length) {
+          return responder({ ok: false, error: 'no_hay_nada_que_guardar' }, 400);
+        }
+        if (fila1.id) {
+          var { error: errU } = await sb.from(spec.tabla).update(fila1).eq('id', fila1.id);
+          if (errU) return responder({ ok: false, error: errU.message }, 400);
+          return responder({ ok: true, item: fila1 });
+        }
+        fila1.id = nuevoId(sinId.slice(0, 2) + '_');
+        var { error: errA } = await sb.from(spec.tabla).insert(fila1);
+        if (errA) return responder({ ok: false, error: errA.message }, 400);
+        return responder({ ok: true, item: fila1 });
+      }
+
+      return responder({ ok: false, error: 'ruta_desconocida' }, 404);
+    }
+
+    /* ---- /api/admin/<tabla>/<id>  DELETE ---- */
+    if (ruta.indexOf('/api/admin/') === 0 && metodo === 'DELETE') {
+      var partes = ruta.slice('/api/admin/'.length).split('/');
+      var tabla = partes[0];
+      var idBorrar = partes[1] ? decodeURIComponent(partes[1]) : '';
+
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      if (!(await esAdmin(sb, u))) {
+        return responder({ ok: false, error: 'sin_permiso' }, 403);
+      }
+
+      var destino2 = ESCRITURA_ADMIN[tabla];
+      if (destino2 && idBorrar) {
+        var { data: borrado, error: errD } = await sb.from(destino2.tabla).delete().eq('id', idBorrar).select('id');
+        if (errD) return responder({ ok: false, error: errD.message }, 400);
+        return responder({ ok: true, deleted: (borrado || []).length, id: idBorrar });
+      }
+
+      /* Las calificaciones se borran aparte: no estan en ESCRITURA_ADMIN
+         porque el panel las borra una a una, no en bloque. */
+      if (tabla === 'ratings' && idBorrar) {
+        var { data: borrado2, error: errD2 } = await sb.from('ratings').delete().eq('id', idBorrar).select('id');
+        if (errD2) return responder({ ok: false, error: errD2.message }, 400);
+        return responder({ ok: true, deleted: (borrado2 || []).length, id: idBorrar });
+      }
+
+      return responder({ ok: false, error: 'ruta_desconocida' }, 404);
     }
 
     // ---- listings ----
