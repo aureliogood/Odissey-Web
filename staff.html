@@ -229,8 +229,8 @@
         <footer
             class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
             <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
-                <a href="#" aria-label="Odissey" class="shrink-0">
-                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="w-32 md:w-44 rounded-lg shadow-inner">
+                <a href="/" aria-label="Odissey" class="shrink-0">
+                    <img src="img/logo-web.webp" alt="Odissey Logo" width="900" height="382" style="height:40px;width:auto;max-width:100%;display:block">
                 </a>
                 <div class="flex flex-col items-center gap-3">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
@@ -1207,12 +1207,17 @@ function roleKey(role) {
                primero), y el cargo va como etiqueta en su tarjeta. */
             var tarjetas = staff.map(function (member, i) {
                 var stats = getStaffStats(member);
-                var estrellas = stats.votes > 0
-                    ? '<span class="od-star">★</span> ' + stats.avg.toFixed(1)
-                    : '<span class="od-star od-star--nuevo">—</span> ' + (getLang() === 'en' ? 'New' : 'Sin valorar');
-                var votos = stats.votes === 1
-                    ? (getLang() === 'en' ? '1 review' : '1 valoración')
-                    : stats.votes + ' ' + (getLang() === 'en' ? 'reviews' : 'valoraciones');
+                /* Sin valoraciones solo se dice 'Sin valorar'. Antes ponia
+                   'Sin valorar · 0 valoraciones', que es lo mismo dos veces
+                   y ademas no cabia: salia recortado en la tarjeta. */
+                var estrellas, votos;
+                if (stats.votes > 0) {
+                    estrellas = '<span class="od-star">★</span> ' + stats.avg.toFixed(1);
+                    votos = '\u00b7 ' + stats.votes;
+                } else {
+                    estrellas = '<span class="od-star od-star--nuevo">—</span>';
+                    votos = getLang() === 'en' ? 'Not rated yet' : 'Sin valorar';
+                }
                 var mc = member.minecraft || member.name;
                 return '<article class="staff-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
                     + '<div class="staff-card-top">'
@@ -1226,7 +1231,7 @@ function roleKey(role) {
                     + '</div>'
                     + '<div class="staff-card-foot">'
                         + '<span class="staff-card-role">' + escapeHtml(member.role || '') + '</span>'
-                        + '<span class="staff-card-votes">' + estrellas + ' · ' + votos + '</span>'
+                        + '<span class="staff-card-votes">' + estrellas + ' ' + votos + '</span>'
                     + '</div>'
                     + '<button type="button" class="od-btn staff-card-open" data-staff-name="' + escapeHtml(member.name) + '">'
                         + (getLang() === 'en' ? 'View profile' : 'Ver perfil') + ' <span aria-hidden="true">→</span>'
@@ -1235,8 +1240,9 @@ function roleKey(role) {
             }).join('');
 
             container.innerHTML = staff.length
-                ? '<div class="staff-rejilla od-rejilla od-cols-3">' + tarjetas + '</div>'
-                  + '<p class="od-etiqueta" style="margin-top:26px">' + staff.length + '</p>'
+                ? '<div class="staff-rejilla od-rejilla">' + tarjetas + '</div>'
+                  /* El numero de personas va en la cabecera, donde explica algo.
+                   Aqui abajo solo habia un 4 a pelo, sin decir que contaba. */
                 : '<div class="od-vacio"><strong>' + (getLang() === 'en' ? 'No staff yet' : 'Todavía no hay staff') + '</strong>'
                   + (getLang() === 'en' ? 'Add it from the admin panel.' : 'Añádelo desde el panel de administración.') + '</div>';
 

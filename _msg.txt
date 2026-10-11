@@ -1,0 +1,24 @@
+El logo del pie salia a 900x382 en 14 paginas, y staff afinado
+
+Lo del pie es lo mas gordo y afecta a toda la web. Las clases h-10 y
+w-auto no aplicaban y la imagen salia a su tamano real de 900x382, casi
+diez veces la de la barra, que mide 94x40. El pie es donde la vista ya
+esta relaxing y llevaba un cartel de neones. Ahora el tamano va en la
+propia etiqueta, que es donde no puede ganar ninguna otra hoja. Su
+enlace era href="#" y no llevaba a ningun sitio: ahora a la portada.
+
+En staff:
+
+- La rejilla llevaba od-cols-3, que gana sobre .staff-rejilla por ir
+  despues en la misma hoja. Con tres columnas fijas y cuatro personas, la
+  cuarta se caia sola a la fila siguiente con dos huecos al lado. Ahora
+  manda auto-fill y las cuatro caben en una linea.
+
+- La rejilla tenia huecos de un pixel con fondo de linea, y las celdas
+  vacias de la ultima fila se veian como bloques grises sueltos.
+
+- "Sin valorar / 0 valoraciones" no cabia y salia recortado. Ahora, sin
+  valoraciones, solo dice "Sin valorar".
+
+- El pie de la tarjeta hacia wrap y las alturas quedaban distintas segun
+  lo largo del cargo. Ahora es una linea siempre.

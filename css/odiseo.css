@@ -210,17 +210,16 @@
 
 .od-rejilla {
   display: grid;
-  gap: 1px;
-  /* El hueco de 1px deja ver el fondo a traves y hace las lineas entre
-     tarjetas exactas, sin tener que dibujarlas. */
-  background: var(--od-linea);
-  border: 1px solid var(--od-linea);
-}
-
-.od-rejilla > * {
-  background: var(--od-fondo);
+  gap: 18px;
+  /* El hueco transparente y el fondo limpio. Con huecos de 1 px y fondo
+     de linea, las celdas vacias de la ultima fila se veian como bloques
+     grises sueltos: con cuatro tarjetas y tres columnas salia un rectangulo
+     gris debajo. */
+  background: transparent;
   border: 0;
 }
+
+.od-rejilla > * { border: 0; }
 
 .od-cols-2 { grid-template-columns: repeat(2, 1fr); }
 .od-cols-3 { grid-template-columns: repeat(3, 1fr); }
