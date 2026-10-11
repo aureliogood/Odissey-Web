@@ -48,6 +48,16 @@
   }
 
   const SiteData = {
+    /* Se expone para las paginas que hacen fetch por su cuenta antes de
+       pasar por loadPublic(): el panel, sobre todo.
+
+       admin.html abre con una comprobacion de permisos que va directa a
+       /api/admin/check, y ese fetch salia a la red de verdad porque la
+       capa todavia no estaba montada (js/datos.js va con defer, y los
+       scripts en linea se ejecutan antes). El panel abria con la pantalla
+       de login y la lista de reportes salia vacia sin explicar por que. */
+    esperarCapa: esperarCapa,
+
     data: {
       news: [], events: [], gallery: [], products: [], staff: [], ratings: [],
       reports: [], orders: [], settings: null, maintenance: null, log: []

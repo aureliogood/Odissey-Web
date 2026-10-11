@@ -94,11 +94,36 @@ window.SITE_CONFIG = Object.assign({}, window.DEFAULT_SITE_CONFIG);
        pero API_BASE ya no existe (no hay servidor propio al que apuntar) y
        el resultado era "undefined/api/content": una peticion a una ruta
        que no existe, en vez de a la nuestra que responde la capa de
-       datos. */
-    fetch('/api/content')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-            if (data && data.ok && data.settings) mergeAndApply(data.settings);
-        })
-        .catch(function () {});
+       datos.
+
+       Y hay que esperar a la capa antes de pedir nada. Este archivo se
+       carga sin defer, o sea que se ejecuta ANTES que js/datos.js, que es
+       quien pone el capturador. La peticion salia a la red de verdad,
+       Github Pages devolvia 404 y el servidor de la pagina (IP, modo de
+       juego) se quedaba sin poner en todas las visitas. No era grave
+       porque despues site-data.js lo cargaba bien, pero era una peticion
+       desperdiciada y un error en consola en cada pagina. */
+    function cuandoHayaCapa() {
+        return new Promise(function (listo) {
+            var intentos = 0;
+            (function mirar() {
+                if (window.OdisseyDatos && window.OdisseyDatos.instalado) { listo(); return; }
+                intentos++;
+                // Se espera un poco mas por si el visitante no tiene
+                // Supabase configurado: entonces no llega nunca y hay que
+                // seguir adelante igualmente, que es lo que hacia este
+                // archivo antes (simplemente no se aplicaba nada).
+                if (intentos > 120) { listo(); return; }
+                setTimeout(mirar, 50);
+            })();
+        });
+    }
+    cuandoHayaCapa().then(function () {
+        fetch('/api/content')
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data && data.ok && data.settings) mergeAndApply(data.settings);
+            })
+            .catch(function () {});
+    });
 })();

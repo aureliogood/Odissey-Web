@@ -1529,26 +1529,18 @@ function renderDiscordWidget() {
             const serverId = config.discordServerId || '';
             const presenceEl = document.getElementById('discordPresenceCount');
             if (serverId && presenceEl) {
-                function useWidgetCount() {
-                    fetch(`https://discord.com/api/guilds/${encodeURIComponent(serverId)}/widget.json`)
-                        .then(function (r) { return r.json(); })
-                        .then(function (data) {
-                            if (data && typeof data.presence_count === 'number') {
-                                presenceEl.textContent = String(data.presence_count);
-                            }
-                        })
-                        .catch(function () {});
-                }
-                fetch((window.API_BASE || '') + '/api/discord/stats')
+                /* El contador de gente conectada va directo al widget publico de
+           Discord, que es lo unico que queda: /api/discord/stats era del
+           bot y se retiro. Ese fetch salia a la red de verdad y Github
+           Pages le contestaba 404 en cada visita a la portada. */
+                fetch(`https://discord.com/api/guilds/${encodeURIComponent(serverId)}/widget.json`)
                     .then(function (r) { return r.json(); })
                     .then(function (data) {
-                        if (data && data.ok && typeof data.online === 'number') {
-                            presenceEl.textContent = String(data.online);
-                        } else {
-                            useWidgetCount();
+                        if (data && typeof data.presence_count === 'number') {
+                            presenceEl.textContent = String(data.presence_count);
                         }
                     })
-                    .catch(useWidgetCount);
+                    .catch(function () {});
             }
         }
 

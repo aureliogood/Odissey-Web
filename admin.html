@@ -730,15 +730,28 @@ Antes era un div: Enter no hacia nada y un
         }
 
         async function checkAdminAccess() {
-            const token = getSessionToken();
-            if (!token) {
-                showAccess('Debes iniciar sesion para ver este panel.', 'ENTRAR');
-                return;
-            }
-            try {
-                const res = await fetch(API_BASE + '/api/admin/check?token=' + encodeURIComponent(token));
-                const data = await res.json();
-                if (data && data.ok && data.isAdmin) {
+    /* Antes de nada, esperar a que la capa de datos este montada.
+
+       Este fetch va directo a /api/admin/check, y los scripts en linea se
+       ejecutan ANTES que js/datos.js (que va con defer). Sin esta espera,
+       la peticion salia a la red de verdad, el servidor devolvia 404 y el
+       panel se quedaba en la pantalla de login sin decir nada, con la
+       lista de reportes vacia. */
+    try {
+        if (window.SiteData && typeof SiteData.esperarCapa === 'function') {
+            await SiteData.esperarCapa();
+        }
+    } catch (e) { /* si la espera falla, se sigue: la capa dira que no */ }
+
+    const token = getSessionToken();
+    if (!token) {
+        showAccess('Debes iniciar sesion para ver este panel.', 'ENTRAR');
+        return;
+    }
+    try {
+        const res = await fetch(API_BASE + '/api/admin/check?token=' + encodeURIComponent(token));
+        const data = await res.json();
+        if (data && data.ok && data.isAdmin) {
                     __adminSessionName = (data.user && data.user.username) || 'Admin';
                     loginError.textContent = '';
                     // Cargar datos públicos + datos completos del panel
