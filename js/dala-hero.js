@@ -1,16 +1,14 @@
 /* ============================================================================
    ODISSEY — La isla del hero
    ----------------------------------------------------------------------------
-   Isla flotante en isometrico con Steve encima, una antorcha que parpadea y
-   unas luciernagas. Todo con los sprites que ya habia en js/dala-art.js: no
-   se anade ninguna imagen ni ninguna fuente.
+   Isla flotante en isometrico con Steve encima, un arbol, una antorcha que
+   parpadea y unas luciernagas. Todo con los sprites que ya habia en
+   js/dala-art.js: no se anade ninguna imagen ni ninguna fuente.
 
    POR QUE EXISTE
    El <canvas id="dalaConstellation"> estaba en el HTML desde el principio,
    con su CSS y su espacio reservado... y sin una linea de codigo que lo
    pintara. La columna derecha se quedaba en negro.
-
-   Asi que en vez de tapar el hueco con un rectangulo, aqui esta la escena.
    ============================================================================ */
 (function (global) {
   'use strict';
@@ -23,21 +21,35 @@
 
   function arte() { return global.DalaArt; }
 
-  /* Antorcha: poste de madera con la punta encendida. No se mete en los
-     SPRITES de dala-art.js porque ese archivo lo comparten otras paginas;
-     se pinta aqui con la MISMA paleta que exporta el motor, asi que el
-     color es exactamente el mismo que el de los bloques de alrededor. */
+  /* Antorcha: poste de madera con la punta encendida. Se pinta aqui con la
+     MISMA paleta que exporta el motor, para que el color sea exactamente
+     el de los bloques de al lado. */
   var ANTORCHA = [
-    '....y....',
-    '...yfy...',
-    '...yfy...',
-    '....F....',
+    '...yyy...',
+    '..yfyfy..',
+    '..yfyfy..',
+    '...fFf...',
+    '....b....',
     '....b....',
     '....b....',
     '....b....',
     '....B....',
     '...BBB...',
-    '...BBB...',
+  ];
+
+  /* Steve sin las cuatro filas de suelo.
+     El sprite de dala-art.js acaba con cuatro filas de hierba y tierra:
+     estaba pensado para un dibujo donde el personaje salia sobre un bloque
+     y asi no hacia falta sombra. Aqui, con el bloque ya dibujado debajo,
+     esas filas salian como una barra oscura bajo los pies y parecian que
+     Steve flotaba. Se quitan y se le pone su propia sombra. */
+  var STEVE = [
+    '....jjjjjjjj....', '....jJJJJJJj....', '....jjjjjjjj....', '....qqqqqqqq....',
+    '....qVVvVVVq....', '....qVVvVVVq....', '....qNNNNNNq....', '....qqqqqqqq....',
+    'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz',
+    'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz', 'zzzzZZZZZZZZzzzz',
+    'AAAAAAAAAAAAaaAA', 'aaaaAAAAaaaaaaAA', 'aaaaAAAAaaaaaaAA', 'aaaaAAAAaaaaaaAA',
+    'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa', 'aaaaaAAaaaaaAAa',
   ];
 
   function pintarSprite(cnv, filas, x, y, px) {
@@ -61,6 +73,7 @@
   /* ------------------------------------------------------------------ */
 
   var e = null;
+  var RADIO = 4.6;
 
   function medir() {
     var caja = lienzo.parentElement;
@@ -73,49 +86,43 @@
     lienzo.height = Math.round(alto * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    /* hw = medio ancho del rombo. hh = la mitad, porque un rombo
-       isometrico es 2:1; si no, la rejilla sale chueca. */
-    var hw = Math.max(10, Math.min(ancho, alto) / 15);
-    var hh = hw / 2;
+    /* La isla ocupa de lado a lado 4 * RADIO * hw. Se elige hw para que
+       entre con aire: si se pasa de ancho, la isla toca los bordes y
+       parece una plancha recortada en vez de una isla. */
+    var hw = Math.max(8, Math.min(ancho, alto) / (RADIO * 4 + 1));
 
     e = {
       ancho: ancho,
       alto: alto,
       hw: hw,
-      hh: hh,
-      /* Canto del bloque. Un poco menos que hh: da volumen sin que la
-         isla parezca una torre. */
-      hgt: Math.round(hw * 0.40),
+      hh: hw / 2,
+      /* Canto del bloque. Un poco MAS que la mitad del ancho del rombo,
+         que es lo que hace que un bloque parezca un cubo y no una
+         lamina. Con 0,42 (lo que habia) las capas de abajo se metian
+         debajo de las de arriba y la isla salia sin fondo. */
+      hgt: Math.round(hw * 0.50),
       cx: ancho / 2,
-      /* La isla se sube un poco: abajo queda sitio para la sombra y las
-         luciernagas, y la escena no queda pegada al borde. */
-      cy: alto * 0.40,
+      cy: alto * 0.46,
     };
-
-    /* Escala de Steve. En el juego un jugador mide 1,8 bloques, pero aqui
-       es la mascara de la pagina: se deja un poco mas alto para que se lea
-       de lejos sin perderse entre los bloques. */
-    e.pxSteve = Math.max(3, Math.round(hw / 9));
+    /* Steve mide casi dos bloques de alto. Es la mascara de la pagina:
+       un poco mas grande de lo real, para que se lea desde el movil. */
+    e.pxSteve = Math.max(3, Math.round(hw / 7));
     return true;
   }
 
-  /* Centro de la cara SUPERIOR del bloque de la casilla (gx, gy).
-     Es el punto que cube() toma como origen.
-
-     El nivel SUMA: el nivel 1 es un bloque MAS ABAJO que el 0. Restarlo
-     ponia la tierra por encima del cesped y la isla salia con el centro
-     marron y el borde verde. */
-  function casilla(gx, gy, nivel) {
+  /* Posicion de la cara superior del bloque (gx, gy).
+       nivel  = por debajo de la superficie (positivo = mas abajo)
+       altura = por encima (un arbol, una antorcha) */
+  function casilla(gx, gy, nivel, altura) {
     return {
       x: e.cx + (gx - gy) * e.hw,
-      y: e.cy + (gx + gy) * e.hh + (nivel || 0) * e.hgt,
+      y: e.cy + (gx + gy) * e.hh + (nivel || 0) * e.hgt - (altura || 0) * e.hgt,
     };
   }
 
-  /* El suelo, es decir donde se pisan las cosas: el borde de abajo del
-     bloque. */
-  function suelo(gx, gy, nivel) {
-    var p = casilla(gx, gy, nivel);
+  /* La superficie, que es donde se pisan las cosas. */
+  function suelo(gx, gy, altura) {
+    var p = casilla(gx, gy, 0, altura);
     return { x: p.x, y: p.y + e.hgt };
   }
 
@@ -123,46 +130,74 @@
   /* La isla                                                              */
   /* ------------------------------------------------------------------ */
 
-  /* Diamante de radio r: casillas con |gx+gy| <= r. */
-  function diamante(r) {
+  /* Casillas de un circulo, no de un rombo. Un rombo con los mismos lados
+     es una plancha de esquinas: es lo que parecia la primera version. */
+  function circulo(r) {
     var out = [];
-    for (var gx = -r; gx <= r; gx++) {
-      for (var gy = -r; gy <= r; gy++) {
-        if (Math.abs(gx + gy) <= r) out.push([gx, gy]);
+    var n = Math.ceil(r);
+    for (var gx = -n; gx <= n; gx++) {
+      for (var gy = -n; gy <= n; gy++) {
+        if (gx * gx + gy * gy <= r * r) out.push([gx, gy]);
       }
     }
     return out;
   }
 
-  /* Capas de la isla flotante. Cada una es mas pequena y mas abajo, que es
-     lo que hace que se vea el tierra y la piedra colgando. */
+/* La segunda capa mantiene el MISMO radio que la primera, y por eso se ve
+     entera: al no estrecharse, su cara de delante cae justo debajo de la
+     de arriba y no queda tapada. Si se estrecha desde el primer nivel, la
+     roca se mete por dentro de la tierra y la isla sale como un disco
+     verde con un filo. A partir de la segunda ya se va encogiendo, que
+     es lo que le da la forma de isla flotante. */
   var CAPAS = [
-    { r: 3, nivel: 0, tex: { top: 'cesped_top', left: 'cesped_lado', right: 'cesped_lado' } },
-    { r: 2, nivel: 1, tex: { top: 'dirt', side: 'dirt' } },
-    { r: 1, nivel: 2, tex: { top: 'piedra', side: 'piedra' } },
+    { r: RADIO, nivel: 0, tex: { top: 'cesped_top', left: 'cesped_lado', right: 'cesped_lado' } },
+    { r: RADIO, nivel: 1, tex: { top: 'dirt', side: 'dirt' } },
+    { r: RADIO - 1.0, nivel: 2, tex: { top: 'dirt', side: 'dirt' } },
+    { r: RADIO - 1.7, nivel: 3, tex: { top: 'piedra', side: 'piedra' } },
+    { r: RADIO - 2.3, nivel: 4, tex: { top: 'piedra', side: 'piedra' } },
+    { r: RADIO - 2.9, nivel: 5, tex: { top: 'piedra', side: 'piedra' } },
   ];
 
-  function dibujarIsla(desplaz) {
-    var A = arte();
-    var bloques = [];
+  /* Un arbol: tronco de dos bloques y copa de hojas. */
+  var ARBOL = { gx: -2, gy: -1 };
+  var MONTANA = { gx: 2, gy: -2, altura: [1, 2] };
 
+  function bloques() {
+    var lista = [];
     CAPAS.forEach(function (capa) {
-      diamante(capa.r).forEach(function (g) {
-        bloques.push({ gx: g[0], gy: g[1], nivel: capa.nivel, tex: capa.tex });
+      circulo(capa.r).forEach(function (g) {
+        lista.push({ gx: g[0], gy: g[1], nivel: capa.nivel, altura: 0, tex: capa.tex });
       });
     });
 
-    /* Orden del pintor: primero lo que esta mas atras, que es lo de
-       arriba de la pantalla (gx+gy pequeno) y lo que cuelga mas abajo
-       (nivel grande). Si se dibuja capa por capa, los bloques de tierra
-       se cuelan ENCIMA del cesped y la isla sale con el centro-brown. */
-    bloques.sort(function (a, b) {
-      if (a.gx + a.gy !== b.gx + b.gy) return (a.gx + a.gy) - (b.gx + b.gy);
-      return b.nivel - a.nivel;
+/* El arbol va ENCIMA de la superficie, asi que altura > 0.
+       Tronco de dos bloques y copa de cuatro, en cruz, como en el juego. */
+    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 0, tex: { top: 'tronco', side: 'tronco' } });
+    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 1, tex: { top: 'tronco', side: 'tronco' } });
+    lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 2, tex: { top: 'tronco', side: 'tronco' } });
+    [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]].forEach(function (d) {
+      lista.push({
+        gx: ARBOL.gx + d[0], gy: ARBOL.gy + d[1], nivel: 0, altura: 3,
+        tex: { top: 'hojas', side: 'hojas' },
+      });
     });
+lista.push({ gx: ARBOL.gx, gy: ARBOL.gy, nivel: 0, altura: 4, tex: { top: 'hojas', side: 'hojas' } });
 
-    bloques.forEach(function (b) {
-      var p = casilla(b.gx, b.gy, b.nivel);
+    /* Orden del pintor: primero lo de atras (gx+gy pequeno), y a igual
+       profundidad primero lo de mas abajo. Si se hace al reves se ven las
+       caras a traves de las de delante. */
+    lista.sort(function (a, b) {
+      if (a.gx + a.gy !== b.gx + b.gy) return (a.gx + a.gy) - (b.gx + b.gy);
+      if (a.nivel !== b.nivel) return b.nivel - a.nivel;
+      return a.altura - b.altura;
+    });
+    return lista;
+  }
+
+  function dibujarIsla(desplaz) {
+    var A = arte();
+    bloques().forEach(function (b) {
+      var p = casilla(b.gx, b.gy, b.nivel, b.altura);
       A.cube(ctx, p.x, p.y + desplaz, e.hw, e.hh, e.hgt, b.tex);
     });
   }
@@ -171,50 +206,44 @@
   /* Steve                                                                */
   /* ------------------------------------------------------------------ */
 
-  function dibujarSteve(t) {
-    var A = arte();
+function dibujarSteve(t, des) {
     var px = e.pxSteve;
-    var altoSprite = A.altoDe('steve', px);
-    var pie = suelo(0, 0, 0);
+    var altoSprite = STEVE.length * px;
+    var pie = suelo(2, 1, 0);
+    pie.y += des;
 
-    /* Sombra antes que Steve, para que parezca que pisa el cesped. */
     ctx.save();
-    ctx.globalAlpha = 0.24;
+    ctx.globalAlpha = 0.20;
     ctx.fillStyle = '#000';
     ctx.beginPath();
-    ctx.ellipse(pie.x, pie.y, px * 0.9, px * 0.34, 0, 0, Math.PI * 2);
+    ctx.ellipse(pie.x, pie.y - 1, px * 0.85, px * 0.26, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
-    /* draw() pinta por el centro: los pies van abajo, asi que el centro
-       esta a media altura del sprite. */
-    var bamboleo = Math.sin(t / 1500) * (e.hgt * 0.18);
-    A.draw(ctx, 'steve', pie.x, pie.y - altoSprite / 2 + bamboleo, px);
+    var bamboleo = Math.sin(t / 1500) * (e.hgt * 0.15);
+    pintarSprite(ctx, STEVE, pie.x, pie.y - altoSprite / 2 + bamboleo, px);
   }
 
   /* ------------------------------------------------------------------ */
   /* Antorcha                                                             */
   /* ------------------------------------------------------------------ */
 
-  function dibujarAntorcha(t) {
-    // Misma escala que Steve: si se mide aparte, al cambiar el tamano del
-    // canvas la antorcha se descuadra del resto.
-    var px = e.pxSteve;
+  function dibujarAntorcha(t, des) {
+    var px = Math.max(3, Math.round(e.hw / 5));
     var altoSprite = ANTORCHA.length * px;
-    var base = suelo(-1, 0, 0);
-    var ySprite = base.y - altoSprite / 2;
+    var base = suelo(-1, 2, 0);
+    base.y += des;
+    var luzY = base.y - altoSprite;
 
     /* No hay sprite de fuego. Se hace con un halo: un fuego dibujado con
        caracteres de la paleta quedaria mas falso que una luz que late. */
-    var latido = 0.84 + Math.sin(t / 180) * 0.10 + Math.sin(t / 65) * 0.05;
-    var luzY = base.y - altoSprite - px;
-
+    var latido = 0.86 + Math.sin(t / 170) * 0.09 + Math.sin(t / 60) * 0.05;
+    var r = px * 11 * latido;
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
-    var r = px * 9 * latido;
     var halo = ctx.createRadialGradient(base.x, luzY, 0, base.x, luzY, r);
-    halo.addColorStop(0, 'rgba(255,190,90,' + (0.32 * latido).toFixed(3) + ')');
-    halo.addColorStop(0.4, 'rgba(255,140,40,0.10)');
+    halo.addColorStop(0, 'rgba(255,200,110,' + (0.40 * latido).toFixed(3) + ')');
+    halo.addColorStop(0.35, 'rgba(255,145,45,0.14)');
     halo.addColorStop(1, 'rgba(255,120,30,0)');
     ctx.fillStyle = halo;
     ctx.beginPath();
@@ -222,7 +251,7 @@
     ctx.fill();
     ctx.restore();
 
-    pintarSprite(ctx, ANTORCHA, base.x, ySprite, px);
+    pintarSprite(ctx, ANTORCHA, base.x, base.y - altoSprite / 2, px);
   }
 
   /* ------------------------------------------------------------------ */
@@ -234,8 +263,7 @@
     chispas = [];
     for (var i = 0; i < n; i++) {
       chispas.push({
-        x: Math.random(),
-        y: Math.random(),
+        x: Math.random(), y: Math.random(),
         v: 0.00012 + Math.random() * 0.00030,
         f: 0.0015 + Math.random() * 0.003,
         fase: Math.random() * Math.PI * 2,
@@ -248,11 +276,9 @@
       var c = chispas[i];
       c.y -= c.v * dt;
       if (c.y < -0.05) { c.y = 1.05; c.x = Math.random(); }
-
-      var x = c.x * e.ancho + Math.sin(t * c.f + c.fase) * 20;
+      var x = c.x * e.ancho + Math.sin(t * c.f + c.fase) * 22;
       var y = c.y * e.alto;
       var brillo = 0.32 + 0.44 * Math.sin(t * c.f * 1.7 + c.fase);
-
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
       ctx.fillStyle = 'rgba(255,214,120,' + brillo.toFixed(3) + ')';
@@ -277,12 +303,15 @@
     } catch (x) { return false; }
   }
 
-  function pintar(t) {
+function pintar(t) {
     ctx.clearRect(0, 0, e.ancho, e.alto);
-    var des = Math.sin(t / 2100) * (e.hgt * 0.32);
+    /* El vaiven. Lo que esta SOBRE la isla tiene que moverse con ella:
+       si Steve se queda quieto, cuando la isla sube le come las piernas
+       y parece que se hunde. */
+    var des = Math.sin(t / 2300) * (e.hgt * 0.35);
     dibujarIsla(des);
-    dibujarAntorcha(t);
-    dibujarSteve(t);
+    dibujarAntorcha(t, des);
+    dibujarSteve(t, des);
   }
 
   function paso(ahora) {
@@ -290,10 +319,8 @@
     if (!t0) { t0 = ahora; ultimo = ahora; }
     var dt = Math.min(ahora - ultimo, 64);
     ultimo = ahora;
-    var t = ahora - t0;
-
-    pintar(t);
-    dibujarChispas(t, dt);
+    pintar(ahora - t0);
+    dibujarChispas(ahora - t0, dt);
   }
 
   function arrancar() {
@@ -304,8 +331,7 @@
     raf = global.requestAnimationFrame(paso);
   }
 
-  /* Con "reducir movimiento" se pinta UN fotograma y se para. Se ve igual
-     pero quieto: es lo que pide quien tiene esa opcion activada. */
+  /* Con "reducir movimiento" se pinta UN fotograma y se para. */
   function pintarQuieto() {
     if (!medir()) return;
     ctx.clearRect(0, 0, e.ancho, e.alto);
@@ -322,12 +348,10 @@
   }
 
   function iniciar() {
-    sembrar(24);
-
+    sembrar(26);
     if (sinMovimiento()) { pintarQuieto(); return; }
 
-    /* Fuera de pantalla no se dibuja: un rAF corriendo en una pestana en
-       segundo plano es bateria gastada sin que se vea nada. */
+    /* Fuera de pantalla no se dibuja. */
     if (global.IntersectionObserver) {
       var io = new global.IntersectionObserver(function (entradas) {
         if (entradas[0].isIntersecting) {
