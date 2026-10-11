@@ -111,6 +111,8 @@
     <link rel="stylesheet" href="css/auth.css?v=144">
     <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
     <link rel="stylesheet" href="css/turnstile.css?v=144">
+    <!-- Sistema visual compartido: tarjetas, botones y tipografia. -->
+    <link rel="stylesheet" href="css/odiseo.css?v=144">
 </head>
 <body>
   <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
@@ -207,11 +209,19 @@
                 </a>
             </div>
 <!-- Staff Section -->
-            <section id="staff" class="px-4 py-16 scroll-mt-24">
-                <div class="liquid-glass-container max-w-6xl mx-auto">
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-marine-accent text-center mb-2 reveal" data-i18n="staff_title">Nuestro equipo de staff</h1>
-                    <p class="text-center text-text-light text-lg mb-8 reveal" data-i18n="staff_subtitle">Conoce a las personas que hacen la mejor experiencia en Odissey posible. Haz clic en una cabeza para ver su información.</p>
-                    <div id="staff-groups" class="flex flex-col gap-8"></div>
+            <section id="staff" class="od-bloque od-bloque--ajustado px-4 scroll-mt-24">
+                <div class="mx-auto w-full" style="max-width: var(--od-ancho)">
+                    <!-- La cabecera va a la izquierda y no centrada. Centrada
+                         ocupaba el ancho entero para decir dos lineas; asi
+                         el ojo tiene por donde entrar. -->
+                    <header class="reveal" style="max-width: 760px; margin-bottom: 56px">
+                        <p class="od-etiqueta" data-i18n="staff_kicker">El equipo</p>
+                        <h1 class="od-titulo" style="margin-top:14px" data-i18n="staff_title">Nuestro equipo de staff</h1>
+                        <hr class="od-filete--dorado">
+                        <p class="od-bajada" data-i18n="staff_subtitle">Conoce a las personas que hacen la mejor experiencia en Odissey posible. Pulsa cualquier tarjeta para ver su información.</p>
+                    </header>
+
+                    <div id="staff-groups"></div>
                 </div>
             </section>
         </main>
@@ -1107,13 +1117,18 @@ try {
         loadRates();
         const staffModal = document.getElementById('staffModal');
         
-        function getStaff() {
-            const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
-            if (window.SiteData && SiteData.publicLoaded) {
-                if (SiteData.configured.staff || SiteData.configured.staffEmpty || dbStaff.length > 0) return dbStaff;
-            }
-            return (window.STAFF || []);
-        }
+function getStaff() {
+  const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
+  /* Si la base de datos trae gente, esa es la buena: es la que se puede
+     editar desde el panel.
+     Pero si viene VACIA, se cae a la lista de reserva de staff-config.js.
+     Antes no se caia nunca: /api/content devolvia staffConfigured:true
+     siempre, asi que la condicion se cumplia y se devolvia una lista
+     vacia. El resultado era una pagina en blanco con el equipo entero
+     sin aparecer. */
+  if (dbStaff.length > 0) return dbStaff;
+  return (window.STAFF || []);
+}
 function roleKey(role) {
             const r = String(role || '').toLowerCase();
             if (r.includes('fund') || r.includes('owner')) return 'founder';
@@ -1183,44 +1198,48 @@ function roleKey(role) {
                 if (!grouped[key]) grouped[key] = [];
                 grouped[key].push(member);
             });
-            container.innerHTML = ROLE_ORDER
-                .filter(key => grouped[key] && grouped[key].length > 0)
-                .map((group, gi) => {
-                    const list = grouped[group].map(member => {
-                        const stats = getStaffStats(member);
-                        const starsLabel = stats.votes > 0
-                            ? '<span style="color:var(--od-gold-light,#fde68a);">★</span> ' + stats.avg.toFixed(1)
-                            : '<span style="color:var(--od-marine-light,#334155);">✨</span> ' + (getLang() === 'en' ? 'New' : 'Nuevo');
-                        const votesLabel = stats.votes === 1
-                            ? (getLang() === 'en' ? '1 review' : '1 valoración')
-                            : stats.votes + ' ' + (getLang() === 'en' ? 'reviews' : 'valoraciones');
-                        return `
-                        <div class="staff-card">
-                            <img src="https://mc-heads.net/avatar/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" class="staff-card-skin" onerror="this.onerror=null;this.src='https://placehold.co/96x96/334155/ffffff?text=Error';">
-                            ${rankBadge(member.role)}
-                            <span class="staff-card-name">${escapeHtml(member.name)}</span>
-                            <span class="staff-card-bio">${escapeHtml(member.description)}</span>
-                            <div class="staff-card-stats">
-                                <span class="staff-card-rating">${starsLabel}</span>
-                                <span class="staff-card-votes">${votesLabel}</span>
-                            </div>
-                            <button type="button" class="staff-card-open" data-staff-name="${escapeHtml(member.name)}">
-                                ${getLang() === 'en' ? 'View profile' : 'Ver perfil'} <span aria-hidden="true">➤</span>
-                            </button>
-                        </div>`;
-                    }).join('');
-                    return `
-                        <div class="staff-group reveal" style="transition-delay: ${gi * 0.1}s;">
-                            <div class="staff-group-header">
-                                <span class="staff-group-title">${groupTitle(group)}</span>
-                                <span class="staff-group-count">${grouped[group].length}</span>
-                            </div>
-                            <hr class="staff-group-divider">
-                            <div class="staff-cards">
-                                ${list}
-                            </div>
-                        </div>`;
-                }).join('');
+/* Todo el equipo en una sola rejilla. Antes se agrupaba por
+               cargo y, con pocas personas, salia un titulo y una tarjeta
+               suelta por seccion: cuatro titulos para cuatro nombres, con
+               las otras dos columnas de cada rejilla vacias.
+
+               Ahora van todos juntos, ordenados por cargo (fundador
+               primero), y el cargo va como etiqueta en su tarjeta. */
+            var tarjetas = staff.map(function (member, i) {
+                var stats = getStaffStats(member);
+                var estrellas = stats.votes > 0
+                    ? '<span class="od-star">★</span> ' + stats.avg.toFixed(1)
+                    : '<span class="od-star od-star--nuevo">—</span> ' + (getLang() === 'en' ? 'New' : 'Sin valorar');
+                var votos = stats.votes === 1
+                    ? (getLang() === 'en' ? '1 review' : '1 valoración')
+                    : stats.votes + ' ' + (getLang() === 'en' ? 'reviews' : 'valoraciones');
+                var mc = member.minecraft || member.name;
+                return '<article class="staff-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
+                    + '<div class="staff-card-top">'
+                        + '<img src="https://mc-heads.net/avatar/' + encodeURIComponent(mc) + '/128"'
+                            + ' alt="" class="staff-card-skin" loading="lazy"'
+                            + ' onerror="this.onerror=null;this.src=\'https://placehold.co/96x96/1b1b22/62626e?text=%3F\';">'
+                        + '<div class="staff-card-id">'
+                            + '<span class="staff-card-name">' + escapeHtml(member.name) + '</span>'
+                            + '<span class="staff-card-bio">' + escapeHtml(member.description || member.bio || '') + '</span>'
+                        + '</div>'
+                    + '</div>'
+                    + '<div class="staff-card-foot">'
+                        + '<span class="staff-card-role">' + escapeHtml(member.role || '') + '</span>'
+                        + '<span class="staff-card-votes">' + estrellas + ' · ' + votos + '</span>'
+                    + '</div>'
+                    + '<button type="button" class="od-btn staff-card-open" data-staff-name="' + escapeHtml(member.name) + '">'
+                        + (getLang() === 'en' ? 'View profile' : 'Ver perfil') + ' <span aria-hidden="true">→</span>'
+                    + '</button>'
+                + '</article>';
+            }).join('');
+
+            container.innerHTML = staff.length
+                ? '<div class="staff-rejilla od-rejilla od-cols-3">' + tarjetas + '</div>'
+                  + '<p class="od-etiqueta" style="margin-top:26px">' + staff.length + '</p>'
+                : '<div class="od-vacio"><strong>' + (getLang() === 'en' ? 'No staff yet' : 'Todavía no hay staff') + '</strong>'
+                  + (getLang() === 'en' ? 'Add it from the admin panel.' : 'Añádelo desde el panel de administración.') + '</div>';
+
             container.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
             container.querySelectorAll('.staff-card-open').forEach(button => {
                 button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
@@ -1763,7 +1782,7 @@ async function submitRating() {
 nav_eventos: 'Eventos',
 nav_galeria: 'Galería',
 staff_title: 'Nuestro equipo de staff',
-staff_subtitle: 'Conoce a las personas que hacen la mejor experiencia en Odissey posible. Haz clic en una cabeza para ver su información.',
+staff_subtitle: 'Conoce a las personas que hacen la mejor experiencia en Odissey posible. Pulsa cualquier tarjeta para ver su información.',
 report_title: 'Reportar un jugador',
 report_sub: 'Tu reporte lo revisará el staff',
 report_info: 'Indica el jugador que quieres reportar y el motivo. Si tienes una captura, pega su enlace (opcional).',

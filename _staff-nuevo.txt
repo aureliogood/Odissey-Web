@@ -1,0 +1,43 @@
+/* Todo el equipo en una sola rejilla. Antes se agrupaba por
+               cargo y, con pocas personas, salia un titulo y una tarjeta
+               suelta por seccion: cuatro titulos para cuatro nombres, con
+               las otras dos columnas de cada rejilla vacias.
+
+               Ahora van todos juntos, ordenados por cargo (fundador
+               primero), y el cargo va como etiqueta en su tarjeta. */
+            var tarjetas = staff.map(function (member, i) {
+                var stats = getStaffStats(member);
+                var estrellas = stats.votes > 0
+                    ? '<span class="od-star">★</span> ' + stats.avg.toFixed(1)
+                    : '<span class="od-star od-star--nuevo">—</span> ' + (getLang() === 'en' ? 'New' : 'Sin valorar');
+                var votos = stats.votes === 1
+                    ? (getLang() === 'en' ? '1 review' : '1 valoración')
+                    : stats.votes + ' ' + (getLang() === 'en' ? 'reviews' : 'valoraciones');
+                var mc = member.minecraft || member.name;
+                return '<article class="staff-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
+                    + '<div class="staff-card-top">'
+                        + '<img src="https://mc-heads.net/avatar/' + encodeURIComponent(mc) + '/128"'
+                            + ' alt="" class="staff-card-skin" loading="lazy"'
+                            + ' onerror="this.onerror=null;this.src=\'https://placehold.co/96x96/1b1b22/62626e?text=%3F\';">'
+                        + '<div class="staff-card-id">'
+                            + '<span class="staff-card-name">' + escapeHtml(member.name) + '</span>'
+                            + '<span class="staff-card-bio">' + escapeHtml(member.description || member.bio || '') + '</span>'
+                        + '</div>'
+                    + '</div>'
+                    + '<div class="staff-card-foot">'
+                        + '<span class="staff-card-role">' + escapeHtml(member.role || '') + '</span>'
+                        + '<span class="staff-card-votes">' + estrellas + ' · ' + votos + '</span>'
+                    + '</div>'
+                    + '<button type="button" class="od-btn staff-card-open" data-staff-name="' + escapeHtml(member.name) + '">'
+                        + (getLang() === 'en' ? 'View profile' : 'Ver perfil') + ' <span aria-hidden="true">→</span>'
+                    + '</button>'
+                + '</article>';
+            }).join('');
+
+            container.innerHTML = staff.length
+                ? '<div class="staff-rejilla od-rejilla od-cols-3">' + tarjetas + '</div>'
+                  + '<p class="od-etiqueta" style="margin-top:26px">' + staff.length + '</p>'
+                : '<div class="od-vacio"><strong>' + (getLang() === 'en' ? 'No staff yet' : 'Todavía no hay staff') + '</strong>'
+                  + (getLang() === 'en' ? 'Add it from the admin panel.' : 'Añádelo desde el panel de administración.') + '</div>';
+
+            container.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
