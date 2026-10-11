@@ -1087,7 +1087,7 @@ function trasCambiarSesion(acabasDeEntrar) {
 
     if (acabasDeEntrar) {
       // Un pequeño retardo para que el usuario vea como cambia la cabecera.
-      setTimeout(() => { window.location.href = 'perfil.html'; }, 220);
+      setTimeout(() => { window.location.href = '/perfil'; }, 220);
       return;
     }
 
@@ -1218,7 +1218,7 @@ function conectarBotonPerfil() {
     btn.removeAttribute('onclick');
     btn.addEventListener('click', (ev) => {
       ev.preventDefault();
-      if (usuarioGuardado()) window.location.href = 'perfil.html';
+      if (usuarioGuardado()) window.location.href = '/perfil';
       else if (typeof window.openLoginModal === 'function') window.openLoginModal();
     });
   }

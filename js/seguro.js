@@ -122,3 +122,44 @@
   if (typeof global.textoLimpio !== 'function') global.textoLimpio = textoLimpio;
   if (typeof global.urlApi !== 'function') global.urlApi = urlApi;
 })(window);
+
+/* ------------------------------------------------------------------
+   Quitar el ".html" de la barra de direcciones
+   ------------------------------------------------------------------
+   Todos los enlaces del sitio ya apuntan a la ruta limpia (/tienda, /admin),
+   que es como los sirve Github Pages. Pero si alguien escribe la direccion
+   a mano, o llega desde un marcador, desde un enlace antiguo de Google o
+   desde un mensaje de Discord, puede entrar por "/tienda.html" y ahi si se
+   ve el .html.
+
+   history.replaceState cambia lo que hay en la barra sin recargar ni
+   perder la pagina, que ya esta dibujada. Se usa replaceState y no
+   assign porque dejaria la entrada anterior en el historial y el boton
+   "atras" del navegador haria un vaiven raro.
+
+   Este archivo va en las 19 paginas y es de los primeros que cargan, que
+   es justo lo que hace falta: cuanto antes se quita, menos se ve. */
+(function (global) {
+  'use strict';
+  var loc = global.location;
+  if (!loc || !global.history || !global.history.replaceState) return;
+
+  var ruta = loc.pathname;
+  if (!/\.html$/i.test(ruta)) return;
+
+  /* 404.html se queda: es la pagina que Github Pages busca por defecto
+     cuando una ruta no existe, y borrarle la extension haria que, al
+     recargar, Github Pages sirviera la pagina de error... que ya es
+     esta. Sin peor, pero es mas claro no tocarla. */
+  if (/\/404\.html$/i.test(ruta)) return;
+
+  /* Si hay un directorio delante, se respeta: /carpeta/pagina.html ->
+     /carpeta/pagina. Un replaceState no cambia de archivo en el servidor,
+     asi que no hay riesgo de pedir una ruta que no exista. */
+  var limpia = ruta.replace(/\.html$/i, '') || '/';
+  try {
+    global.history.replaceState(null, '', limpia + loc.search + loc.hash);
+  } catch (e) {
+    /* Si el navegador lo rechaza, se queda con el .html. No es grave. */
+  }
+})(window);
