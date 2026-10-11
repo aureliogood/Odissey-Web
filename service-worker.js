@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=144 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v165';
+var CACHE_NAME = 'odissey-v166';
 
 var PRECACHE_URLS = [
   './',
@@ -53,6 +53,7 @@ var PRECACHE_URLS = [
   // CSS. css/tailwind.css faltaba y lo cargan todas las paginas: sin el,
   // la app instalada se abria sin estilos.
   './css/tailwind.css',
+  './css/odiseo.css',
   './theme.css',
   './css/index.css',
   './css/dala.css',
