@@ -1,24 +1,28 @@
-El logo del pie salia a 900x382 en 14 paginas, y staff afinado
+Perfil rediseñado
 
-Lo del pie es lo mas gordo y afecta a toda la web. Las clases h-10 y
-w-auto no aplicaban y la imagen salia a su tamano real de 900x382, casi
-diez veces la de la barra, que mide 94x40. El pie es donde la vista ya
-esta relaxing y llevaba un cartel de neones. Ahora el tamano va en la
-propia etiqueta, que es donde no puede ganar ninguna otra hoja. Su
-enlace era href="#" y no llevaba a ningun sitio: ahora a la portada.
+La cabecera estaba encimada: .perfil-ident tenia margin-top:-54px, que
+subia el bloque entero sobre el banner, foto Y nombre. El nombre se
+quedaba a medio camino, montado en el borde de la imagen.
 
-En staff:
+Ahora solo la foto pisa el borde, que es el truco de siempre, y el nombre
+empieza debajo, a su lado.
 
-- La rejilla llevaba od-cols-3, que gana sobre .staff-rejilla por ir
-  despues en la misma hoja. Con tres columnas fijas y cuatro personas, la
-  cuarta se caia sola a la fila siguiente con dos huecos al lado. Ahora
-  manda auto-fill y las cuatro caben en una linea.
+Lo demas:
 
-- La rejilla tenia huecos de un pixel con fondo de linea, y las celdas
-  vacias de la ultima fila se veian como bloques grises sueltos.
+- El nombre baja a 48 px en peso 300. Antes era dorado y grande, que se
+  leia como una alarma en vez de como un nombre. Sigue llevando el color
+  que elige el jugador, que para eso existe.
+- El dato de debajo (nombre de Minecraft o fecha) pasa a gris y a
+  mayusculas espaciadas: es un dato, no un titulo.
+- La foto deja de ser un cuadrado dorado con borde grueso: sin radio, con
+  borde de un pixel, y del tamaño de una foto y no de un boton.
+- Las dos columnas se reequilibran. La izquierda eran 19 rem fijos con UN
+  solo control dentro, el color, y todo lo que de verdad importa en la
+  derecha. Ahora son 15 rem.
+- Tarjetas, campos y botones con el sistema del resto del sitio: sin
+  sombras, bordes de un pixel, esquinas vivas solo en botones.
 
-- "Sin valorar / 0 valoraciones" no cabia y salia recortado. Ahora, sin
-  valoraciones, solo dice "Sin valorar".
-
-- El pie de la tarjeta hacia wrap y las alturas quedaban distintas segun
-  lo largo del cargo. Ahora es una linea siempre.
+Nota: el archivo se llamaba perfil-v2.css pero _css.cjs tenia escrito el
+nombre del sistema dentro, asi que al pasarle perfil.html fue a anadir
+odiseo.css otra vez y el nuevo se quedo en disco sin enlazar. Por eso la
+primera vez no cambio NADA y casi lo doy por bueno sin mirar.

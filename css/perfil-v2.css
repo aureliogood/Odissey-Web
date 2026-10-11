@@ -1,0 +1,236 @@
+/* ============================================================================
+   REDISENO DEL PERFIL
+   ============================================================================ */
+
+/* --- 1. La cabecera ----------------------------------------------------
+   .perfil-ident tenia margin-top:-54px, que subia el bloque entero sobre
+   el banner: la foto Y el nombre. El nombre se quedaba a medio camino,
+   encimado con el banner, y la pagina parecia suelta.
+
+   Ahora solo la foto pisa el borde del banner, que es el truco de toda
+   la vida, y el nombre empieza debajo, a su lado. */
+.perfil-ident {
+  align-items: flex-end !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+  gap: 1.75rem !important;
+}
+
+.perfil-avatar-wrap {
+  margin-top: -58px !important;
+  flex: 0 0 auto;
+}
+
+/* La foto deja de ser un cuadrado dorado enorme: sin radio, con borde
+   fino, y del tamaño que corresponde a una foto y no a un boton. */
+.perfil-avatar {
+  width: 104px !important;
+  height: 104px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--od-linea-viva) !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.perfil-avatar-btn {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 75px !important;
+  border: 1px solid var(--od-linea-viva) !important;
+  background: var(--od-fondo) !important;
+  color: var(--od-texto) !important;
+  right: -10px !important;
+  bottom: -10px !important;
+}
+
+.perfil-avatar-btn:hover {
+  background: var(--od-dorado) !important;
+  color: #10100a !important;
+  border-color: var(--od-dorado) !important;
+}
+
+/* El nombre deja de gritar en dorado. Va en el color del jugador pero
+   con el peso ligero de los titulos grandes: asi se lee como un nombre,
+   no como una alarma. */
+.perfil-nombre {
+  padding-bottom: 0 !important;
+  min-width: 0;
+}
+
+.perfil-nombre h1,
+#perfilNombre {
+  font-size: clamp(1.9rem, 4vw, 3rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+  overflow-wrap: anywhere;
+}
+
+/* El meta (nombre de Minecraft o fecha) baja a gris: es un dato, no un
+   titulo. */
+.perfil-meta {
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--od-texto-3) !important;
+  margin-top: 10px !important;
+}
+
+.perfil-bio {
+  color: var(--od-texto-2) !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  max-width: 58ch;
+  margin-top: 14px !important;
+}
+
+.perfil-chips { margin-top: 18px !important; gap: 8px !important; }
+
+.perfil-chip {
+  border-radius: 75px !important;
+  border: 1px solid var(--od-linea) !important;
+  background: transparent !important;
+  color: var(--od-texto-2) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  padding: 5px 14px !important;
+}
+
+/* --- 2. El banner ------------------------------------------------------ */
+.perfil-banner {
+  border-radius: 0 !important;
+  border: 1px solid var(--od-linea) !important;
+}
+
+.perfil-banner-btn {
+  border-radius: 75px !important;
+  border: 1px solid var(--od-linea-viva) !important;
+  background: rgba(8, 8, 11, 0.82) !important;
+  color: var(--od-texto) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* --- 3. Las dos columnas -----------------------------------------------
+   La columna izquierda era un 19rem fijos con DENTRO un solo control, el
+   color: 19rem de hueco para un campo. Y todo lo que de verdad importa
+   (nombre, bio, nombre de Minecraft) vivia en la de la derecha.
+
+   Ahora la izquierda se estrecha y el reparto se invierte: los datos en
+   la grande, que es donde el ojo esta. */
+.perfil-cuerpo {
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) !important;
+  gap: 2rem !important;
+  margin-top: 3rem !important;
+}
+
+.perfil-card {
+  background: var(--od-panel) !important;
+  border: 1px solid var(--od-linea) !important;
+  border-radius: 0 !important;
+  padding: 26px !important;
+  box-shadow: none !important;
+}
+
+.perfil-card__head h2,
+.perfil-card h2 {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: var(--od-texto) !important;
+}
+
+.perfil-card__head p,
+.perfil-card > p {
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: var(--od-texto-3) !important;
+}
+
+/* Los campos: rectos, con borde de un pixel, como el resto. */
+.perfil-card input[type="text"],
+.perfil-card input[type="email"],
+.perfil-card input[type="url"],
+.perfil-card textarea,
+.perfil-card select {
+  border-radius: 0 !important;
+  border: 1px solid var(--od-linea) !important;
+  background: var(--od-fondo) !important;
+  color: var(--od-texto) !important;
+  transition: border-color 0.8s var(--od-curva);
+}
+
+.perfil-card input:focus,
+.perfil-card textarea:focus,
+.perfil-card select:focus {
+  border-color: var(--od-dorado) !important;
+  outline: none !important;
+}
+
+.perfil-card__label,
+.perfil-card label {
+  font-size: 11px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--od-texto-3) !important;
+}
+
+/* Los botones de la pagina: pastilla, como en el resto del sitio. */
+.perfil-card .btn3d,
+.perfil-cuerpo .btn3d {
+  border-radius: 75px !important;
+  border: 1px solid var(--od-linea-viva) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
+  transition: border-color 0.8s var(--od-curva), color 0.8s var(--od-curva);
+}
+
+.perfil-cuerpo .btn-gold {
+  background: var(--od-dorado) !important;
+  border-color: var(--od-dorado) !important;
+  color: #10100a !important;
+  font-weight: 600 !important;
+}
+
+/* --- 4. Moverse poco --------------------------------------------------- */
+@media (max-width: 900px) {
+  .perfil-cuerpo {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .perfil-ident {
+    flex-wrap: wrap;
+    gap: 1.25rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perfil-card input, .perfil-card textarea, .perfil-card select,
+  .perfil-card .btn3d, .perfil-avatar-btn {
+    transition-duration: 0.01ms !important;
+  }
+}
+/* --- 5. El bloque del color -------------------------------------------
+   Al estrechar la columna izquierda a 15rem, el bloque del color se
+   aposto: el hexadecimal, el boton y el texto de ayuda competian por el
+   ancho y la explicacion se partia en seis lineas. Se reparte en dos
+   filas: el control a la izquierda y el texto a la derecha. */
+.perfil-color-row {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.perfil-color-info {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+}
+
+.perfil-color-info p {
+    line-height: 1.45 !important;
+    margin-top: 6px !important;
+}
+
+.perfil-color {
+    padding: 0 !important;
+}
