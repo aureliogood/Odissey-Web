@@ -323,12 +323,10 @@
 }
 
 .auth-boton {
-  min-height: 40px !important;
+  min-height: 36px !important;
   font-family: 'Inter', sans-serif !important;
-  font-size: 0.6875rem !important;
+  font-size: 0.875rem !important;
   font-weight: 500 !important;
-  letter-spacing: 0.11em !important;
-  text-transform: uppercase;
   /* dala.css lo describe como "ocupa todo el ancho, como una pastilla
      dorada", pero no le pone width:100%. El inline-flex se ajusta al
      texto y medía 42px (solo la palabra "Entrar") dentro de un campo
@@ -347,12 +345,12 @@
      blanco suelto, sin la pastilla dorada que describe el comentario
      de al lado. Texto oscuro sobre oro: 10.3:1, muy por encima del
      4.5:1 que hace falta. */
-  background-color: #f3b215 !important;
-  background-image: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%) !important;
-  color: #140e00 !important;
-  border: 1px solid rgba(255, 214, 102, 0.34) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+  background-color: var(--dala-gold, #eab308) !important;
+  background-image: none !important;
+  color: #14100a !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
 
   /* Medido: sin esto el botón quedaba a 0px del campo de encima y a
      0px de la línea del pie, las tres cajas pegadas. Antes no se
@@ -362,14 +360,14 @@
 }
 
 .auth-boton:hover:not(:disabled) {
-  filter: brightness(1.08);
+  background-color: #f5c518 !important;
 }
 
 /* Con el boton pulsado ya no se distingue del reposo: en dorado, un
    cambio de tono casi no se ve. El brillo baja y el texto se aclara un
    poco, que si se nota. */
 .auth-boton:active:not(:disabled) {
-  filter: brightness(0.92);
+  transform: translateY(1px);
 }
 
 .auth-boton:disabled {
@@ -657,7 +655,7 @@ html.theme-light .auth-input[aria-invalid='true'] {
   }
 
   .auth-boton {
-    min-height: 42px !important;
+    min-height: 40px !important;
   }
 
   .auth-error-campo,

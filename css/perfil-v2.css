@@ -175,21 +175,18 @@
   color: var(--od-texto-3) !important;
 }
 
-/* Los botones de la pagina: pastilla, como en el resto del sitio. */
+/* Los botones de la pagina: rectangulo de 10px, como en el resto del sitio. */
 .perfil-card .btn3d,
 .perfil-cuerpo .btn3d {
-  border-radius: 999px !important;
+  border-radius: 10px !important;
   border: 1px solid var(--od-linea-viva) !important;
   font-weight: 500 !important;
-  letter-spacing: 0.11em !important;
   transition: border-color 0.8s var(--od-curva), color 0.8s var(--od-curva);
 }
 
 .perfil-cuerpo .btn-gold {
-  background-color: #f3b215 !important;
-  background-image: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%) !important;
-  border-color: rgba(255, 214, 102, 0.34) !important;
+  background: var(--od-dorado) !important;
+  border-color: transparent !important;
   color: #10100a !important;
   font-weight: 500 !important;
 }

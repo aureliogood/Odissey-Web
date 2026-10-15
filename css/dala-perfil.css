@@ -281,45 +281,42 @@
 /* ---------- botones mini ---------- */
 .btn-mini {
   min-height: 32px !important;
-  padding: 0 14px !important;
+  padding: 0 10px !important;
+  border-radius: 10px !important;
   font-family: var(--font-dala) !important;
-  font-size: 0.6875rem !important;
+  font-size: 0.875rem !important;
   font-weight: 500 !important;
-  letter-spacing: 0.11em !important;
-  text-transform: uppercase;
-  color: #140e00 !important;
-  background-color: #f3b215 !important;
-  background-image: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%) !important;
-  border: 1px solid rgba(255, 214, 102, 0.34) !important;
-  border-radius: 999px !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
-  transition: transform 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala),
-    color 0.18s var(--ease-dala), border-color 0.18s var(--ease-dala);
+  color: #14100a !important;
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s var(--ease-dala), color 0.15s var(--ease-dala),
+    border-color 0.15s var(--ease-dala), transform 0.15s var(--ease-dala);
 }
 .btn-mini:hover {
-  background-color: #ffc423 !important;
-  transform: translateY(-1px);
+  background: #f5c518 !important;
+  transform: none;
 }
 .btn-mini-fantasma {
   background: transparent !important;
   color: var(--dala-silver) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
 }
 .btn-mini-fantasma:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
   color: var(--dala-white) !important;
-  border-color: rgba(255, 255, 255, 0.32) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
 }
 .btn-mini-peligro {
-  background: transparent !important;
-  color: #f87171 !important;
-  border-color: rgba(248, 113, 113, 0.35) !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(239, 68, 68, 0.28) !important;
 }
 .btn-mini-peligro:hover {
-  background: rgba(248, 113, 113, 0.12) !important;
-  color: #fca5a5 !important;
-  border-color: rgba(248, 113, 113, 0.6) !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fecaca !important;
+  border-color: rgba(239, 68, 68, 0.45) !important;
 }
 
 /* ---------- filas de acción ---------- */

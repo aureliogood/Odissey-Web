@@ -1435,12 +1435,12 @@ html {
         }
         /* =============================================================
            Botones de la web
-           Un solo bloque para todos. Antes eran 44px de alto, 24px de
-           lado y 12px de letra: el conjunto se leia como un muro de
-           bloques. Ahora el boton es un objeto pequeno y la jerarquia
-           la hacen DOS variantes, no el relleno: dorada para la accion
-           (entrar, comprar, enviar) y fantasma con un filo de 1px para
-           todo lo demas (filtros, idiomas, acciones secundarias).
+           Sistema de shadcn/ui, el de la web de referencia: rectangulos
+           de 10px de radio (no pastillas), 32px de alto, 10px de lado y
+           14px de letra en minuscula normal. Relleno plano, sin degradado
+           ni barrido, y el hover NO levanta el boton: solo cambia el fondo.
+           Al pulsar baja 1px. Las pastillas se reservan para lo que no es
+           boton: insignias, etiquetas, contador del carrito.
            ============================================================= */
 
         .news-filter-btn,
@@ -1450,41 +1450,35 @@ html {
         .cb-btn,
         .btn-copy-tag,
         .gold-btn,
-        .btn-delete-mini,
-        .btn-danger,
-        .btn-logout,
         .btn-action,
         .btn-continue,
         .btn-gold,
-        .btn-online,
-        .btn-rating-del {
+        .btn-online {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
+            gap: 0.375rem;
             min-height: 32px;
-            padding: 0 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 214, 102, 0.34);
-            background-color: #f3b215;
-            background-image: linear-gradient(180deg,
-                rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
-            color: #140e00;
+            padding: 0 10px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background: #eab308;
+            background-image: none;
+            color: #14100a;
             font-family: 'Inter', sans-serif;
-            font-size: 0.6875rem;
+            font-size: 0.875rem;
             font-weight: 500;
-            letter-spacing: 0.11em;
             line-height: 1;
-            text-transform: uppercase;
             text-decoration: none;
             white-space: nowrap;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
-            transition: filter 0.18s ease, border-color 0.18s ease,
-                color 0.18s ease, transform 0.18s ease;
+            box-shadow: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease,
+                color 0.15s ease, transform 0.15s ease;
         }
-        /* Fantasma: filtros, idiomas y acciones secundarias. Sin relleno. */
+        /* Contorno: sin relleno, con un filo de 1px. El hover solo enciende
+           ese filo. Es un boton que espera turno, no uno que manda. */
         .news-filter-btn,
         .lang-btn,
         .rating-btn,
@@ -1496,9 +1490,8 @@ html {
         .tiktok-btn {
             background: transparent;
             background-image: none;
-            border-color: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.15);
             color: #bdbdbd;
-            box-shadow: none;
         }
         .news-filter-btn:hover,
         .lang-btn:hover,
@@ -1509,10 +1502,9 @@ html {
         .btn-ghost:hover,
         .discord-btn:hover,
         .tiktok-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.28);
             color: #ffffff;
-            transform: translateY(-1px);
         }
         .news-filter-btn svg,
         .lang-btn svg,
@@ -1527,8 +1519,8 @@ html {
         .btn-gold svg,
         .discord-btn svg,
         .tiktok-btn svg {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
         }
         .news-filter-btn:active,
@@ -1546,8 +1538,7 @@ html {
         .btn-gold:active,
         .btn-online:active,
         .btn-rating-del:active {
-            transform: translateY(0) scale(0.985);
-            filter: brightness(0.97);
+            transform: translateY(1px);
         }
         .news-filter-btn:focus-visible,
         .lang-btn:focus-visible,
@@ -1564,83 +1555,77 @@ html {
         .btn-gold:focus-visible,
         .btn-online:focus-visible,
         .btn-rating-del:focus-visible {
-            outline: 2px solid var(--od-marine-accent);
-            outline-offset: 2px;
+            outline: none;
+            border-color: #eab308;
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
         }
-        /* Estado activo del filtro: se marca con un velo dorado, no con un
-           relleno macizo, para que conviva con los botones dorados. */
+        /* Estado activo del filtro: velo dorado. Es el estado, no un adorno. */
         .news-filter-btn.active,
         .rating-btn.active {
-            background: rgba(234, 179, 8, 0.14);
+            background: rgba(234, 179, 8, 0.16);
             background-image: none;
-            border-color: rgba(234, 179, 8, 0.55);
+            border-color: rgba(234, 179, 8, 0.5);
             color: #fde68a;
-            font-weight: 500;
             box-shadow: none;
         }
         .news-filter-btn.active:hover,
         .rating-btn.active:hover {
-            background: rgba(234, 179, 8, 0.2);
+            background: rgba(234, 179, 8, 0.22);
             color: #fef3c7;
         }
         /* Accion positiva: el boton de aceptar. */
         .cb-accept {
-            background-color: #f3b215;
-            color: #140e00;
+            background: #eab308;
+            background-image: none;
+            color: #14100a;
         }
-        /* Peligro: borrar, banear, cerrar. Un filo rojo, no un relleno. */
+        /* Peligro: borrar, banear, cerrar. Velo rojo, no relleno rojo. */
         .btn-danger,
         .btn-rating-del,
         .cb-decline {
-            background: transparent;
+            background: rgba(239, 68, 68, 0.12);
             background-image: none;
-            border-color: rgba(248, 113, 113, 0.34);
+            border-color: rgba(239, 68, 68, 0.28);
             color: #fca5a5;
-            box-shadow: none;
         }
         .btn-danger:hover,
         .btn-rating-del:hover,
         .cb-decline:hover {
-            background: rgba(248, 113, 113, 0.12);
-            border-color: rgba(248, 113, 113, 0.6);
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.45);
             color: #fecaca;
         }
-        /* Cantidad del carrito: cuadrados de 30px con el glifo centrado. */
+        /* Cantidad del carrito: cuadrados de 28px con el glifo centrado. */
         .cart-qty-btn,
         .cart-remove {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             min-height: 0;
             padding: 0;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             background: transparent;
             background-image: none;
             color: #bdbdbd;
             box-shadow: none;
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             letter-spacing: 0;
             line-height: 1;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.18s ease, border-color 0.18s ease,
-                color 0.18s ease, transform 0.18s ease;
+            transition: background-color 0.15s ease, border-color 0.15s ease,
+                color 0.15s ease;
         }
         .cart-qty-btn:hover,
         .cart-remove:hover {
             background: rgba(255, 255, 255, 0.07);
             border-color: rgba(255, 255, 255, 0.28);
             color: #ffffff;
-            transform: translateY(-1px);
-        }
-        .cart-qty-btn:active,
-        .cart-remove:active {
-            transform: translateY(0) scale(0.96);
         }
         /* El menu desplegable no va en dorado: son filas de icono y
            texto sobre fondo translucido, como en la referencia. */
@@ -1652,31 +1637,21 @@ html {
             box-shadow: none;
         }
         .nav-button:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.14);
-            color: var(--od-text-light);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
         }
-        /* La pagina actual se marca con una rayita dorada de 1px: en una
-           barra de texto el unico bloque macizo rompe la lectura. */
+        /* La pagina actual: fondo tenue, como el bg-muted de shadcn. En
+           una barra de texto el unico bloque macizo rompe la lectura. */
         .nav-button[aria-current='page'] {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.09);
             background-image: none;
             border-color: transparent;
             color: #ffffff;
-            font-weight: 500;
             box-shadow: none;
         }
-        .nav-button[aria-current='page']::after {
-            content: '';
-            position: absolute;
-            left: 0.1em;
-            right: 0.1em;
-            bottom: -2px;
-            height: 1px;
-            background: var(--od-marine-accent, #eab308);
-        }
         .nav-button[aria-current='page']:hover {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.14);
             color: #ffffff;
         }
         /* Contorno dorado: fondo transparente, borde y texto dorados.
@@ -1688,7 +1663,7 @@ html {
         .btn-ghost {
             background: transparent;
             background-image: none;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #bdbdbd;
             box-shadow: none;
         }
@@ -1696,15 +1671,15 @@ html {
         .tiktok-btn:hover,
         .gold-btn:hover,
         .btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.28);
             color: #ffffff;
-            transform: translateY(-1px);
+            transform: none;
             box-shadow: none;
         }
         .discord-btn:active,
         .tiktok-btn:active,
         .gold-btn:active,
         .btn-ghost:active {
-            transform: translateY(0) scale(0.985);
+            transform: translateY(1px);
         }

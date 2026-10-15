@@ -188,15 +188,13 @@ nav.nav-bar .nav-inner {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  min-height: 28px;
+  gap: 0.375rem;
+  min-height: 30px;
   padding: 0 0.6rem;
-  border-radius: 9999px;
+  border-radius: 8px;
   font-family: var(--font-dala) !important;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   white-space: nowrap;
   color: var(--dala-ash) !important;
   text-decoration: none;
@@ -204,26 +202,16 @@ nav.nav-bar .nav-inner {
 }
 .nav-pill__link:hover {
   color: #fff !important;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
 }
-/* La pagina en la que estas: rayita dorada, no pastilla. Una pastilla
-   dorada aqui seria el unico bloque macizo de la barra. */
+/* La pagina en la que estas: fondo tenue, como el bg-muted de shadcn. */
 .nav-pill__link[aria-current='page'] {
   color: #ffffff !important;
-  background: transparent;
-}
-.nav-pill__link[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
-  bottom: -1px;
-  height: 1px;
-  background: var(--dala-gold);
+  background: rgba(255, 255, 255, 0.09);
 }
 .nav-pill__icon {
-  width: 13px;
-  height: 13px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
   opacity: 0.75;
 }
@@ -349,10 +337,8 @@ nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
 /* Los botones de la barra dejan de ser pastillas: texto con jerarquía. */
 .nav-button {
   font-family: var(--font-dala) !important;
-  font-size: 0.6875rem !important;
+  font-size: 0.875rem !important;
   font-weight: 500 !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase;
   padding: 0.5rem 0 !important;
   min-height: 0 !important;
   border-radius: 0 !important;
@@ -361,7 +347,7 @@ nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
   border: 0 !important;
   box-shadow: none !important;
   color: var(--dala-ash) !important;
-  transition: color 0.18s var(--ease-dala), opacity 0.18s var(--ease-dala);
+  transition: color 0.15s var(--ease-dala), opacity 0.15s var(--ease-dala);
 }
 .nav-button:hover {
   color: var(--dala-white) !important;
@@ -487,21 +473,19 @@ nav .lang-btn:hover {
 
 /* Sólo dos accionesaries conservan la píldora dorada: carrito y entrar. */
 .nav-button-primary {
-  background-color: #f3b215 !important;
-  background-image: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%) !important;
-  border: 1px solid rgba(255, 214, 102, 0.34) !important;
-  border-radius: 999px !important;
+  background: var(--dala-gold) !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
   min-height: 30px !important;
-  padding: 0 13px !important;
-  font-size: 0.6875rem !important;
-  letter-spacing: 0.11em !important;
-  color: #140e00 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+  padding: 0 10px !important;
+  font-size: 0.875rem !important;
+  color: #14100a !important;
+  box-shadow: none !important;
 }
 .nav-button-primary:hover {
-  background-color: #ffc423 !important;
-  transform: translateY(-1px);
+  background: #f5c518 !important;
+  transform: none;
 }
 .nav-button-primary .cart-count {
   background-color: #140e00 !important;
@@ -579,19 +563,32 @@ nav .lang-btn:hover {
 }
 
 /* ----------------------------------------------------------------------------
-   4. BOTONES — la píldora, en versión fina
+   4. BOTONES — rectangulos de 10px, planos, sin salto
    ---------------------------------------------------------------------------- */
-/* Antes eran 44px de alto, 24px de lado, 12px de letra y un barrido de blanco
-   al pasar el ratón: el conjunto se leía como un muro de bloques. Ahora el
-   botón es un objeto pequeño — 32px, 14px de lado, 11px de letra en versalitas
-   espaciada — y el relieve se consigue con un filo de luz de 1px en el borde
-   superior, no con una sombra difusa.
+/* El sistema es el de shadcn/ui, el que usa la web de referencia. Cambia
+   cuatro cosas de fondo respecto a como estaban:
 
-   El barrido se ha eliminado a propósito: en un botón de 32px el degradado
-   móvil se comía el texto. La jerarquía se consigue con DOS variantes y no con
-   una sola: dorada (la acción) y fantasma (todo lo demás). */
+     1. FORMA: rounded-lg (10px), no pastillas. La pastilla era el gesto
+        "boton"; el rectangulo es el gesto "control". Las pastillas se
+        reservan para lo que NO es un boton: insignias, etiquetas, el
+        contador del carrito, los grupos de interruptores.
 
-/* --- 4.1 Dorada: la acción principal ------------------------------------- */
+     2. LETRA: text-sm (14px) en minuscula normal, peso 500. La versalita
+        de 11px con 0.11em de espaciado queda para los ANTETITULOS
+        ("EXPLORA Y FILTRA TUS VENTAJAS", "EL EQUIPO"), que es donde el
+        sitio la sigue usando. En un boton solo competia con el texto
+        que hay al lado.
+
+     3. MEDIDA: 32px de alto, 10px de lado y 6px de separacion. Antes
+        44px / 24px / 8px: se ocupaba el doble de lo que necesita.
+
+     4. MOVIMIENTO: el hover NO levanta el boton. Solo cambia el fondo, y
+        al pulsar baja 1px. El translateY(-2px) hacia que una fila de
+        botones bailara al pasar el raton por encima.
+
+   Los rellenos son planos: sin degradado, sin barrido de luz y sin sombra
+   difusa. El relieve sale de un borde de 1px y de un anillo en :focus. */
+
 .btn3d,
 .btn-gold,
 .btn-gold-inline,
@@ -606,25 +603,24 @@ nav .lang-btn:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.375rem;
   min-height: 32px;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 214, 102, 0.34) !important;
-  border-radius: 999px !important;
-  background: linear-gradient(180deg, #ffc93c 0%, #eda400 100%) !important;
-  color: #140e00 !important;
-  font-family: var(--font-dala) !important;
-  font-size: 0.6875rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.11em !important;
-  line-height: 1 !important;
-  text-transform: uppercase;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--dala-gold);
+  color: #14100a;
+  font-family: var(--font-dala);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
-  transition: filter 0.18s var(--ease-dala),
-    transform 0.18s var(--ease-dala),
-    border-color 0.18s var(--ease-dala);
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
 }
 .btn3d:hover,
 .btn-gold:hover,
@@ -636,33 +632,42 @@ nav .lang-btn:hover {
 .rating-submit:hover,
 .cb-btn:hover,
 .btn-copy-tag:hover {
-  filter: brightness(1.07);
-  color: #140e00 !important;
-  transform: translateY(-1px);
-  border-color: rgba(255, 226, 150, 0.6) !important;
+  background: #f5c518;
+  color: #14100a;
 }
 .btn3d:active,
 .btn-gold:active,
-.btn-action:active,
 .btn-continue:active,
+.btn-action:active,
 .cb-btn:active {
-  transform: translateY(0) scale(0.985);
-  filter: brightness(0.97);
+  transform: translateY(1px);
 }
+
+/* --- 4.1 Medidas ---------------------------------------------------------- */
 .btn3d.btn-sm,
 .btn-gold.btn-sm,
 .btn-action.btn-sm,
-.cb-btn.btn-sm {
-  min-height: 26px !important;
+.cb-btn.btn-sm,
+.btn-mini {
+  min-height: 28px !important;
   padding: 0 10px !important;
-  font-size: 0.625rem !important;
-  letter-spacing: 0.1em !important;
+  border-radius: 8px !important;
+  font-size: 0.8125rem !important;
+  gap: 0.375rem !important;
+}
+.btn3d.btn-xs,
+.btn-gold.btn-xs,
+.cb-btn.btn-xs {
+  min-height: 24px !important;
+  padding: 0 8px !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  gap: 0.25rem !important;
 }
 
-/* --- 4.2 Fantasma: filtros, idiomas, acciones secundarias ----------------- */
-/* Sin relleno. Un filo de 1px basta para separar el control del fondo negro y
-   el color de texto hace el resto. Es lo que hace que la página respire: lo
-   dorado queda reservado para "compra / entrar / enviar". */
+/* --- 4.2 Contorno --------------------------------------------------------- */
+/* Sin relleno y con un filo de 1px. El hover solo enciende ese filo y
+   levanta el fondo un 5%: es un boton que espera turno, no que manda. */
 .lang-btn,
 .rating-btn,
 .news-filter-btn,
@@ -676,27 +681,24 @@ nav .lang-btn:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.375rem;
   min-height: 32px;
-  padding: 0 13px;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  border-radius: 999px !important;
-  background: transparent !important;
-  background-image: none !important;
-  color: var(--dala-silver) !important;
-  font-family: var(--font-dala) !important;
-  font-size: 0.6875rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.11em !important;
-  line-height: 1 !important;
-  text-transform: uppercase;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dala-silver);
+  font-family: var(--font-dala);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: none !important;
-  transition: background-color 0.18s var(--ease-dala),
-    border-color 0.18s var(--ease-dala),
-    color 0.18s var(--ease-dala),
-    transform 0.18s var(--ease-dala);
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
 }
 .lang-btn:hover,
 .rating-btn:hover,
@@ -707,67 +709,80 @@ nav .lang-btn:hover {
 .btn-logout:hover,
 .discord-btn:hover,
 .tiktok-btn:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  color: #ffffff !important;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--dala-white);
 }
+
 /* El filtro que está seleccionado sí se llena: es el estado, no un adorno. */
 .news-filter-btn.active,
 .rating-btn.active,
 .lang-btn.active {
-  background: rgba(234, 179, 8, 0.14) !important;
-  border-color: rgba(234, 179, 8, 0.55) !important;
-  color: var(--dala-gold-light) !important;
+  background: rgba(234, 179, 8, 0.16);
+  border-color: rgba(234, 179, 8, 0.5);
+  color: var(--dala-gold-light);
 }
 
 /* --- 4.3 Peligro ---------------------------------------------------------- */
-/* Ni rojo chillón ni botón dorado: un filo rojo sobre fondo limpio. */
+/* Velo rojo al 12% con el texto en rojo claro. Del mismo modo que el
+   "destructive" de la referencia: se distingue por el color, no por un
+   relleno solido que gritaría más que la propia acción. */
 .btn-danger,
 .btn-rating-del,
 .cb-decline,
 .btn-mini-peligro {
-  background: transparent !important;
-  border-color: rgba(248, 113, 113, 0.34) !important;
-  color: #fca5a5 !important;
-  box-shadow: none !important;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #fca5a5;
 }
 .btn-danger:hover,
 .btn-rating-del:hover,
 .cb-decline:hover,
 .btn-mini-peligro:hover {
-  background: rgba(248, 113, 113, 0.12) !important;
-  border-color: rgba(248, 113, 113, 0.6) !important;
-  color: #fecaca !important;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #fecaca;
 }
 
 /* --- 4.4 Cuadrados de operación (steppers y cerrar) ---------------------- */
-/* El Botón de carrito y la X no llevan texto: son cuadrados de 30px con el
-   glifo centrado. Sin esta línea heredaban el alto y el padding del texto y
-   quedaban descuadrados. */
+/* El botón de carrito y la X no llevan texto: son cuadrados con el glifo
+   centrado. Sin esta línea heredaban el alto y el padding del texto. */
 .cart-qty-btn,
-.cart-remove {
-  min-width: 30px !important;
-  min-height: 30px !important;
-  width: 30px !important;
-  height: 30px !important;
-  padding: 0 !important;
-  border-radius: 8px !important;
-  font-size: 0.9rem !important;
-  letter-spacing: 0 !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
-  background: transparent !important;
-  color: var(--dala-silver) !important;
-  box-shadow: none !important;
+.cart-remove,
+.close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dala-silver);
+  font-family: var(--font-dala);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
 }
 .cart-qty-btn:hover,
-.cart-remove:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  color: #ffffff !important;
+.cart-remove:hover,
+.close-btn:hover {
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--dala-white);
 }
-/* Los iconos dentro de los botones heredan el color del texto y se encogen:
-   a 32px de alto un SVG de 20px deja el rótulo microscopicamente pequeño. */
+
+/* --- 4.5 Iconos ----------------------------------------------------------- */
+/* 16px en el botón de 32px. Con los 20px que traía la web anterior el
+   glifo se comía la mitad del alto y el rótulo quedaba microscópico. */
 .btn3d svg,
 .btn-gold svg,
 .btn-action svg,
@@ -781,59 +796,68 @@ nav .lang-btn:hover {
 .lang-btn svg,
 .discord-btn svg,
 .tiktok-btn svg,
-.cart-qty-btn svg {
-  color: currentColor !important;
-  width: 14px !important;
-  height: 14px !important;
+.cart-qty-btn svg,
+.btn-copy-tag svg {
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
 }
+.btn3d.btn-sm svg,
+.btn3d.btn-xs svg,
+.btn-gold.btn-sm svg,
+.cb-btn.btn-sm svg {
+  width: 14px;
+  height: 14px;
+}
+.cart-qty-btn svg {
+  width: 14px;
+  height: 14px;
+}
 
-/* --- 4.5 Página actual del menú ------------------------------------------ */
-/* El menú es texto, así que la página actual tampoco es una píldora dorada:
-   sería el único bloque macizo de la barra. Se marca con una rayita dorada de
-   1px bajo la palabra, como el subrayado de un índice. */
-.nav-button[aria-current='page'] {
-  color: #ffffff !important;
-  background: transparent !important;
+/* --- 4.6 Foco y deshabilitado -------------------------------------------- */
+/* Anillo, no contorno: el foco tiene que leerse por encima del fondo sin
+   desplazar el botón ni recortar los bordes redondeados. */
+.btn3d:focus-visible,
+.btn-gold:focus-visible,
+.btn-action:focus-visible,
+.btn-continue:focus-visible,
+.cb-btn:focus-visible,
+.news-filter-btn:focus-visible,
+.rating-btn:focus-visible,
+.lang-btn:focus-visible,
+.btn-secondary:focus-visible,
+.btn-ghost:focus-visible,
+.cart-qty-btn:focus-visible,
+.close-btn:focus-visible {
+  outline: none;
+  border-color: var(--dala-gold);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
+}
+.btn3d:disabled,
+.btn-gold:disabled,
+.btn-action:disabled,
+.cb-btn:disabled,
+.shop-buy-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* --- 4.7 Página actual del menú ------------------------------------------ */
+/* El menú es texto, así que la página actual tampoco se rellena: sería el
+   único bloque macizo de la barra. Se marca con un fondo tenue, como el
+   "bg-muted" de la referencia. */
+.nav-button[aria-current='page'],
+.nav-pill__link[aria-current='page'] {
+  background: rgba(255, 255, 255, 0.09) !important;
   background-image: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
+  color: var(--dala-white) !important;
 }
-.nav-button[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  left: 0.1em;
-  right: 0.1em;
-  bottom: -2px;
-  height: 1px;
-  background: var(--dala-gold);
+.menu-panel .nav-button[aria-current='page'] {
+  background: rgba(255, 255, 255, 0.09) !important;
+  color: var(--dala-white) !important;
 }
-
-/* --- 4.6 Cerrar (X) ------------------------------------------------------- */
-/* Cuadrado de 28px. Es un control terciario: no puede competir con el botón
-   principal del modal. */
-.close-btn {
-  width: 28px !important;
-  height: 28px !important;
-  min-width: 28px !important;
-  min-height: 28px !important;
-  padding: 0 !important;
-  border-radius: 8px !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  background: transparent !important;
-  color: var(--dala-silver) !important;
-  font-size: 1rem !important;
-  box-shadow: none !important;
-  transition: background-color 0.18s var(--ease-dala),
-    border-color 0.18s var(--ease-dala), color 0.18s var(--ease-dala);
-}
-.close-btn:hover {
-  backdrop-filter: none !important;
-  background: rgba(255, 255, 255, 0.07) !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  color: #ffffff !important;
-}
-
 /* ----------------------------------------------------------------------------
    5. SUPERFICIES — sin cajas. Los elementos flotan en el vacío.
    ---------------------------------------------------------------------------- */
@@ -939,9 +963,9 @@ textarea::placeholder {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 .auth-tab.is-activa {
-  background: var(--dala-gold) !important;
+  background: rgba(255, 255, 255, 0.09) !important;
   background-image: none !important;
-  color: #0a0a0a !important;
+  color: var(--dala-white) !important;
   box-shadow: none !important;
 }
 
@@ -1093,15 +1117,13 @@ textarea::placeholder {
 #loginModal .auth-tab {
   flex: 1 !important;
   min-height: 36px !important;
-  border-radius: 999px !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
   color: var(--dala-ash) !important;
   background: transparent !important;
   border: 0 !important;
-  transition: color 0.18s var(--ease-dala), background-color 0.18s var(--ease-dala);
+  transition: color 0.15s var(--ease-dala), background-color 0.15s var(--ease-dala);
 }
 #loginModal .auth-tab:hover {
   color: var(--dala-white) !important;
@@ -1171,8 +1193,8 @@ textarea::placeholder {
 }
 /* El boton de enviar ocupa todo el ancho, como una pastilla dorada. */
 #loginModal .auth-boton {
-  min-height: 40px !important;
-  border-radius: 999px !important;
+  min-height: 36px !important;
+  border-radius: 10px !important;
 }
 
 /* ----------------------------------------------------------------------------
@@ -1273,16 +1295,18 @@ textarea::placeholder {
 .dala-ghost-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-nav);
-  font-weight: 600;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
   color: var(--dala-white);
   padding-bottom: 2px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  transition: color 0.18s var(--ease-dala), border-color 0.18s var(--ease-dala);
+  transition: color 0.15s var(--ease-dala), border-color 0.15s var(--ease-dala);
+}
+.dala-ghost-link svg {
+  width: 14px;
+  height: 14px;
 }
 .dala-ghost-link:hover {
   color: var(--dala-amber);

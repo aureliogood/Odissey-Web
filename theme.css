@@ -576,50 +576,57 @@ nav.nav-bar {
     justify-content: center;
     gap: 6px;
     min-height: 32px;
-    padding: 0 14px;
-    border-radius: 999px;
+    padding: 0 10px;
+    border-radius: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.6875rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    letter-spacing: 0.11em;
     line-height: 1;
-    text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
     outline: none;
     vertical-align: middle;
     color: var(--od-ink);
-    background: linear-gradient(180deg, #ffc93c 0%, #eda400 100%);
-    border: 1px solid rgba(255, 214, 102, 0.34);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    background: var(--od-marine-accent);
+    border: 1px solid transparent;
+    box-shadow: none;
     -webkit-tap-highlight-color: transparent;
-    transition: transform 0.18s ease, filter 0.18s ease,
-        border-color 0.18s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease, transform 0.15s ease;
 }
 .btn3d svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     flex: 0 0 auto;
 }
 .btn3d:hover {
-    filter: brightness(1.07);
-    transform: translateY(-1px);
-    border-color: rgba(255, 226, 150, 0.6);
+    background: #f5c518;
+    color: var(--od-ink);
+    transform: none;
 }
 .btn3d:active {
-    transform: translateY(0) scale(0.985);
-    filter: brightness(0.97);
+    transform: translateY(1px);
 }
 .btn3d:focus-visible {
-    outline: 2px solid var(--od-marine-accent);
-    outline-offset: 3px;
+    border-color: var(--od-marine-accent);
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
+}
+.btn3d:disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 .btn3d.btn-sm {
-    min-height: 26px;
+    min-height: 28px;
     padding: 0 10px;
-    font-size: 0.625rem;
-    letter-spacing: 0.1em;
+    font-size: 0.8125rem;
+    border-radius: 8px;
+}
+.btn3d.btn-xs {
+    min-height: 24px;
+    padding: 0 8px;
+    font-size: 0.75rem;
+    border-radius: 6px;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -646,7 +653,7 @@ nav.nav-bar {
     min-height: 0;
     padding: 0;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     background: transparent;
     color: #bdbdbd;
     font-family: 'Inter', sans-serif;
@@ -654,21 +661,22 @@ nav.nav-bar {
     line-height: 1;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transition: background-color 0.18s ease, border-color 0.18s ease,
-        color 0.18s ease, transform 0.18s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease, transform 0.15s ease;
 }
 .close-btn:hover {
     background: rgba(255, 255, 255, 0.07);
     border-color: rgba(255, 255, 255, 0.28);
     color: #ffffff;
-    transform: translateY(-1px);
+    transform: none;
 }
 .close-btn:active {
-    transform: translateY(0) scale(0.95);
+    transform: translateY(1px);
 }
 .close-btn:focus-visible {
-    outline: 2px solid var(--od-marine-accent);
-    outline-offset: 2px;
+    outline: none;
+    border-color: var(--od-marine-accent);
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
 }
 
 .login-card {
@@ -842,16 +850,14 @@ nav.nav-bar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 6px;
   min-height: 32px;
-  padding: 0 13px;
-  border-radius: 999px;
+  padding: 0 10px;
+  border-radius: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.11em;
   line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
@@ -860,23 +866,23 @@ nav.nav-bar {
   background: transparent;
   color: var(--od-text-dark);
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.18s ease, border-color 0.18s ease,
-  color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
 }
 
 .nav-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
   opacity: 0.75;
-  transition: opacity 0.18s ease;
+  transition: opacity 0.15s ease;
 }
 
 .nav-button:hover {
   color: var(--od-text-light);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: none;
 }
 
 .nav-button:hover .nav-icon {
@@ -884,12 +890,13 @@ nav.nav-bar {
 }
 
 .nav-button:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(1px);
 }
 
 .nav-button:focus-visible {
-  outline: 2px solid var(--od-marine-accent);
-  outline-offset: 2px;
+  outline: none;
+  border-color: var(--od-marine-accent);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
 }
 
 .nav-button-secondary {
@@ -914,24 +921,14 @@ nav.nav-bar {
   color: var(--od-gold-light);
 }
 
-/* La página actual se marca con una rayita dorada de 1px, no con un relleno
-   macizo: en una barra de texto el único bloque sólido rompe la lectura. */
+/* La página actual se marca con un fondo tenue, como el bg-muted de
+   shadcn. En una barra de texto el único bloque macizo rompe la lectura. */
 .nav-button[aria-current='page'] {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.09);
   border-color: transparent;
   color: var(--od-text-light);
   font-weight: 500;
   box-shadow: none;
-}
-
-.nav-button[aria-current='page']::after {
-  content: '';
-  position: absolute;
-  left: 0.1em;
-  right: 0.1em;
-  bottom: -2px;
-  height: 1px;
-  background: var(--od-marine-accent);
 }
 
 .nav-button[aria-current='page'] .nav-icon {
@@ -939,24 +936,30 @@ nav.nav-bar {
 }
 
 .nav-button[aria-current='page']:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: transparent;
   color: var(--od-text-light);
 }
 
 .nav-button-primary {
-  background: linear-gradient(180deg, #ffc93c 0%, #eda400 100%);
-  border-color: rgba(255, 214, 102, 0.34);
+  background: var(--od-marine-accent);
+  border-color: transparent;
   color: var(--od-ink);
   font-weight: 500;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  box-shadow: none;
 }
 
 .nav-button-primary:hover {
-  filter: brightness(1.07);
-  border-color: rgba(255, 226, 150, 0.6);
+  background: #f5c518;
+  border-color: transparent;
   color: var(--od-ink);
-  transform: translateY(-1px);
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-button-primary:active {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 .nav-button-primary:active {
@@ -1044,26 +1047,25 @@ nav.nav-bar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 6px;
   min-height: 32px;
-  padding: 0 14px;
-  border-radius: 999px;
+  padding: 0 10px;
+  border-radius: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.11em;
   line-height: 1;
-  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   outline: none;
   color: #bdbdbd;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: none;
+  overflow: hidden;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.18s ease, color 0.18s ease,
-  transform 0.18s ease, border-color 0.18s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
 }
 
 .discord-btn::before,
@@ -1073,32 +1075,33 @@ nav.nav-bar {
 
 .discord-btn svg,
 .tiktok-btn svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
 .discord-btn:hover,
 .tiktok-btn:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: none;
   box-shadow: none;
 }
 
 .discord-btn:active,
 .tiktok-btn:active {
   color: #ffffff;
-  transform: translateY(0) scale(0.985);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(1px);
   box-shadow: none;
 }
 
 .discord-btn:focus-visible,
 .tiktok-btn:focus-visible {
-  outline: 2px solid var(--od-marine-accent);
-  outline-offset: 3px;
+  outline: none;
+  border-color: var(--od-marine-accent);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
 }
 
 .cart-count {
@@ -1138,32 +1141,30 @@ nav.nav-bar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 6px;
   min-height: 32px;
-  padding: 0 13px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   background: transparent;
   color: #bdbdbd;
   font-family: 'Inter', sans-serif;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.11em;
   line-height: 1;
-  text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   box-shadow: none;
-  transition: background-color 0.18s ease, border-color 0.18s ease,
-  color 0.18s ease, transform 0.18s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
 }
 
 .lang-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: none;
   color: #ffffff;
 }
 
