@@ -416,21 +416,30 @@
     right: 1rem;
     bottom: 1rem;
     z-index: 60;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
     align-items: center;
     justify-content: center;
-    background-color: var(--od-marine-accent);
-    color: var(--od-ink);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-    border: none;
+    background-color: rgba(12, 12, 16, 0.82);
+    backdrop-filter: blur(8px);
+    color: #bdbdbd;
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.16);
     cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease,
+        color 0.18s ease, transform 0.18s ease;
+}
+.wiki-top-btn:hover {
+    background-color: rgba(28, 28, 34, 0.92);
+    border-color: rgba(255, 255, 255, 0.34);
+    color: #ffffff;
+    transform: translateY(-1px);
 }
 
 .wiki-top-btn svg {
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 0.95rem;
+    height: 0.95rem;
 }
 
 .wiki-top-btn.is-visible {
