@@ -69,13 +69,15 @@
   /** ¿Esta peticion es una de las nuestras (mismo origen + /api/)? */
   function esNuestra(url) {
     if (typeof url !== 'string') return false;
-    if (url.indexOf('/api/') === -1) return false;
-    // Que no sea de otro dominio: las peticiones a Supabase pasan
-    // de largo, que es justamente lo que queremos.
-    return url.indexOf('supabase.co') === -1 &&
-           url.indexOf('cloudflare.com') === -1 &&
-           url.indexOf('/rest/v1/') === -1 &&
-           url.indexOf('/auth/v1/') === -1;
+    try {
+      // Resolver rutas relativas desde la raiz para que tanto "/api/..."
+      // como "https://este-sitio/api/..." se comprueben igual. Buscar solo
+      // el texto "/api/" tambien capturaba URLs de terceros con esa ruta.
+      const destino = new URL(url, origen() + '/');
+      return destino.origin === origen() && destino.pathname.indexOf('/api/') === 0;
+    } catch (e) {
+      return false;
+    }
   }
 
   function partes(url) {
