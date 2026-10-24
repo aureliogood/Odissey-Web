@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d13">
+  <meta name="description" content="Panel de administración para los bots de Discord de Odissey MC.">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Panel de bots · Odissey MC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bots-panel.css?v=1">
+  <script src="site-config.js?v=148"></script>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">O</span><span>ODISSEY <small>BOT CONTROL</small></span></a><a class="back" href="/admin">Panel de administración <span>↗</span></a></header>
+  <main class="shell">
+    <section class="intro"><div><p class="eyebrow"><i></i> CONTROL EN ESTE PC</p><h1>Tus bots, <em>bajo control.</em></h1><p class="lead">Edita los paneles, mensajes y detecciones. Los cambios se guardan en este equipo y se aplican sin reiniciar los bots.</p></div><div class="connection" id="connection"><span class="pulse"></span><span id="connectionText">Conectando con este PC…</span></div></section>
+    <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal">Conectar con este PC</button><button class="button secondary hidden" id="retry">Reintentar conexión</button></section>
+    <div id="app" class="hidden">
+      <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button></nav>
+      <section class="pane active" id="pane-tickets">
+        <div class="section-heading"><div><p class="eyebrow">CENTRO DE SOPORTE</p><h2>Panel de tickets</h2><p>Personaliza el texto que ve la comunidad y las opciones para abrir un ticket.</p></div><span class="live-badge"><i></i> Se aplica en vivo</span></div>
+        <div class="layout">
+          <div class="card form-card">
+            <h3>Mensaje del panel</h3><p class="hint">Este mensaje se actualizará en Discord después de guardar.</p>
+            <label>Título <input id="ticketTitle" maxlength="100"></label>
+            <label>Descripción <textarea id="ticketDescription" rows="3" maxlength="1000"></textarea></label>
+            <label>Texto al pie <input id="ticketFooter" maxlength="200"></label>
+            <div class="divider"></div><h3>Destino y equipo</h3>
+            <label>ID del rol de soporte <input id="supportRoleId" inputmode="numeric" placeholder="ID del rol en Discord"></label>
+            <label>ID del canal de registros <input id="logsChannelId" inputmode="numeric" placeholder="ID del canal para transcripts"></label>
+            <div class="divider"></div><div class="subhead"><div><h3>Secciones de tickets</h3><p class="hint">Cada sección crea una opción en el panel.</p></div><button class="button mini" id="addCategory">＋ Añadir</button></div>
+            <div id="categories" class="category-list"></div><small class="field-help">Discord permite hasta cinco secciones en este formato de panel.</small>
+            <div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets">Guardar cambios</button></div>
+          </div>
+          <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># soporte</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Support <small>HOY A LAS 12:04</small></div><div class="discord-embed"><div class="embed-title" id="previewTitle"></div><p id="previewDescription"></p><div class="preview-options" id="previewCategories"></div><div class="embed-footer" id="previewFooter"></div></div></div></div></div><div class="tip"><span>↻</span><p>El panel publicado por el bot se edita al guardar. Si todavía no publicaste uno, usa <code>/setup</code> en Discord.</p></div></aside>
+        </div>
+      </section>
+      <section class="pane" id="pane-welcome">
+        <div class="section-heading"><div><p class="eyebrow">COMUNIDAD Y SEGURIDAD</p><h2>Bienvenida y alertas</h2><p>Configura el mensaje para nuevos miembros y las reglas de detección.</p></div><span class="live-badge"><i></i> Se aplica en vivo</span></div>
+        <div class="layout">
+          <div class="card form-card">
+            <h3>Canales y equipo</h3>
+            <label>Canal de bienvenida <input id="welcomeChannelId" inputmode="numeric" placeholder="ID del canal"></label>
+            <label>Canal privado de alertas <input id="alertsChannelId" inputmode="numeric" placeholder="ID del canal para el staff"></label>
+            <label>Rol que recibe alertas <input id="staffRoleId" inputmode="numeric" placeholder="ID del rol de staff"></label>
+            <div class="divider"></div><h3>Mensaje de bienvenida</h3>
+            <label>Título <input id="welcomeTitle" maxlength="256"></label>
+            <label>Mensaje <textarea id="welcomeDescription" rows="4" maxlength="1500"></textarea><small class="field-help">Puedes usar <code>{usuario}</code> y <code>{miembros}</code>.</small></label>
+            <div class="color-line"><label>Color del mensaje <input id="welcomeColor" type="color"></label><label>Texto al pie <input id="welcomeFooter" maxlength="200"></label></div>
+            <div class="divider"></div><h3>Estado del servidor</h3>
+            <div class="two-fields"><label>Host de Minecraft<input id="statusHost" maxlength="253" placeholder="play.ejemplo.com"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535"></label></div>
+            <label>Canal del estado <input id="statusChannelId" inputmode="numeric" placeholder="ID del canal"></label>
+            <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar mantenimiento</b><small>El bot actualiza el mensaje de estado al guardar.</small></span></label>
+            <div class="divider"></div><h3>Detección de cuentas</h3>
+            <div class="two-fields"><label>Edad mínima de cuenta (días)<input id="minAccountAgeDays" type="number" min="0" max="3650"></label><label>Distancia de similitud<input id="maxSimilarityDistance" type="number" min="0" max="8"></label></div>
+            <label class="check-row"><input id="checkImpersonation" type="checkbox"><span><b>Detectar imitaciones del staff</b><small>Compara los nombres nuevos con la lista protegida.</small></span></label>
+            <label>Personal protegido <textarea id="protectedUsers" rows="3" placeholder="Un nombre por línea"></textarea></label>
+            <label>Palabras sospechosas <textarea id="blockedKeywords" rows="3" placeholder="Una palabra por línea"></textarea></label>
+            <div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
+          </div>
+          <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div><div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div></aside>
+        </div>
+      </section>
+      <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Configuración local · Guardado seguro</span></footer>
+    </div>
+  </main>
+  <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>ID de categoría de Discord<input id="categoryDiscordId" inputmode="numeric" placeholder="ID de categoría donde crear tickets"></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="js/bots-panel.js?v=1" defer></script>
+</body>
+</html>
