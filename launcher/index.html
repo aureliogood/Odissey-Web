@@ -86,11 +86,12 @@
     .hero-notes span { display:inline-flex; align-items:center; gap:7px; }
     .hero-notes svg { width:15px; height:15px; color:var(--green); }
 
-    /* Launcher preview, composed from HTML/CSS so it stays sharp at every scale. */
+    /* Captura real de Odissey Client. */
     .preview-wrap { position:relative; perspective:1200px; }
     .preview-glow { position:absolute; inset:12% 8%; z-index:-1; border-radius:35%; background:rgba(203,153,48,.18); filter:blur(70px); }
-    .app-window { position:relative; overflow:hidden; min-height:400px; border:1px solid rgba(234,203,130,.22); border-radius:20px; background:linear-gradient(145deg,rgba(25,31,39,.97),rgba(12,15,20,.98)); box-shadow:0 36px 100px rgba(0,0,0,.52),0 1px 0 rgba(255,255,255,.08) inset; transform:rotateY(-5deg) rotateX(2deg); animation:float 7s ease-in-out infinite; }
+    .app-window { position:relative; overflow:hidden; border:1px solid rgba(234,203,130,.22); border-radius:18px; background:#0b0d10; box-shadow:0 36px 100px rgba(0,0,0,.52),0 1px 0 rgba(255,255,255,.08) inset; transform:rotateY(-3deg) rotateX(1deg); animation:float 7s ease-in-out infinite; }
     .app-window::before { content:''; position:absolute; inset:0 0 auto; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .app-window img { display:block; width:100%; height:auto; }
     .app-top { display:flex; align-items:center; justify-content:space-between; padding:17px 19px; border-bottom:1px solid var(--line); color:#8f9baa; font-size:10px; }
     .app-dots { display:flex; gap:5px; }
     .app-dots i { display:block; width:6px; height:6px; border-radius:50%; background:#414b58; }
@@ -221,7 +222,7 @@
       .hero-actions { align-items:stretch; flex-direction:column; }
       .hero-actions .button { width:100%; }
       .hero-notes { gap:12px 18px; }
-      .app-window { min-height:365px; transform:none; }
+      .app-window { transform:none; }
       .preview-body { grid-template-columns:39px 1fr; min-height:315px; }
       .preview-content { padding:16px 12px; }
       .preview-greeting { font-size:13px; }
@@ -304,29 +305,11 @@
         </div>
       </div>
 
-      <div class="preview-wrap reveal reveal-delay-2" aria-label="Vista ilustrativa del launcher Odissey Client">
+      <div class="preview-wrap reveal reveal-delay-2" aria-label="Captura real del launcher Odissey Client">
         <div class="preview-glow" aria-hidden="true"></div>
         <div class="app-window">
-          <div class="app-top"><span class="app-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-title">ODISSEY CLIENT</span><span>v1.0.0</span></div>
-          <div class="preview-body">
-            <aside class="preview-rail" aria-hidden="true">
-              <span class="rail-mark">O</span>
-              <span class="rail-icon active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 12 7-12 7z"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 14l3-3 5 6H6z"/><circle cx="9" cy="8" r="1"/></svg></span>
-            </aside>
-            <div class="preview-content">
-              <div class="preview-greeting"><span>Listo para jugar</span><span class="profile-pill"><i class="profile-dot"></i> Perfil local</span></div>
-              <div class="preview-banner">
-                <div class="preview-banner-copy"><span class="preview-tag">ODISSEY CLIENT</span><strong>Minecraft</strong><small>Tu juego. Tus versiones. Todo listo.</small></div>
-              </div>
-              <div class="preview-bottom"><span class="fake-select">1.21.11 · Fabric <span>⌄</span></span><span class="fake-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 12 7-12 7z"/></svg> Jugar ahora</span></div>
-              <div class="preview-status"><i></i> Launcher listo · Minecraft sin overlay</div>
-            </div>
-          </div>
+          <img src="../img/launcher/odyssey-client-real.png" width="1279" height="821" alt="Pantalla principal real de Odissey Client con la sección Jugar y el servidor Odissey destacado" fetchpriority="high">
         </div>
-        <div class="floating-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5v14l11-7z"/><path d="M4 4v16"/></svg><span><strong>Tu juego, sin interrupciones</strong><small>El launcher queda fuera de Minecraft</small></span></div>
       </div>
     </section>
 
