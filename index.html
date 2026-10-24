@@ -46,7 +46,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/index.css?v=146">
   <link rel="stylesheet" href="css/dala.css?v=146">
-  <link rel="stylesheet" href="css/dala-polish.css?v=1">
+  <link rel="stylesheet" href="css/dala-polish.css?v=2">
     <link rel="stylesheet" href="css/dala-steve.css?v=146">
 <link rel="stylesheet" href="css/dala-liquid.css?v=146">
     <script src="js/seguro.js?v=146"></script>
@@ -235,10 +235,13 @@
                              sabe lo que es. -->
                         <div class="mt-9 flex flex-wrap items-center gap-6">
                             <button type="button" class="btn3d btn-cta-principal"
-                                data-analytics="cta_principal_portada"
-                                onclick="openLoginModal()">
-                                <span data-i18n="cta_jugar">Entrar al servidor</span>
+                                data-analytics="cta_copiar_ip_portada"
+                                onclick="copyToClipboard('mc.odisseymc.lat', 'IP del servidor:')">
+                                <span data-i18n="cta_copy_ip">Copiar IP del servidor</span> · mc.odisseymc.lat
                             </button>
+                            <a href="/launcher/" class="btn3d btn-secondary" data-analytics="cta_launcher_portada">
+                                <span data-i18n="cta_launcher">Ver launcher para Windows</span>
+                            </a>
                             <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer"
                                 class="dala-ghost-link" data-analytics="cta_discord_portada">
                                 <span data-i18n="cta_discord">Únete al Discord</span>
@@ -295,7 +298,7 @@
                                 <li data-i18n="guide_java_1">Abre Minecraft Java Edition.</li>
                                 <li><span data-i18n="guide_java_2a">Ve a</span> <strong data-i18n="guide_java_2b">Multijugador</strong>.</li>
                                 <li><span data-i18n="guide_java_3a">Pulsa</span> <strong data-i18n="guide_java_3b">Agregar servidor</strong>.</li>
-<li><span data-i18n="guide_java_4">Escribe</span> <code class="guide-code">Proximamente</code> <span data-i18n="guide_java_4b">en la dirección.</span></li>
+<li><span data-i18n="guide_java_4">Escribe</span> <code class="guide-code">mc.odisseymc.lat</code> <span data-i18n="guide_java_4b">en la dirección.</span></li>
                                 <li><span data-i18n="guide_java_5a">Pulsa</span> <strong data-i18n="guide_java_5b">Hecho</strong> y entra.</li>
                             </ol>
                         </div>
@@ -391,7 +394,7 @@
                 </div>
                 <div class="flex flex-col items-end gap-2 text-right">
 <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_ip">IP del servidor</span>
-                    <span class="font-sans text-marine-accent font-semibold">Proximamente</span>
+                    <span class="font-sans text-marine-accent font-semibold">mc.odisseymc.lat</span>
                 </div>
                 <div id="adminBtn" class="hidden flex-col items-end gap-2 text-right">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_admin">Panel de admin</span>
@@ -1762,6 +1765,7 @@ function renderDiscordWidget() {
         const I18N = {
             es: {
                 cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_copy_ip: 'Copiar IP del servidor', cta_launcher: 'Ver launcher para Windows',
                 cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
                 cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
                 btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
@@ -1811,11 +1815,11 @@ guide_java_4b: 'en la dirección.',
                 guide_sub_bedrock: 'Sigue estos pasos para entrar desde Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'Próximamente',
+btn_copy_ip: 'mc.odisseymc.lat',
 why_title: '¿Qué diferencia hay en Odissey a otros servidores?',
 why_p1: 'Odissey no es un servidor más. Mientras muchos lugares venden ventajas que aplastan a los nuevos, aquí construimos una comunidad donde todos empiezan con las mismas oportunidades y cada hora invertida se siente. Nuestro mundo es un lienzo vivo: construye tu base junto al mar, hazte con los mejores kits, abre cofres con llaves infernales y decide tu propio camino hacia la leyenda.',
 why_p2: 'Detrás de todo hay un staff presente, activo y cercano, listo para escucharte desde el primer día. Nada de reglas absurdas ni administración invisible: aquí reportas, te responden y el juego se mantiene limpio y justo para todos. Además, nuestro Discord es el corazón de Odissey: eventos, anuncios y una comunidad que ya se siente como familia.',
-why_p3a: '¿Buscas un servidor que realmente perdure? La IP se publicará',
+why_p3a: '¿Buscas un servidor que realmente perdure? Conéctate con la IP',
 why_p3b: 'y comprueba por ti mismo por qué quienes llegan, se quedan.',
 testimonials_title: 'Lo que dicen los jugadores',
 testimonials_rate_btn: '★ Dejar mi opinión',
@@ -1851,6 +1855,7 @@ cb_accept: 'Aceptar',
             },
             en: {
                 cta_jugar: 'Join the server', cta_discord: 'Join our Discord',
+                cta_copy_ip: 'Copy server IP', cta_launcher: 'View the Windows launcher',
                 cta_tienda: 'See the store', cta_entrar: 'Log in', cta_salir: 'Log out',
                 cta_registro: 'Create account', cta_entrar_cuenta: 'Log in to my account',
                 btn_entrar: 'Log in', btn_crear: 'Create account', btn_guardar: 'Save',
@@ -1900,11 +1905,11 @@ guide_java_4b: 'in the address field.',
                 guide_sub_bedrock: 'Follow these steps to join from Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'Coming soon',
+btn_copy_ip: 'mc.odisseymc.lat',
 why_title: 'What makes Odissey different from other servers?',
 why_p1: 'Odissey is not just another server. While many places sell advantages that crush newcomers, here we build a community where everyone starts with the same chances and every hour you invest is felt. Our world is a living canvas: build your base by the sea, get the best kits, open chests with infernal keys and choose your own path to legend.',
 why_p2: 'Behind it all there is a staff that is present, active and approachable, ready to listen from day one. No absurd rules and no invisible administration: you report, they answer, and the game stays clean and fair for everyone. Our Discord is also the heart of Odissey: events, announcements and a community that already feels like family.',
-why_p3a: 'Looking for a server that will really last? The IP will be published',
+why_p3a: 'Looking for a server that will really last? Join with the IP',
 why_p3b: 'and see for yourself why the ones who join, stay.',
 testimonials_title: 'What players are saying',
 testimonials_rate_btn: '★ Leave your review',

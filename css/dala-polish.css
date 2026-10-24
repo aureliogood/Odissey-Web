@@ -198,6 +198,14 @@ input:focus, textarea:focus, select:focus,
     border-radius: 16px !important;
     padding: 1.1rem !important;
   }
+
+  .dala-hero-grid .mt-9 .btn3d {
+    min-height: 48px;
+    justify-content: center;
+    padding-inline: 1rem;
+    text-align: center;
+    line-height: 1.35;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
