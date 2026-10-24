@@ -1,6 +1,8 @@
 (function () {
   'use strict';
-  const API = 'http://127.0.0.1:32170';
+  const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://127.0.0.1:32170'
+    : 'https://api.odisseymc.site/panel';
   const $ = id => document.getElementById(id);
   const state = { tickets: null, welcome: null };
   const gate = $('gate');
@@ -53,13 +55,12 @@
       headers: { Authorization: 'Bearer ' + token, ...(options && options.body ? { 'Content-Type': 'application/json' } : {}) },
       body: options && options.body ? JSON.stringify(options.body) : undefined,
       cache: 'no-store',
-      targetAddressSpace: 'loopback',
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok || !data.ok) {
       if (data.error === 'admin_required') throw new Error('Esta cuenta no tiene rol de administrador.');
       if (data.error === 'origin_denied') throw new Error('Abre el panel desde odisseymc.site.');
-      throw new Error(data.error || 'El conector local no respondió correctamente.');
+      throw new Error(data.error || 'El servicio de Azure no respondió correctamente.');
     }
     return data;
   }
@@ -154,20 +155,20 @@
   }
 
   async function connectPanel() {
-    $('gateTitle').textContent = 'Conectando con este PC';
+    $('gateTitle').textContent = 'Conectando con Azure';
     $('gateText').textContent = 'Validando la sesión y cargando la configuración de tus bots.';
     $('connectLocal').classList.add('hidden'); $('retry').classList.add('hidden');
     try {
       await request('/health');
-      setConnection(true, 'Conector local disponible');
+      setConnection(true, 'Conectado con Azure');
       const data = await request('/api/config');
       state.tickets = data.tickets; state.welcome = data.welcome;
       render(); gate.classList.add('hidden'); app.classList.remove('hidden');
     } catch (err) {
       const message = err.message || 'No se pudo conectar.';
-      setConnection(false, /fetch|Failed to fetch|NetworkError/i.test(message) ? 'Conector local desconectado' : 'Revisa tu acceso');
-      $('gateTitle').textContent = message.includes('Inicia sesión') ? 'Inicia sesión para continuar' : message.includes('administrador') ? 'Acceso solo para administradores' : 'No se pudo conectar con este PC';
-      $('gateText').textContent = message.includes('fetch') || message.includes('NetworkError') ? 'Inicia el archivo iniciar-bots-panel.bat en este PC y vuelve a intentarlo.' : message;
+      setConnection(false, /fetch|Failed to fetch|NetworkError/i.test(message) ? 'Azure no responde' : 'Revisa tu acceso');
+      $('gateTitle').textContent = message.includes('Inicia sesión') ? 'Inicia sesión para continuar' : message.includes('administrador') ? 'Acceso solo para administradores' : 'No se pudo conectar con Azure';
+      $('gateText').textContent = message.includes('fetch') || message.includes('NetworkError') ? 'Comprueba la conexión con Azure e inténtalo de nuevo.' : message;
       if (message.includes('Inicia sesión')) $('loginLink').classList.remove('hidden');
       else $('connectLocal').classList.remove('hidden');
       $('retry').classList.remove('hidden');
@@ -180,8 +181,9 @@
     try {
       const token = await sessionToken();
       if (!token) throw new Error('Inicia sesión con tu cuenta de Odissey.');
-      $('gateTitle').textContent = 'Conecta este PC';
-      $('gateText').textContent = 'Abre iniciar-bots-panel.bat en este equipo y pulsa conectar. El navegador puede pedir permiso para hablar con este PC.';
+      $('gateTitle').textContent = 'Conecta con Azure';
+      $('gateText').textContent = 'La configuración se cargará desde el servidor de Azure.';
+      $('connectLocal').textContent = 'Conectar con Azure';
       $('connectLocal').classList.remove('hidden');
     } catch (err) {
       $('gateTitle').textContent = 'Inicia sesión para continuar';

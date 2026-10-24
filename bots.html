@@ -17,8 +17,8 @@
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
   <header class="topbar"><a class="brand" href="/"><span class="brand-mark">O</span><span>ODISSEY <small>BOT CONTROL</small></span></a><a class="back" href="/admin">Panel de administración <span>↗</span></a></header>
   <main class="shell">
-    <section class="intro"><div><p class="eyebrow"><i></i> CONTROL EN ESTE PC</p><h1>Tus bots, <em>bajo control.</em></h1><p class="lead">Edita los paneles, mensajes y detecciones. Los cambios se guardan en este equipo y se aplican sin reiniciar los bots.</p></div><div class="connection" id="connection"><span class="pulse"></span><span id="connectionText">Conectando con este PC…</span></div></section>
-    <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal">Conectar con este PC</button><button class="button secondary hidden" id="retry">Reintentar conexión</button></section>
+    <section class="intro"><div><p class="eyebrow"><i></i> CONTROL EN AZURE</p><h1>Tus bots, <em>bajo control.</em></h1><p class="lead">Edita los paneles, mensajes y detecciones. Los cambios se guardan en Azure y se aplican en vivo.</p></div><div class="connection" id="connection"><span class="pulse"></span><span id="connectionText">Conectando con Azure…</span></div></section>
+    <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal">Conectar con Azure</button><button class="button secondary hidden" id="retry">Reintentar conexión</button></section>
     <div id="app" class="hidden">
       <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button></nav>
       <section class="pane active" id="pane-tickets">
@@ -65,11 +65,11 @@
           <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div><div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div></aside>
         </div>
       </section>
-      <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Configuración local · Guardado seguro</span></footer>
+      <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Azure · Guardado seguro</span></footer>
     </div>
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>ID de categoría de Discord<input id="categoryDiscordId" inputmode="numeric" placeholder="ID de categoría donde crear tickets"></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=1" defer></script>
+  <script src="js/bots-panel.js?v=2" defer></script>
 </body>
 </html>
