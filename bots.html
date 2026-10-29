@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bots-panel.css?v=1">
+  <link rel="stylesheet" href="css/bots-announcements.css?v=1">
   <script src="site-config.js?v=148"></script>
 </head>
 <body>
@@ -47,6 +48,7 @@
             <label>Canal de bienvenida <input id="welcomeChannelId" inputmode="numeric" placeholder="ID del canal"></label>
             <label>Canal privado de alertas <input id="alertsChannelId" inputmode="numeric" placeholder="ID del canal para el staff"></label>
             <label>Rol que recibe alertas <input id="staffRoleId" inputmode="numeric" placeholder="ID del rol de staff"></label>
+            <label>Canal de anuncios y eventos <input id="announcementChannelId" inputmode="numeric" placeholder="ID del canal público"></label>
             <div class="divider"></div><h3>Mensaje de bienvenida</h3>
             <label>Título <input id="welcomeTitle" maxlength="256"></label>
             <label>Mensaje <textarea id="welcomeDescription" rows="4" maxlength="1500"></textarea><small class="field-help">Puedes usar <code>{usuario}</code> y <code>{miembros}</code>.</small></label>
@@ -60,6 +62,22 @@
             <label class="check-row"><input id="checkImpersonation" type="checkbox"><span><b>Detectar imitaciones del staff</b><small>Compara los nombres nuevos con la lista protegida.</small></span></label>
             <label>Personal protegido <textarea id="protectedUsers" rows="3" placeholder="Un nombre por línea"></textarea></label>
             <label>Palabras sospechosas <textarea id="blockedKeywords" rows="3" placeholder="Una palabra por línea"></textarea></label>
+            <div class="divider"></div><h3>Automoderación</h3>
+            <label class="check-row"><input id="autoModEnabled" type="checkbox"><span><b>Activar filtros anti spam</b><small>Elimina invitaciones de Discord y mensajes con ráfagas o menciones excesivas. Empieza apagado; actívalo tras revisar los límites.</small></span></label>
+            <label class="check-row"><input id="autoModInvites" type="checkbox"><span><b>Bloquear invitaciones de Discord</b><small>El bot no bloquea enlaces normales.</small></span></label>
+            <div class="two-fields"><label>Máx. menciones por mensaje<input id="autoModMaxMentions" type="number" min="0" max="20"><small class="field-help">0 desactiva este filtro.</small></label><label>Mensajes por 10 segundos<input id="autoModMessageLimit" type="number" min="3" max="30"></label></div>
+            <label>Timeout tras 3 infracciones (minutos)<input id="autoModTimeout" type="number" min="0" max="1440"><small class="field-help">0 elimina el mensaje, pero no aplica timeout.</small></label>
+            <label>Roles exentos<textarea id="autoModExemptRoles" rows="2" placeholder="Un ID de rol por línea"></textarea></label>
+            <div class="divider"></div><h3>Anuncios y eventos</h3>
+            <p class="hint">Publica ahora o programa un mensaje. No se permiten menciones automáticas a roles o a toda la comunidad.</p>
+            <div class="two-fields"><label>Tipo<select id="announcementType"><option value="announcement">Anuncio</option><option value="event">Evento</option></select></label><label>Color<input id="announcementColor" type="color" value="#ffaa00"></label></div>
+            <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
+            <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
+            <div class="two-fields"><label>Fecha del evento (opcional)<input id="announcementEventAt" maxlength="100" placeholder="Sábado 8:00 p. m."></label><label>Programar para (opcional)<input id="announcementSchedule" type="datetime-local"></label></div>
+            <div class="announcement-preview" id="announcementPreview"><span id="announcementPreviewKind">ODISSEY · ANUNCIO</span><strong id="announcementPreviewTitle">Tu título aparecerá aquí</strong><p id="announcementPreviewDescription">Vista previa del mensaje.</p></div>
+            <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
+            <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
+            <div id="announcementHistory" class="announcement-history" aria-live="polite"></div>
             <div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
           </div>
           <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div><div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div></aside>
@@ -70,6 +88,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>ID de categoría de Discord<input id="categoryDiscordId" inputmode="numeric" placeholder="ID de categoría donde crear tickets"></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=2" defer></script>
+  <script src="js/bots-panel.js?v=3" defer></script>
 </body>
 </html>

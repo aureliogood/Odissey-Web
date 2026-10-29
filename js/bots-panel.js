@@ -4,7 +4,7 @@
     ? 'http://127.0.0.1:32170'
     : 'https://api.odisseymc.site/panel';
   const $ = id => document.getElementById(id);
-  const state = { tickets: null, welcome: null };
+  const state = { tickets: null, welcome: null, announcements: [] };
   const gate = $('gate');
   const app = $('app');
   const connection = $('connection');
@@ -60,6 +60,10 @@
     if (!response.ok || !data.ok) {
       if (data.error === 'admin_required') throw new Error('Esta cuenta no tiene rol de administrador.');
       if (data.error === 'origin_denied') throw new Error('Abre el panel desde odisseymc.site.');
+      if (data.error === 'announcement_rate_limited') throw new Error('Espera unos segundos antes de publicar otro mensaje.');
+      if (data.error === 'announcement_channel_required') throw new Error('Configura el canal de anuncios y guarda los cambios primero.');
+      if (data.error === 'announcement_schedule_invalid') throw new Error('La fecha debe estar en el futuro y dentro del próximo año.');
+      if (data.error === 'announcement_required') throw new Error('Escribe un título y un mensaje antes de publicar.');
       throw new Error(data.error || 'El servicio de Azure no respondió correctamente.');
     }
     return data;
@@ -135,6 +139,13 @@
     text('supportRoleId', t.supportRoleId); text('logsChannelId', t.logsChannelId);
     renderCategories();
     text('welcomeChannelId', w.welcomeChannelId); text('alertsChannelId', w.alertsChannelId); text('staffRoleId', w.staffRoleId);
+    text('announcementChannelId', w.announcementChannelId || '');
+    const autoMod = w.autoMod || {};
+    $('autoModEnabled').checked = autoMod.enabled === true;
+    $('autoModInvites').checked = autoMod.filterInvites !== false;
+    text('autoModMaxMentions', autoMod.maxMentions ?? 5); text('autoModMessageLimit', autoMod.messageLimit ?? 7);
+    text('autoModTimeout', autoMod.timeoutMinutes ?? 10);
+    text('autoModExemptRoles', (autoMod.exemptRoleIds || []).join('\n'));
     text('statusHost', w.status.host); text('statusPort', w.status.port); text('statusChannelId', w.status.channelId); $('statusMaintenance').checked = !!w.status.maintenance;
     text('welcomeTitle', w.welcomeMessage.title); text('welcomeDescription', w.welcomeMessage.description);
     text('welcomeColor', w.welcomeMessage.color); text('welcomeFooter', w.welcomeMessage.footer);
@@ -143,6 +154,7 @@
     text('protectedUsers', (w.suspicious.protectedUsers || []).map(x => x.name).filter(Boolean).join('\n'));
     text('blockedKeywords', (w.suspicious.blockedKeywords || []).join('\n'));
     previewWelcome();
+    previewAnnouncement();
   }
 
   function previewWelcome() {
@@ -154,6 +166,66 @@
     $('welcomePreview').style.borderLeftColor = $('welcomeColor').value || '#ffaa00';
   }
 
+  function previewAnnouncement() {
+    const isEvent = $('announcementType').value === 'event';
+    $('announcementPreviewKind').textContent = isEvent ? 'ODISSEY · EVENTO' : 'ODISSEY · ANUNCIO';
+    $('announcementPreviewTitle').textContent = $('announcementTitle').value.trim() || 'Tu título aparecerá aquí';
+    $('announcementPreviewDescription').textContent = $('announcementDescription').value.trim() || 'Vista previa del mensaje.';
+    $('announcementPreview').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
+    $('sendAnnouncement').textContent = $('announcementSchedule').value
+      ? (isEvent ? 'Programar evento' : 'Programar anuncio')
+      : (isEvent ? 'Publicar evento' : 'Publicar anuncio');
+  }
+
+  function renderAnnouncements(items) {
+    state.announcements = Array.isArray(items) ? items : [];
+    const list = $('announcementHistory');
+    list.replaceChildren();
+    if (!state.announcements.length) {
+      const empty = document.createElement('p'); empty.className = 'hint';
+      empty.textContent = 'Todavía no hay anuncios ni eventos.'; list.append(empty); return;
+    }
+    state.announcements.forEach(item => {
+      const row = document.createElement('article'); row.className = 'announcement-row';
+      const copy = document.createElement('div');
+      const title = document.createElement('strong'); title.textContent = item.title || 'Publicación';
+      const meta = document.createElement('small');
+      const when = item.status === 'sent' && item.sentAt ? new Date(item.sentAt) : item.scheduledAt ? new Date(item.scheduledAt) : new Date(item.createdAt);
+      const statusLabel = item.status === 'sent' ? 'Publicado' : item.status === 'failed' ? 'Error' : item.status === 'sending' ? 'Publicando' : item.scheduledAt ? 'Programado' : 'En cola';
+      meta.textContent = `${item.type === 'event' ? 'Evento' : 'Anuncio'} · ${statusLabel} · ${when.toLocaleString('es-CO')}`;
+      copy.append(title, meta);
+      const badge = document.createElement('span'); badge.className = `announcement-status ${item.status || 'pending'}`; badge.textContent = statusLabel;
+      row.append(copy, badge);
+      if (item.error) { const error = document.createElement('small'); error.className = 'announcement-error'; error.textContent = item.error; row.append(error); }
+      list.append(row);
+    });
+  }
+
+  async function refreshAnnouncements() {
+    try { const data = await request('/api/announcements'); renderAnnouncements(data.announcements); }
+    catch (err) { toast(err.message || 'No se pudo actualizar el historial.', true); }
+  }
+
+  async function submitAnnouncement() {
+    const button = $('sendAnnouncement');
+    const oldText = button.textContent; button.disabled = true; button.textContent = 'Enviando…';
+    try {
+      const localDate = $('announcementSchedule').value;
+      const data = await request('/api/announcements', { method: 'POST', body: {
+        channelId: $('announcementChannelId').value.trim(), type: $('announcementType').value,
+        title: $('announcementTitle').value.trim(), description: $('announcementDescription').value.trim(),
+        color: $('announcementColor').value,
+        eventAt: $('announcementEventAt').value.trim(),
+        scheduledAt: localDate ? new Date(localDate).toISOString() : '',
+      } });
+      $('announcementNote').textContent = data.announcement?.scheduledAt ? 'Programado' : 'Enviado a la cola';
+      $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = '';
+      previewAnnouncement(); await refreshAnnouncements();
+      toast(data.announcement?.scheduledAt ? 'Quedó programado. El bot lo publicará a la hora indicada.' : 'El bot publicará el mensaje en unos segundos.');
+    } catch (err) { $('announcementNote').textContent = 'No se pudo enviar'; toast(err.message || 'No se pudo publicar.', true); }
+    finally { button.disabled = false; previewAnnouncement(); }
+  }
+
   async function connectPanel() {
     $('gateTitle').textContent = 'Conectando con Azure';
     $('gateText').textContent = 'Validando la sesión y cargando la configuración de tus bots.';
@@ -163,6 +235,8 @@
       setConnection(true, 'Conectado con Azure');
       const data = await request('/api/config');
       state.tickets = data.tickets; state.welcome = data.welcome;
+      const announcements = await request('/api/announcements');
+      renderAnnouncements(announcements.announcements);
       render(); gate.classList.add('hidden'); app.classList.remove('hidden');
     } catch (err) {
       const message = err.message || 'No se pudo conectar.';
@@ -227,13 +301,19 @@
     save('ticketNote', { tickets: state.tickets, welcome: state.welcome });
   });
   $('saveWelcome').addEventListener('click', () => {
-    state.welcome.welcomeChannelId = $('welcomeChannelId').value.trim(); state.welcome.alertsChannelId = $('alertsChannelId').value.trim(); state.welcome.staffRoleId = $('staffRoleId').value.trim();
+    state.welcome.welcomeChannelId = $('welcomeChannelId').value.trim(); state.welcome.alertsChannelId = $('alertsChannelId').value.trim(); state.welcome.staffRoleId = $('staffRoleId').value.trim(); state.welcome.announcementChannelId = $('announcementChannelId').value.trim();
     state.welcome.status = { host: $('statusHost').value.trim(), port: Number($('statusPort').value), channelId: $('statusChannelId').value.trim(), maintenance: $('statusMaintenance').checked };
     state.welcome.welcomeMessage = { title: $('welcomeTitle').value.trim(), description: $('welcomeDescription').value.trim(), color: $('welcomeColor').value, footer: $('welcomeFooter').value.trim() };
     state.welcome.suspicious = { minAccountAgeDays: Number($('minAccountAgeDays').value), maxSimilarityDistance: Number($('maxSimilarityDistance').value), checkImpersonation: $('checkImpersonation').checked, protectedUsers: $('protectedUsers').value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ name })), blockedKeywords: $('blockedKeywords').value.split('\n').map(word => word.trim()).filter(Boolean) };
+    state.welcome.autoMod = { enabled: $('autoModEnabled').checked, filterInvites: $('autoModInvites').checked, maxMentions: Number($('autoModMaxMentions').value), messageLimit: Number($('autoModMessageLimit').value), timeoutMinutes: Number($('autoModTimeout').value), exemptRoleIds: $('autoModExemptRoles').value.split('\n').map(id => id.trim()).filter(Boolean) };
     save('welcomeNote', { tickets: state.tickets, welcome: state.welcome });
   });
   ['ticketTitle', 'ticketDescription', 'ticketFooter'].forEach(id => $(id).addEventListener('input', previewTickets));
   ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter'].forEach(id => $(id).addEventListener('input', previewWelcome));
+  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementSchedule'].forEach(id => $(id).addEventListener('input', previewAnnouncement));
+  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementSchedule'].forEach(id => $(id).addEventListener('change', previewAnnouncement));
+  $('sendAnnouncement').addEventListener('click', submitAnnouncement);
+  $('refreshAnnouncements').addEventListener('click', refreshAnnouncements);
+  setInterval(() => { if (state.welcome && $('pane-welcome').classList.contains('active')) refreshAnnouncements(); }, 15_000);
   load();
 })();

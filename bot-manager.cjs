@@ -5,6 +5,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const PORT = Number(process.env.ODISSEY_BOT_PANEL_PORT) || 32170;
 const ORIGIN = 'https://odisseymc.site';
@@ -33,7 +34,7 @@ function cors(req, res) {
   if (allowed) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
     res.setHeader('Access-Control-Allow-Private-Network', 'true');
     res.setHeader('Access-Control-Max-Age', '600');
@@ -96,6 +97,15 @@ function safeWelcome(cfg) {
   return {
     guildId: cfg.guildId || '', welcomeChannelId: cfg.welcomeChannelId || '',
     alertsChannelId: cfg.alertsChannelId || '', staffRoleId: cfg.staffRoleId || '',
+    announcementChannelId: cfg.announcementChannelId || '',
+    autoMod: {
+      enabled: cfg.autoMod?.enabled === true,
+      filterInvites: cfg.autoMod?.filterInvites !== false,
+      maxMentions: Number(cfg.autoMod?.maxMentions ?? 5),
+      messageLimit: Number(cfg.autoMod?.messageLimit ?? 7),
+      timeoutMinutes: Number(cfg.autoMod?.timeoutMinutes ?? 10),
+      exemptRoleIds: Array.isArray(cfg.autoMod?.exemptRoleIds) ? cfg.autoMod.exemptRoleIds.map(String) : [],
+    },
     welcomeMessage: {
       title: cfg.welcomeMessage?.title || '🐨 ¡Bienvenido a ODISSEY MC!',
       description: cfg.welcomeMessage?.description || '¡Hola {usuario}! 💛\nBienvenido a nuestra comunidad. Lee las reglas, pásate por los canales y ¡que la pases genial! 🎉',
@@ -148,14 +158,62 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
 
   const suspicious = w.suspicious || {};
   const welcomeMessage = w.welcomeMessage || {};
-  const welcomeNext = { ...welcomeCfg, welcomeChannelId: String(w.welcomeChannelId || ''), alertsChannelId: String(w.alertsChannelId || ''), staffRoleId: String(w.staffRoleId || ''),
+  const autoMod = w.autoMod || {};
+  const welcomeNext = { ...welcomeCfg, welcomeChannelId: String(w.welcomeChannelId || ''), alertsChannelId: String(w.alertsChannelId || ''), staffRoleId: String(w.staffRoleId || ''), announcementChannelId: String(w.announcementChannelId || ''),
     welcomeMessage: { ...(welcomeCfg.welcomeMessage || {}), title: boundedText(String(welcomeMessage.title || ''), 256, 'welcome_title'), description: boundedText(String(welcomeMessage.description || ''), 1500, 'welcome_description'), footer: boundedText(String(welcomeMessage.footer || ''), 200, 'welcome_footer'), color: /^#[0-9a-f]{6}$/i.test(String(welcomeMessage.color || '')) ? String(welcomeMessage.color).toUpperCase() : '#FFAA00' },
     suspicious: { ...(welcomeCfg.suspicious || {}), minAccountAgeDays: Math.max(0, Math.min(3650, Number(suspicious.minAccountAgeDays) || 0)), checkImpersonation: !!suspicious.checkImpersonation, maxSimilarityDistance: Math.max(0, Math.min(8, Number(suspicious.maxSimilarityDistance) || 0)), protectedUsers: Array.isArray(suspicious.protectedUsers) ? suspicious.protectedUsers.slice(0, 100).map(x => ({ name: boundedText(String(x.name || ''), 80, 'protected_name'), id: String(x.id || '') })) : [], blockedKeywords: Array.isArray(suspicious.blockedKeywords) ? suspicious.blockedKeywords.slice(0, 100).map(x => boundedText(String(x), 40, 'keyword')).filter(Boolean) : [] },
+    autoMod: { ...(welcomeCfg.autoMod || {}), enabled: autoMod.enabled === true, filterInvites: autoMod.filterInvites !== false, maxMentions: Math.max(0, Math.min(20, Number(autoMod.maxMentions) || 0)), messageLimit: Math.max(3, Math.min(30, Number(autoMod.messageLimit) || 7)), timeoutMinutes: Math.max(0, Math.min(1440, Number(autoMod.timeoutMinutes) || 0)), exemptRoleIds: Array.isArray(autoMod.exemptRoleIds) ? autoMod.exemptRoleIds.slice(0, 50).map(String) : [] },
     status: { ...(welcomeCfg.status || {}), host: boundedText(String(w.status?.host || ''), 253, 'status_host'), port: Number(w.status?.port), channelId: String(w.status?.channelId || ''), maintenance: !!w.status?.maintenance },
   };
-  for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId]) if (!validId(id)) throw new Error('welcome_discord_id');
+  for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId]) if (!validId(id)) throw new Error('welcome_discord_id');
+  if (welcomeNext.autoMod.exemptRoleIds.some(id => !/^\d{5,25}$/.test(id))) throw new Error('automod_role_id');
   if (!/^[a-z0-9.-]+$/i.test(welcomeNext.status.host) || !validId(welcomeNext.status.channelId) || !Number.isInteger(welcomeNext.status.port) || welcomeNext.status.port < 1 || welcomeNext.status.port > 65535) throw new Error('welcome_status');
   return { ticketNext, welcomeNext };
+}
+
+const ANNOUNCEMENTS_DIR = path.join(WELCOME_DIR, 'announcements');
+const announcementRate = new Map();
+
+function readAnnouncements() {
+  fs.mkdirSync(ANNOUNCEMENTS_DIR, { recursive: true, mode: 0o700 });
+  return fs.readdirSync(ANNOUNCEMENTS_DIR)
+    .filter(name => /^[a-f0-9-]{36}\.json$/i.test(name))
+    .map(name => {
+      try { return JSON.parse(fs.readFileSync(path.join(ANNOUNCEMENTS_DIR, name), 'utf8')); }
+      catch { return null; }
+    })
+    .filter(Boolean)
+    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
+    .slice(0, 20)
+    .map(item => ({ id: item.id, type: item.type, title: item.title, channelId: item.channelId,
+      scheduledAt: item.scheduledAt || '', status: item.status, createdAt: item.createdAt,
+      sentAt: item.sentAt || '', discordMessageId: item.discordMessageId || '', error: item.error || '' }));
+}
+
+function createAnnouncement(input, cfg) {
+  const title = boundedText(String(input.title || ''), 180, 'announcement_title');
+  const description = boundedText(String(input.description || ''), 3000, 'announcement_description');
+  if (!title || !description) throw new Error('announcement_required');
+  const channelId = String(input.channelId || cfg.announcementChannelId || '');
+  if (!/^\d{5,25}$/.test(channelId)) throw new Error('announcement_channel_required');
+  const type = input.type === 'event' ? 'event' : 'announcement';
+  const color = /^#[0-9a-f]{6}$/i.test(String(input.color || '')) ? String(input.color).toUpperCase() : '#FFAA00';
+  let scheduledAt = '';
+  if (input.scheduledAt) {
+    const time = Date.parse(input.scheduledAt);
+    if (!Number.isFinite(time) || time < Date.now() - 60_000 || time > Date.now() + 366 * 86_400_000) throw new Error('announcement_schedule_invalid');
+    scheduledAt = new Date(time).toISOString();
+  }
+  const id = crypto.randomUUID();
+  const job = { id, guildId: String(cfg.guildId || ''), channelId, type, title, description, color,
+    eventAt: type === 'event' ? boundedText(String(input.eventAt || ''), 100, 'event_date') : '',
+    scheduledAt, status: 'pending', createdAt: new Date().toISOString() };
+  fs.mkdirSync(ANNOUNCEMENTS_DIR, { recursive: true, mode: 0o700 });
+  const file = path.join(ANNOUNCEMENTS_DIR, `${id}.json`);
+  const temp = `${file}.${process.pid}.tmp`;
+  fs.writeFileSync(temp, JSON.stringify(job, null, 2) + '\n', { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+  fs.renameSync(temp, file);
+  return job;
 }
 
 const server = http.createServer(async (req, res) => {
@@ -163,9 +221,23 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') { res.writeHead(allowed ? 204 : 403); return res.end(); }
   if (!allowed) return json(res, 403, { ok: false, error: 'origin_denied' });
   if (req.url === '/health' && req.method === 'GET') return json(res, 200, { ok: true, service: 'odissey-bot-panel' });
-  if (req.url !== '/api/config' || !['GET', 'PUT'].includes(req.method)) return json(res, 404, { ok: false, error: 'not_found' });
+  const route = new URL(req.url, 'http://127.0.0.1').pathname;
+  if (!(
+    (route === '/api/config' && ['GET', 'PUT'].includes(req.method)) ||
+    (route === '/api/announcements' && ['GET', 'POST'].includes(req.method))
+  )) return json(res, 404, { ok: false, error: 'not_found' });
   try {
     if (!(await requireAdmin(req))) return json(res, 403, { ok: false, error: 'admin_required' });
+    if (route === '/api/announcements' && req.method === 'GET') return json(res, 200, { ok: true, announcements: readAnnouncements() });
+    if (route === '/api/announcements' && req.method === 'POST') {
+      const input = await readBody(req);
+      const who = crypto.createHash('sha256').update(String(req.headers.authorization || '').slice(7)).digest('hex');
+      const now = Date.now();
+      if (now - (announcementRate.get(who) || 0) < 20_000) return json(res, 429, { ok: false, error: 'announcement_rate_limited' });
+      const job = createAnnouncement(input, readConfig(WELCOME_DIR));
+      announcementRate.set(who, now);
+      return json(res, 202, { ok: true, announcement: { id: job.id, status: job.status, scheduledAt: job.scheduledAt } });
+    }
     if (req.method === 'GET') return json(res, 200, { ok: true, tickets: safeTickets(readConfig(TICKETS_DIR)), welcome: safeWelcome(readConfig(WELCOME_DIR)) });
     const input = await readBody(req);
     const ticketCfg = readConfig(TICKETS_DIR);
