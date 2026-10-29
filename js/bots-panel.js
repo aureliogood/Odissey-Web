@@ -166,12 +166,32 @@
     $('welcomePreview').style.borderLeftColor = $('welcomeColor').value || '#ffaa00';
   }
 
+  function setPreviewScreen(name) {
+    document.querySelectorAll('[data-preview-screen]').forEach(button => {
+      const active = button.dataset.previewScreen === name;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', String(active));
+    });
+    document.querySelectorAll('.preview-screen').forEach(screen => {
+      const active = screen.id === `${name}PreviewScreen`;
+      screen.hidden = !active;
+      screen.classList.toggle('active', active);
+    });
+  }
+
   function previewAnnouncement() {
     const isEvent = $('announcementType').value === 'event';
     $('announcementPreviewKind').textContent = isEvent ? 'ODISSEY · EVENTO' : 'ODISSEY · ANUNCIO';
     $('announcementPreviewTitle').textContent = $('announcementTitle').value.trim() || 'Tu título aparecerá aquí';
-    $('announcementPreviewDescription').textContent = $('announcementDescription').value.trim() || 'Vista previa del mensaje.';
-    $('announcementPreview').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
+    $('announcementPreviewDescription').textContent = $('announcementDescription').value.trim() || 'La vista previa del anuncio aparecerá aquí.';
+    $('announcementDiscordEmbed').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
+    const eventAt = $('announcementEventAt').value.trim();
+    $('announcementPreviewEventDate').hidden = !isEvent || !eventAt;
+    $('announcementPreviewEventDate').textContent = eventAt ? `📅 ${eventAt}` : '';
+    const localDate = $('announcementSchedule').value;
+    $('announcementPreviewSchedule').hidden = !localDate;
+    $('announcementPreviewSchedule').textContent = localDate
+      ? `Se publicará: ${new Date(localDate).toLocaleString('es-CO')}` : '';
     $('sendAnnouncement').textContent = $('announcementSchedule').value
       ? (isEvent ? 'Programar evento' : 'Programar anuncio')
       : (isEvent ? 'Publicar evento' : 'Publicar anuncio');
@@ -309,11 +329,15 @@
     save('welcomeNote', { tickets: state.tickets, welcome: state.welcome });
   });
   ['ticketTitle', 'ticketDescription', 'ticketFooter'].forEach(id => $(id).addEventListener('input', previewTickets));
-  ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter'].forEach(id => $(id).addEventListener('input', previewWelcome));
-  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementSchedule'].forEach(id => $(id).addEventListener('input', previewAnnouncement));
-  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementSchedule'].forEach(id => $(id).addEventListener('change', previewAnnouncement));
+  ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter'].forEach(id => $(id).addEventListener('input', () => { previewWelcome(); setPreviewScreen('welcome'); }));
+  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementEventAt', 'announcementSchedule'].forEach(id => {
+    const updatePreview = () => { previewAnnouncement(); setPreviewScreen('announcement'); };
+    $(id).addEventListener('input', updatePreview);
+    $(id).addEventListener('change', updatePreview);
+  });
   $('sendAnnouncement').addEventListener('click', submitAnnouncement);
   $('refreshAnnouncements').addEventListener('click', refreshAnnouncements);
+  document.querySelectorAll('[data-preview-screen]').forEach(button => button.addEventListener('click', () => setPreviewScreen(button.dataset.previewScreen)));
   setInterval(() => { if (state.welcome && $('pane-welcome').classList.contains('active')) refreshAnnouncements(); }, 15_000);
   load();
 })();

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bots-panel.css?v=1">
-  <link rel="stylesheet" href="css/bots-announcements.css?v=1">
+  <link rel="stylesheet" href="css/bots-announcements.css?v=2">
   <script src="site-config.js?v=148"></script>
 </head>
 <body>
@@ -74,13 +74,27 @@
             <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
             <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
             <div class="two-fields"><label>Fecha del evento (opcional)<input id="announcementEventAt" maxlength="100" placeholder="Sábado 8:00 p. m."></label><label>Programar para (opcional)<input id="announcementSchedule" type="datetime-local"></label></div>
-            <div class="announcement-preview" id="announcementPreview"><span id="announcementPreviewKind">ODISSEY · ANUNCIO</span><strong id="announcementPreviewTitle">Tu título aparecerá aquí</strong><p id="announcementPreviewDescription">Vista previa del mensaje.</p></div>
             <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
             <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
             <div id="announcementHistory" class="announcement-history" aria-live="polite"></div>
             <div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
           </div>
-          <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div><div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div></aside>
+          <aside class="preview-column">
+            <div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div>
+            <div class="preview-switch" role="tablist" aria-label="Tipo de mensaje para la vista previa">
+              <button class="preview-switch-button active" type="button" role="tab" aria-selected="true" aria-controls="welcomePreviewScreen" data-preview-screen="welcome">Bienvenida</button>
+              <button class="preview-switch-button" type="button" role="tab" aria-selected="false" aria-controls="announcementPreviewScreen" data-preview-screen="announcement">Anuncio / evento</button>
+            </div>
+            <section class="preview-screen active" id="welcomePreviewScreen" role="tabpanel">
+              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div>
+              <div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div>
+            </section>
+            <section class="preview-screen" id="announcementPreviewScreen" role="tabpanel" hidden>
+              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># anuncios</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Global <small>AHORA</small></div><div class="welcome-embed announcement-discord-embed" id="announcementDiscordEmbed"><span class="announcement-preview-kind" id="announcementPreviewKind">ODISSEY · ANUNCIO</span><h3 id="announcementPreviewTitle">Tu título aparecerá aquí</h3><p id="announcementPreviewDescription">La vista previa del anuncio aparecerá aquí.</p><div class="announcement-preview-event-date" id="announcementPreviewEventDate" hidden></div><div class="embed-footer">Odissey MC · Información oficial</div></div></div></div></div>
+              <p class="announcement-preview-schedule" id="announcementPreviewSchedule" hidden></p>
+              <div class="tip"><span>↻</span><p>La vista cambia al editar el anuncio. Si programas una hora, el bot lo publicará entonces.</p></div>
+            </section>
+          </aside>
         </div>
       </section>
       <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Azure · Guardado seguro</span></footer>
@@ -88,6 +102,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>ID de categoría de Discord<input id="categoryDiscordId" inputmode="numeric" placeholder="ID de categoría donde crear tickets"></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=3" defer></script>
+  <script src="js/bots-panel.js?v=4" defer></script>
 </body>
 </html>

@@ -38,6 +38,40 @@
 .announcement-status.sending { border-color: #efc34e44; color: #f0ce68; }
 .announcement-error { grid-column: 1 / -1; color: #ff9999 !important; }
 
+.preview-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin: 10px 0 12px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0b1118;
+}
+
+.preview-switch-button {
+  min-width: 0;
+  padding: 9px 7px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--muted);
+  background: transparent;
+  font: 600 10px 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+
+.preview-switch-button.active {
+  border-color: #efc34e33;
+  color: #f4d26b;
+  background: #efc34e12;
+}
+
+.preview-screen[hidden] { display: none !important; }
+.announcement-preview-kind { display: block; margin-bottom: 7px; color: #efc34e; font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.announcement-discord-embed h3 { overflow-wrap: anywhere; }
+.announcement-preview-event-date { margin: 9px 0; padding: 8px; border: 1px solid #ffffff12; border-radius: 5px; color: #e9d28a; font-size: 9px; }
+.announcement-preview-schedule { margin: 9px 0 0; color: #efc34e; font-size: 10px; line-height: 1.5; }
+
 @media (max-width: 540px) {
   .announcement-row { align-items: flex-start; flex-direction: column; }
   .announcement-row .announcement-status { align-self: flex-start; }
