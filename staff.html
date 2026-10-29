@@ -42,6 +42,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap&family=Pixelify+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/dala.css?v=147">
+    <link rel="stylesheet" href="/css/nav-shared.css?v=1">
     <link rel="stylesheet" href="css/dala-polish.css?v=2">
         <script type="application/ld+json">
 {
@@ -141,10 +142,10 @@
                 <div class="nav-pill" role="navigation" aria-label="Secciones">
                     <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
                             <a href="/wiki" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_wiki">Wiki</span></a>
-                            <a href="/soporte" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+
                             <a href="/reglas" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
-                            <a href="/staff" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
-                            <a href="/perfil" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                            <div class="nav-pill__group"><a href="/staff" class="nav-pill__link" aria-haspopup="true" aria-label="Staff y soporte"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span><svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></a><div class="nav-pill__submenu" role="menu" aria-label="Enlaces de Staff"><a href="/soporte" class="nav-pill__sublink" role="menuitem"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a></div></div>
+
                 </div>
 
                 <div class="nav-actions flex items-center gap-2 flex-shrink-0">
@@ -186,18 +187,15 @@
                             <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
                             <span data-i18n="nav_reglas">Reglas</span>
                         </a>
-                        <a href="/soporte" class="menu-desplegable__enlace">
-                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg>
-                            <span data-i18n="nav_soporte">Soporte</span>
-                        </a>
-                        <a href="/staff" class="menu-desplegable__enlace">
+
+                        <div class="menu-desplegable__grupo"><a href="/staff" class="menu-desplegable__enlace">
                             <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             <span data-i18n="nav_staff">Staff</span>
-                        </a>
-                        <a href="/perfil" class="menu-desplegable__enlace">
-                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-                            <span data-i18n="nav_perfil">Perfil</span>
-                        </a>
+                        </a><a href="/soporte" class="menu-desplegable__enlace menu-desplegable__subenlace">
+                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg>
+                            <span data-i18n="nav_soporte">Soporte</span>
+                        </a></div>
+
                     </div>
                 </div>
                 </nav>
@@ -338,7 +336,7 @@
             </div>
         </div>
     </div>
-            
+
 
     <!-- Modal de información del staff -->
     <div id="staffModal" role="dialog" aria-modal="true"
@@ -619,7 +617,7 @@ try {
                 var guardado = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
                 if (guardado && guardado.id) return guardado;
             } catch (err) { /* un valor roto no debe romper la pagina */ }
-        
+
             var P = window.OdisseySupabase;
             if (!P) return null;
             var ficha = (typeof P.perfilActualSync === 'function') ? P.perfilActualSync() : null;
@@ -1140,7 +1138,7 @@ try {
         updateCartBadge();
         loadRates();
         const staffModal = document.getElementById('staffModal');
-        
+
 function getStaff() {
   const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
   /* Si la base de datos trae gente, esa es la buena: es la que se puede
@@ -1595,7 +1593,7 @@ async function submitRating() {
             reportDetail.value = '';
             reportCapture.value = '';
             closeReportModal();
-            
+
             /* Los tickets de Discord se retiraron. El reporte queda
                guardado en Supabase y lo revisa el staff desde el panel,
                asi que aqui no hay que avisar de ningun fallo. */

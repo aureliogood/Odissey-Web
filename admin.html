@@ -41,6 +41,7 @@
          trae los estilos de .overlay y de la barra de navegacion, que
          esta pagina usa. -->
     <link rel="stylesheet" href="css/dala.css?v=147">
+    <link rel="stylesheet" href="/css/nav-shared.css?v=1">
     <link rel="stylesheet" href="css/dala-polish.css?v=2">
     <style>
         /* Formulario de acceso del panel: usuario y contrasena (ya no Discord). */
@@ -84,22 +85,22 @@
                 <div class="nav-pill" role="navigation" aria-label="Secciones">
                     <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
                             <a href="/wiki" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_wiki">Wiki</span></a>
-                            <a href="/soporte" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
+
                             <a href="/reglas" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
-                            <a href="/staff" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span></a>
-                            <a href="/perfil" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-i18n="nav_perfil">Perfil</span></a>
+                            <div class="nav-pill__group"><a href="/staff" class="nav-pill__link" aria-haspopup="true" aria-label="Staff y soporte"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span><svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></a><div class="nav-pill__submenu" role="menu" aria-label="Enlaces de Staff"><a href="/soporte" class="nav-pill__sublink" role="menuitem"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a></div></div>
+
                 </div>
 
                 <div class="nav-actions flex items-center gap-2 flex-shrink-0">
-                    
-                    
+
+
                     <button type="button" onclick="toggleTheme()" id="themeBtn"
                     class="nav-button nav-button-secondary flex items-center justify-center w-10" title="Cambiar tema / Switch theme" aria-label="Cambiar tema">
                     <svg id="themeSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
                     <svg id="themeMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 hidden" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
-                    
-                    
+
+
                 </div>
             </div>
         </nav>
@@ -1159,7 +1160,7 @@ Antes era un div: Enter no hacia nada y un
             document.getElementById('stat-news').textContent = getList('odissey_news').length;
             document.getElementById('stat-events').textContent = getList('odissey_events').length;
             document.getElementById('stat-gallery').textContent = getList('odissey_gallery').length;
-            
+
             const maint = getMaintenance();
             const maintEl = document.getElementById('stat-maintenance');
             if (maint && maint.active) {
