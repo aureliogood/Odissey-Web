@@ -48,7 +48,6 @@
             <label>Canal de bienvenida <input id="welcomeChannelId" inputmode="numeric" placeholder="ID del canal"></label>
             <label>Canal privado de alertas <input id="alertsChannelId" inputmode="numeric" placeholder="ID del canal para el staff"></label>
             <label>Rol que recibe alertas <input id="staffRoleId" inputmode="numeric" placeholder="ID del rol de staff"></label>
-            <label>Canal de anuncios y eventos <input id="announcementChannelId" inputmode="numeric" placeholder="ID del canal público"></label>
             <div class="divider"></div><h3>Mensaje de bienvenida</h3>
             <label>Título <input id="welcomeTitle" maxlength="256"></label>
             <label>Mensaje <textarea id="welcomeDescription" rows="4" maxlength="1500"></textarea><small class="field-help">Puedes usar <code>{usuario}</code> y <code>{miembros}</code>.</small></label>
@@ -70,6 +69,7 @@
             <label>Roles exentos<textarea id="autoModExemptRoles" rows="2" placeholder="Un ID de rol por línea"></textarea></label>
             <div class="divider"></div><h3>Anuncios y eventos</h3>
             <p class="hint">Publica ahora o programa un mensaje. No se permiten menciones automáticas a roles o a toda la comunidad.</p>
+            <label>Canal donde se publicarán <input id="announcementChannelId" inputmode="numeric" placeholder="Pega aquí el ID del canal de Discord"><small class="field-help">Activa el modo desarrollador en Discord, copia el ID del canal y guárdalo junto con los cambios de bienvenida.</small></label>
             <div class="two-fields"><label>Tipo<select id="announcementType"><option value="announcement">Anuncio</option><option value="event">Evento</option></select></label><label>Color<input id="announcementColor" type="color" value="#ffaa00"></label></div>
             <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
             <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
