@@ -48,13 +48,16 @@ nav.nav-bar {
 
 .nav-pill__link,
 .nav-button {
-  transition: color 180ms var(--dala-ease-out), background 180ms var(--dala-ease-out),
-    border-color 180ms var(--dala-ease-out), transform 180ms var(--dala-ease-out);
+  border-radius: 0 !important;
+  font-family: var(--pixel, 'Pixelify Sans', sans-serif) !important;
 }
-
-.nav-pill__link:hover,
+.nav-pill__link:hover {
+  background: var(--hz-raised, #221e34) !important;
+  color: #ffffff !important;
+  transform: none !important;
+}
 .nav-button:hover {
-  transform: translateY(-1px);
+  transform: none !important;
 }
 
 .btn3d,
@@ -225,4 +228,45 @@ input:focus, textarea:focus, select:focus,
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+
+/* Horizon Polish Overrides */
+#cartBtn,
+.nav-button--shop,
+.cart-count {
+  display: none !important;
+}
+
+.nav-pill {
+  border-radius: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+#enterNavBtn,
+.nav-button-primary {
+  border-radius: 0 !important;
+  border: 2px solid #05040a !important;
+  background: #5b3fd6 !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 2px 0 #8a74ff, inset 0 -4px 0 #3a2694 !important;
+  font-family: var(--pixel, 'Pixelify Sans', sans-serif) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+#enterNavText {
+  font-family: var(--pixel, 'Pixelify Sans', sans-serif) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+}
+
+nav #langBtn,
+.lang-btn {
+  border-radius: 0 !important;
+  border: 2px solid #05040a !important;
+  background: #2b2641 !important;
+  box-shadow: inset 0 2px 0 #3d3560, inset 0 -4px 0 #07060b !important;
 }

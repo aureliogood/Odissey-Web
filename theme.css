@@ -1273,3 +1273,10 @@ nav.nav-bar {
    un "!important" que se cargo antes. En una hoja aparte cargada la ultima
    si, asi que es la unica forma de corregirlos sin reescribir dala.css
    entero. */
+
+
+#cartBtn,
+.nav-button--shop,
+.cart-count {
+  display: none !important;
+}

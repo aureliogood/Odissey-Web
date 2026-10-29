@@ -52,6 +52,9 @@ AddDefaultCharset UTF-8
 #    dejalo comentado y deja que HSTS (bloque 6) haga el trabajo.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # Redirigir la tienda a la tienda externa oficial
+  RewriteRule ^tienda(\.html)?/?$ https://odissey.cyberdino.online [R=301,L]
+
 
   # 2.a Redirigir http -> https, excepto si ya viene cifrado de origen.
   #
@@ -76,10 +79,10 @@ AddDefaultCharset UTF-8
   # -------------------------------------------------------------
   # Migrar enlaces viejos con .html -> URL limpia (301)
   RewriteCond %{THE_REQUEST} \.html\s
-  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)\.html$ /$1 [R=301,L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)\.html$ /$1 [R=301,L]
 
   # Servir .html en segundo plano para las URLs limpias (solo paginas conocidas)
-  RewriteRule ^(staff|tienda|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)/?$ $1.html [L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)/?$ $1.html [L]
 </IfModule>
 
 # -------------------------------------------------------------
