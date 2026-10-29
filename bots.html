@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bots-panel.css?v=1">
-  <link rel="stylesheet" href="css/bots-announcements.css?v=3">
+  <link rel="stylesheet" href="css/bots-announcements.css?v=4">
   <script src="site-config.js?v=148"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
     <section class="intro"><div><p class="eyebrow"><i></i> CONTROL EN AZURE</p><h1>Tus bots, <em>bajo control.</em></h1><p class="lead">Edita los paneles, mensajes y detecciones. Los cambios se guardan en Azure y se aplican en vivo.</p></div><div class="connection" id="connection"><span class="pulse"></span><span id="connectionText">Conectando con Azure…</span></div></section>
     <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal">Conectar con Azure</button><button class="button secondary hidden" id="retry">Reintentar conexión</button></section>
     <div id="app" class="hidden">
-      <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button></nav>
+      <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button><button class="tab" data-tab="activity"><span class="tab-icon">◷</span>Actividad <small>REGISTROS</small></button></nav>
       <section class="pane active" id="pane-tickets">
         <div class="section-heading"><div><p class="eyebrow">CENTRO DE SOPORTE</p><h2>Panel de tickets</h2><p>Personaliza el texto que ve la comunidad y las opciones para abrir un ticket.</p></div><span class="live-badge"><i></i> Se aplica en vivo</span></div>
         <div class="layout">
@@ -35,9 +35,10 @@
             <label>Canal de registros y transcripts <select id="logsChannelId"></select></label>
             <div class="divider"></div><div class="subhead"><div><h3>Secciones de tickets</h3><p class="hint">Cada sección crea una opción en el panel.</p></div><button class="button mini" id="addCategory">＋ Añadir</button></div>
             <div id="categories" class="category-list"></div><small class="field-help">Discord permite hasta cinco secciones en este formato de panel.</small>
-            <div class="divider"></div><div class="subhead"><div><h3>Tickets abiertos</h3><p class="hint">Cierra desde aquí y el bot guardará el transcript.</p></div><button class="button mini" id="refreshTickets" type="button">Actualizar</button></div>
+            <div class="divider"></div><div class="subhead"><div><h3>Tickets</h3><p class="hint">Busca, revisa, cierra o reabre tickets. Los cierres guardan el transcript.</p></div><button class="button mini" id="refreshTickets" type="button">Actualizar</button></div>
+            <div class="two-fields"><label>Estado<select id="ticketStatusFilter"><option value="open">Abiertos</option><option value="closed">Cerrados</option><option value="all">Todos</option></select></label><label>Buscar<input id="ticketSearch" type="search" placeholder="N.º, usuario o categoría"></label></div>
             <div id="openTickets" class="dashboard-list" aria-live="polite"></div>
-            <div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets">Guardar cambios</button></div>
+            <div id="ticketPermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets">Guardar cambios</button></div>
           </div>
           <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># soporte</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Support <small>HOY A LAS 12:04</small></div><div class="discord-embed"><div class="embed-title" id="previewTitle"></div><p id="previewDescription"></p><div class="preview-options" id="previewCategories"></div><div class="embed-footer" id="previewFooter"></div></div></div></div></div><div class="tip"><span>↻</span><p>El panel publicado por el bot se edita al guardar. Si todavía no publicaste uno, usa <code>/setup</code> en Discord.</p></div></aside>
         </div>
@@ -85,16 +86,17 @@
             <div class="two-fields"><label>Tipo<select id="announcementType"><option value="announcement">Anuncio</option><option value="event">Evento</option></select></label><label>Color<input id="announcementColor" type="color" value="#ffaa00"></label></div>
             <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
             <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
-            <label>Imagen del anuncio<input id="announcementImage" type="file" accept="image/png,image/jpeg,image/gif,image/webp"><small class="field-help">PNG, JPG, GIF o WebP · máximo 5 MB. Se mostrará debajo del texto.</small></label>
+            <label>Imágenes del anuncio<input id="announcementImage" type="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple><small class="field-help">Hasta 3 imágenes PNG, JPG, GIF o WebP · máximo 5 MB cada una. Se mostrarán debajo del texto.</small></label>
             <button class="button mini announcement-remove-image" id="removeAnnouncementImage" type="button" hidden>Quitar imagen</button>
             <div class="two-fields"><label>Texto del botón (opcional)<input id="announcementButtonLabel" maxlength="80" placeholder="Más información"></label><label>Enlace HTTPS<input id="announcementButtonUrl" type="url" maxlength="500" placeholder="https://..." ></label></div>
             <label>Miniatura (URL HTTPS, opcional)<input id="announcementThumbnailUrl" type="url" maxlength="500" placeholder="https://.../logo.png"></label>
             <label>Texto al pie<input id="announcementFooter" maxlength="200" value="Odissey MC · Información oficial"></label>
             <div class="two-fields"><label>Fecha del evento (opcional)<input id="announcementEventAt" maxlength="100" placeholder="Sábado 8:00 p. m."></label><label>Programar para (opcional)<input id="announcementSchedule" type="datetime-local"></label></div>
-            <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
+            <label>Repetir<select id="announcementRepeat"><option value="">No repetir</option><option value="weekly">Cada semana</option><option value="monthly">Cada 30 días</option></select><small class="field-help">Si eliges una fecha, la repetición empieza en esa fecha; si no, comienza al publicar.</small></label>
+            <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button secondary" id="saveAnnouncementDraft" type="button">Guardar borrador</button><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
             <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
             <div id="announcementHistory" class="announcement-history" aria-live="polite"></div>
-            <div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
+            <div id="welcomePermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
           </div>
           <aside class="preview-column">
             <div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div>
@@ -107,11 +109,21 @@
               <div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div>
             </section>
             <section class="preview-screen" id="announcementPreviewScreen" role="tabpanel" hidden>
-              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># anuncios</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Global <small>AHORA</small></div><div class="welcome-embed announcement-discord-embed" id="announcementDiscordEmbed"><span class="announcement-preview-kind" id="announcementPreviewKind">ODISSEY · ANUNCIO</span><h3 id="announcementPreviewTitle">Tu título aparecerá aquí</h3><p id="announcementPreviewDescription">La vista previa del anuncio aparecerá aquí.</p><div class="announcement-preview-event-date" id="announcementPreviewEventDate" hidden></div><img id="announcementPreviewImage" class="announcement-preview-image" alt="Vista previa de la imagen del anuncio" hidden><img id="announcementPreviewThumbnail" class="announcement-preview-thumbnail" alt="Miniatura del anuncio" hidden><a id="announcementPreviewButton" class="announcement-preview-button" target="_blank" rel="noopener" hidden></a><div class="embed-footer" id="announcementPreviewFooter">Odissey MC · Información oficial</div></div></div></div></div>
+              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># anuncios</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Global <small>AHORA</small></div><div class="welcome-embed announcement-discord-embed" id="announcementDiscordEmbed"><span class="announcement-preview-kind" id="announcementPreviewKind">ODISSEY · ANUNCIO</span><h3 id="announcementPreviewTitle">Tu título aparecerá aquí</h3><p id="announcementPreviewDescription">La vista previa del anuncio aparecerá aquí.</p><div class="announcement-preview-event-date" id="announcementPreviewEventDate" hidden></div><div id="announcementPreviewImages" class="announcement-preview-images"></div><img id="announcementPreviewThumbnail" class="announcement-preview-thumbnail" alt="Miniatura del anuncio" hidden><a id="announcementPreviewButton" class="announcement-preview-button" target="_blank" rel="noopener" hidden></a><div class="embed-footer" id="announcementPreviewFooter">Odissey MC · Información oficial</div></div></div></div></div>
               <p class="announcement-preview-schedule" id="announcementPreviewSchedule" hidden></p>
               <div class="tip"><span>↻</span><p>La vista cambia al editar el anuncio. Si programas una hora, el bot lo publicará entonces.</p></div>
             </section>
           </aside>
+        </div>
+      </section>
+      <section class="pane" id="pane-activity">
+        <div class="section-heading"><div><p class="eyebrow">OPERACIÓN Y SEGURIDAD</p><h2>Actividad y controles</h2><p>Alertas, métricas, versiones de configuración y permisos del panel.</p></div><button class="button mini" id="refreshActivity" type="button">Actualizar</button></div>
+        <div class="activity-grid">
+          <article class="card activity-card"><h3>Resumen · 30 días</h3><div id="analyticsSummary" class="analytics-summary"></div><div id="analyticsChart" class="analytics-chart"></div></article>
+          <article class="card activity-card"><h3>Alertas</h3><p class="hint">Los fallos también se envían al canal privado de alertas.</p><div id="alertsList" class="dashboard-list"></div></article>
+          <article class="card activity-card"><h3>Versiones de configuración</h3><p class="hint">Restaura una versión anterior si un cambio causa problemas.</p><div id="configVersions" class="dashboard-list"></div></article>
+          <article class="card activity-card" id="panelPermissionsCard"><h3>Permisos para el rol Staff</h3><p class="hint">Controla qué puede consultar o administrar una cuenta con rol Staff en la web.</p><div id="permissionOptions" class="permission-options"></div><button class="button primary" id="savePermissions" type="button">Guardar permisos</button></article>
+          <article class="card activity-card" id="auditCard"><h3>Registro de cambios</h3><p class="hint">Muestra quién hizo cambios, publicó anuncios o gestionó tickets.</p><div id="auditList" class="dashboard-list"></div></article>
         </div>
       </section>
       <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Azure · Guardado seguro</span></footer>
@@ -119,6 +131,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=6" defer></script>
+  <script src="js/bots-panel.js?v=7" defer></script>
 </body>
 </html>

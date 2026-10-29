@@ -4,12 +4,12 @@
     ? 'http://127.0.0.1:32170'
     : 'https://api.odisseymc.site/panel';
   const $ = id => document.getElementById(id);
-  const state = { tickets: null, welcome: null, announcements: [], directory: { channels: [], categories: [], roles: [] } };
+  const state = { tickets: null, welcome: null, announcements: [], directory: { channels: [], categories: [], roles: [] }, permissions: [], isAdmin: false };
   const gate = $('gate');
   const app = $('app');
   const connection = $('connection');
   let toastTimer;
-  let announcementImagePreviewUrl = '';
+  let announcementImagePreviewUrls = [];
   const announcementImageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
   const announcementImageLimit = 5 * 1024 * 1024;
 
@@ -62,6 +62,7 @@
     const data = await response.json().catch(() => ({}));
     if (!response.ok || !data.ok) {
       if (data.error === 'admin_required') throw new Error('Esta cuenta no tiene rol de administrador.');
+      if (data.error === 'permission_denied') throw new Error('Tu rol no tiene permiso para esta acción.');
       if (data.error === 'origin_denied') throw new Error('Abre el panel desde odisseymc.site.');
       if (data.error === 'announcement_rate_limited') throw new Error('Espera unos segundos antes de publicar otro mensaje.');
       if (data.error === 'announcement_channel_required') throw new Error('Configura el canal de anuncios y guarda los cambios primero.');
@@ -71,6 +72,7 @@
       if (data.error === 'announcement_button_label') throw new Error('Escribe el texto del botón para poder añadir el enlace.');
       if (String(data.error || '').startsWith('invalid_announcement_') || data.error === 'invalid_welcome_image_url') throw new Error('Las imágenes y enlaces deben usar una URL HTTPS válida.');
       if (data.error === 'ticket_not_open') throw new Error('Ese ticket ya no está abierto. Actualiza la lista.');
+      if (data.error === 'discord_directory_unavailable') throw new Error('No pude consultar Discord. Comprueba que ambos bots estén en línea y tengan acceso al servidor.');
       throw new Error(data.error || 'El servicio de Azure no respondió correctamente.');
     }
     return data;
@@ -106,6 +108,35 @@
     connection.classList.toggle('online', !!ok);
     connection.classList.toggle('offline', !ok);
     $('connectionText').textContent = message;
+  }
+
+  function can(permission) { return state.isAdmin || state.permissions.includes(permission); }
+
+  function applyAccess() {
+    const tabs = { tickets: can('tickets:read') || can('config:read'), welcome: ['announcements:read', 'announcements:write', 'moderation:read', 'botstatus:read', 'config:read'].some(can), activity: state.isAdmin || ['analytics:read', 'alerts:read'].some(can) };
+    document.querySelectorAll('.tab').forEach(tab => { tab.hidden = !tabs[tab.dataset.tab]; });
+    Object.entries(tabs).forEach(([name, visible]) => { $(`pane-${name}`).hidden = !visible; });
+    if (!tabs[document.querySelector('.tab.active')?.dataset.tab]) {
+      const first = Object.keys(tabs).find(name => tabs[name]);
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === first));
+      if (first) $(`pane-${first}`).classList.add('active');
+    }
+    if (!can('config:write')) {
+      ['saveTickets', 'saveWelcome'].forEach(id => { if ($(id)) $(id).hidden = true; });
+      document.querySelectorAll('#pane-tickets .form-card input, #pane-tickets .form-card textarea, #pane-tickets .form-card select, #pane-welcome .form-card input, #pane-welcome .form-card textarea, #pane-welcome .form-card select').forEach(el => {
+        if (!['ticketStatusFilter', 'ticketSearch'].includes(el.id) && !el.id.startsWith('announcement')) el.disabled = true;
+      });
+      ['addCategory', 'saveTickets', 'saveWelcome'].forEach(id => { if ($(id)) $(id).hidden = true; });
+      if (!can('announcements:write')) ['sendAnnouncement', 'saveAnnouncementDraft'].forEach(id => { if ($(id)) $(id).hidden = true; });
+      if (!can('announcements:read') && !can('announcements:write')) $('refreshAnnouncements').hidden = true;
+    }
+    $('panelPermissionsCard').hidden = !state.isAdmin;
+    $('auditCard').hidden = !state.isAdmin;
+    if (!can('config:read')) {
+      ['ticketTitle', 'ticketDescription', 'ticketFooter', 'supportRoleId', 'logsChannelId', 'categoryDiscordId', 'addCategory', 'categories', 'welcomeChannelId', 'alertsChannelId', 'staffRoleId', 'welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl', 'leaveEnabled', 'leaveChannelId', 'leaveTitle', 'leaveDescription', 'leaveColor', 'statusHost', 'statusPort', 'statusChannelId', 'statusMaintenance', 'minAccountAgeDays', 'maxSimilarityDistance', 'checkImpersonation', 'protectedUsers', 'blockedKeywords', 'autoModEnabled', 'autoModInvites', 'autoModMaxMentions', 'autoModMessageLimit', 'autoModTimeout', 'autoModExemptRoles'].forEach(id => {
+        const node = $(id); if (node) (node.closest('label') || node).hidden = true;
+      });
+    }
   }
 
   function previewTickets() {
@@ -222,9 +253,8 @@
     $('announcementPreviewKind').textContent = isEvent ? 'ODISSEY · EVENTO' : 'ODISSEY · ANUNCIO';
     $('announcementPreviewTitle').textContent = $('announcementTitle').value.trim() || 'Tu título aparecerá aquí';
     $('announcementPreviewDescription').textContent = $('announcementDescription').value.trim() || 'La vista previa del anuncio aparecerá aquí.';
-    const previewImage = $('announcementPreviewImage');
-    previewImage.hidden = !announcementImagePreviewUrl;
-    if (announcementImagePreviewUrl) previewImage.src = announcementImagePreviewUrl;
+    const previewImages = $('announcementPreviewImages'); previewImages.replaceChildren();
+    announcementImagePreviewUrls.forEach((url, index) => { const img = document.createElement('img'); img.className = 'announcement-preview-image'; img.alt = `Imagen ${index + 1} del anuncio`; img.src = url; previewImages.append(img); });
     $('announcementDiscordEmbed').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
     $('announcementPreviewFooter').textContent = $('announcementFooter').value.trim() || 'Odissey MC · Información oficial';
     const buttonUrl = safePreviewUrl($('announcementButtonUrl').value);
@@ -244,11 +274,11 @@
   }
 
   function clearAnnouncementImage() {
-    if (announcementImagePreviewUrl) URL.revokeObjectURL(announcementImagePreviewUrl);
-    announcementImagePreviewUrl = '';
+    announcementImagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
+    announcementImagePreviewUrls = [];
     $('announcementImage').value = '';
     $('removeAnnouncementImage').hidden = true;
-    $('announcementPreviewImage').removeAttribute('src');
+    $('announcementPreviewImages').replaceChildren();
     previewAnnouncement();
   }
 
@@ -267,15 +297,15 @@
   }
 
   function chooseAnnouncementImage() {
-    const file = $('announcementImage').files[0];
-    if (!file) { clearAnnouncementImage(); return; }
-    if (!announcementImageTypes.includes(file.type) || file.size > announcementImageLimit || !file.size) {
+    const files = [...$('announcementImage').files];
+    if (!files.length) { clearAnnouncementImage(); return; }
+    if (files.length > 3 || files.some(file => !announcementImageTypes.includes(file.type) || file.size > announcementImageLimit || !file.size)) {
       clearAnnouncementImage();
-      toast('Elige una imagen PNG, JPG, GIF o WebP de hasta 5 MB.', true);
+      toast('Elige hasta 3 imágenes PNG, JPG, GIF o WebP de hasta 5 MB cada una.', true);
       return;
     }
-    if (announcementImagePreviewUrl) URL.revokeObjectURL(announcementImagePreviewUrl);
-    announcementImagePreviewUrl = URL.createObjectURL(file);
+    announcementImagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
+    announcementImagePreviewUrls = files.map(file => URL.createObjectURL(file));
     $('removeAnnouncementImage').hidden = false;
     previewAnnouncement();
     setPreviewScreen('announcement');
@@ -295,45 +325,57 @@
       const title = document.createElement('strong'); title.textContent = item.title || 'Publicación';
       const meta = document.createElement('small');
       const when = item.status === 'sent' && item.sentAt ? new Date(item.sentAt) : item.scheduledAt ? new Date(item.scheduledAt) : new Date(item.createdAt);
-      const statusLabel = item.status === 'sent' ? 'Publicado' : item.status === 'failed' ? 'Error' : item.status === 'sending' ? 'Publicando' : item.scheduledAt ? 'Programado' : 'En cola';
-      meta.textContent = `${item.type === 'event' ? 'Evento' : 'Anuncio'} · ${statusLabel} · ${when.toLocaleString('es-CO')}`;
+      const statusLabel = item.status === 'draft' ? 'Borrador' : item.status === 'sent' ? 'Publicado' : item.status === 'failed' ? 'Error' : item.status === 'sending' ? 'Publicando' : item.scheduledAt ? 'Programado' : 'En cola';
+      const recurrence = item.repeatEvery === 'weekly' ? ' · Cada semana' : item.repeatEvery === 'monthly' ? ' · Cada 30 días' : '';
+      meta.textContent = `${item.type === 'event' ? 'Evento' : 'Anuncio'} · ${statusLabel}${recurrence} · ${when.toLocaleString('es-CO')}`;
       copy.append(title, meta);
       const badge = document.createElement('span'); badge.className = `announcement-status ${item.status || 'pending'}`; badge.textContent = statusLabel;
       row.append(copy, badge);
       if (item.error) { const error = document.createElement('small'); error.className = 'announcement-error'; error.textContent = item.error; row.append(error); }
+      if (can('announcements:write') && ['draft', 'pending'].includes(item.status)) {
+        const actions = document.createElement('div'); actions.className = 'announcement-row-actions';
+        if (item.status === 'draft') { const publish = document.createElement('button'); publish.type = 'button'; publish.className = 'button secondary'; publish.textContent = 'Publicar borrador'; publish.addEventListener('click', async () => { publish.disabled = true; try { await request(`/api/announcements/${encodeURIComponent(item.id)}/publish`, { method: 'POST', body: {} }); toast('Borrador enviado a la cola.'); await refreshAnnouncements(); } catch (err) { toast(err.message || 'No se pudo publicar.', true); publish.disabled = false; } }); actions.append(publish); }
+        const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'button secondary'; cancel.textContent = item.status === 'draft' ? 'Eliminar' : 'Cancelar'; cancel.addEventListener('click', async () => { cancel.disabled = true; try { await request(`/api/announcements/${encodeURIComponent(item.id)}/cancel`, { method: 'DELETE' }); toast(item.status === 'draft' ? 'Borrador eliminado.' : 'Publicación programada cancelada.'); await refreshAnnouncements(); } catch (err) { toast(err.message || 'No se pudo cancelar.', true); cancel.disabled = false; } }); actions.append(cancel); row.append(actions);
+      }
       list.append(row);
     });
   }
 
   async function refreshAnnouncements() {
+    if (!can('announcements:read') && !can('announcements:write')) return;
     try { const data = await request('/api/announcements'); renderAnnouncements(data.announcements); }
     catch (err) { toast(err.message || 'No se pudo actualizar el historial.', true); }
   }
 
   async function refreshTickets() {
+    if (!can('tickets:read')) return;
     const list = $('openTickets');
     try {
-      const data = await request('/api/tickets'); list.replaceChildren();
-      if (!data.tickets.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'No hay tickets abiertos.'; list.append(empty); return; }
+      const params = new URLSearchParams({ status: $('ticketStatusFilter').value, q: $('ticketSearch').value.trim() });
+      const data = await request('/api/tickets?' + params.toString()); list.replaceChildren();
+      if (!data.tickets.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'No hay tickets que coincidan.'; list.append(empty); return; }
       data.tickets.forEach(ticket => {
         const row = document.createElement('article'); row.className = 'dashboard-row';
         const info = document.createElement('div'); const title = document.createElement('b'); title.textContent = `Ticket #${ticket.id} · ${ticket.category}`;
-        const meta = document.createElement('small'); meta.textContent = `Abierto ${new Date(Number(ticket.createdAt)).toLocaleString('es-CO')} · <@${ticket.userId}>`;
+        const meta = document.createElement('small'); meta.textContent = `${ticket.status === 'open' ? 'Abierto' : 'Cerrado'} · ${new Date(Number(ticket.createdAt)).toLocaleString('es-CO')} · Usuario ${ticket.userId}`;
         info.append(title, meta);
-        const link = document.createElement('a'); link.href = `https://discord.com/channels/${state.tickets.guildId}/${ticket.channelId}`; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'Abrir';
-        const close = document.createElement('button'); close.type = 'button'; close.className = 'button mini'; close.textContent = 'Cerrar';
-        close.addEventListener('click', async () => {
-          if (!window.confirm(`¿Cerrar el ticket #${ticket.id}? El bot guardará su transcript.`)) return;
-          close.disabled = true;
-          try { await request(`/api/tickets/${ticket.id}/close`, { method: 'POST', body: {} }); toast('Solicitud enviada al bot. Actualiza la lista en unos segundos.'); setTimeout(refreshTickets, 2500); }
-          catch (err) { toast(err.message, true); close.disabled = false; }
+        const link = document.createElement('a'); link.href = `https://discord.com/channels/${ticket.guildId}/${ticket.channelId}`; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'Abrir';
+        const action = ticket.status === 'open' ? 'close' : 'reopen';
+        const change = document.createElement('button'); change.type = 'button'; change.className = 'button mini'; change.textContent = action === 'close' ? 'Cerrar' : 'Reabrir';
+        change.addEventListener('click', async () => {
+          const prompt = action === 'close' ? `¿Cerrar el ticket #${ticket.id}? El bot guardará su transcript.` : `¿Reabrir el ticket #${ticket.id}?`;
+          if (!window.confirm(prompt)) return;
+          change.disabled = true;
+          try { await request(`/api/tickets/${ticket.id}/${action}`, { method: 'POST', body: {} }); toast('Solicitud enviada al bot. Actualizando la lista…'); setTimeout(refreshTickets, 2500); }
+          catch (err) { toast(err.message, true); change.disabled = false; }
         });
-        row.append(info, link, close); list.append(row);
+        row.append(info, link, change); list.append(row);
       });
     } catch (err) { list.textContent = err.message || 'No se pudo consultar los tickets.'; }
   }
 
   async function refreshBotStatus() {
+    if (!can('botstatus:read')) return;
     try {
       const data = await request('/api/status');
       for (const key of ['tickets', 'welcome']) {
@@ -346,6 +388,7 @@
   }
 
   async function refreshModeration() {
+    if (!can('moderation:read')) return;
     const list = $('moderationActivity');
     try {
       const data = await request('/api/moderation'); list.replaceChildren();
@@ -359,14 +402,66 @@
     } catch (err) { list.textContent = err.message || 'No se pudo cargar la actividad.'; }
   }
 
-  async function submitAnnouncement() {
+  async function refreshActivity() {
+    if (can('analytics:read')) {
+      try {
+        const data = (await request('/api/analytics')).analytics;
+        const summary = $('analyticsSummary'); summary.replaceChildren();
+        const cards = [['Tickets abiertos', data.tickets.open], ['Tickets totales', data.tickets.total], ['Nuevos tickets', data.tickets.recent], ['Miembros nuevos', data.joins.recent]];
+        cards.forEach(([label, value]) => { const card = document.createElement('div'); card.className = 'analytics-stat'; const number = document.createElement('b'); number.textContent = String(value); const caption = document.createElement('small'); caption.textContent = label; card.append(number, caption); summary.append(card); });
+        const chart = $('analyticsChart'); chart.replaceChildren();
+        const max = Math.max(1, ...data.members.flatMap(day => [day.joins, day.leaves, day.tickets]));
+        data.members.filter((_, index) => index % 3 === 0 || index === data.members.length - 1).forEach(day => {
+          const col = document.createElement('div'); col.className = 'analytics-day'; const bar = document.createElement('span');
+          const total = day.joins + day.leaves + day.tickets; bar.style.height = `${Math.max(3, Math.round(total / max * 100))}%`; bar.title = `${day.date}: ${day.joins} entraron · ${day.leaves} salieron · ${day.tickets} tickets`;
+          const date = document.createElement('small'); date.textContent = day.date.slice(5); col.append(bar, date); chart.append(col);
+        });
+      } catch (err) { $('analyticsSummary').textContent = err.message; }
+    }
+    if (can('alerts:read')) {
+      try {
+        const list = $('alertsList'); list.replaceChildren(); const alerts = (await request('/api/alerts')).alerts;
+        if (!alerts.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'Sin alertas activas.'; list.append(empty); }
+        alerts.forEach(alert => { const row = document.createElement('article'); row.className = 'dashboard-row alert-row'; const text = document.createElement('div'); const title = document.createElement('b'); title.textContent = alert.title; const detail = document.createElement('small'); detail.textContent = `${alert.description} · ${new Date(alert.at).toLocaleString('es-CO')}`; text.append(title, detail); row.append(text); list.append(row); });
+      } catch (err) { $('alertsList').textContent = err.message; }
+    }
+    if (can('config:read')) {
+      try {
+        const list = $('configVersions'); list.replaceChildren(); const versions = (await request('/api/history')).versions;
+        if (!versions.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'El historial aparecerá después del primer cambio.'; list.append(empty); }
+        versions.forEach(version => { const row = document.createElement('article'); row.className = 'dashboard-row'; const info = document.createElement('div'); const title = document.createElement('b'); title.textContent = version.note || 'Configuración'; const meta = document.createElement('small'); meta.textContent = `${version.actorEmail || version.actorId} · ${new Date(version.at).toLocaleString('es-CO')}`; info.append(title, meta); row.append(info); if (can('config:write')) { const restore = document.createElement('button'); restore.className = 'button mini'; restore.textContent = 'Restaurar'; restore.addEventListener('click', async () => { if (!confirm('¿Restaurar esta configuración? Se guardará la versión actual antes de hacerlo.')) return; try { await request(`/api/history/${version.id}/restore`, { method: 'POST', body: {} }); toast('Configuración restaurada.'); await connectPanel(); await refreshActivity(); } catch (err) { toast(err.message, true); } }); row.append(restore); } list.append(row); });
+      } catch (err) { $('configVersions').textContent = err.message; }
+    }
+    if (state.isAdmin) {
+      try {
+        const result = await request('/api/permissions'); const box = $('permissionOptions'); box.replaceChildren();
+        const labels = { 'config:read': 'Ver configuración', 'config:write': 'Modificar configuración', 'tickets:read': 'Ver y buscar tickets', 'tickets:close': 'Cerrar tickets', 'tickets:reopen': 'Reabrir tickets', 'announcements:read': 'Ver anuncios y borradores', 'announcements:write': 'Publicar y programar anuncios', 'moderation:read': 'Ver moderación', 'analytics:read': 'Ver métricas', 'alerts:read': 'Ver alertas', 'botstatus:read': 'Ver estado de bots' };
+        result.available.forEach(permission => { const label = document.createElement('label'); label.className = 'permission-option'; const input = document.createElement('input'); input.type = 'checkbox'; input.value = permission; input.checked = result.permissions.includes(permission); const text = document.createElement('span'); text.textContent = labels[permission] || permission; label.append(input, text); box.append(label); });
+      } catch (err) { $('permissionOptions').textContent = err.message; }
+      try {
+        const list = $('auditList'); list.replaceChildren(); const entries = (await request('/api/audit')).entries;
+        if (!entries.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'Todavía no hay cambios registrados.'; list.append(empty); }
+        entries.forEach(entry => { const row = document.createElement('article'); row.className = 'dashboard-row'; const title = document.createElement('b'); title.textContent = entry.action; const meta = document.createElement('small'); meta.textContent = `${entry.actorEmail || entry.actorId} · ${new Date(entry.at).toLocaleString('es-CO')}`; row.append(title, meta); list.append(row); });
+      } catch (err) { $('auditList').textContent = err.message; }
+    }
+  }
+
+  async function savePanelPermissions() {
+    const staff = [...$('permissionOptions').querySelectorAll('input:checked')].map(input => input.value);
+    try { await request('/api/permissions', { method: 'PUT', body: { staff } }); toast('Permisos del rol Staff actualizados.'); await refreshActivity(); }
+    catch (err) { toast(err.message || 'No se pudieron guardar los permisos.', true); }
+  }
+
+  async function submitAnnouncement(asDraft = false) {
     const button = $('sendAnnouncement');
-    const oldText = button.textContent; button.disabled = true; button.textContent = 'Enviando…';
+    const activeButton = asDraft ? $('saveAnnouncementDraft') : button;
+    const oldText = activeButton.textContent; activeButton.disabled = true; activeButton.textContent = asDraft ? 'Guardando…' : 'Enviando…';
     try {
       const localDate = $('announcementSchedule').value;
-      const selectedImage = $('announcementImage').files[0];
-      const image = selectedImage ? await encodeAnnouncementImage(selectedImage) : undefined;
+      const selectedImages = [...$('announcementImage').files];
+      const images = await Promise.all(selectedImages.map(encodeAnnouncementImage));
       const data = await request('/api/announcements', { method: 'POST', body: {
+        action: asDraft ? 'draft' : 'publish',
         channelId: $('announcementChannelId').value.trim(), type: $('announcementType').value,
         title: $('announcementTitle').value.trim(), description: $('announcementDescription').value.trim(),
         color: $('announcementColor').value,
@@ -374,15 +469,16 @@
         thumbnailUrl: $('announcementThumbnailUrl').value.trim(), footer: $('announcementFooter').value.trim(),
         eventAt: $('announcementEventAt').value.trim(),
         scheduledAt: localDate ? new Date(localDate).toISOString() : '',
-        ...(image ? { image } : {}),
+        repeatEvery: $('announcementRepeat').value,
+        ...(images.length ? { images } : {}),
       } });
-      $('announcementNote').textContent = data.announcement?.scheduledAt ? 'Programado' : 'Enviado a la cola';
-      $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = ''; $('announcementButtonLabel').value = ''; $('announcementButtonUrl').value = ''; $('announcementThumbnailUrl').value = '';
+      $('announcementNote').textContent = asDraft ? 'Borrador guardado' : data.announcement?.scheduledAt ? 'Programado' : 'Enviado a la cola';
+      $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = ''; $('announcementRepeat').value = ''; $('announcementButtonLabel').value = ''; $('announcementButtonUrl').value = ''; $('announcementThumbnailUrl').value = '';
       clearAnnouncementImage();
       previewAnnouncement(); await refreshAnnouncements();
-      toast(data.announcement?.scheduledAt ? 'Quedó programado. El bot lo publicará a la hora indicada.' : 'El bot publicará el mensaje en unos segundos.');
+      toast(asDraft ? 'Borrador guardado. Puedes publicarlo desde la actividad reciente.' : data.announcement?.scheduledAt ? 'Quedó programado. El bot lo publicará a la hora indicada.' : 'El bot publicará el mensaje en unos segundos.');
     } catch (err) { $('announcementNote').textContent = 'No se pudo enviar'; toast(err.message || 'No se pudo publicar.', true); }
-    finally { button.disabled = false; previewAnnouncement(); }
+    finally { activeButton.disabled = false; activeButton.textContent = oldText; previewAnnouncement(); }
   }
 
   async function connectPanel() {
@@ -392,13 +488,19 @@
     try {
       await request('/health');
       setConnection(true, 'Conectado con Azure');
-      const data = await request('/api/config');
-      state.tickets = data.tickets; state.welcome = data.welcome;
-      try { const directory = await request('/api/directory'); state.directory = directory.directory; }
-      catch (_) { toast('No pude cargar los canales y roles. Revisa que el bot tenga acceso al servidor.', true); }
-      const announcements = await request('/api/announcements');
-      renderAnnouncements(announcements.announcements);
-      render(); gate.classList.add('hidden'); app.classList.remove('hidden');
+      const access = await request('/api/access'); state.permissions = access.permissions; state.isAdmin = access.isAdmin; applyAccess();
+      if (can('config:read')) {
+        const data = await request('/api/config'); state.tickets = data.tickets; state.welcome = data.welcome;
+        try { const directory = await request('/api/directory'); state.directory = directory.directory; }
+        catch (_) { toast('No pude cargar los canales y roles. Revisa que los bots tengan acceso al servidor.', true); }
+        render();
+      } else {
+        if (can('tickets:read')) refreshTickets();
+        refreshBotStatus(); refreshModeration();
+      }
+      if (can('announcements:read') || can('announcements:write')) { const announcements = await request('/api/announcements'); renderAnnouncements(announcements.announcements); }
+      gate.classList.add('hidden'); app.classList.remove('hidden');
+      refreshActivity();
     } catch (err) {
       const message = err.message || 'No se pudo conectar.';
       setConnection(false, /fetch|Failed to fetch|NetworkError/i.test(message) ? 'Azure no responde' : 'Revisa tu acceso');
@@ -431,6 +533,11 @@
     const btn = noteId === 'ticketNote' ? $('saveTickets') : $('saveWelcome');
     const old = btn.textContent; btn.disabled = true; btn.textContent = 'Guardando…';
     try {
+      const issueBox = $(noteId === 'ticketNote' ? 'ticketPermissionIssues' : 'welcomePermissionIssues');
+      const check = await request('/api/config/check', { method: 'POST', body: payload });
+      issueBox.replaceChildren(); issueBox.hidden = !check.issues.length;
+      check.issues.forEach(issue => { const line = document.createElement('p'); line.textContent = `${issue.bot} · ${issue.label}: ${issue.missing.join(', ')}`; issueBox.append(line); });
+      if (check.issues.length) { $(noteId).textContent = 'Revisa los permisos'; toast('No guardé los cambios porque uno o más bots no tienen acceso a los destinos seleccionados.', true); return; }
       await request('/api/config', { method: 'PUT', body: payload });
       $(noteId).textContent = 'Guardado y aplicado';
       toast('Cambios guardados. Los bots se actualizarán en unos segundos.');
@@ -480,15 +587,22 @@
   $('announcementImage').addEventListener('change', chooseAnnouncementImage);
   $('removeAnnouncementImage').addEventListener('click', clearAnnouncementImage);
   $('sendAnnouncement').addEventListener('click', submitAnnouncement);
+  $('saveAnnouncementDraft').addEventListener('click', () => submitAnnouncement(true));
   $('refreshAnnouncements').addEventListener('click', refreshAnnouncements);
   $('refreshTickets').addEventListener('click', refreshTickets);
+  $('ticketStatusFilter').addEventListener('change', refreshTickets);
+  let ticketSearchTimer;
+  $('ticketSearch').addEventListener('input', () => { clearTimeout(ticketSearchTimer); ticketSearchTimer = setTimeout(refreshTickets, 250); });
   $('refreshBotStatus').addEventListener('click', refreshBotStatus);
   $('refreshModeration').addEventListener('click', refreshModeration);
+  $('refreshActivity').addEventListener('click', refreshActivity);
+  $('savePermissions').addEventListener('click', savePanelPermissions);
   document.querySelectorAll('[data-preview-screen]').forEach(button => button.addEventListener('click', () => setPreviewScreen(button.dataset.previewScreen)));
   setInterval(() => {
     if (!state.welcome) return;
     if ($('pane-welcome').classList.contains('active')) { refreshAnnouncements(); refreshModeration(); refreshBotStatus(); }
     if ($('pane-tickets').classList.contains('active')) refreshTickets();
+    if ($('pane-activity').classList.contains('active')) refreshActivity();
   }, 15_000);
   load();
 })();
