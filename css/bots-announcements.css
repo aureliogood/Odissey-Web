@@ -70,6 +70,9 @@
 .announcement-preview-kind { display: block; margin-bottom: 7px; color: #efc34e; font-size: 8px; font-weight: 700; letter-spacing: .12em; }
 .announcement-discord-embed h3 { overflow-wrap: anywhere; }
 .announcement-preview-event-date { margin: 9px 0; padding: 8px; border: 1px solid #ffffff12; border-radius: 5px; color: #e9d28a; font-size: 9px; }
+.announcement-preview-image { display: block; width: 100%; max-height: 260px; margin-top: 10px; border-radius: 7px; object-fit: contain; background: #080b0f; }
+.announcement-preview-image[hidden], .announcement-remove-image[hidden] { display: none !important; }
+.announcement-remove-image { margin-top: 8px; }
 .announcement-preview-schedule { margin: 9px 0 0; color: #efc34e; font-size: 10px; line-height: 1.5; }
 
 @media (max-width: 540px) {

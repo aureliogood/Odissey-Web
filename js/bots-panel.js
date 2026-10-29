@@ -9,6 +9,9 @@
   const app = $('app');
   const connection = $('connection');
   let toastTimer;
+  let announcementImagePreviewUrl = '';
+  const announcementImageTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+  const announcementImageLimit = 5 * 1024 * 1024;
 
   function toast(message, error) {
     const node = $('toast');
@@ -64,6 +67,7 @@
       if (data.error === 'announcement_channel_required') throw new Error('Configura el canal de anuncios y guarda los cambios primero.');
       if (data.error === 'announcement_schedule_invalid') throw new Error('La fecha debe estar en el futuro y dentro del próximo año.');
       if (data.error === 'announcement_required') throw new Error('Escribe un título y un mensaje antes de publicar.');
+      if (data.error === 'announcement_image_invalid') throw new Error('La imagen debe ser PNG, JPG, GIF o WebP y pesar 5 MB o menos.');
       throw new Error(data.error || 'El servicio de Azure no respondió correctamente.');
     }
     return data;
@@ -184,6 +188,9 @@
     $('announcementPreviewKind').textContent = isEvent ? 'ODISSEY · EVENTO' : 'ODISSEY · ANUNCIO';
     $('announcementPreviewTitle').textContent = $('announcementTitle').value.trim() || 'Tu título aparecerá aquí';
     $('announcementPreviewDescription').textContent = $('announcementDescription').value.trim() || 'La vista previa del anuncio aparecerá aquí.';
+    const previewImage = $('announcementPreviewImage');
+    previewImage.hidden = !announcementImagePreviewUrl;
+    if (announcementImagePreviewUrl) previewImage.src = announcementImagePreviewUrl;
     $('announcementDiscordEmbed').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
     const eventAt = $('announcementEventAt').value.trim();
     $('announcementPreviewEventDate').hidden = !isEvent || !eventAt;
@@ -195,6 +202,44 @@
     $('sendAnnouncement').textContent = $('announcementSchedule').value
       ? (isEvent ? 'Programar evento' : 'Programar anuncio')
       : (isEvent ? 'Publicar evento' : 'Publicar anuncio');
+  }
+
+  function clearAnnouncementImage() {
+    if (announcementImagePreviewUrl) URL.revokeObjectURL(announcementImagePreviewUrl);
+    announcementImagePreviewUrl = '';
+    $('announcementImage').value = '';
+    $('removeAnnouncementImage').hidden = true;
+    $('announcementPreviewImage').removeAttribute('src');
+    previewAnnouncement();
+  }
+
+  function encodeAnnouncementImage(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || '');
+        const comma = result.indexOf(',');
+        if (comma < 0) return reject(new Error('No se pudo leer la imagen.'));
+        resolve({ type: file.type, data: result.slice(comma + 1) });
+      };
+      reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function chooseAnnouncementImage() {
+    const file = $('announcementImage').files[0];
+    if (!file) { clearAnnouncementImage(); return; }
+    if (!announcementImageTypes.includes(file.type) || file.size > announcementImageLimit || !file.size) {
+      clearAnnouncementImage();
+      toast('Elige una imagen PNG, JPG, GIF o WebP de hasta 5 MB.', true);
+      return;
+    }
+    if (announcementImagePreviewUrl) URL.revokeObjectURL(announcementImagePreviewUrl);
+    announcementImagePreviewUrl = URL.createObjectURL(file);
+    $('removeAnnouncementImage').hidden = false;
+    previewAnnouncement();
+    setPreviewScreen('announcement');
   }
 
   function renderAnnouncements(items) {
@@ -231,15 +276,19 @@
     const oldText = button.textContent; button.disabled = true; button.textContent = 'Enviando…';
     try {
       const localDate = $('announcementSchedule').value;
+      const selectedImage = $('announcementImage').files[0];
+      const image = selectedImage ? await encodeAnnouncementImage(selectedImage) : undefined;
       const data = await request('/api/announcements', { method: 'POST', body: {
         channelId: $('announcementChannelId').value.trim(), type: $('announcementType').value,
         title: $('announcementTitle').value.trim(), description: $('announcementDescription').value.trim(),
         color: $('announcementColor').value,
         eventAt: $('announcementEventAt').value.trim(),
         scheduledAt: localDate ? new Date(localDate).toISOString() : '',
+        ...(image ? { image } : {}),
       } });
       $('announcementNote').textContent = data.announcement?.scheduledAt ? 'Programado' : 'Enviado a la cola';
       $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = '';
+      clearAnnouncementImage();
       previewAnnouncement(); await refreshAnnouncements();
       toast(data.announcement?.scheduledAt ? 'Quedó programado. El bot lo publicará a la hora indicada.' : 'El bot publicará el mensaje en unos segundos.');
     } catch (err) { $('announcementNote').textContent = 'No se pudo enviar'; toast(err.message || 'No se pudo publicar.', true); }
@@ -335,6 +384,8 @@
     $(id).addEventListener('input', updatePreview);
     $(id).addEventListener('change', updatePreview);
   });
+  $('announcementImage').addEventListener('change', chooseAnnouncementImage);
+  $('removeAnnouncementImage').addEventListener('click', clearAnnouncementImage);
   $('sendAnnouncement').addEventListener('click', submitAnnouncement);
   $('refreshAnnouncements').addEventListener('click', refreshAnnouncements);
   document.querySelectorAll('[data-preview-screen]').forEach(button => button.addEventListener('click', () => setPreviewScreen(button.dataset.previewScreen)));

@@ -42,12 +42,12 @@ function cors(req, res) {
   return allowed;
 }
 
-function readBody(req) {
+function readBody(req, maxBytes = 200_000) {
   return new Promise((resolve, reject) => {
     let raw = '';
     req.on('data', chunk => {
       raw += chunk;
-      if (raw.length > 200_000) { reject(new Error('body_too_large')); req.destroy(); }
+      if (raw.length > maxBytes) { reject(new Error('body_too_large')); req.destroy(); }
     });
     req.on('end', () => {
       try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('bad_json')); }
@@ -187,7 +187,7 @@ function readAnnouncements() {
     .slice(0, 20)
     .map(item => ({ id: item.id, type: item.type, title: item.title, channelId: item.channelId,
       scheduledAt: item.scheduledAt || '', status: item.status, createdAt: item.createdAt,
-      sentAt: item.sentAt || '', discordMessageId: item.discordMessageId || '', error: item.error || '' }));
+      sentAt: item.sentAt || '', discordMessageId: item.discordMessageId || '', hasImage: Boolean(item.imageFile), error: item.error || '' }));
 }
 
 function createAnnouncement(input, cfg) {
@@ -209,10 +209,36 @@ function createAnnouncement(input, cfg) {
     eventAt: type === 'event' ? boundedText(String(input.eventAt || ''), 100, 'event_date') : '',
     scheduledAt, status: 'pending', createdAt: new Date().toISOString() };
   fs.mkdirSync(ANNOUNCEMENTS_DIR, { recursive: true, mode: 0o700 });
+  let imagePath = '';
+  if (input.image != null) {
+    const image = input.image;
+    const extensions = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp' };
+    const extension = image && extensions[image.type];
+    const encoded = image && image.data;
+    if (!extension || typeof encoded !== 'string' || !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(encoded) || encoded.length > Math.ceil(5 * 1024 * 1024 * 4 / 3)) throw new Error('announcement_image_invalid');
+    const bytes = Buffer.from(encoded, 'base64');
+    const signatures = {
+      png: bytes.length >= 8 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])),
+      jpg: bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff,
+      gif: bytes.length >= 6 && ['GIF87a', 'GIF89a'].includes(bytes.toString('ascii', 0, 6)),
+      webp: bytes.length >= 12 && bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP',
+    };
+    if (!bytes.length || bytes.length > 5 * 1024 * 1024 || !signatures[extension]) throw new Error('announcement_image_invalid');
+    job.imageFile = `${id}.${extension}`;
+    job.imageType = image.type;
+    imagePath = path.join(ANNOUNCEMENTS_DIR, job.imageFile);
+    fs.writeFileSync(imagePath, bytes, { mode: 0o600, flag: 'wx' });
+  }
   const file = path.join(ANNOUNCEMENTS_DIR, `${id}.json`);
   const temp = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(temp, JSON.stringify(job, null, 2) + '\n', { encoding: 'utf8', mode: 0o600, flag: 'wx' });
-  fs.renameSync(temp, file);
+  try {
+    fs.writeFileSync(temp, JSON.stringify(job, null, 2) + '\n', { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+    fs.renameSync(temp, file);
+  } catch (error) {
+    try { fs.rmSync(temp, { force: true }); } catch {}
+    if (imagePath) try { fs.rmSync(imagePath, { force: true }); } catch {}
+    throw error;
+  }
   return job;
 }
 
@@ -230,7 +256,7 @@ const server = http.createServer(async (req, res) => {
     if (!(await requireAdmin(req))) return json(res, 403, { ok: false, error: 'admin_required' });
     if (route === '/api/announcements' && req.method === 'GET') return json(res, 200, { ok: true, announcements: readAnnouncements() });
     if (route === '/api/announcements' && req.method === 'POST') {
-      const input = await readBody(req);
+      const input = await readBody(req, 7_000_000);
       const who = crypto.createHash('sha256').update(String(req.headers.authorization || '').slice(7)).digest('hex');
       const now = Date.now();
       if (now - (announcementRate.get(who) || 0) < 20_000) return json(res, 429, { ok: false, error: 'announcement_rate_limited' });
