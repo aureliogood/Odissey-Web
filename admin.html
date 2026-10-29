@@ -20,8 +20,8 @@
   <meta name="twitter:title" content="Odissey - Panel de admin">
   <meta name="twitter:description" content="Panel de administracion de Odissey.">
   <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
-    <link rel="stylesheet" href="css/tailwind.css?v=146">
-    <link rel="stylesheet" href="theme.css?v=146">
+    <link rel="stylesheet" href="css/tailwind.css?v=147">
+    <link rel="stylesheet" href="theme.css?v=147">
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     <meta name="theme-color" content="#000000">
@@ -30,9 +30,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap&family=Pixelify+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/admin.css?v=146">
+    <link rel="stylesheet" href="css/admin.css?v=147">
     <!-- css/dala.css faltaba aqui, y hace falta: es el que pone
          position:fixed al canvas del fondo que inyecta js/dala-bg.js. Sin
          esa regla el canvas se queda en el flujo normal y empuja el
@@ -40,7 +40,7 @@
          fondo, con el formulario de acceso fuera de la pantalla. Tambien
          trae los estilos de .overlay y de la barra de navegacion, que
          esta pagina usa. -->
-    <link rel="stylesheet" href="css/dala.css?v=146">
+    <link rel="stylesheet" href="css/dala.css?v=147">
     <style>
         /* Formulario de acceso del panel: usuario y contrasena (ya no Discord). */
         .admin-login-form{display:flex;flex-direction:column;gap:.35rem;margin:1rem 0 .5rem;text-align:left}
@@ -62,11 +62,11 @@
         .bridge-codigo p{margin:0;font-size:.85rem;color:var(--od-text-dark)}
         .bridge-codigo code{display:inline-block;padding:.6rem .9rem;border-radius:10px;background:rgba(var(--od-marine-accent-rgb),.14);border:1px dashed rgba(var(--od-marine-accent-rgb),.55);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.15rem;letter-spacing:.16em;font-weight:700;color:var(--od-text-light);user-select:all}
     </style>
-  <script src="js/seguro.js?v=146"></script>
-    <script src="js/animacion.js?v=146"></script>
-    <script src="js/dala-liquid.js?v=146" defer></script>
+  <script src="js/seguro.js?v=147"></script>
+    <script src="js/animacion.js?v=147"></script>
+    <script src="js/dala-liquid.js?v=147" defer></script>
     <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
-    <link rel="stylesheet" href="css/auth.css?v=146">
+    <link rel="stylesheet" href="css/auth.css?v=147">
 </head>
 
 <body>
@@ -599,9 +599,9 @@ Antes era un div: Enter no hacia nada y un
         </footer>
     </div>
 
-    <script src="site-config.js?v=146"></script>
-    <script src="shop-config.js?v=146"></script>
-    <script src="staff-config.js?v=146"></script>
+    <script src="site-config.js?v=147"></script>
+    <script src="shop-config.js?v=147"></script>
+    <script src="staff-config.js?v=147"></script>
         <!-- Supabase y la capa de datos van PRIMERO, antes de site-data.js:
          site-data.js pide el contenido nada más entrar y, si la capa no
          está montada todavía, esa petición sale a la red y el contenido
@@ -610,9 +610,9 @@ Antes era un div: Enter no hacia nada y un
          site-data.js pide el contenido nada mas entrar y, si la capa no esta
          montada todavia, esa peticion sale a la red y el contenido se queda
          vacio sin reintentar. -->
-    <script src="js/supabase.js?v=146" defer></script>
-    <script src="js/datos.js?v=146" defer></script>
-<script src="site-data.js?v=146"></script>
+    <script src="js/supabase.js?v=147" defer></script>
+    <script src="js/datos.js?v=147" defer></script>
+<script src="site-data.js?v=147"></script>
     <script>
         const loginView = document.getElementById('loginView');
         const dashboardView = document.getElementById('dashboardView');
@@ -2894,13 +2894,13 @@ Antes era un div: Enter no hacia nada y un
           .then(function () { window.OdisseyDatos.instalado = true; })
           .catch(function () { /* sin Supabase, las /api/ fallaran limpias */ });
       });
-    </script><script src="js/analitica.js?v=146"></script>
-<script src="js/formulario.js?v=146"></script>
-    <script src="js/dala-art.js?v=146"></script>
-    <script src="js/dala-bg.js?v=146"></script>
-    <script src="js/dala-menu.js?v=146"></script>
-        <script src="js/dala-nav.js?v=146"></script>
-      <script src="auth.js?v=146"></script>
+    </script><script src="js/analitica.js?v=147"></script>
+<script src="js/formulario.js?v=147"></script>
+    <script src="js/dala-art.js?v=147"></script>
+    <script src="js/dala-bg.js?v=147"></script>
+    <script src="js/dala-menu.js?v=147"></script>
+        <script src="js/dala-nav.js?v=147"></script>
+      <script src="auth.js?v=147"></script>
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
 /* ============================================================================
    ODISSEY · SISTEMA DE DISEÑO "VOID"
    ----------------------------------------------------------------------------
@@ -12,6 +13,34 @@
    ============================================================================ */
 
 :root {
+  /* Horizon Design Tokens (playhorizon.dev) */
+  --font-pixel: 'Pixelify Sans', 'Geist', ui-sans-serif, sans-serif;
+  --pixel: 'Pixelify Sans', 'Geist', ui-sans-serif, sans-serif;
+  --block-outline: 2px;
+  --block-bevel: 2px;
+  --block-lip: 4px;
+
+  /* PlayHorizon Dark Palette */
+  --hz-page: #0f0d17;
+  --hz-side: #0b0a11;
+  --hz-panel: #1a1727;
+  --hz-raised: #221e34;
+  --hz-button: #2b2641;
+  --hz-button-bevel: #3d3560;
+  --hz-well: #0c0b12;
+  --hz-bevel: #342d52;
+  --hz-lip: #07060b;
+  --hz-outline: #05040a;
+  --hz-face: #5b3fd6;
+  --hz-face-bevel: #8a74ff;
+  --hz-face-lip: #3a2694;
+  --hz-on-face: #ffffff;
+  --hz-ink: #ecedf3;
+  --hz-ink-soft: #c5c7d1;
+  --hz-muted: #a29cb8;
+  --hz-accent: #9a86ff;
+  --panel-edges: inset 0 var(--block-bevel) 0 var(--hz-bevel), inset 0 calc(-1 * var(--block-bevel)) 0 var(--hz-lip);
+
   --font-dala: 'Inter', ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
@@ -51,7 +80,7 @@ body {
   font-weight: 200;
   font-feature-settings: 'ss01' on, 'cv05' on;
   letter-spacing: -0.006em;
-  background-color: var(--dala-void) !important;
+  background-color: var(--hz-page, #0f0d17) !important;
   color: var(--dala-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -87,20 +116,21 @@ body {
    2. TIPOGRAFÍA — escala, no peso
    ---------------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-dala);
-  font-weight: 400 !important;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--dala-white);
+  font-family: var(--pixel) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.15;
+  color: var(--hz-ink, #ecedf3);
 }
 
 /* Titulares de sección: grandes, blancos, con tracking negativo. */
 .section-title,
 .section-title--lead {
-  font-weight: 400 !important;
-  color: var(--dala-white) !important;
-  letter-spacing: -0.035em !important;
-  line-height: 1.05;
+  font-family: var(--pixel) !important;
+  font-weight: 700 !important;
+  color: var(--hz-ink, #ecedf3) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.1;
 }
 .section-title {
   font-size: clamp(2rem, 5.2vw, var(--text-hlg)) !important;
@@ -163,6 +193,13 @@ a {
 nav.nav-bar .nav-inner {
   padding-top: 0.85rem;
   padding-bottom: 0.85rem;
+  /* El logo y los botones de la derecha necesitan respiro. La fila trae
+     "max-w-7xl mx-auto": a partir de 1280px se centra sola, pero entre
+     641 y 1279 el contenedor es mas ancho que la pantalla y el logo se
+     quedaba pegado al borde (medido: left = 0 en 768 y en 1024).
+     El clamp da 16px en movil y 32px en escritorio, sin saltos. */
+  padding-left: clamp(1rem, 4vw, 2rem) !important;
+  padding-right: clamp(1rem, 4vw, 2rem) !important;
 }
 
 /* La pastilla: solo un borde fino que la separa del vacio. Sin fondo
@@ -299,8 +336,6 @@ nav.nav-bar .nav-inner {
   nav.nav-bar .nav-inner {
     padding-top: 0.6rem !important;
     padding-bottom: 0.6rem !important;
-    padding-left: 0.9rem !important;
-    padding-right: 0.9rem !important;
   }
   .nav-actions { gap: 0.3rem !important; }
 }
@@ -473,18 +508,23 @@ nav .lang-btn:hover {
 
 /* Sólo dos accionesaries conservan la píldora dorada: carrito y entrar. */
 .nav-button-primary {
-  background: var(--dala-gold) !important;
+  background: var(--hz-face, #5b3fd6) !important;
   background-image: none !important;
-  border: 1px solid transparent !important;
-  border-radius: 10px !important;
-  min-height: 30px !important;
-  padding: 0 10px !important;
-  font-size: 0.875rem !important;
-  color: #14100a !important;
-  box-shadow: none !important;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  min-height: 38px !important;
+  padding: 0 16px 2px 16px !important;
+  font-family: var(--pixel) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  transition: filter 0.12s ease, transform 0.08s ease !important;
 }
 .nav-button-primary:hover {
-  background: #f5c518 !important;
+  filter: brightness(1.15) !important;
+  background: var(--hz-face, #5b3fd6) !important;
+  color: #ffffff !important;
   transform: none;
 }
 .nav-button-primary .cart-count {
@@ -563,32 +603,76 @@ nav .lang-btn:hover {
 }
 
 /* ----------------------------------------------------------------------------
-   4. BOTONES — rectangulos de 10px, planos, sin salto
+   3b. MENU DESPLEGABLE (MOVIL)
    ---------------------------------------------------------------------------- */
-/* El sistema es el de shadcn/ui, el que usa la web de referencia. Cambia
-   cuatro cosas de fondo respecto a como estaban:
+/* Por debajo de 1000px la barra de secciones (.nav-pill) se oculta y este
+   panel es la UNICA forma de navegar, asi que se abre a todo el ancho y
+   por encima de 1000px no existe: hide() en vez de display:none para que
+   toggleMenu() pueda seguir quitando la clase. */
+.menu-desplegable {
+  position: absolute !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 60 !important;
+  background: rgba(8, 8, 11, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(234, 179, 8, 0.22);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.menu-desplegable.hidden { display: none; }
 
-     1. FORMA: rounded-lg (10px), no pastillas. La pastilla era el gesto
-        "boton"; el rectangulo es el gesto "control". Las pastillas se
-        reservan para lo que NO es un boton: insignias, etiquetas, el
-        contador del carrito, los grupos de interruptores.
+.menu-desplegable__lista {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
 
-     2. LETRA: text-sm (14px) en minuscula normal, peso 500. La versalita
-        de 11px con 0.11em de espaciado queda para los ANTETITULOS
-        ("EXPLORA Y FILTRA TUS VENTAJAS", "EL EQUIPO"), que es donde el
-        sitio la sigue usando. En un boton solo competia con el texto
-        que hay al lado.
+/* Cada fila: 48px de alto. Es la unica navegacion que hay en el movil, y
+   por debajo de 44px el dedo falla una de cada cuatro veces. */
+.menu-desplegable__enlace {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-family: var(--font-dala);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--dala-silver);
+  text-decoration: none;
+  transition: background-color 0.15s var(--ease-dala),
+    color 0.15s var(--ease-dala);
+}
+.menu-desplegable__enlace:hover,
+.menu-desplegable__enlace:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dala-white);
+}
+.menu-desplegable__icono {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  opacity: 0.7;
+  color: var(--dala-gold);
+}
 
-     3. MEDIDA: 32px de alto, 10px de lado y 6px de separacion. Antes
-        44px / 24px / 8px: se ocupaba el doble de lo que necesita.
+/* En escritorio el panel sobra: la barra de secciones esta ahi. */
+@media (min-width: 1001px) {
+  .menu-desplegable { display: none !important; }
+}
 
-     4. MOVIMIENTO: el hover NO levanta el boton. Solo cambia el fondo, y
-        al pulsar baja 1px. El translateY(-2px) hacia que una fila de
-        botones bailara al pasar el raton por encima.
+/* ----------------------------------------------------------------------------
+   4. BOTONES — ESTILO HORIZON (playhorizon.dev)
+   Minecraft / Rust Pixel 3D Block Buttons con bisel y relieve
+   ---------------------------------------------------------------------------- */
 
-   Los rellenos son planos: sin degradado, sin barrido de luz y sin sombra
-   difusa. El relieve sale de un borde de 1px y de un anillo en :focus. */
-
+/* BOTONES PRIMARIOS (Download, Entrar, Comprar, Acción Principal) */
 .btn3d,
 .btn-gold,
 .btn-gold-inline,
@@ -598,30 +682,34 @@ nav .lang-btn:hover {
 .gold-btn,
 .rating-submit,
 .cb-btn,
-.btn-copy-tag {
+.btn-copy-tag,
+.btn-cta-principal,
+.button.primary,
+.btn-hero-primary,
+.shop-buy-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  min-height: 32px;
-  padding: 0 10px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: var(--dala-gold);
-  color: #14100a;
-  font-family: var(--font-dala);
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px 2px 18px;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  background: var(--hz-face, #5b3fd6) !important;
+  color: var(--hz-on-face, #ffffff) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  font-family: var(--pixel) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: none;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease, transform 0.15s ease;
+  transition: filter 0.12s ease, transform 0.08s ease, box-shadow 0.08s ease;
 }
+
 .btn3d:hover,
 .btn-gold:hover,
 .btn-gold-inline:hover,
@@ -631,43 +719,31 @@ nav .lang-btn:hover {
 .gold-btn:hover,
 .rating-submit:hover,
 .cb-btn:hover,
-.btn-copy-tag:hover {
-  background: #f5c518;
-  color: #14100a;
+.btn-copy-tag:hover,
+.btn-cta-principal:hover,
+.button.primary:hover,
+.btn-hero-primary:hover,
+.shop-buy-btn:hover {
+  filter: brightness(1.15) !important;
+  opacity: 1 !important;
+  background: var(--hz-face, #5b3fd6) !important;
+  color: #ffffff !important;
 }
+
 .btn3d:active,
 .btn-gold:active,
 .btn-continue:active,
 .btn-action:active,
-.cb-btn:active {
-  transform: translateY(1px);
+.cb-btn:active,
+.btn-cta-principal:active,
+.button.primary:active,
+.btn-hero-primary:active,
+.shop-buy-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
 }
 
-/* --- 4.1 Medidas ---------------------------------------------------------- */
-.btn3d.btn-sm,
-.btn-gold.btn-sm,
-.btn-action.btn-sm,
-.cb-btn.btn-sm,
-.btn-mini {
-  min-height: 28px !important;
-  padding: 0 10px !important;
-  border-radius: 8px !important;
-  font-size: 0.8125rem !important;
-  gap: 0.375rem !important;
-}
-.btn3d.btn-xs,
-.btn-gold.btn-xs,
-.cb-btn.btn-xs {
-  min-height: 24px !important;
-  padding: 0 8px !important;
-  border-radius: 6px !important;
-  font-size: 0.75rem !important;
-  gap: 0.25rem !important;
-}
-
-/* --- 4.2 Contorno --------------------------------------------------------- */
-/* Sin relleno y con un filo de 1px. El hover solo enciende ese filo y
-   levanta el fondo un 5%: es un boton que espera turno, no que manda. */
+/* BOTONES SECUNDARIOS / GHOST (View on GitHub, Discord, Idioma, Filtros) */
 .lang-btn,
 .rating-btn,
 .news-filter-btn,
@@ -676,30 +752,33 @@ nav .lang-btn:hover {
 .btn-delete-mini,
 .btn-logout,
 .discord-btn,
-.tiktok-btn {
+.tiktok-btn,
+.button.secondary,
+.btn-hero-secondary,
+.nav-button-secondary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  min-height: 32px;
-  padding: 0 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--dala-silver);
-  font-family: var(--font-dala);
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 14px 2px 14px;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  background: var(--hz-button, #2b2641) !important;
+  color: var(--hz-ink, #ecedf3) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+  font-family: var(--pixel) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: none;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease, transform 0.15s ease;
+  transition: filter 0.12s ease, transform 0.08s ease, background-color 0.12s ease;
 }
+
 .lang-btn:hover,
 .rating-btn:hover,
 .news-filter-btn:hover,
@@ -708,81 +787,133 @@ nav .lang-btn:hover {
 .btn-delete-mini:hover,
 .btn-logout:hover,
 .discord-btn:hover,
-.tiktok-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.28);
-  color: var(--dala-white);
+.tiktok-btn:hover,
+.button.secondary:hover,
+.btn-hero-secondary:hover,
+.nav-button-secondary:hover {
+  filter: brightness(1.15) !important;
+  background: #342e50 !important;
+  color: #ffffff !important;
 }
 
-/* El filtro que está seleccionado sí se llena: es el estado, no un adorno. */
+.lang-btn:active,
+.rating-btn:active,
+.btn-secondary:active,
+.btn-ghost:active,
+.discord-btn:active,
+.tiktok-btn:active,
+.button.secondary:active,
+.btn-hero-secondary:active,
+.nav-button-secondary:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+}
+
+/* MEDIDAS DE BOTÓN */
+.btn-cta-principal,
+.button.large,
+.btn-hero-primary,
+.btn-hero-secondary {
+  min-height: 48px !important;
+  padding: 0 24px 2px 24px !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+.btn3d.btn-sm,
+.btn-gold.btn-sm,
+.btn-action.btn-sm,
+.cb-btn.btn-sm,
+.btn-mini,
+.button.small {
+  min-height: 32px !important;
+  padding: 0 12px 2px 12px !important;
+  font-size: 13px !important;
+  box-shadow: inset 0 1px 0 var(--hz-face-bevel, #8a74ff), inset 0 -3px 0 var(--hz-face-lip, #3a2694) !important;
+}
+
+.btn3d.btn-xs,
+.btn-gold.btn-xs,
+.cb-btn.btn-xs {
+  min-height: 26px !important;
+  padding: 0 8px 1px 8px !important;
+  font-size: 11px !important;
+  box-shadow: inset 0 1px 0 var(--hz-face-bevel, #8a74ff), inset 0 -2px 0 var(--hz-face-lip, #3a2694) !important;
+}
+
+/* FILTRO SELECCIONADO / ACTIVO */
 .news-filter-btn.active,
 .rating-btn.active,
 .lang-btn.active {
-  background: rgba(234, 179, 8, 0.16);
-  border-color: rgba(234, 179, 8, 0.5);
-  color: var(--dala-gold-light);
+  background: var(--hz-face, #5b3fd6) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
 }
 
-/* --- 4.3 Peligro ---------------------------------------------------------- */
-/* Velo rojo al 12% con el texto en rojo claro. Del mismo modo que el
-   "destructive" de la referencia: se distingue por el color, no por un
-   relleno solido que gritaría más que la propia acción. */
+/* PELIGRO (Eliminar, Rechazar, Salir) */
 .btn-danger,
 .btn-rating-del,
 .cb-decline,
 .btn-mini-peligro {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.28);
-  color: #fca5a5;
+  background: #b52a3a !important;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 #f07a68, inset 0 calc(-1 * var(--block-lip, 4px)) 0 #6e151f !important;
+  font-family: var(--pixel) !important;
 }
 .btn-danger:hover,
 .btn-rating-del:hover,
 .cb-decline:hover,
 .btn-mini-peligro:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.45);
-  color: #fecaca;
+  filter: brightness(1.15) !important;
+  background: #c93041 !important;
+}
+.btn-danger:active,
+.btn-rating-del:active,
+.cb-decline:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 #6e151f !important;
 }
 
-/* --- 4.4 Cuadrados de operación (steppers y cerrar) ---------------------- */
-/* El botón de carrito y la X no llevan texto: son cuadrados con el glifo
-   centrado. Sin esta línea heredaban el alto y el padding del texto. */
+/* CUADRADOS DE CONTROL (Steppers y Cerrar) */
 .cart-qty-btn,
 .cart-remove,
 .close-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--dala-silver);
-  font-family: var(--font-dala);
-  font-size: 1rem;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  background: var(--hz-button, #2b2641) !important;
+  color: var(--hz-ink, #ecedf3) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+  font-family: var(--pixel) !important;
+  font-size: 16px !important;
   line-height: 1;
   cursor: pointer;
-  box-shadow: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    color 0.15s ease;
+  transition: filter 0.12s ease, transform 0.08s ease;
 }
 .cart-qty-btn:hover,
 .cart-remove:hover,
 .close-btn:hover {
-  backdrop-filter: none;
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.28);
-  color: var(--dala-white);
+  filter: brightness(1.15) !important;
+  background: #342e50 !important;
+  color: #ffffff !important;
+}
+.cart-qty-btn:active,
+.cart-remove:active,
+.close-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
 }
 
-/* --- 4.5 Iconos ----------------------------------------------------------- */
-/* 16px en el botón de 32px. Con los 20px que traía la web anterior el
-   glifo se comía la mitad del alto y el rótulo quedaba microscópico. */
+/* ICONOS EN BOTONES */
 .btn3d svg,
 .btn-gold svg,
 .btn-action svg,
@@ -802,21 +933,8 @@ nav .lang-btn:hover {
   height: 16px;
   flex: 0 0 auto;
 }
-.btn3d.btn-sm svg,
-.btn3d.btn-xs svg,
-.btn-gold.btn-sm svg,
-.cb-btn.btn-sm svg {
-  width: 14px;
-  height: 14px;
-}
-.cart-qty-btn svg {
-  width: 14px;
-  height: 14px;
-}
 
-/* --- 4.6 Foco y deshabilitado -------------------------------------------- */
-/* Anillo, no contorno: el foco tiene que leerse por encima del fondo sin
-   desplazar el botón ni recortar los bordes redondeados. */
+/* FOCO Y DESHABILITADO */
 .btn3d:focus-visible,
 .btn-gold:focus-visible,
 .btn-action:focus-visible,
@@ -829,16 +947,15 @@ nav .lang-btn:hover {
 .btn-ghost:focus-visible,
 .cart-qty-btn:focus-visible,
 .close-btn:focus-visible {
-  outline: none;
-  border-color: var(--dala-gold);
-  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
+  outline: 2px solid var(--hz-accent, #9a86ff) !important;
+  outline-offset: 2px !important;
 }
 .btn3d:disabled,
 .btn-gold:disabled,
 .btn-action:disabled,
 .cb-btn:disabled,
 .shop-buy-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   pointer-events: none;
 }
 
@@ -859,10 +976,12 @@ nav .lang-btn:hover {
   color: var(--dala-white) !important;
 }
 /* ----------------------------------------------------------------------------
-   5. SUPERFICIES — sin cajas. Los elementos flotan en el vacío.
+   5. SUPERFICIES Y PANELES — ESTILO HORIZON (playhorizon.dev)
+   Bloques con biseles, 2px outline y estilo panel retro Minecraft
    ---------------------------------------------------------------------------- */
 .liquid-glass-container,
 .why-card,
+.guide-card,
 .news-card,
 .event-card,
 .testimonial-card,
@@ -873,29 +992,84 @@ nav .lang-btn:hover {
 .account-card,
 .staff-panel,
 .account-item,
-.gallery-item {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+.login-card,
+#loginModal .login-card,
+.dala-stat,
+.horizon-row {
+  background: var(--hz-panel, #1a1727) !important;
+  background-color: var(--hz-panel, #1a1727) !important;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  box-shadow: var(--panel-edges) !important;
+  border-radius: 0 !important;
 }
-/* Conserva el ritmo vertical donde antes había relleno de caja. */
+
 .why-card,
+.guide-card,
 .news-card,
 .event-card,
 .testimonial-card,
-.gallery-item {
-  border-radius: 24px !important;
-  padding: 1.5rem 0 !important;
+.gallery-item,
+.staff-card {
+  padding: 1.5rem !important;
+  transition: background-color 0.15s ease;
 }
-/* El documento largo de reglas mantiene solo un respiro horizontal. */
-#reglas .liquid-glass-container {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 2.5rem 0 !important;
+
+.why-card:hover,
+.guide-card:hover,
+.news-card:hover,
+.event-card:hover,
+.testimonial-card:hover {
+  background: var(--hz-raised, #221e34) !important;
+}
+
+/* FILAS DE CARACTERÍSTICAS / CHECKS ESTILO HORIZON (Screenshot 2 inspo) */
+.horizon-checks-grid {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+.horizon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  gap: 16px;
+  background: var(--hz-panel, #1a1727) !important;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  box-shadow: var(--panel-edges) !important;
+  border-radius: 0 !important;
+  transition: background-color 0.12s ease;
+}
+.horizon-row:hover {
+  background: var(--hz-raised, #221e34) !important;
+}
+.horizon-row .row-index {
+  font-family: monospace;
+  font-size: 14px;
+  color: var(--hz-muted, #a29cb8);
+  width: 28px;
+  flex-shrink: 0;
+}
+.horizon-row .row-title {
+  font-family: var(--pixel);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--hz-ink, #ecedf3);
+  flex-grow: 1;
+}
+.horizon-row .row-meta {
+  font-family: monospace;
+  font-size: 14px;
+  color: var(--hz-muted, #a29cb8);
+  text-align: right;
+  flex-shrink: 0;
+}
+.horizon-disclaimer {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--hz-muted, #a29cb8);
+  opacity: 0.85;
 }
 
 /* Las tarjetas con imagen sí necesitan un marco geométrico limpio. */
@@ -1569,10 +1743,13 @@ footer a:hover {
     max-width: 104px !important;
     width: auto !important;
   }
-  /* menos margen lateral: el ancho util se lo queda el contenido */
+  /* menos margen lateral: el ancho util se lo queda el contenido.
+     El clamp de la fila base ya da 16px aqui; esta regla solo recorta
+     un poco mas porque a 320 el logo + carrito + idioma + entrar + menu
+     suman mas que el ancho. */
   nav.nav-bar > div:not(#menuDropdown):not(#navMenuPanel) {
-    padding-left: 0.9rem !important;
-    padding-right: 0.9rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
   }
   /* separaciones mas cortas entre los botones de la barra */
   nav.nav-bar .gap-3,

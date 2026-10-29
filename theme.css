@@ -1,8 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
 /* ============================================================
    Tema Odissey: paleta por variables (oscuro por defecto) + claro
    Se enlaza desde todas las páginas (index, tienda, admin, legales)
    ============================================================ */
 :root {
+
+  /* Horizon Design Tokens (playhorizon.dev) */
+  --font-pixel: 'Pixelify Sans', 'Geist', ui-sans-serif, sans-serif;
+  --pixel: 'Pixelify Sans', 'Geist', ui-sans-serif, sans-serif;
+  --block-outline: 2px;
+  --block-bevel: 2px;
+  --block-lip: 4px;
+
+  /* PlayHorizon Dark Palette */
+  --hz-page: #0f0d17;
+  --hz-side: #0b0a11;
+  --hz-panel: #1a1727;
+  --hz-raised: #221e34;
+  --hz-button: #2b2641;
+  --hz-button-bevel: #3d3560;
+  --hz-well: #0c0b12;
+  --hz-bevel: #342d52;
+  --hz-lip: #07060b;
+  --hz-outline: #05040a;
+  --hz-face: #5b3fd6;
+  --hz-face-bevel: #8a74ff;
+  --hz-face-lip: #3a2694;
+  --hz-on-face: #ffffff;
+  --hz-ink: #ecedf3;
+  --hz-ink-soft: #c5c7d1;
+  --hz-muted: #a29cb8;
+  --hz-accent: #9a86ff;
+  --panel-edges: inset 0 var(--block-bevel) 0 var(--hz-bevel), inset 0 calc(-1 * var(--block-bevel)) 0 var(--hz-lip);
+
   /* ============================================================
      Tema Odissey — "void" estilo Dala.
      Canvas negro puro, tipografía blanca y un único acento dorado.

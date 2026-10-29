@@ -240,9 +240,27 @@
 /* Bloque de seccion                                                   */
 /* ------------------------------------------------------------------ */
 
-.od-bloque { padding: 88px 0; }
+/* OJO: padding-block y NO el atajo "padding". Estas clases se ponen junto a
+   un px-4 del HTML, y el atajo ponia a cero el margen lateral: medido, en
+   staff.html el titulo ocupaba de 0 a 760px, es decir, de borde a borde,
+   en cuanto la pantalla pasaba de 640px. */
+.od-bloque {
+  padding-top: 88px;
+  padding-bottom: 88px;
+}
 
-.od-bloque--ajustado { padding: 56px 0; }
+.od-bloque--ajustado {
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+/* En movil el aire vertical sobraba: con una columna, 56px arriba y abajo
+   entre cada bloque hacen que la pagina se sienta vacia y haya que
+   deslizar mucho para ver nada. */
+@media (max-width: 640px) {
+  .od-bloque { padding-top: 48px; padding-bottom: 48px; }
+  .od-bloque--ajustado { padding-top: 32px; padding-bottom: 32px; }
+}
 
 .od-cabecera {
   display: flex;

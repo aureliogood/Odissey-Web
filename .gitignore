@@ -30,3 +30,6 @@ _*.cjs
 # documentacion del esquema y conviene que esten en el repo. Lo que no
 # va al hosting es otra cosa (eso lo decide package.js).
 ver-supabase.ps1
+
+# Plugins externos
+OdisseyPesca/

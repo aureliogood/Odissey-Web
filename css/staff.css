@@ -2259,3 +2259,32 @@ background-color: var(--od-marine-dark);
 /* Menos aire al final del bloque: entre la rejilla y el pie había
    unos 250 px sin nada. */
 .staff-group:last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------------------
+   MOVIL: las tarjetas en una sola columna median 340 px cada una, y el
+   hueco entre ellas salia de 28 px de padding arriba + 28 px abajo + el
+   gap de 20 px interno. En una columna eso no es respiro, es scroll de
+   sobra: para ver a los cuatro miembros habia que deslizar casi tres
+   pantallas. Se aprieta el relleno y se recuperan unas 100 px por tarjeta.
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+    .staff-card {
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .staff-card-foot {
+        padding-top: 14px;
+    }
+
+    /* El boton a ancho completo con 40 px de alto es un blanco enorme en
+       vertical; con el sistema de botones se queda en 32. */
+    .staff-card-open {
+        min-height: 32px !important;
+        padding: 0 10px !important;
+    }
+
+    .staff-group-header {
+        margin-bottom: 14px;
+    }
+}

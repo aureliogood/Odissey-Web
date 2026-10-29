@@ -50,6 +50,61 @@
     }
 }
 
+/* ---------- Indice plegable ---------- */
+/* El <details> sustituyo al <aside>: en escritorio el titulo desaparece y
+   el indice se comporta como una columna fija; en movil el titulo vuelve a
+   ser visible con su flecha y el bloque arranca plegado (lo decide el script
+   de wiki.html). Asi el articulo se lee sin tener que pasar antes por 13
+   entradas de indice. */
+.wiki-indice__summary {
+    display: none;
+    cursor: pointer;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.wiki-indice__summary::-webkit-details-marker {
+    display: none;
+}
+
+.wiki-indice__chevron {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    transition: transform 0.18s ease;
+}
+
+.wiki-indice[open] .wiki-indice__chevron {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 1023px) {
+    .wiki-indice__summary {
+        display: flex;
+    }
+
+    .wiki-indice__body {
+        margin-top: 1rem;
+    }
+
+    /* El borde del <details> no debe verse como una caja cuando esta
+       plegado: solo la fila del titulo, con su propio separador. */
+    .wiki-indice:not([open]) {
+        padding: 0.85rem 1.25rem;
+    }
+
+    .wiki-indice:not([open]) .wiki-indice__summary {
+        margin: 0;
+    }
+
+    .wiki-indice[open] {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
 .wiki-sidebar__title {
     font-size: 0.7rem;
     font-weight: 700;

@@ -323,14 +323,10 @@
 }
 
 .auth-boton {
-  min-height: 36px !important;
-  font-family: 'Inter', sans-serif !important;
-  font-size: 0.875rem !important;
-  font-weight: 500 !important;
-  /* dala.css lo describe como "ocupa todo el ancho, como una pastilla
-     dorada", pero no le pone width:100%. El inline-flex se ajusta al
-     texto y medía 42px (solo la palabra "Entrar") dentro de un campo
-     de 294px. Con esto es lo que el comentario ya decía que era. */
+  min-height: 42px !important;
+  font-family: var(--pixel, 'Pixelify Sans', sans-serif) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
   width: 100% !important;
   box-sizing: border-box !important;
   display: inline-flex;
@@ -339,35 +335,29 @@
   gap: 0.5rem;
   cursor: pointer;
   touch-action: manipulation;
-
-  /* El fondo dorado tampoco estaba en ninguna hoja: dala.css solo le
-     pone el radio y el alto. Resultado: el boton salia como texto
-     blanco suelto, sin la pastilla dorada que describe el comentario
-     de al lado. Texto oscuro sobre oro: 10.3:1, muy por encima del
-     4.5:1 que hace falta. */
-  background-color: var(--dala-gold, #eab308) !important;
+  background-color: var(--hz-face, #5b3fd6) !important;
   background-image: none !important;
-  color: #14100a !important;
-  border: 1px solid transparent !important;
-  border-radius: 10px !important;
-  box-shadow: none !important;
-
-  /* Medido: sin esto el botón quedaba a 0px del campo de encima y a
-     0px de la línea del pie, las tres cajas pegadas. Antes no se
-     notaba porque el botón medía 42px y se veía como una etiqueta
-     suelta; a ancho completo los tres bloques se leen como uno. */
+  color: #ffffff !important;
+  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  padding-bottom: 2px !important;
   margin-top: 1rem !important;
+  transition: filter 0.12s ease, transform 0.08s ease !important;
 }
 
 .auth-boton:hover:not(:disabled) {
-  background-color: #f5c518 !important;
+  filter: brightness(1.15) !important;
+  background-color: var(--hz-face, #5b3fd6) !important;
+  color: #ffffff !important;
 }
 
 /* Con el boton pulsado ya no se distingue del reposo: en dorado, un
    cambio de tono casi no se ve. El brillo baja y el texto se aclara un
    poco, que si se nota. */
 .auth-boton:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
 }
 
 .auth-boton:disabled {

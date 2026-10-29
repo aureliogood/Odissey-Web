@@ -21,9 +21,9 @@
 
 // Version de la cache. Si cambias un archivo del sitio, sube este numero:
 // es lo unico que invalida la cache vieja al activar la nueva version.
-// (El ?v=146 de los <link> es otra cosa: solo rompe la cache del
+// (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v171';
+var CACHE_NAME = 'odissey-v172';
 
 var PRECACHE_URLS = [
   './',
