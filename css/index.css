@@ -1923,3 +1923,91 @@ html.theme-light #porque-odissey .why-card {
     background: rgba(255, 255, 255, 0.88) !important;
     border-color: rgba(0, 0, 0, 0.12) !important;
 }
+
+/* Menú Staff: soporte aparece como subbotón cuadrado al hover o al enfocar. */
+.nav-pill__group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.nav-pill__group > .nav-pill__link {
+    gap: 0.3rem;
+}
+.nav-pill__chevron {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    transition: transform 140ms ease;
+}
+.nav-pill__submenu {
+    position: absolute;
+    z-index: 70;
+    top: calc(100% - 1px);
+    left: 0;
+    display: none;
+    min-width: 156px;
+    padding-top: 8px;
+}
+.nav-pill__group:hover .nav-pill__submenu,
+.nav-pill__group:focus-within .nav-pill__submenu {
+    display: block;
+}
+.nav-pill__group:hover .nav-pill__chevron,
+.nav-pill__group:focus-within .nav-pill__chevron {
+    transform: rotate(180deg);
+}
+.nav-pill__sublink {
+    display: flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    border: 2px solid #343434;
+    border-radius: 2px;
+    background: #09090c;
+    box-shadow: 4px 4px 0 #000;
+    color: #e6e1f1;
+    font: 600 0.8rem var(--font-dala);
+    text-decoration: none;
+    transition: border-color 130ms ease, color 130ms ease, transform 130ms ease;
+}
+.nav-pill__sublink .nav-pill__icon {
+    width: 15px;
+    height: 15px;
+    color: var(--od-marine-accent);
+}
+.nav-pill__sublink:hover,
+.nav-pill__sublink:focus-visible {
+    transform: translate(-1px, -1px);
+    border-color: var(--od-marine-accent);
+    color: #fff;
+}
+
+/* En menú táctil no hay hover: Soporte queda agrupado bajo Staff. */
+.menu-desplegable__grupo {
+    display: grid;
+    margin: 4px 0;
+    border: 2px solid #292929;
+    border-radius: 2px;
+    background: #09090c;
+    box-shadow: 3px 3px 0 #000;
+}
+.menu-desplegable__grupo .menu-desplegable__enlace {
+    border-radius: 0;
+}
+.menu-desplegable__grupo .menu-desplegable__subenlace {
+    min-height: 44px;
+    margin: 0 10px 8px 28px;
+    padding-left: 12px;
+    border-left: 2px solid var(--od-marine-accent);
+    background: rgba(255, 255, 255, 0.035);
+}
+.menu-desplegable__grupo .menu-desplegable__subenlace:hover,
+.menu-desplegable__grupo .menu-desplegable__subenlace:focus-visible {
+    background: rgba(var(--od-marine-accent-rgb), 0.1);
+}
+
+@media (max-width: 1180px) and (min-width: 1001px) {
+    .nav-pill__submenu { left: auto; right: 0; }
+}
