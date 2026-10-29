@@ -31,10 +31,12 @@
             <label>Descripción <textarea id="ticketDescription" rows="3" maxlength="1000"></textarea></label>
             <label>Texto al pie <input id="ticketFooter" maxlength="200"></label>
             <div class="divider"></div><h3>Destino y equipo</h3>
-            <label>ID del rol de soporte <input id="supportRoleId" inputmode="numeric" placeholder="ID del rol en Discord"></label>
-            <label>ID del canal de registros <input id="logsChannelId" inputmode="numeric" placeholder="ID del canal para transcripts"></label>
+            <label>Rol de soporte <select id="supportRoleId"></select></label>
+            <label>Canal de registros y transcripts <select id="logsChannelId"></select></label>
             <div class="divider"></div><div class="subhead"><div><h3>Secciones de tickets</h3><p class="hint">Cada sección crea una opción en el panel.</p></div><button class="button mini" id="addCategory">＋ Añadir</button></div>
             <div id="categories" class="category-list"></div><small class="field-help">Discord permite hasta cinco secciones en este formato de panel.</small>
+            <div class="divider"></div><div class="subhead"><div><h3>Tickets abiertos</h3><p class="hint">Cierra desde aquí y el bot guardará el transcript.</p></div><button class="button mini" id="refreshTickets" type="button">Actualizar</button></div>
+            <div id="openTickets" class="dashboard-list" aria-live="polite"></div>
             <div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets">Guardar cambios</button></div>
           </div>
           <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># soporte</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Support <small>HOY A LAS 12:04</small></div><div class="discord-embed"><div class="embed-title" id="previewTitle"></div><p id="previewDescription"></p><div class="preview-options" id="previewCategories"></div><div class="embed-footer" id="previewFooter"></div></div></div></div></div><div class="tip"><span>↻</span><p>El panel publicado por el bot se edita al guardar. Si todavía no publicaste uno, usa <code>/setup</code> en Discord.</p></div></aside>
@@ -45,16 +47,24 @@
         <div class="layout">
           <div class="card form-card">
             <h3>Canales y equipo</h3>
-            <label>Canal de bienvenida <input id="welcomeChannelId" inputmode="numeric" placeholder="ID del canal"></label>
-            <label>Canal privado de alertas <input id="alertsChannelId" inputmode="numeric" placeholder="ID del canal para el staff"></label>
-            <label>Rol que recibe alertas <input id="staffRoleId" inputmode="numeric" placeholder="ID del rol de staff"></label>
+            <div class="bot-health-grid"><article><span>Bot de tickets</span><b id="ticketsBotStatus">Consultando…</b><small id="ticketsBotHeartbeat"></small></article><article><span>Bot global</span><b id="welcomeBotStatus">Consultando…</b><small id="welcomeBotHeartbeat"></small></article><button class="button mini" id="refreshBotStatus" type="button">Actualizar estado</button></div>
+            <label>Canal de bienvenida <select id="welcomeChannelId"></select></label>
+            <label>Canal privado de alertas <select id="alertsChannelId"></select></label>
+            <label>Rol que recibe alertas <select id="staffRoleId"></select></label>
             <div class="divider"></div><h3>Mensaje de bienvenida</h3>
             <label>Título <input id="welcomeTitle" maxlength="256"></label>
             <label>Mensaje <textarea id="welcomeDescription" rows="4" maxlength="1500"></textarea><small class="field-help">Puedes usar <code>{usuario}</code> y <code>{miembros}</code>.</small></label>
             <div class="color-line"><label>Color del mensaje <input id="welcomeColor" type="color"></label><label>Texto al pie <input id="welcomeFooter" maxlength="200"></label></div>
+            <label>Imagen de bienvenida (URL HTTPS)<input id="welcomeImageUrl" type="url" maxlength="500" placeholder="https://.../bienvenida.jpg"><small class="field-help">Imagen pública que Discord pueda descargar.</small></label>
+            <div class="divider"></div><h3>Mensaje de salida</h3>
+            <label class="check-row"><input id="leaveEnabled" type="checkbox"><span><b>Enviar mensaje cuando alguien salga</b><small>Se publicará en el canal elegido.</small></span></label>
+            <label>Canal de salida <select id="leaveChannelId"></select></label>
+            <label>Título<input id="leaveTitle" maxlength="256"></label>
+            <label>Mensaje<textarea id="leaveDescription" rows="3" maxlength="1500"></textarea><small class="field-help">Variables: {usuario}, {servidor} y {miembros}.</small></label>
+            <label>Color<input id="leaveColor" type="color"></label>
             <div class="divider"></div><h3>Estado del servidor</h3>
             <div class="two-fields"><label>Host de Minecraft<input id="statusHost" maxlength="253" placeholder="play.ejemplo.com"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535"></label></div>
-            <label>Canal del estado <input id="statusChannelId" inputmode="numeric" placeholder="ID del canal"></label>
+            <label>Canal del estado <select id="statusChannelId"></select></label>
             <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar mantenimiento</b><small>El bot actualiza el mensaje de estado al guardar.</small></span></label>
             <div class="divider"></div><h3>Detección de cuentas</h3>
             <div class="two-fields"><label>Edad mínima de cuenta (días)<input id="minAccountAgeDays" type="number" min="0" max="3650"></label><label>Distancia de similitud<input id="maxSimilarityDistance" type="number" min="0" max="8"></label></div>
@@ -66,15 +76,20 @@
             <label class="check-row"><input id="autoModInvites" type="checkbox"><span><b>Bloquear invitaciones de Discord</b><small>El bot no bloquea enlaces normales.</small></span></label>
             <div class="two-fields"><label>Máx. menciones por mensaje<input id="autoModMaxMentions" type="number" min="0" max="20"><small class="field-help">0 desactiva este filtro.</small></label><label>Mensajes por 10 segundos<input id="autoModMessageLimit" type="number" min="3" max="30"></label></div>
             <label>Timeout tras 3 infracciones (minutos)<input id="autoModTimeout" type="number" min="0" max="1440"><small class="field-help">0 elimina el mensaje, pero no aplica timeout.</small></label>
-            <label>Roles exentos<textarea id="autoModExemptRoles" rows="2" placeholder="Un ID de rol por línea"></textarea></label>
+            <label>Roles exentos<select id="autoModExemptRoles" multiple size="5"></select><small class="field-help">Usa Ctrl para seleccionar varios roles.</small></label>
+            <div class="divider"></div><div class="subhead"><div><h3>Actividad de moderación</h3><p class="hint">Acciones recientes del filtro anti spam.</p></div><button class="button mini" id="refreshModeration" type="button">Actualizar</button></div>
+            <div id="moderationActivity" class="dashboard-list"></div>
             <div class="divider"></div><h3>Anuncios y eventos</h3>
             <p class="hint">Publica ahora o programa un mensaje. No se permiten menciones automáticas a roles o a toda la comunidad.</p>
-            <label>Canal donde se publicarán <input id="announcementChannelId" inputmode="numeric" placeholder="Pega aquí el ID del canal de Discord"><small class="field-help">Activa el modo desarrollador en Discord, copia el ID del canal y guárdalo junto con los cambios de bienvenida.</small></label>
+            <label>Canal donde se publicarán <select id="announcementChannelId"></select></label>
             <div class="two-fields"><label>Tipo<select id="announcementType"><option value="announcement">Anuncio</option><option value="event">Evento</option></select></label><label>Color<input id="announcementColor" type="color" value="#ffaa00"></label></div>
             <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
             <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
             <label>Imagen del anuncio<input id="announcementImage" type="file" accept="image/png,image/jpeg,image/gif,image/webp"><small class="field-help">PNG, JPG, GIF o WebP · máximo 5 MB. Se mostrará debajo del texto.</small></label>
             <button class="button mini announcement-remove-image" id="removeAnnouncementImage" type="button" hidden>Quitar imagen</button>
+            <div class="two-fields"><label>Texto del botón (opcional)<input id="announcementButtonLabel" maxlength="80" placeholder="Más información"></label><label>Enlace HTTPS<input id="announcementButtonUrl" type="url" maxlength="500" placeholder="https://..." ></label></div>
+            <label>Miniatura (URL HTTPS, opcional)<input id="announcementThumbnailUrl" type="url" maxlength="500" placeholder="https://.../logo.png"></label>
+            <label>Texto al pie<input id="announcementFooter" maxlength="200" value="Odissey MC · Información oficial"></label>
             <div class="two-fields"><label>Fecha del evento (opcional)<input id="announcementEventAt" maxlength="100" placeholder="Sábado 8:00 p. m."></label><label>Programar para (opcional)<input id="announcementSchedule" type="datetime-local"></label></div>
             <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
             <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
@@ -88,11 +103,11 @@
               <button class="preview-switch-button" type="button" role="tab" aria-selected="false" aria-controls="announcementPreviewScreen" data-preview-screen="announcement">Anuncio / evento</button>
             </div>
             <section class="preview-screen active" id="welcomePreviewScreen" role="tabpanel">
-              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div>
+              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><img id="welcomePreviewImage" class="dashboard-preview-image" alt="Vista previa de bienvenida" hidden><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div>
               <div class="tip"><span>i</span><p>Las detecciones se envían al canal privado de alertas. El mensaje público nunca incluye los datos de análisis.</p></div>
             </section>
             <section class="preview-screen" id="announcementPreviewScreen" role="tabpanel" hidden>
-              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># anuncios</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Global <small>AHORA</small></div><div class="welcome-embed announcement-discord-embed" id="announcementDiscordEmbed"><span class="announcement-preview-kind" id="announcementPreviewKind">ODISSEY · ANUNCIO</span><h3 id="announcementPreviewTitle">Tu título aparecerá aquí</h3><p id="announcementPreviewDescription">La vista previa del anuncio aparecerá aquí.</p><div class="announcement-preview-event-date" id="announcementPreviewEventDate" hidden></div><img id="announcementPreviewImage" class="announcement-preview-image" alt="Vista previa de la imagen del anuncio" hidden><div class="embed-footer">Odissey MC · Información oficial</div></div></div></div></div>
+              <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># anuncios</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Global <small>AHORA</small></div><div class="welcome-embed announcement-discord-embed" id="announcementDiscordEmbed"><span class="announcement-preview-kind" id="announcementPreviewKind">ODISSEY · ANUNCIO</span><h3 id="announcementPreviewTitle">Tu título aparecerá aquí</h3><p id="announcementPreviewDescription">La vista previa del anuncio aparecerá aquí.</p><div class="announcement-preview-event-date" id="announcementPreviewEventDate" hidden></div><img id="announcementPreviewImage" class="announcement-preview-image" alt="Vista previa de la imagen del anuncio" hidden><img id="announcementPreviewThumbnail" class="announcement-preview-thumbnail" alt="Miniatura del anuncio" hidden><a id="announcementPreviewButton" class="announcement-preview-button" target="_blank" rel="noopener" hidden></a><div class="embed-footer" id="announcementPreviewFooter">Odissey MC · Información oficial</div></div></div></div></div>
               <p class="announcement-preview-schedule" id="announcementPreviewSchedule" hidden></p>
               <div class="tip"><span>↻</span><p>La vista cambia al editar el anuncio. Si programas una hora, el bot lo publicará entonces.</p></div>
             </section>
@@ -102,8 +117,8 @@
       <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Azure · Guardado seguro</span></footer>
     </div>
   </main>
-  <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>ID de categoría de Discord<input id="categoryDiscordId" inputmode="numeric" placeholder="ID de categoría donde crear tickets"></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
+  <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=5" defer></script>
+  <script src="js/bots-panel.js?v=6" defer></script>
 </body>
 </html>

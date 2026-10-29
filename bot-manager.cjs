@@ -6,6 +6,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { DatabaseSync } = require('node:sqlite');
 
 const PORT = Number(process.env.ODISSEY_BOT_PANEL_PORT) || 32170;
 const ORIGIN = 'https://odisseymc.site';
@@ -111,6 +112,14 @@ function safeWelcome(cfg) {
       description: cfg.welcomeMessage?.description || '¡Hola {usuario}! 💛\nBienvenido a nuestra comunidad. Lee las reglas, pásate por los canales y ¡que la pases genial! 🎉',
       color: cfg.welcomeMessage?.color || '#FFAA00',
       footer: cfg.welcomeMessage?.footer || 'Odissey MC • 🐨💛',
+      imageUrl: cfg.welcomeMessage?.imageUrl || '',
+    },
+    leaveMessage: {
+      enabled: cfg.leaveMessage?.enabled === true,
+      channelId: cfg.leaveMessage?.channelId || '',
+      title: cfg.leaveMessage?.title || 'Hasta pronto, {usuario}',
+      description: cfg.leaveMessage?.description || '{usuario} salió de {servidor}. Ahora somos {miembros} miembros.',
+      color: cfg.leaveMessage?.color || '#667085',
     },
     suspicious: {
       minAccountAgeDays: Number(cfg.suspicious?.minAccountAgeDays ?? 7),
@@ -160,15 +169,66 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
   const welcomeMessage = w.welcomeMessage || {};
   const autoMod = w.autoMod || {};
   const welcomeNext = { ...welcomeCfg, welcomeChannelId: String(w.welcomeChannelId || ''), alertsChannelId: String(w.alertsChannelId || ''), staffRoleId: String(w.staffRoleId || ''), announcementChannelId: String(w.announcementChannelId || ''),
-    welcomeMessage: { ...(welcomeCfg.welcomeMessage || {}), title: boundedText(String(welcomeMessage.title || ''), 256, 'welcome_title'), description: boundedText(String(welcomeMessage.description || ''), 1500, 'welcome_description'), footer: boundedText(String(welcomeMessage.footer || ''), 200, 'welcome_footer'), color: /^#[0-9a-f]{6}$/i.test(String(welcomeMessage.color || '')) ? String(welcomeMessage.color).toUpperCase() : '#FFAA00' },
+    welcomeMessage: { ...(welcomeCfg.welcomeMessage || {}), title: boundedText(String(welcomeMessage.title || ''), 256, 'welcome_title'), description: boundedText(String(welcomeMessage.description || ''), 1500, 'welcome_description'), footer: boundedText(String(welcomeMessage.footer || ''), 200, 'welcome_footer'), color: /^#[0-9a-f]{6}$/i.test(String(welcomeMessage.color || '')) ? String(welcomeMessage.color).toUpperCase() : '#FFAA00', imageUrl: safeHttpsUrl(welcomeMessage.imageUrl, 'welcome_image_url') },
+    leaveMessage: { ...(welcomeCfg.leaveMessage || {}), enabled: w.leaveMessage?.enabled === true, channelId: String(w.leaveMessage?.channelId || ''), title: boundedText(String(w.leaveMessage?.title || ''), 256, 'leave_title'), description: boundedText(String(w.leaveMessage?.description || ''), 1500, 'leave_description'), color: /^#[0-9a-f]{6}$/i.test(String(w.leaveMessage?.color || '')) ? String(w.leaveMessage.color).toUpperCase() : '#667085' },
     suspicious: { ...(welcomeCfg.suspicious || {}), minAccountAgeDays: Math.max(0, Math.min(3650, Number(suspicious.minAccountAgeDays) || 0)), checkImpersonation: !!suspicious.checkImpersonation, maxSimilarityDistance: Math.max(0, Math.min(8, Number(suspicious.maxSimilarityDistance) || 0)), protectedUsers: Array.isArray(suspicious.protectedUsers) ? suspicious.protectedUsers.slice(0, 100).map(x => ({ name: boundedText(String(x.name || ''), 80, 'protected_name'), id: String(x.id || '') })) : [], blockedKeywords: Array.isArray(suspicious.blockedKeywords) ? suspicious.blockedKeywords.slice(0, 100).map(x => boundedText(String(x), 40, 'keyword')).filter(Boolean) : [] },
     autoMod: { ...(welcomeCfg.autoMod || {}), enabled: autoMod.enabled === true, filterInvites: autoMod.filterInvites !== false, maxMentions: Math.max(0, Math.min(20, Number(autoMod.maxMentions) || 0)), messageLimit: Math.max(3, Math.min(30, Number(autoMod.messageLimit) || 7)), timeoutMinutes: Math.max(0, Math.min(1440, Number(autoMod.timeoutMinutes) || 0)), exemptRoleIds: Array.isArray(autoMod.exemptRoleIds) ? autoMod.exemptRoleIds.slice(0, 50).map(String) : [] },
     status: { ...(welcomeCfg.status || {}), host: boundedText(String(w.status?.host || ''), 253, 'status_host'), port: Number(w.status?.port), channelId: String(w.status?.channelId || ''), maintenance: !!w.status?.maintenance },
   };
-  for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId]) if (!validId(id)) throw new Error('welcome_discord_id');
+  for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId, welcomeNext.leaveMessage.channelId]) if (!validId(id)) throw new Error('welcome_discord_id');
   if (welcomeNext.autoMod.exemptRoleIds.some(id => !/^\d{5,25}$/.test(id))) throw new Error('automod_role_id');
   if (!/^[a-z0-9.-]+$/i.test(welcomeNext.status.host) || !validId(welcomeNext.status.channelId) || !Number.isInteger(welcomeNext.status.port) || welcomeNext.status.port < 1 || welcomeNext.status.port > 65535) throw new Error('welcome_status');
   return { ticketNext, welcomeNext };
+}
+
+function safeHttpsUrl(value, errorCode) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  if (raw.length > 500) throw new Error(`invalid_${errorCode}`);
+  let url;
+  try { url = new URL(raw); } catch { throw new Error(`invalid_${errorCode}`); }
+  if (url.protocol !== 'https:' || url.username || url.password) throw new Error(`invalid_${errorCode}`);
+  return url.toString();
+}
+
+function readBotStatus(dir) {
+  try {
+    const item = JSON.parse(fs.readFileSync(path.join(dir, 'bot-status.json'), 'utf8'));
+    return { online: Date.now() - Number(item.heartbeatAt || 0) < 90_000, heartbeatAt: item.heartbeatAt || 0, tag: String(item.tag || '') };
+  } catch { return { online: false, heartbeatAt: 0, tag: '' }; }
+}
+
+async function discordDirectory() {
+  const t = readConfig(TICKETS_DIR), w = readConfig(WELCOME_DIR);
+  const token = String(w.token || t.token || '');
+  const guildId = String(w.guildId || t.guildId || '');
+  if (!token || !/^\d{5,25}$/.test(guildId)) throw new Error('discord_directory_unavailable');
+  const headers = { Authorization: `Bot ${token}`, 'User-Agent': 'OdisseyBotPanel/1.0' };
+  const [channelsRes, rolesRes] = await Promise.all([
+    fetch(`https://discord.com/api/v10/guilds/${guildId}/channels`, { headers }),
+    fetch(`https://discord.com/api/v10/guilds/${guildId}/roles`, { headers }),
+  ]);
+  if (!channelsRes.ok || !rolesRes.ok) throw new Error('discord_directory_unavailable');
+  const [channels, roles] = await Promise.all([channelsRes.json(), rolesRes.json()]);
+  return {
+    channels: channels.filter(c => [0, 5, 15].includes(c.type)).map(c => ({ id: c.id, name: c.name, type: c.type })),
+    categories: channels.filter(c => c.type === 4).map(c => ({ id: c.id, name: c.name })),
+    roles: roles.filter(r => !r.managed && r.name !== '@everyone').map(r => ({ id: r.id, name: r.name })),
+  };
+}
+
+function readOpenTickets() {
+  const file = path.join(TICKETS_DIR, 'tickets.db');
+  const db = new DatabaseSync(file, { readOnly: true });
+  try {
+    return db.prepare("SELECT id, channel_id AS channelId, user_id AS userId, category, status, claimed_by AS claimedBy, created_at AS createdAt FROM tickets WHERE guild_id = ? AND status = 'open' ORDER BY created_at DESC LIMIT 50").all(String(readConfig(TICKETS_DIR).guildId || ''));
+  } finally { db.close(); }
+}
+
+function readModerationLog() {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(WELCOME_DIR, 'moderation-log.json'), 'utf8')).slice(-30).reverse();
+  } catch { return []; }
 }
 
 const ANNOUNCEMENTS_DIR = path.join(WELCOME_DIR, 'announcements');
@@ -198,6 +258,11 @@ function createAnnouncement(input, cfg) {
   if (!/^\d{5,25}$/.test(channelId)) throw new Error('announcement_channel_required');
   const type = input.type === 'event' ? 'event' : 'announcement';
   const color = /^#[0-9a-f]{6}$/i.test(String(input.color || '')) ? String(input.color).toUpperCase() : '#FFAA00';
+  const buttonUrl = safeHttpsUrl(input.buttonUrl, 'announcement_button_url');
+  const thumbnailUrl = safeHttpsUrl(input.thumbnailUrl, 'announcement_thumbnail_url');
+  const footer = boundedText(String(input.footer || 'Odissey MC · Información oficial'), 200, 'announcement_footer') || 'Odissey MC · Información oficial';
+  const buttonLabel = boundedText(String(input.buttonLabel || ''), 80, 'announcement_button_label');
+  if (buttonUrl && !buttonLabel) throw new Error('announcement_button_label');
   let scheduledAt = '';
   if (input.scheduledAt) {
     const time = Date.parse(input.scheduledAt);
@@ -205,7 +270,7 @@ function createAnnouncement(input, cfg) {
     scheduledAt = new Date(time).toISOString();
   }
   const id = crypto.randomUUID();
-  const job = { id, guildId: String(cfg.guildId || ''), channelId, type, title, description, color,
+  const job = { id, guildId: String(cfg.guildId || ''), channelId, type, title, description, color, buttonUrl, buttonLabel, thumbnailUrl, footer,
     eventAt: type === 'event' ? boundedText(String(input.eventAt || ''), 100, 'event_date') : '',
     scheduledAt, status: 'pending', createdAt: new Date().toISOString() };
   fs.mkdirSync(ANNOUNCEMENTS_DIR, { recursive: true, mode: 0o700 });
@@ -250,10 +315,26 @@ const server = http.createServer(async (req, res) => {
   const route = new URL(req.url, 'http://127.0.0.1').pathname;
   if (!(
     (route === '/api/config' && ['GET', 'PUT'].includes(req.method)) ||
-    (route === '/api/announcements' && ['GET', 'POST'].includes(req.method))
+    (route === '/api/announcements' && ['GET', 'POST'].includes(req.method)) ||
+    (['/api/directory', '/api/status', '/api/tickets', '/api/moderation'].includes(route) && req.method === 'GET') ||
+    (/^\/api\/tickets\/\d+\/close$/.test(route) && req.method === 'POST')
   )) return json(res, 404, { ok: false, error: 'not_found' });
   try {
     if (!(await requireAdmin(req))) return json(res, 403, { ok: false, error: 'admin_required' });
+    if (route === '/api/directory') return json(res, 200, { ok: true, directory: await discordDirectory() });
+    if (route === '/api/status') return json(res, 200, { ok: true, bots: { tickets: readBotStatus(TICKETS_DIR), welcome: readBotStatus(WELCOME_DIR) } });
+    if (route === '/api/tickets' && req.method === 'GET') return json(res, 200, { ok: true, tickets: readOpenTickets() });
+    if (route === '/api/moderation') return json(res, 200, { ok: true, events: readModerationLog() });
+    if (/^\/api\/tickets\/\d+\/close$/.test(route)) {
+      const ticketId = Number(route.split('/')[3]);
+      const openTicket = readOpenTickets().find(ticket => Number(ticket.id) === ticketId);
+      if (!openTicket) return json(res, 404, { ok: false, error: 'ticket_not_open' });
+      const commandsDir = path.join(TICKETS_DIR, 'panel-commands');
+      fs.mkdirSync(commandsDir, { recursive: true, mode: 0o700 });
+      const command = { id: crypto.randomUUID(), type: 'close_ticket', ticketId, status: 'pending', requestedAt: new Date().toISOString() };
+      fs.writeFileSync(path.join(commandsDir, `${command.id}.json`), JSON.stringify(command, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
+      return json(res, 202, { ok: true, commandId: command.id });
+    }
     if (route === '/api/announcements' && req.method === 'GET') return json(res, 200, { ok: true, announcements: readAnnouncements() });
     if (route === '/api/announcements' && req.method === 'POST') {
       const input = await readBody(req, 7_000_000);

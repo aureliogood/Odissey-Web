@@ -4,7 +4,7 @@
     ? 'http://127.0.0.1:32170'
     : 'https://api.odisseymc.site/panel';
   const $ = id => document.getElementById(id);
-  const state = { tickets: null, welcome: null, announcements: [] };
+  const state = { tickets: null, welcome: null, announcements: [], directory: { channels: [], categories: [], roles: [] } };
   const gate = $('gate');
   const app = $('app');
   const connection = $('connection');
@@ -68,12 +68,40 @@
       if (data.error === 'announcement_schedule_invalid') throw new Error('La fecha debe estar en el futuro y dentro del próximo año.');
       if (data.error === 'announcement_required') throw new Error('Escribe un título y un mensaje antes de publicar.');
       if (data.error === 'announcement_image_invalid') throw new Error('La imagen debe ser PNG, JPG, GIF o WebP y pesar 5 MB o menos.');
+      if (data.error === 'announcement_button_label') throw new Error('Escribe el texto del botón para poder añadir el enlace.');
+      if (String(data.error || '').startsWith('invalid_announcement_') || data.error === 'invalid_welcome_image_url') throw new Error('Las imágenes y enlaces deben usar una URL HTTPS válida.');
+      if (data.error === 'ticket_not_open') throw new Error('Ese ticket ya no está abierto. Actualiza la lista.');
       throw new Error(data.error || 'El servicio de Azure no respondió correctamente.');
     }
     return data;
   }
 
   function text(id, value) { $(id).value = value == null ? '' : value; }
+  function safePreviewUrl(value) {
+    try { const url = new URL(String(value || '').trim()); return url.protocol === 'https:' && !url.username && !url.password ? url.href : ''; }
+    catch (_) { return ''; }
+  }
+  function fillSelect(id, items, selected, placeholder) {
+    const select = $(id); select.replaceChildren();
+    const empty = document.createElement('option'); empty.value = ''; empty.textContent = placeholder; select.append(empty);
+    let found = false;
+    items.forEach(item => { const option = document.createElement('option'); option.value = item.id; option.textContent = item.name; if (item.id === selected) found = true; select.append(option); });
+    if (selected && !found) { const old = document.createElement('option'); old.value = selected; old.textContent = `Guardado (${selected})`; select.append(old); }
+    select.value = selected || '';
+  }
+
+  function renderDiscordDirectory() {
+    const d = state.directory;
+    [['supportRoleId', d.roles, state.tickets.supportRoleId, 'Selecciona el rol'], ['staffRoleId', d.roles, state.welcome.staffRoleId, 'Selecciona el rol'],
+      ['logsChannelId', d.channels, state.tickets.logsChannelId, 'Selecciona el canal'], ['welcomeChannelId', d.channels, state.welcome.welcomeChannelId, 'Selecciona el canal'],
+      ['alertsChannelId', d.channels, state.welcome.alertsChannelId, 'Selecciona el canal'], ['announcementChannelId', d.channels, state.welcome.announcementChannelId, 'Selecciona el canal'],
+      ['statusChannelId', d.channels, state.welcome.status.channelId, 'Selecciona el canal'], ['leaveChannelId', d.channels, state.welcome.leaveMessage.channelId, 'Selecciona el canal'],
+      ['categoryDiscordId', d.categories, '', 'Sin categoría']].forEach(([id, items, value, prompt]) => fillSelect(id, items, value, prompt));
+    const exempt = new Set((state.welcome.autoMod?.exemptRoleIds || []).map(String));
+    const roleSelect = $('autoModExemptRoles'); roleSelect.replaceChildren();
+    d.roles.forEach(role => { const option = document.createElement('option'); option.value = role.id; option.textContent = role.name; option.selected = exempt.has(role.id); roleSelect.append(option); });
+    exempt.forEach(id => { if (![...roleSelect.options].some(option => option.value === id)) { const option = document.createElement('option'); option.value = id; option.textContent = `Guardado (${id})`; option.selected = true; roleSelect.append(option); } });
+  }
   function setConnection(ok, message) {
     connection.classList.toggle('online', !!ok);
     connection.classList.toggle('offline', !ok);
@@ -129,6 +157,7 @@
 
   function openCategory(index) {
     const category = index == null ? { id: '', label: '', emoji: '', description: '', categoryId: '', color: '#ffaa00', buttonLabel: 'Abrir' } : state.tickets.categories[index];
+    fillSelect('categoryDiscordId', state.directory.categories, category.categoryId || '', 'Sin categoría');
     $('dialogTitle').textContent = index == null ? 'Añadir sección' : 'Editar sección';
     text('editCategoryIndex', index == null ? '' : index);
     text('categoryLabel', category.label); text('categoryEmoji', category.emoji);
@@ -140,34 +169,39 @@
   function render() {
     const t = state.tickets, w = state.welcome;
     text('ticketTitle', t.panel.title); text('ticketDescription', t.panel.description); text('ticketFooter', t.panel.footer);
-    text('supportRoleId', t.supportRoleId); text('logsChannelId', t.logsChannelId);
+    renderDiscordDirectory();
     renderCategories();
-    text('welcomeChannelId', w.welcomeChannelId); text('alertsChannelId', w.alertsChannelId); text('staffRoleId', w.staffRoleId);
-    text('announcementChannelId', w.announcementChannelId || '');
+    $('leaveEnabled').checked = w.leaveMessage.enabled === true;
+    text('leaveTitle', w.leaveMessage.title); text('leaveDescription', w.leaveMessage.description); text('leaveColor', w.leaveMessage.color);
     const autoMod = w.autoMod || {};
     $('autoModEnabled').checked = autoMod.enabled === true;
     $('autoModInvites').checked = autoMod.filterInvites !== false;
     text('autoModMaxMentions', autoMod.maxMentions ?? 5); text('autoModMessageLimit', autoMod.messageLimit ?? 7);
     text('autoModTimeout', autoMod.timeoutMinutes ?? 10);
-    text('autoModExemptRoles', (autoMod.exemptRoleIds || []).join('\n'));
-    text('statusHost', w.status.host); text('statusPort', w.status.port); text('statusChannelId', w.status.channelId); $('statusMaintenance').checked = !!w.status.maintenance;
+    text('statusHost', w.status.host); text('statusPort', w.status.port); $('statusMaintenance').checked = !!w.status.maintenance;
     text('welcomeTitle', w.welcomeMessage.title); text('welcomeDescription', w.welcomeMessage.description);
     text('welcomeColor', w.welcomeMessage.color); text('welcomeFooter', w.welcomeMessage.footer);
+    text('welcomeImageUrl', w.welcomeMessage.imageUrl || '');
     text('minAccountAgeDays', w.suspicious.minAccountAgeDays); text('maxSimilarityDistance', w.suspicious.maxSimilarityDistance);
     $('checkImpersonation').checked = !!w.suspicious.checkImpersonation;
     text('protectedUsers', (w.suspicious.protectedUsers || []).map(x => x.name).filter(Boolean).join('\n'));
     text('blockedKeywords', (w.suspicious.blockedKeywords || []).join('\n'));
     previewWelcome();
     previewAnnouncement();
+    refreshTickets(); refreshModeration(); refreshBotStatus();
   }
 
   function previewWelcome() {
     const title = $('welcomeTitle').value;
-    const message = $('welcomeDescription').value.replaceAll('{usuario}', '@NuevoMiembro').replaceAll('{miembros}', '2,048');
+    const message = $('welcomeDescription').value.replaceAll('{usuario}', '@NuevoMiembro').replaceAll('{servidor}', 'Odissey MC').replaceAll('{miembros}', '2,048');
     $('welcomePreviewTitle').textContent = title;
     $('welcomePreviewDescription').textContent = message;
     $('welcomePreviewFooter').textContent = $('welcomeFooter').value;
     $('welcomePreview').style.borderLeftColor = $('welcomeColor').value || '#ffaa00';
+    const image = $('welcomePreviewImage');
+    const imageUrl = safePreviewUrl($('welcomeImageUrl').value);
+    image.hidden = !imageUrl;
+    if (imageUrl) image.src = imageUrl;
   }
 
   function setPreviewScreen(name) {
@@ -192,6 +226,11 @@
     previewImage.hidden = !announcementImagePreviewUrl;
     if (announcementImagePreviewUrl) previewImage.src = announcementImagePreviewUrl;
     $('announcementDiscordEmbed').style.borderLeftColor = $('announcementColor').value || '#ffaa00';
+    $('announcementPreviewFooter').textContent = $('announcementFooter').value.trim() || 'Odissey MC · Información oficial';
+    const buttonUrl = safePreviewUrl($('announcementButtonUrl').value);
+    const previewButton = $('announcementPreviewButton'); previewButton.hidden = !buttonUrl; previewButton.textContent = $('announcementButtonLabel').value.trim() || 'Más información'; if (buttonUrl) previewButton.href = buttonUrl; else previewButton.removeAttribute('href');
+    const thumbnailUrl = safePreviewUrl($('announcementThumbnailUrl').value);
+    const thumbnail = $('announcementPreviewThumbnail'); thumbnail.hidden = !thumbnailUrl; if (thumbnailUrl) thumbnail.src = thumbnailUrl;
     const eventAt = $('announcementEventAt').value.trim();
     $('announcementPreviewEventDate').hidden = !isEvent || !eventAt;
     $('announcementPreviewEventDate').textContent = eventAt ? `📅 ${eventAt}` : '';
@@ -271,6 +310,55 @@
     catch (err) { toast(err.message || 'No se pudo actualizar el historial.', true); }
   }
 
+  async function refreshTickets() {
+    const list = $('openTickets');
+    try {
+      const data = await request('/api/tickets'); list.replaceChildren();
+      if (!data.tickets.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'No hay tickets abiertos.'; list.append(empty); return; }
+      data.tickets.forEach(ticket => {
+        const row = document.createElement('article'); row.className = 'dashboard-row';
+        const info = document.createElement('div'); const title = document.createElement('b'); title.textContent = `Ticket #${ticket.id} · ${ticket.category}`;
+        const meta = document.createElement('small'); meta.textContent = `Abierto ${new Date(Number(ticket.createdAt)).toLocaleString('es-CO')} · <@${ticket.userId}>`;
+        info.append(title, meta);
+        const link = document.createElement('a'); link.href = `https://discord.com/channels/${state.tickets.guildId}/${ticket.channelId}`; link.target = '_blank'; link.rel = 'noopener'; link.textContent = 'Abrir';
+        const close = document.createElement('button'); close.type = 'button'; close.className = 'button mini'; close.textContent = 'Cerrar';
+        close.addEventListener('click', async () => {
+          if (!window.confirm(`¿Cerrar el ticket #${ticket.id}? El bot guardará su transcript.`)) return;
+          close.disabled = true;
+          try { await request(`/api/tickets/${ticket.id}/close`, { method: 'POST', body: {} }); toast('Solicitud enviada al bot. Actualiza la lista en unos segundos.'); setTimeout(refreshTickets, 2500); }
+          catch (err) { toast(err.message, true); close.disabled = false; }
+        });
+        row.append(info, link, close); list.append(row);
+      });
+    } catch (err) { list.textContent = err.message || 'No se pudo consultar los tickets.'; }
+  }
+
+  async function refreshBotStatus() {
+    try {
+      const data = await request('/api/status');
+      for (const key of ['tickets', 'welcome']) {
+        const bot = data.bots[key]; const label = key === 'tickets' ? 'tickets' : 'welcome';
+        $(`${label}BotStatus`).textContent = bot.online ? `En línea${bot.tag ? ` · ${bot.tag}` : ''}` : 'Sin señal';
+        $(`${label}BotStatus`).className = bot.online ? 'health-online' : 'health-offline';
+        $(`${label}BotHeartbeat`).textContent = bot.heartbeatAt ? `Última señal: ${new Date(bot.heartbeatAt).toLocaleTimeString('es-CO')}` : 'Aún sin señal del bot';
+      }
+    } catch (_) { $('ticketsBotStatus').textContent = 'No disponible'; $('welcomeBotStatus').textContent = 'No disponible'; }
+  }
+
+  async function refreshModeration() {
+    const list = $('moderationActivity');
+    try {
+      const data = await request('/api/moderation'); list.replaceChildren();
+      if (!data.events.length) { const empty = document.createElement('p'); empty.className = 'hint'; empty.textContent = 'Todavía no hay acciones registradas.'; list.append(empty); return; }
+      data.events.slice(0, 20).forEach(event => {
+        const row = document.createElement('article'); row.className = 'dashboard-row';
+        const info = document.createElement('div'); const title = document.createElement('b'); title.textContent = event.action === 'timeout' ? 'Timeout aplicado' : 'Mensaje eliminado';
+        const meta = document.createElement('small'); meta.textContent = `${event.userTag || event.userId || 'Usuario'} · ${event.reason || 'Automoderación'} · ${new Date(event.at).toLocaleString('es-CO')}`;
+        info.append(title, meta); row.append(info); list.append(row);
+      });
+    } catch (err) { list.textContent = err.message || 'No se pudo cargar la actividad.'; }
+  }
+
   async function submitAnnouncement() {
     const button = $('sendAnnouncement');
     const oldText = button.textContent; button.disabled = true; button.textContent = 'Enviando…';
@@ -282,12 +370,14 @@
         channelId: $('announcementChannelId').value.trim(), type: $('announcementType').value,
         title: $('announcementTitle').value.trim(), description: $('announcementDescription').value.trim(),
         color: $('announcementColor').value,
+        buttonLabel: $('announcementButtonLabel').value.trim(), buttonUrl: $('announcementButtonUrl').value.trim(),
+        thumbnailUrl: $('announcementThumbnailUrl').value.trim(), footer: $('announcementFooter').value.trim(),
         eventAt: $('announcementEventAt').value.trim(),
         scheduledAt: localDate ? new Date(localDate).toISOString() : '',
         ...(image ? { image } : {}),
       } });
       $('announcementNote').textContent = data.announcement?.scheduledAt ? 'Programado' : 'Enviado a la cola';
-      $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = '';
+      $('announcementTitle').value = ''; $('announcementDescription').value = ''; $('announcementEventAt').value = ''; $('announcementSchedule').value = ''; $('announcementButtonLabel').value = ''; $('announcementButtonUrl').value = ''; $('announcementThumbnailUrl').value = '';
       clearAnnouncementImage();
       previewAnnouncement(); await refreshAnnouncements();
       toast(data.announcement?.scheduledAt ? 'Quedó programado. El bot lo publicará a la hora indicada.' : 'El bot publicará el mensaje en unos segundos.');
@@ -304,6 +394,8 @@
       setConnection(true, 'Conectado con Azure');
       const data = await request('/api/config');
       state.tickets = data.tickets; state.welcome = data.welcome;
+      try { const directory = await request('/api/directory'); state.directory = directory.directory; }
+      catch (_) { toast('No pude cargar los canales y roles. Revisa que el bot tenga acceso al servidor.', true); }
       const announcements = await request('/api/announcements');
       renderAnnouncements(announcements.announcements);
       render(); gate.classList.add('hidden'); app.classList.remove('hidden');
@@ -372,14 +464,15 @@
   $('saveWelcome').addEventListener('click', () => {
     state.welcome.welcomeChannelId = $('welcomeChannelId').value.trim(); state.welcome.alertsChannelId = $('alertsChannelId').value.trim(); state.welcome.staffRoleId = $('staffRoleId').value.trim(); state.welcome.announcementChannelId = $('announcementChannelId').value.trim();
     state.welcome.status = { host: $('statusHost').value.trim(), port: Number($('statusPort').value), channelId: $('statusChannelId').value.trim(), maintenance: $('statusMaintenance').checked };
-    state.welcome.welcomeMessage = { title: $('welcomeTitle').value.trim(), description: $('welcomeDescription').value.trim(), color: $('welcomeColor').value, footer: $('welcomeFooter').value.trim() };
+    state.welcome.welcomeMessage = { title: $('welcomeTitle').value.trim(), description: $('welcomeDescription').value.trim(), color: $('welcomeColor').value, footer: $('welcomeFooter').value.trim(), imageUrl: $('welcomeImageUrl').value.trim() };
+    state.welcome.leaveMessage = { enabled: $('leaveEnabled').checked, channelId: $('leaveChannelId').value.trim(), title: $('leaveTitle').value.trim(), description: $('leaveDescription').value.trim(), color: $('leaveColor').value };
     state.welcome.suspicious = { minAccountAgeDays: Number($('minAccountAgeDays').value), maxSimilarityDistance: Number($('maxSimilarityDistance').value), checkImpersonation: $('checkImpersonation').checked, protectedUsers: $('protectedUsers').value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ name })), blockedKeywords: $('blockedKeywords').value.split('\n').map(word => word.trim()).filter(Boolean) };
-    state.welcome.autoMod = { enabled: $('autoModEnabled').checked, filterInvites: $('autoModInvites').checked, maxMentions: Number($('autoModMaxMentions').value), messageLimit: Number($('autoModMessageLimit').value), timeoutMinutes: Number($('autoModTimeout').value), exemptRoleIds: $('autoModExemptRoles').value.split('\n').map(id => id.trim()).filter(Boolean) };
+    state.welcome.autoMod = { enabled: $('autoModEnabled').checked, filterInvites: $('autoModInvites').checked, maxMentions: Number($('autoModMaxMentions').value), messageLimit: Number($('autoModMessageLimit').value), timeoutMinutes: Number($('autoModTimeout').value), exemptRoleIds: [...$('autoModExemptRoles').selectedOptions].map(option => option.value) };
     save('welcomeNote', { tickets: state.tickets, welcome: state.welcome });
   });
   ['ticketTitle', 'ticketDescription', 'ticketFooter'].forEach(id => $(id).addEventListener('input', previewTickets));
-  ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter'].forEach(id => $(id).addEventListener('input', () => { previewWelcome(); setPreviewScreen('welcome'); }));
-  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementEventAt', 'announcementSchedule'].forEach(id => {
+  ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl'].forEach(id => $(id).addEventListener('input', () => { previewWelcome(); setPreviewScreen('welcome'); }));
+  ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementEventAt', 'announcementSchedule', 'announcementButtonLabel', 'announcementButtonUrl', 'announcementThumbnailUrl', 'announcementFooter'].forEach(id => {
     const updatePreview = () => { previewAnnouncement(); setPreviewScreen('announcement'); };
     $(id).addEventListener('input', updatePreview);
     $(id).addEventListener('change', updatePreview);
@@ -388,7 +481,14 @@
   $('removeAnnouncementImage').addEventListener('click', clearAnnouncementImage);
   $('sendAnnouncement').addEventListener('click', submitAnnouncement);
   $('refreshAnnouncements').addEventListener('click', refreshAnnouncements);
+  $('refreshTickets').addEventListener('click', refreshTickets);
+  $('refreshBotStatus').addEventListener('click', refreshBotStatus);
+  $('refreshModeration').addEventListener('click', refreshModeration);
   document.querySelectorAll('[data-preview-screen]').forEach(button => button.addEventListener('click', () => setPreviewScreen(button.dataset.previewScreen)));
-  setInterval(() => { if (state.welcome && $('pane-welcome').classList.contains('active')) refreshAnnouncements(); }, 15_000);
+  setInterval(() => {
+    if (!state.welcome) return;
+    if ($('pane-welcome').classList.contains('active')) { refreshAnnouncements(); refreshModeration(); refreshBotStatus(); }
+    if ($('pane-tickets').classList.contains('active')) refreshTickets();
+  }, 15_000);
   load();
 })();
