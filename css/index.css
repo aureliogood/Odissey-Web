@@ -2011,3 +2011,27 @@ html.theme-light #porque-odissey .why-card {
 @media (max-width: 1180px) and (min-width: 1001px) {
     .nav-pill__submenu { left: auto; right: 0; }
 }
+
+/* Escritura del título principal, con cursor cuadrado estilo Minecraft. */
+.dala-hero-title .hero-typewriter__line {
+    display: inline-block;
+    min-height: 1em;
+}
+.dala-hero-title.is-typing .hero-typewriter__line.is-active::after {
+    display: inline-block;
+    width: 0.34em;
+    height: 0.72em;
+    margin-left: 0.12em;
+    background: var(--od-marine-accent);
+    vertical-align: -0.02em;
+    content: '';
+    animation: hero-typewriter-caret 720ms steps(1, end) infinite;
+}
+@keyframes hero-typewriter-caret {
+    50% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .dala-hero-title.is-typing .hero-typewriter__line.is-active::after {
+        animation: none;
+    }
+}
