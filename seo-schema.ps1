@@ -49,7 +49,6 @@ $paginas = @{
   'reportes.html'         = @{ tipo = 'WebPage';      titulo = 'Reportes de Odissey'; url = 'https://odisseymc.site/reportes'; miga = @('Reportes') }
   'postulaciones.html'    = @{ tipo = 'WebPage';      titulo = 'Postulaciones al staff de Odissey'; url = 'https://odisseymc.site/postulaciones'; miga = @('Postulaciones') }
   'staff.html'            = @{ tipo = 'AboutPage';    titulo = 'Equipo de Odissey'; url = 'https://odisseymc.site/staff';     miga = @('Staff') }
-  'foro.html'             = @{ tipo = 'DiscussionForumPosting'; titulo = 'Foro de Odissey'; url = 'https://odisseymc.site/foro'; miga = @('Foro') }
   # admin.html, perfil.html y staffverificar.html NO entran aqui a
   # proposito: las tres llevan noindex y ningun buscador debe
   # guardarlas. Meter datos estructurados en una pagina que no se

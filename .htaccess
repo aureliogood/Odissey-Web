@@ -74,15 +74,18 @@ AddDefaultCharset UTF-8
   RewriteCond %{HTTP_HOST} ^www\.odisseymc\.site$ [NC]
   RewriteRule ^ https://odisseymc.site%{REQUEST_URI} [R=301,L]
 
+  # La página del foro se sustituyó por la Wiki; conserva los enlaces antiguos.
+  RewriteRule ^foro(?:\.html)?/?$ /wiki [R=301,L]
+
   # -------------------------------------------------------------
   # 3. URLs limpias (oculta .html) - SOLO lista blanca
   # -------------------------------------------------------------
   # Migrar enlaces viejos con .html -> URL limpia (301)
   RewriteCond %{THE_REQUEST} \.html\s
-  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)\.html$ /$1 [R=301,L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias)\.html$ /$1 [R=301,L]
 
   # Servir .html en segundo plano para las URLs limpias (solo paginas conocidas)
-  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|foro|staffverificar|gracias)/?$ $1.html [L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias)/?$ $1.html [L]
 </IfModule>
 
 # -------------------------------------------------------------

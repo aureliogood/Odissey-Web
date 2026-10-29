@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v172';
+var CACHE_NAME = 'odissey-v173';
 
 var PRECACHE_URLS = [
   './',
@@ -37,7 +37,6 @@ var PRECACHE_URLS = [
   './tienda.html',
   './reglas.html',
   './staff.html',
-  './foro.html',
   './noticias.html',
   './eventos.html',
   './galeria.html',
@@ -62,7 +61,6 @@ var PRECACHE_URLS = [
   './css/dala-steve.css',
   './css/search.css',
   './css/perfil.css',
-  './css/foro.css',
   './css/verificacion.css',
   './css/eventos-noticias.css',
   './css/galeria.css',
@@ -94,7 +92,6 @@ var PRECACHE_URLS = [
   './js/dala-hero.js',
   './js/dala-liquid.js',
   './js/dala-nav.js',
-  './js/foro.js',
   './js/perfil.js',
   './js/search.js',
   './js/verificacion.js',
@@ -173,7 +170,7 @@ self.addEventListener('activate', function (event) {
 var PAGINAS = [
   'staff', 'tienda', 'reglas', 'noticias', 'eventos', 'galeria', 'soporte',
   'reportes', 'postulaciones', 'wiki', 'perfil', 'privacidad',
-  'terminos', 'foro',
+  'terminos',
 ];
 
 function equivalenteHtml(url) {

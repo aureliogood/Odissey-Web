@@ -60,7 +60,7 @@ Nada de esto está hecho todavía:
 | 2 | Contenido: noticias, eventos, galería, productos, ajustes | `site-data.js`, `site-config.js` |
 | 3 | Reportes, valoraciones, pedidos | 6 páginas |
 | 4 | Panel de admin (con RLS por rol) | `admin.html` |
-| 5 | Tickets → Discord (Edge Function) | `web.js`, `js/foro.js` |
+| 5 | Tickets → Discord (Edge Function) | `web.js` |
 | 6 | **Eliminar el bot** y la integración de Turnstile | `Bot-Tickets/` |
 | 7 | Migrar los datos de `tickets.db` | `Bot-Tickets/tickets.db` |
 
