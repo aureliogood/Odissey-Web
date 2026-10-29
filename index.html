@@ -53,7 +53,6 @@
     <script src="js/seguro.js?v=147"></script>
     <script src="js/animacion.js?v=147"></script>
     <script src="js/dala-liquid.js?v=147" defer></script>
-<script src="js/dala-hero.js?v=147" defer></script>
         <script type="application/ld+json">
 {
 "@context":  "https://schema.org",
@@ -246,7 +245,7 @@
                     <!-- Columna de texto -->
                     <div class="reveal flex flex-col items-start text-left" style="transition-delay: 0s;">
                         <span class="dala-eyebrow">Servidor de Minecraft Java · Survival Custom</span>
-                        <h1 class="dala-hero-title">Entra en tu<br>propia odisea.</h1>
+                        <h1 class="dala-hero-title">Entra en tu<br>propia odisea</h1>
                         <p class="dala-hero-sub">
                             Un mundo junto al mar donde todos empiezan con las mismas oportunidades.
                             Construye tu base, hazte con los mejores kits y decide tu propio camino
@@ -282,10 +281,6 @@
                         <div class="mt-3 text-xs tracking-wider" style="font-family: monospace; color: var(--hz-muted, #a29cb8);">
                             Minecraft Java & Bedrock · Versión 1.20 - 1.21 · mc.odisseymc.lat
                         </div>
-                        <div class="mt-3 text-xs tracking-wider" style="font-family: monospace; color: var(--hz-muted, #a29cb8);">
-                            Minecraft Java & Bedrock · Versión 1.20 - 1.21 · mc.odisseymc.site
-                        </div>
-
                         <!-- Estado del servidor -->
                         <div class="dala-status mt-12">
                             <div class="dala-stat">
@@ -308,46 +303,51 @@
                             </div>
                         </div>
 
-                        <!-- Verificaciones y estado estilo Horizon (Inspo playhorizon.dev) -->
-                        <div class="horizon-checks-grid mt-10 w-full">
-                            <div class="horizon-row">
-                                <span class="row-index">01</span>
-                                <span class="row-title">Servidor 100% justo sin Pay-to-Win</span>
-                                <span class="row-meta">100%</span>
-                            </div>
-                            <div class="horizon-row">
-                                <span class="row-index">02</span>
-                                <span class="row-title">Economía balanceada y protecciones</span>
-                                <span class="row-meta">Activo</span>
-                            </div>
-                            <div class="horizon-row">
-                                <span class="row-index">03</span>
-                                <span class="row-title">Comunidad activa en Discord</span>
-                                <span class="row-meta">Comunidad</span>
-                            </div>
-                            <div class="horizon-row">
-                                <span class="row-index">04</span>
-                                <span class="row-title">Survival Custom & Kits exclusivos</span>
-                                <span class="row-meta">Survival</span>
-                            </div>
-                            <div class="horizon-row">
-                                <span class="row-index">05</span>
-                                <span class="row-title">Jugadores explorando ahora</span>
-                                <span class="row-meta playerCount">0</span>
-                            </div>
-                            <p class="horizon-disclaimer text-xs text-center mt-3" style="font-family: monospace; color: var(--hz-muted, #a29cb8);">
-                                No es un producto oficial de Minecraft. No está aprobado por ni asociado con Mojang o Microsoft.
-                            </p>
-                        </div>
+
                     </div>
 
-                    <!-- Columna visual: constelación viva -->
-                    <div class="dala-constellation-wrap reveal" style="transition-delay: .15s;">
-                        <canvas id="dalaConstellation" class="dala-constellation" aria-hidden="true"></canvas>
+                    <!-- Columna visual: logo destacado -->
+                    <div class="dala-hero-visual reveal" style="transition-delay: .15s;">
+                        <img src="img/tab_logo.png" alt="Odissey" class="dala-hero-logo" loading="eager">
                     </div>
                 </div>
             </section>
-            
+
+            <!-- Verificaciones y estado estilo Horizon (Inspo playhorizon.dev) -->
+            <section class="horizon-checks-section px-4 py-8 md:py-12">
+                <div class="max-w-4xl mx-auto">
+                    <div class="horizon-checks-grid w-full">
+                        <div class="horizon-row">
+                            <span class="row-index">01</span>
+                            <span class="row-title">Servidor 100% justo sin Pay-to-Win</span>
+                            <span class="row-meta">100%</span>
+                        </div>
+                        <div class="horizon-row">
+                            <span class="row-index">02</span>
+                            <span class="row-title">Economía balanceada y protecciones</span>
+                            <span class="row-meta">Activo</span>
+                        </div>
+                        <div class="horizon-row">
+                            <span class="row-index">03</span>
+                            <span class="row-title">Comunidad activa en Discord</span>
+                            <span class="row-meta">Comunidad</span>
+                        </div>
+                        <div class="horizon-row">
+                            <span class="row-index">04</span>
+                            <span class="row-title">Survival Custom & Kits exclusivos</span>
+                            <span class="row-meta">Survival</span>
+                        </div>
+                        <div class="horizon-row">
+                            <span class="row-index">05</span>
+                            <span class="row-title">Jugadores explorando ahora</span>
+                            <span class="row-meta playerCount">0</span>
+                        </div>
+                    </div>
+                    <p class="horizon-disclaimer text-xs text-center mt-3" style="font-family: monospace; color: var(--hz-muted, #a29cb8);">
+                        No es un producto oficial de Minecraft. No está aprobado por ni asociado con Mojang o Microsoft.
+                    </p>
+                </div>
+            </section>
 
             <!-- Guía de entrada -->
             <section id="guia" class="px-4 py-16 scroll-mt-24">

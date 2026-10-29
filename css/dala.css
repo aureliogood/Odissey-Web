@@ -1003,7 +1003,6 @@ nav .lang-btn:hover {
 .account-item,
 .login-card,
 #loginModal .login-card,
-.dala-stat,
 .horizon-row {
   background: var(--hz-panel, #1a1727) !important;
   background-color: var(--hz-panel, #1a1727) !important;
@@ -1503,6 +1502,16 @@ textarea::placeholder {
   gap: 1.75rem 2rem;
   align-items: start;
 }
+
+.dala-stat,
+.dala-status .dala-stat {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .dala-stat {
   display: flex;
   flex-direction: column;
@@ -2061,4 +2070,20 @@ nav #langBtn:active,
 .menu-toggle:active {
   transform: translateY(2px) !important;
   box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+}
+
+.dala-hero-visual {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dala-hero-logo {
+  max-width: 100%;
+  max-height: 480px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.75));
 }
