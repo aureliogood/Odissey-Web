@@ -259,7 +259,15 @@ AddDefaultCharset UTF-8
   #     imagenes, nunca scripts. Era superficie de ataque gratis.
   #   * frame-ancestors pasa de 'self' a 'none': con DENY en
   #     X-Frame-Options no hacia falta dejar pasar el mismo dominio.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://mc-heads.net https://cdn.discordapp.com https://flagcdn.com https://placehold.co; connect-src 'self' https://odisseymc.site https://api.mcstatus.io https://open.er-api.com; frame-src 'self' https://discord.com; child-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content"
+  # bots.html pide acceso al conector de loopback. Esa única página usa una
+  # CSP específica: conserva las restricciones del sitio y permite el origen
+  # local; no puede llevar upgrade-insecure-requests porque cambiaría localhost
+  # a HTTPS antes de llegar al conector HTTP ligado a 127.0.0.1.
+  <IfModule mod_setenvif.c>
+    SetEnvIf Request_URI "^/bots\.html$" ODISSEY_BOT_PANEL=1
+  </IfModule>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://mc-heads.net https://cdn.discordapp.com https://flagcdn.com https://placehold.co; connect-src 'self' https://odisseymc.site https://api.odisseymc.site https://cffpnxmtwfaublkvrobt.supabase.co https://api.mcstatus.io https://open.er-api.com; frame-src 'self' https://discord.com; child-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'" env=ODISSEY_BOT_PANEL
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://mc-heads.net https://cdn.discordapp.com https://flagcdn.com https://placehold.co; connect-src 'self' https://odisseymc.site https://api.mcstatus.io https://open.er-api.com; frame-src 'self' https://discord.com; child-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content" env=!ODISSEY_BOT_PANEL
 </IfModule>
 
 # -------------------------------------------------------------

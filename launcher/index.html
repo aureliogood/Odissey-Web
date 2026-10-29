@@ -86,11 +86,12 @@
     .hero-notes span { display:inline-flex; align-items:center; gap:7px; }
     .hero-notes svg { width:15px; height:15px; color:var(--green); }
 
-    /* Launcher preview, composed from HTML/CSS so it stays sharp at every scale. */
+    /* Captura real de Odissey Client. */
     .preview-wrap { position:relative; perspective:1200px; }
     .preview-glow { position:absolute; inset:12% 8%; z-index:-1; border-radius:35%; background:rgba(203,153,48,.18); filter:blur(70px); }
-    .app-window { position:relative; overflow:hidden; min-height:400px; border:1px solid rgba(234,203,130,.22); border-radius:20px; background:linear-gradient(145deg,rgba(25,31,39,.97),rgba(12,15,20,.98)); box-shadow:0 36px 100px rgba(0,0,0,.52),0 1px 0 rgba(255,255,255,.08) inset; transform:rotateY(-5deg) rotateX(2deg); animation:float 7s ease-in-out infinite; }
+    .app-window { position:relative; overflow:hidden; border:1px solid rgba(234,203,130,.22); border-radius:18px; background:#0b0d10; box-shadow:0 36px 100px rgba(0,0,0,.52),0 1px 0 rgba(255,255,255,.08) inset; transform:rotateY(-3deg) rotateX(1deg); animation:float 7s ease-in-out infinite; }
     .app-window::before { content:''; position:absolute; inset:0 0 auto; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .app-window img { display:block; width:100%; height:auto; }
     .app-top { display:flex; align-items:center; justify-content:space-between; padding:17px 19px; border-bottom:1px solid var(--line); color:#8f9baa; font-size:10px; }
     .app-dots { display:flex; gap:5px; }
     .app-dots i { display:block; width:6px; height:6px; border-radius:50%; background:#414b58; }
@@ -127,6 +128,16 @@
     .trust-item { display:flex; align-items:center; justify-content:center; gap:11px; color:#c2cad3; font-size:12px; font-weight:600; }
     .trust-item + .trust-item { border-left:1px solid var(--line); }
     .trust-item svg { width:18px; height:18px; color:var(--gold); }
+    .quickstart { padding:78px 0 28px; }
+    .quickstart .section-head { margin-bottom:30px; }
+    .quickstart-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .quickstart-card { min-width:0; padding:23px; border:1px solid var(--line); border-radius:17px; background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)); }
+    .quickstart-number { display:grid; place-items:center; width:34px; height:34px; margin-bottom:18px; border:1px solid rgba(239,195,78,.24); border-radius:10px; color:var(--gold-2); background:rgba(239,195,78,.08); font:700 12px 'Manrope',sans-serif; }
+    .quickstart-card h3 { margin:0 0 9px; font-size:16px; }
+    .quickstart-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+    .quickstart-ip { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:17px; }
+    .quickstart-ip code { min-width:0; overflow-wrap:anywhere; color:var(--gold-2); font:600 12px ui-monospace,monospace; }
+    .quickstart-ip .copy-ip { flex:none; min-height:40px; }
     section.content-section { padding:112px 0; }
     .section-head { max-width:700px; margin:0 auto 48px; text-align:center; }
     .section-head .eyebrow { justify-content:center; }
@@ -200,28 +211,31 @@
       .hero { grid-template-columns:1fr; gap:52px; padding-top:70px; }
       .hero-copy { max-width:650px; }
       .preview-wrap { width:min(620px,100%); margin-inline:auto; }
+      .quickstart-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .feature-grid { grid-template-columns:repeat(2,1fr); }
       .boost-panel { grid-template-columns:1fr; gap:28px; }
       .mod-stack { max-width:580px; }
       .faq-grid { grid-template-columns:1fr; gap:23px; }
+    }
+    @media (max-width: 820px) {
+      .nav-cta { display:none; }
+      .menu-toggle { display:grid; place-items:center; }
+      .nav-links { position:absolute; top:65px; left:0; right:0; display:none; flex-direction:column; align-items:stretch; gap:0; padding:8px 18px 14px; border-bottom:1px solid var(--line); background:rgba(8,11,16,.97); }
+      .nav-links.open { display:flex; }
+      .nav-links a { padding:12px 4px; }
     }
     @media (max-width: 640px) {
       .wrap { width:min(var(--max),calc(100% - 34px)); }
       .nav { min-height:66px; }
       .brand img { width:98px; }
       .brand-caption { font-size:9px; }
-      .nav-cta { display:none; }
-      .menu-toggle { display:grid; place-items:center; }
-      .nav-links { position:absolute; top:65px; left:0; right:0; display:none; flex-direction:column; align-items:stretch; gap:0; padding:8px 18px 14px; border-bottom:1px solid var(--line); background:rgba(8,11,16,.97); }
-      .nav-links.open { display:flex; }
-      .nav-links a { padding:12px 4px; }
       .hero { min-height:unset; gap:42px; padding:62px 0 54px; }
       h1 { font-size:clamp(43px,13vw,64px); }
       .hero-copy { font-size:15px; }
       .hero-actions { align-items:stretch; flex-direction:column; }
       .hero-actions .button { width:100%; }
       .hero-notes { gap:12px 18px; }
-      .app-window { min-height:365px; transform:none; }
+      .app-window { transform:none; }
       .preview-body { grid-template-columns:39px 1fr; min-height:315px; }
       .preview-content { padding:16px 12px; }
       .preview-greeting { font-size:13px; }
@@ -237,6 +251,11 @@
       .section-head { margin-bottom:30px; text-align:left; }
       .section-head .eyebrow { justify-content:flex-start; }
       .feature-grid { grid-template-columns:1fr; gap:10px; }
+      .quickstart { padding:58px 0 12px; }
+      .quickstart-grid { grid-template-columns:1fr; gap:10px; }
+      .quickstart-card { padding:20px; }
+      .quickstart-ip { align-items:stretch; flex-direction:column; }
+      .quickstart-ip .copy-ip { justify-content:center; }
       .feature-card { min-height:unset; padding:21px; }
       .feature-icon { margin-bottom:16px; }
       .boost-section { padding:0 0 78px; }
@@ -253,6 +272,11 @@
       .closing-card { align-items:stretch; flex-direction:column; padding:27px 22px; }
       .footer-inner { align-items:flex-start; flex-direction:column; }
     }
+    @media (max-width: 820px) {
+      .app-window { transform:none; animation:float-mobile 7s ease-in-out infinite; }
+      .button,.copy-ip { min-height:44px; }
+    }
+    @keyframes float-mobile { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
     @media (prefers-reduced-motion: reduce) {
       *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
       .reveal { opacity:1; transform:none; }
@@ -268,6 +292,7 @@
         <span class="brand-caption">Launcher<br>de escritorio</span>
       </a>
       <div class="nav-links" id="nav-links">
+        <a href="#primeros-pasos">Cómo empezar</a>
         <a href="#funciones">Funciones</a>
         <a href="#optimizacion">Optimización</a>
         <a href="#preguntas">Preguntas</a>
@@ -289,8 +314,8 @@
         <h1 id="hero-title">Tu próxima partida <span class="gold">empieza aquí.</span></h1>
         <p class="hero-copy">Odissey Client reúne el inicio de Minecraft, tus versiones y herramientas de juego en una sola aplicación de escritorio. El launcher se queda fuera; Minecraft abre limpio, como siempre.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#funciones">
-            Descubrir el launcher
+          <a class="button button-primary" href="#primeros-pasos">
+            Cómo empezar
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
           </a>
           <a class="button button-secondary" href="#estado-servidor">
@@ -304,29 +329,11 @@
         </div>
       </div>
 
-      <div class="preview-wrap reveal reveal-delay-2" aria-label="Vista ilustrativa del launcher Odissey Client">
+      <div class="preview-wrap reveal reveal-delay-2" aria-label="Captura real del launcher Odissey Client">
         <div class="preview-glow" aria-hidden="true"></div>
         <div class="app-window">
-          <div class="app-top"><span class="app-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-title">ODISSEY CLIENT</span><span>v1.0.0</span></div>
-          <div class="preview-body">
-            <aside class="preview-rail" aria-hidden="true">
-              <span class="rail-mark">O</span>
-              <span class="rail-icon active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 12 7-12 7z"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
-              <span class="rail-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 14l3-3 5 6H6z"/><circle cx="9" cy="8" r="1"/></svg></span>
-            </aside>
-            <div class="preview-content">
-              <div class="preview-greeting"><span>Listo para jugar</span><span class="profile-pill"><i class="profile-dot"></i> Perfil local</span></div>
-              <div class="preview-banner">
-                <div class="preview-banner-copy"><span class="preview-tag">ODISSEY CLIENT</span><strong>Minecraft</strong><small>Tu juego. Tus versiones. Todo listo.</small></div>
-              </div>
-              <div class="preview-bottom"><span class="fake-select">1.21.11 · Fabric <span>⌄</span></span><span class="fake-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 12 7-12 7z"/></svg> Jugar ahora</span></div>
-              <div class="preview-status"><i></i> Launcher listo · Minecraft sin overlay</div>
-            </div>
-          </div>
+          <img src="../img/launcher/odyssey-client-real.png" width="1279" height="821" alt="Pantalla principal real de Odissey Client con la sección Jugar y el servidor Odissey destacado" fetchpriority="high">
         </div>
-        <div class="floating-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5v14l11-7z"/><path d="M4 4v16"/></svg><span><strong>Tu juego, sin interrupciones</strong><small>El launcher queda fuera de Minecraft</small></span></div>
       </div>
     </section>
 
@@ -335,6 +342,32 @@
       <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M4 12h16M4 19h16"/><circle cx="9" cy="5" r="2" fill="#10151d"/><circle cx="15" cy="12" r="2" fill="#10151d"/><circle cx="7" cy="19" r="2" fill="#10151d"/></svg>Ajustes bajo tu control</div>
       <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/><circle cx="12" cy="12" r="8"/></svg>Herramientas en un solo lugar</div>
     </div>
+
+    <section class="quickstart wrap" id="primeros-pasos" aria-labelledby="quickstart-title">
+      <div class="section-head reveal">
+        <span class="eyebrow">Guía rápida</span>
+        <h2 id="quickstart-title">De abrir el launcher a entrar a Odissey.</h2>
+        <p>Prepara tu versión de Minecraft y conéctate al servidor desde el cliente o desde el menú multijugador.</p>
+      </div>
+      <div class="quickstart-grid">
+        <article class="quickstart-card reveal">
+          <span class="quickstart-number">01</span>
+          <h3>Prepara tu perfil</h3>
+          <p>En la pantalla Jugar, selecciona la versión de Minecraft y ajusta la memoria asignada para tu equipo.</p>
+        </article>
+        <article class="quickstart-card reveal reveal-delay-1">
+          <span class="quickstart-number">02</span>
+          <h3>Conéctate a Odissey</h3>
+          <p>Usa la acción para entrar al servidor desde el launcher o agrégalo a tu lista multijugador de Minecraft Java.</p>
+          <div class="quickstart-ip"><code>mc.odisseymc.lat</code><button class="copy-ip" type="button" data-copy="mc.odisseymc.lat" aria-label="Copiar IP mc.odisseymc.lat">Copiar IP</button></div>
+        </article>
+        <article class="quickstart-card reveal reveal-delay-2">
+          <span class="quickstart-number">03</span>
+          <h3>Inicia tu partida</h3>
+          <p>Pulsa Jugar ahora para abrir Minecraft. Si tienes un problema, revisa Registro para consultar los logs recientes.</p>
+        </article>
+      </div>
+    </section>
 
     <section class="content-section wrap" id="funciones">
       <div class="section-head reveal">

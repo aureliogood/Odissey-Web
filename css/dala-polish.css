@@ -1,0 +1,228 @@
+/* ----------------------------------------------------------------------------
+   12. REFINAMIENTO VISUAL GLOBAL — octubre 2026
+   Una capa ligera para dar profundidad, claridad y respuesta a la interfaz
+   sin alterar la estructura ni la identidad negra y dorada de Odissey.
+   ---------------------------------------------------------------------------- */
+:root {
+  --dala-void: #070707;
+  --dala-surface: #101010;
+  --dala-surface-raised: #151515;
+  --dala-gold: #f0bd22;
+  --dala-amber: #ffd166;
+  --dala-line: rgba(255, 255, 255, 0.09);
+  --dala-ease-out: cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+body {
+  font-weight: 400;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+p, li, .why-card-text, .text-secondary {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+strong, b {
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+a:not(.btn3d):not(.btn-gold):not(.btn-secondary):not(.btn-ghost) {
+  transition: color 180ms var(--dala-ease-out), opacity 180ms var(--dala-ease-out);
+}
+
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--dala-amber);
+  outline-offset: 3px;
+}
+
+nav.nav-bar {
+  background: rgba(7, 7, 7, 0.78) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+
+.nav-pill__link,
+.nav-button {
+  transition: color 180ms var(--dala-ease-out), background 180ms var(--dala-ease-out),
+    border-color 180ms var(--dala-ease-out), transform 180ms var(--dala-ease-out);
+}
+
+.nav-pill__link:hover,
+.nav-button:hover {
+  transform: translateY(-1px);
+}
+
+.btn3d,
+.btn-gold,
+.btn-gold-inline,
+.btn-secondary,
+.btn-ghost,
+.dala-btn,
+.btn-dala,
+.btn-action,
+.cb-btn,
+.shop-buy-btn {
+  transition: transform 180ms var(--dala-ease-out), box-shadow 180ms var(--dala-ease-out),
+    background-color 180ms var(--dala-ease-out), border-color 180ms var(--dala-ease-out),
+    color 180ms var(--dala-ease-out) !important;
+}
+
+.btn3d:hover,
+.btn-gold:hover,
+.btn-gold-inline:hover,
+.dala-btn:hover,
+.btn-dala:hover,
+.btn-action:hover,
+.cb-btn:hover,
+.shop-buy-btn:hover {
+  filter: brightness(1.15) !important;
+  opacity: 1 !important;
+  transform: none;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+}
+
+.btn-secondary:hover,
+.btn-ghost:hover {
+  filter: brightness(1.12) !important;
+  transform: none;
+  background: #342e50 !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+}
+
+.btn3d:active,
+.btn-gold:active,
+.btn-gold-inline:active,
+.dala-btn:active,
+.btn-dala:active,
+.btn-action:active,
+.cb-btn:active,
+.shop-buy-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
+}
+
+.btn-secondary:active,
+.btn-ghost:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+}
+
+.why-card,
+.news-card,
+.event-card,
+.testimonial-card,
+.staff-card,
+.faq-item,
+.account-card,
+.staff-panel,
+.account-item,
+.guide-card,
+.content-empty {
+  transition: background-color 220ms var(--dala-ease-out), border-color 220ms var(--dala-ease-out),
+    box-shadow 220ms var(--dala-ease-out), transform 220ms var(--dala-ease-out);
+}
+
+.why-card,
+.news-card,
+.event-card,
+.testimonial-card,
+.staff-card,
+.faq-item,
+.account-card,
+.staff-panel,
+.account-item,
+.guide-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)) !important;
+  border: 1px solid var(--dala-line) !important;
+  border-radius: 0 !important;
+  padding: 1.35rem !important;
+}
+
+.why-card:hover,
+.news-card:hover,
+.event-card:hover,
+.testimonial-card:hover,
+.staff-card:hover,
+.guide-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(240, 189, 34, 0.28) !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.23), 0 0 24px rgba(234, 179, 8, 0.045);
+}
+
+.gallery-item {
+  transition: border-color 220ms var(--dala-ease-out), transform 260ms var(--dala-ease-out),
+    box-shadow 260ms var(--dala-ease-out);
+}
+
+.gallery-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240, 189, 34, 0.4) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item img {
+  transition: transform 450ms var(--dala-ease-out), filter 300ms var(--dala-ease-out);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.035);
+  filter: saturate(1.06);
+}
+
+input, textarea, select,
+.auth-input,
+.mc-name-input,
+.rating-comment {
+  transition: border-color 180ms var(--dala-ease-out), box-shadow 180ms var(--dala-ease-out),
+    background-color 180ms var(--dala-ease-out);
+}
+
+input:focus, textarea:focus, select:focus,
+.auth-input:focus,
+.mc-name-input:focus,
+.rating-comment:focus {
+  background-color: #111 !important;
+}
+
+::selection {
+  background: rgba(240, 189, 34, 0.34);
+}
+
+@media (max-width: 767px) {
+  .why-card,
+  .news-card,
+  .event-card,
+  .testimonial-card,
+  .staff-card,
+  .faq-item,
+  .account-card,
+  .staff-panel,
+  .account-item,
+  .guide-card {
+    border-radius: 0 !important;
+    padding: 1.1rem !important;
+  }
+
+  .dala-hero-grid .mt-9 .btn3d {
+    min-height: 48px;
+    justify-content: center;
+    padding-inline: 1rem;
+    text-align: center;
+    line-height: 1.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

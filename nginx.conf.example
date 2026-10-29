@@ -214,6 +214,16 @@ server {
     }
 
     # ---------------------------------------------------------------
+    # PANEL LOCAL DE BOTS (la página necesita hablar con el loopback)
+    # ---------------------------------------------------------------
+    location = /bots.html {
+        include /etc/nginx/snippets/odissey-bot-panel-security-headers.conf;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, private" always;
+        add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+        try_files $uri =404;
+    }
+
+    # ---------------------------------------------------------------
     # CACHE DE ESTATICOS
     # ---------------------------------------------------------------
     location ~* \.(png|jpe?g|webp|avif|svg|ico|woff2?)$ {

@@ -1,0 +1,24 @@
+[Unit]
+Description=Odissey Bot Panel API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=odisseybot
+Group=odisseybot
+WorkingDirectory=/opt/odissey/bot-panel
+Environment=NODE_ENV=production
+Environment=ODISSEY_BOT_PANEL_PORT=32170
+Environment=ODISSEY_TICKETS_DIR=/opt/odissey/Bot-Tickets
+Environment=ODISSEY_WELCOME_DIR=/opt/odissey/Bot-Welcome
+ExecStart=/usr/local/bin/node /opt/odissey/bot-panel/bot-manager.cjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/odissey/Bot-Tickets /opt/odissey/Bot-Welcome
+
+[Install]
+WantedBy=multi-user.target
