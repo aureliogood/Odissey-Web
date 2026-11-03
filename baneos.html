@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Baneos | Odissey</title>
+  <meta name="description" content="Consulta el registro público de baneos activos de Odissey Minecraft.">
+  <link rel="canonical" href="https://odisseymc.site/baneos">
+  <link rel="stylesheet" href="/theme.css?v=147"><link rel="stylesheet" href="/css/nav-shared.css?v=2">
+  <link rel="icon" href="/img/favicon-48.png">
+  <style>
+    body{background:#080b12;color:#edf2fb;font-family:Inter,system-ui,sans-serif;margin:0;min-height:100vh}
+    .ban-page{max-width:1050px;margin:0 auto;padding:70px 22px 100px}.ban-head h1{font-size:clamp(2rem,5vw,3.4rem);margin:0 0 12px}.ban-head p{color:#aeb9ca;margin:0 0 28px}
+    .ban-controls{display:flex;gap:12px;margin-bottom:18px}.ban-controls input{width:100%;padding:13px 15px;border:1px solid #303a4c;border-radius:12px;background:#111722;color:#fff;font:inherit}
+    .ban-status{color:#aeb9ca;padding:20px 4px}.ban-list{display:grid;gap:12px}.ban-card{background:linear-gradient(135deg,#131a27,#0f141e);border:1px solid #273247;border-radius:16px;padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:6px 20px}.ban-name{font-size:1.15rem;font-weight:700}.ban-duration{color:#ffbd65;font-weight:600}.ban-reason{grid-column:1/-1;color:#e0e6ef;overflow-wrap:anywhere}.ban-meta{grid-column:1/-1;color:#9aa8bc;font-size:.9rem;display:flex;gap:8px 18px;flex-wrap:wrap}.ban-empty{border:1px dashed #354258;border-radius:14px;padding:28px;color:#aeb9ca}
+    @media(max-width:600px){.ban-page{padding-top:44px}.ban-card{grid-template-columns:1fr}.ban-duration,.ban-reason,.ban-meta{grid-column:1}}
+  </style>
+</head>
+<body>
+  <main class="ban-page">
+    <header class="ban-head"><h1>Baneos activos</h1><p>Registro de sanciones aplicadas en Odissey. Los baneos vencidos o levantados no aparecen aquí.</p></header>
+    <div class="ban-controls"><input id="ban-search" type="search" placeholder="Buscar jugador, staff o motivo…" aria-label="Buscar baneos"></div>
+    <p id="ban-status" class="ban-status" role="status">Cargando baneos…</p>
+    <section id="ban-list" class="ban-list" aria-live="polite"></section>
+  </main>
+  <script src="/site-config.js"></script><script src="/js/supabase.js"></script><script src="/js/baneos.js"></script>
+</body>
+</html>

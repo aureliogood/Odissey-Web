@@ -82,10 +82,10 @@ AddDefaultCharset UTF-8
   # -------------------------------------------------------------
   # Migrar enlaces viejos con .html -> URL limpia (301)
   RewriteCond %{THE_REQUEST} \.html\s
-  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias)\.html$ /$1 [R=301,L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias|baneos)\.html$ /$1 [R=301,L]
 
   # Servir .html en segundo plano para las URLs limpias (solo paginas conocidas)
-  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias)/?$ $1.html [L]
+  RewriteRule ^(staff|reglas|noticias|eventos|galeria|soporte|reportes|postulaciones|wiki|perfil|admin|privacidad|terminos|staffverificar|gracias|baneos)/?$ $1.html [L]
 </IfModule>
 
 # -------------------------------------------------------------

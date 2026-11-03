@@ -109,4 +109,5 @@
     Meterla aqui seria pedirle que la indexe y se contradiria con el
     noindex de la propia pagina.
   -->
+  <url><loc>https://odisseymc.site/baneos</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
 </urlset>
