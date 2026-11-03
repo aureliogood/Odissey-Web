@@ -87,6 +87,24 @@ nav.nav-bar .menu-toggle {
   -webkit-overflow-scrolling: touch;
 }
 
+/* A 1000px and below, the desktop links must never compete with the
+   hamburger. A higher-specificity rule also beats legacy page styles. */
+@media (max-width: 1000px) {
+  nav.nav-bar .nav-pill {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  nav.nav-bar .nav-actions .menu-toggle {
+    display: inline-flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    z-index: 2;
+  }
+}
+
 /* Medios de contenido nunca fuerzan un ancho mayor al dispositivo. */
 main img,
 main video,
