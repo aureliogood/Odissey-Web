@@ -4,7 +4,7 @@
     ? 'http://127.0.0.1:32170'
     : 'https://api.odisseymc.site/panel';
   const $ = id => document.getElementById(id);
-  const state = { tickets: null, welcome: null, announcements: [], directory: { channels: [], categories: [], roles: [] }, permissions: [], isAdmin: false };
+  const state = { tickets: null, welcome: null, announcements: [], directory: { channels: [], categories: [], roles: [] }, permissions: [], isAdmin: false, minecraftPreviewState: 'online' };
   const gate = $('gate');
   const app = $('app');
   const connection = $('connection');
@@ -133,7 +133,7 @@
     $('panelPermissionsCard').hidden = !state.isAdmin;
     $('auditCard').hidden = !state.isAdmin;
     if (!can('config:read')) {
-      ['ticketTitle', 'ticketDescription', 'ticketFooter', 'supportRoleId', 'logsChannelId', 'categoryDiscordId', 'addCategory', 'categories', 'welcomeChannelId', 'alertsChannelId', 'staffRoleId', 'welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl', 'leaveEnabled', 'leaveChannelId', 'leaveTitle', 'leaveDescription', 'leaveColor', 'statusHost', 'statusPort', 'statusChannelId', 'statusMaintenance', 'minAccountAgeDays', 'maxSimilarityDistance', 'checkImpersonation', 'protectedUsers', 'blockedKeywords', 'autoModEnabled', 'autoModInvites', 'autoModMaxMentions', 'autoModMessageLimit', 'autoModTimeout', 'autoModExemptRoles'].forEach(id => {
+      ['ticketTitle', 'ticketDescription', 'ticketFooter', 'supportRoleId', 'logsChannelId', 'categoryDiscordId', 'addCategory', 'categories', 'welcomeChannelId', 'alertsChannelId', 'staffRoleId', 'welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl', 'leaveEnabled', 'leaveChannelId', 'leaveTitle', 'leaveDescription', 'leaveColor', 'statusHost', 'statusPort', 'statusChannelId', 'statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusOnlineButtonLabel', 'statusRestartingButtonLabel', 'statusOfflineButtonLabel', 'statusMaintenance', 'minAccountAgeDays', 'maxSimilarityDistance', 'checkImpersonation', 'protectedUsers', 'blockedKeywords', 'autoModEnabled', 'autoModInvites', 'autoModMaxMentions', 'autoModMessageLimit', 'autoModTimeout', 'autoModExemptRoles'].forEach(id => {
         const node = $(id); if (node) (node.closest('label') || node).hidden = true;
       });
     }
@@ -210,6 +210,14 @@
     text('autoModMaxMentions', autoMod.maxMentions ?? 5); text('autoModMessageLimit', autoMod.messageLimit ?? 7);
     text('autoModTimeout', autoMod.timeoutMinutes ?? 10);
     text('statusHost', w.status.host); text('statusPort', w.status.port); $('statusMaintenance').checked = !!w.status.maintenance;
+    text('statusMessageTitle', w.status.messageTitle);
+    text('statusOnlineMessage', w.status.onlineMessage);
+    text('statusRestartingMessage', w.status.restartingMessage);
+    text('statusOfflineMessage', w.status.offlineMessage);
+    text('statusMaintenanceMessage', w.status.maintenanceMessage);
+    text('statusOnlineButtonLabel', w.status.onlineButtonLabel);
+    text('statusRestartingButtonLabel', w.status.restartingButtonLabel);
+    text('statusOfflineButtonLabel', w.status.offlineButtonLabel);
     text('welcomeTitle', w.welcomeMessage.title); text('welcomeDescription', w.welcomeMessage.description);
     text('welcomeColor', w.welcomeMessage.color); text('welcomeFooter', w.welcomeMessage.footer);
     text('welcomeImageUrl', w.welcomeMessage.imageUrl || '');
@@ -218,8 +226,36 @@
     text('protectedUsers', (w.suspicious.protectedUsers || []).map(x => x.name).filter(Boolean).join('\n'));
     text('blockedKeywords', (w.suspicious.blockedKeywords || []).join('\n'));
     previewWelcome();
+    previewMinecraftStatus();
     previewAnnouncement();
-    refreshTickets(); refreshModeration(); refreshBotStatus();
+    refreshTickets(); refreshModeration(); refreshBotStatus(); refreshMinecraftStatus();
+  }
+
+  function previewMinecraftStatus() {
+    const current = state.minecraftPreviewState || 'online';
+    const online = current === 'online';
+    const restarting = current === 'restarting';
+    const messages = {
+      online: $('statusOnlineMessage').value,
+      restarting: $('statusRestartingMessage').value,
+      offline: $('statusOfflineMessage').value,
+    };
+    let description = $('statusMaintenance').checked
+      ? $('statusMaintenanceMessage').value
+      : messages[current];
+    description = (description || '').replaceAll('{players}', '4').replaceAll('{max}', '100')
+      .replaceAll('{host}', $('statusHost').value.trim() || '38.58.179.117')
+      .replaceAll('{port}', $('statusPort').value || '25569');
+    const label = online ? 'En línea' : restarting ? 'Reiniciando' : 'Apagado';
+    const emoji = online ? '🟢' : '🔴';
+    const buttonLabel = online ? $('statusOnlineButtonLabel').value
+      : restarting ? $('statusRestartingButtonLabel').value : $('statusOfflineButtonLabel').value;
+    const card = $('minecraftPreviewCard');
+    card.dataset.state = current;
+    $('minecraftPreviewTitle').textContent = `${emoji} ${$('statusMessageTitle').value.trim() || 'Estado del servidor'} · ${label}`;
+    $('minecraftPreviewDescription').textContent = `${description}\n\nIP: ${$('statusHost').value.trim() || '38.58.179.117'}:${$('statusPort').value || '25569'}`;
+    $('minecraftPreviewButton').textContent = buttonLabel.trim() || (online ? 'SERVIDOR EN LÍNEA' : restarting ? 'SERVIDOR REINICIÁNDOSE' : 'SERVIDOR APAGADO');
+    document.querySelectorAll('[data-status-preview]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.statusPreview === current)));
   }
 
   function previewWelcome() {
@@ -385,6 +421,25 @@
         $(`${label}BotHeartbeat`).textContent = bot.heartbeatAt ? `Última señal: ${new Date(bot.heartbeatAt).toLocaleTimeString('es-CO')}` : 'Aún sin señal del bot';
       }
     } catch (_) { $('ticketsBotStatus').textContent = 'No disponible'; $('welcomeBotStatus').textContent = 'No disponible'; }
+  }
+
+  async function refreshMinecraftStatus() {
+    if (!can('botstatus:read')) return;
+    const box = $('minecraftLiveStatus');
+    try {
+      const data = await request('/api/minecraft/status');
+      const server = data.server || {};
+      const labels = { online: 'En línea', restarting: 'Reiniciando', offline: 'Apagado', unknown: 'Sin lectura reciente' };
+      box.dataset.state = server.stale ? 'unknown' : (labels[server.status] ? server.status : 'unknown');
+      let message = labels[box.dataset.state];
+      if (!server.stale && server.status === 'online') message += ` · ${server.players}/${server.max} jugadores`;
+      if (server.stale) message += ' · esperando la primera consulta del bot';
+      else if (server.checkedAt) message += ` · consultado ${new Date(server.checkedAt).toLocaleTimeString('es-CO')}`;
+      $('minecraftLiveText').textContent = message;
+    } catch (_) {
+      box.dataset.state = 'unknown';
+      $('minecraftLiveText').textContent = 'No se pudo consultar el estado actual.';
+    }
   }
 
   async function refreshModeration() {
@@ -570,7 +625,21 @@
   });
   $('saveWelcome').addEventListener('click', () => {
     state.welcome.welcomeChannelId = $('welcomeChannelId').value.trim(); state.welcome.alertsChannelId = $('alertsChannelId').value.trim(); state.welcome.staffRoleId = $('staffRoleId').value.trim(); state.welcome.announcementChannelId = $('announcementChannelId').value.trim();
-    state.welcome.status = { host: $('statusHost').value.trim(), port: Number($('statusPort').value), channelId: $('statusChannelId').value.trim(), maintenance: $('statusMaintenance').checked };
+    state.welcome.status = {
+      ...state.welcome.status,
+      host: $('statusHost').value.trim(),
+      port: Number($('statusPort').value),
+      channelId: $('statusChannelId').value.trim(),
+      maintenance: $('statusMaintenance').checked,
+      messageTitle: $('statusMessageTitle').value.trim(),
+      onlineMessage: $('statusOnlineMessage').value.trim(),
+      restartingMessage: $('statusRestartingMessage').value.trim(),
+      offlineMessage: $('statusOfflineMessage').value.trim(),
+      maintenanceMessage: $('statusMaintenanceMessage').value.trim(),
+      onlineButtonLabel: $('statusOnlineButtonLabel').value.trim(),
+      restartingButtonLabel: $('statusRestartingButtonLabel').value.trim(),
+      offlineButtonLabel: $('statusOfflineButtonLabel').value.trim(),
+    };
     state.welcome.welcomeMessage = { title: $('welcomeTitle').value.trim(), description: $('welcomeDescription').value.trim(), color: $('welcomeColor').value, footer: $('welcomeFooter').value.trim(), imageUrl: $('welcomeImageUrl').value.trim() };
     state.welcome.leaveMessage = { enabled: $('leaveEnabled').checked, channelId: $('leaveChannelId').value.trim(), title: $('leaveTitle').value.trim(), description: $('leaveDescription').value.trim(), color: $('leaveColor').value };
     state.welcome.suspicious = { minAccountAgeDays: Number($('minAccountAgeDays').value), maxSimilarityDistance: Number($('maxSimilarityDistance').value), checkImpersonation: $('checkImpersonation').checked, protectedUsers: $('protectedUsers').value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ name })), blockedKeywords: $('blockedKeywords').value.split('\n').map(word => word.trim()).filter(Boolean) };
@@ -579,6 +648,12 @@
   });
   ['ticketTitle', 'ticketDescription', 'ticketFooter'].forEach(id => $(id).addEventListener('input', previewTickets));
   ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl'].forEach(id => $(id).addEventListener('input', () => { previewWelcome(); setPreviewScreen('welcome'); }));
+  ['statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusOnlineButtonLabel', 'statusRestartingButtonLabel', 'statusOfflineButtonLabel', 'statusHost', 'statusPort'].forEach(id => $(id).addEventListener('input', previewMinecraftStatus));
+  $('statusMaintenance').addEventListener('change', previewMinecraftStatus);
+  document.querySelectorAll('[data-status-preview]').forEach(button => button.addEventListener('click', () => {
+    state.minecraftPreviewState = button.dataset.statusPreview;
+    previewMinecraftStatus();
+  }));
   ['announcementType', 'announcementColor', 'announcementTitle', 'announcementDescription', 'announcementEventAt', 'announcementSchedule', 'announcementButtonLabel', 'announcementButtonUrl', 'announcementThumbnailUrl', 'announcementFooter'].forEach(id => {
     const updatePreview = () => { previewAnnouncement(); setPreviewScreen('announcement'); };
     $(id).addEventListener('input', updatePreview);
@@ -600,7 +675,7 @@
   document.querySelectorAll('[data-preview-screen]').forEach(button => button.addEventListener('click', () => setPreviewScreen(button.dataset.previewScreen)));
   setInterval(() => {
     if (!state.welcome) return;
-    if ($('pane-welcome').classList.contains('active')) { refreshAnnouncements(); refreshModeration(); refreshBotStatus(); }
+    if ($('pane-welcome').classList.contains('active')) { refreshAnnouncements(); refreshModeration(); refreshBotStatus(); refreshMinecraftStatus(); }
     if ($('pane-tickets').classList.contains('active')) refreshTickets();
     if ($('pane-activity').classList.contains('active')) refreshActivity();
   }, 15_000);

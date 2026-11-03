@@ -22,6 +22,8 @@ El panel consulta canales y roles y comprueba permisos efectivos de Discord ante
 
 La automoderación está apagada al instalar la actualización. Se puede activar desde la pestaña **Bienvenida** y configurar filtros para invitaciones de Discord, ráfagas de mensajes y exceso de menciones. Tres infracciones en un minuto pueden aplicar un timeout si el tiempo configurado es mayor que cero. Los roles exentos se pueden configurar desde el mismo panel. La actividad de miembros se registra en `Bot-Welcome/activity-log.json` para formar las métricas diarias.
 
+La pestaña **Estado del servidor** consulta el host Minecraft y permite configurar desde la web la IP, el puerto, el canal, el texto por estado, el título y las etiquetas de los botones. El bot mantiene un único mensaje y edita su embed y botón cada vez que cambia el estado; en línea usa verde, y al reiniciarse o estar apagado usa rojo. Una interrupción breve se muestra como reinicio durante el margen configurable. El botón responde con el estado actualizado de forma privada.
+
 ## Actualizar los archivos en Azure
 
 Después de subir los archivos actualizados, instala `Bot-Tickets/index.js` y `Bot-Welcome/index.js` en sus carpetas bajo `/opt/odissey/` y `bot-manager.cjs` en `/opt/odissey/bot-panel/`. Reinicia `odyssey-tickets`, `odyssey-welcome` y `odyssey-bot-panel`. El panel web se publica desde GitHub; la API de Azure se actualiza aparte.

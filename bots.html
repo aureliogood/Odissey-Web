@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bots-panel.css?v=1">
-  <link rel="stylesheet" href="css/bots-announcements.css?v=4">
+  <link rel="stylesheet" href="css/bots-announcements.css?v=5">
   <script src="site-config.js?v=148"></script>
     <link rel="stylesheet" href="/css/responsive.css?v=2">
 </head>
@@ -65,9 +65,39 @@
             <label>Mensaje<textarea id="leaveDescription" rows="3" maxlength="1500"></textarea><small class="field-help">Variables: {usuario}, {servidor} y {miembros}.</small></label>
             <label>Color<input id="leaveColor" type="color"></label>
             <div class="divider"></div><h3>Estado del servidor</h3>
-            <div class="two-fields"><label>Host de Minecraft<input id="statusHost" maxlength="253" placeholder="play.ejemplo.com"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535"></label></div>
-            <label>Canal del estado <select id="statusChannelId"></select></label>
-            <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar mantenimiento</b><small>El bot actualiza el mensaje de estado al guardar.</small></span></label>
+            <p class="hint">El bot consulta Minecraft cada 30 segundos y edita el mismo mensaje. Si pierde conexión después de estar en línea, mostrará «Reiniciando» durante hasta 2 minutos; después marcará «Apagado».</p>
+            <div id="minecraftLiveStatus" class="minecraft-live-status" data-state="unknown" role="status"><span class="minecraft-live-dot"></span><span id="minecraftLiveText">Consultando el servidor…</span></div>
+            <div class="two-fields"><label>IP o host de Minecraft<input id="statusHost" maxlength="253" placeholder="38.58.179.117"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535" placeholder="25569"></label></div>
+            <label>Canal del mensaje de estado <select id="statusChannelId"></select></label>
+            <label>Título del mensaje<input id="statusMessageTitle" maxlength="100" placeholder="Estado del servidor"></label>
+            <div class="two-fields status-message-fields">
+              <label>Mensaje cuando está en línea<textarea id="statusOnlineMessage" rows="3" maxlength="1000"></textarea><small class="field-help">Variables: {players}, {max}, {host}, {port}.</small></label>
+              <label>Mensaje cuando se reinicia<textarea id="statusRestartingMessage" rows="3" maxlength="1000"></textarea></label>
+              <label>Mensaje cuando está apagado<textarea id="statusOfflineMessage" rows="3" maxlength="1000"></textarea></label>
+              <label>Mensaje de mantenimiento<textarea id="statusMaintenanceMessage" rows="3" maxlength="1000"></textarea></label>
+            </div>
+            <div class="two-fields status-message-fields">
+              <label>Texto del botón verde<input id="statusOnlineButtonLabel" maxlength="80"></label>
+              <label>Texto del botón rojo al reiniciar<input id="statusRestartingButtonLabel" maxlength="80"></label>
+              <label>Texto del botón rojo apagado<input id="statusOfflineButtonLabel" maxlength="80"></label>
+            </div>
+            <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar el mensaje de mantenimiento</b><small>El botón conserva el color del estado real del servidor.</small></span></label>
+            <div class="minecraft-status-preview">
+              <div class="minecraft-preview-heading"><span>VISTA PREVIA DEL MENSAJE</span><span>DISCORD</span></div>
+              <div class="minecraft-preview-tabs" role="group" aria-label="Estado de vista previa">
+                <button type="button" data-status-preview="online" aria-pressed="true">En línea</button>
+                <button type="button" data-status-preview="restarting" aria-pressed="false">Reiniciando</button>
+                <button type="button" data-status-preview="offline" aria-pressed="false">Apagado</button>
+              </div>
+              <article id="minecraftPreviewCard" class="minecraft-preview-card" data-state="online">
+                <span class="minecraft-preview-accent"></span>
+                <div class="minecraft-preview-content">
+                  <b id="minecraftPreviewTitle">🟢 Estado del servidor · En línea</b>
+                  <p id="minecraftPreviewDescription"></p>
+                  <span id="minecraftPreviewButton" class="minecraft-preview-button">SERVIDOR EN LÍNEA</span>
+                </div>
+              </article>
+            </div>
             <div class="divider"></div><h3>Detección de cuentas</h3>
             <div class="two-fields"><label>Edad mínima de cuenta (días)<input id="minAccountAgeDays" type="number" min="0" max="3650"></label><label>Distancia de similitud<input id="maxSimilarityDistance" type="number" min="0" max="8"></label></div>
             <label class="check-row"><input id="checkImpersonation" type="checkbox"><span><b>Detectar imitaciones del staff</b><small>Compara los nombres nuevos con la lista protegida.</small></span></label>
@@ -132,6 +162,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=7" defer></script>
+  <script src="js/bots-panel.js?v=8" defer></script>
 </body>
 </html>

@@ -16,6 +16,7 @@ const WELCOME_DIR = path.resolve(process.env.ODISSEY_WELCOME_DIR || path.join(BA
 const SITE_CONFIG = path.join(__dirname, 'site-config.js');
 const PANEL_DATA_DIR = path.join(WELCOME_DIR, 'panel-data');
 const PANEL_ACCESS_FILE = path.join(PANEL_DATA_DIR, 'access.json');
+const MINECRAFT_STATUS_FILE = path.join(PANEL_DATA_DIR, 'minecraft-status.json');
 const VERSION_DIR = path.join(PANEL_DATA_DIR, 'versions');
 const AUDIT_FILE = path.join(PANEL_DATA_DIR, 'audit.json');
 const PANEL_PERMISSIONS = ['config:read', 'config:write', 'tickets:read', 'tickets:close', 'tickets:reopen', 'announcements:read', 'announcements:write', 'moderation:read', 'analytics:read', 'alerts:read', 'botstatus:read'];
@@ -156,6 +157,7 @@ function safeTickets(cfg) {
 }
 
 function safeWelcome(cfg) {
+  const rawStatusChannelId = String(cfg.status?.channelId || '');
   return {
     guildId: cfg.guildId || '', welcomeChannelId: cfg.welcomeChannelId || '',
     alertsChannelId: cfg.alertsChannelId || '', staffRoleId: cfg.staffRoleId || '',
@@ -189,7 +191,21 @@ function safeWelcome(cfg) {
       protectedUsers: Array.isArray(cfg.suspicious?.protectedUsers) ? cfg.suspicious.protectedUsers.map(x => ({ name: String(x.name || ''), id: String(x.id || '') })) : [],
       blockedKeywords: Array.isArray(cfg.suspicious?.blockedKeywords) ? cfg.suspicious.blockedKeywords.map(String) : [],
     },
-    status: { host: cfg.status?.host || '', port: Number(cfg.status?.port || 25565), channelId: cfg.status?.channelId || '', maintenance: !!cfg.status?.maintenance },
+    status: {
+      host: String(cfg.status?.host || '38.58.179.117'),
+      port: Number(cfg.status?.port || 25569),
+      channelId: /^\d{5,25}$/.test(rawStatusChannelId) ? rawStatusChannelId : '',
+      maintenance: !!cfg.status?.maintenance,
+      messageTitle: String(cfg.status?.messageTitle || 'Estado del servidor').slice(0, 100),
+      onlineMessage: String(cfg.status?.onlineMessage || 'El servidor está **en línea**. Hay {players} de {max} jugadores conectados.').slice(0, 1000),
+      restartingMessage: String(cfg.status?.restartingMessage || 'El servidor está **reiniciándose**. Estamos comprobando la conexión.').slice(0, 1000),
+      offlineMessage: String(cfg.status?.offlineMessage || 'El servidor está **apagado** en este momento.').slice(0, 1000),
+      maintenanceMessage: String(cfg.status?.maintenanceMessage || 'El servidor está en mantenimiento. ¡Vuelve pronto!').slice(0, 1000),
+      onlineButtonLabel: String(cfg.status?.onlineButtonLabel || 'SERVIDOR EN LÍNEA').slice(0, 80),
+      restartingButtonLabel: String(cfg.status?.restartingButtonLabel || 'SERVIDOR REINICIÁNDOSE').slice(0, 80),
+      offlineButtonLabel: String(cfg.status?.offlineButtonLabel || 'SERVIDOR APAGADO').slice(0, 80),
+      restartingGraceSeconds: Math.max(30, Math.min(600, Number(cfg.status?.restartingGraceSeconds) || 120)),
+    },
   };
 }
 
@@ -234,7 +250,22 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
     leaveMessage: { ...(welcomeCfg.leaveMessage || {}), enabled: w.leaveMessage?.enabled === true, channelId: String(w.leaveMessage?.channelId || ''), title: boundedText(String(w.leaveMessage?.title || ''), 256, 'leave_title'), description: boundedText(String(w.leaveMessage?.description || ''), 1500, 'leave_description'), color: /^#[0-9a-f]{6}$/i.test(String(w.leaveMessage?.color || '')) ? String(w.leaveMessage.color).toUpperCase() : '#667085' },
     suspicious: { ...(welcomeCfg.suspicious || {}), minAccountAgeDays: Math.max(0, Math.min(3650, Number(suspicious.minAccountAgeDays) || 0)), checkImpersonation: !!suspicious.checkImpersonation, maxSimilarityDistance: Math.max(0, Math.min(8, Number(suspicious.maxSimilarityDistance) || 0)), protectedUsers: Array.isArray(suspicious.protectedUsers) ? suspicious.protectedUsers.slice(0, 100).map(x => ({ name: boundedText(String(x.name || ''), 80, 'protected_name'), id: String(x.id || '') })) : [], blockedKeywords: Array.isArray(suspicious.blockedKeywords) ? suspicious.blockedKeywords.slice(0, 100).map(x => boundedText(String(x), 40, 'keyword')).filter(Boolean) : [] },
     autoMod: { ...(welcomeCfg.autoMod || {}), enabled: autoMod.enabled === true, filterInvites: autoMod.filterInvites !== false, maxMentions: Math.max(0, Math.min(20, Number(autoMod.maxMentions) || 0)), messageLimit: Math.max(3, Math.min(30, Number(autoMod.messageLimit) || 7)), timeoutMinutes: Math.max(0, Math.min(1440, Number(autoMod.timeoutMinutes) || 0)), exemptRoleIds: Array.isArray(autoMod.exemptRoleIds) ? autoMod.exemptRoleIds.slice(0, 50).map(String) : [] },
-    status: { ...(welcomeCfg.status || {}), host: boundedText(String(w.status?.host || ''), 253, 'status_host'), port: Number(w.status?.port), channelId: String(w.status?.channelId || ''), maintenance: !!w.status?.maintenance },
+    status: {
+      ...(welcomeCfg.status || {}),
+      host: boundedText(String(w.status?.host || ''), 253, 'status_host'),
+      port: Number(w.status?.port),
+      channelId: String(w.status?.channelId || ''),
+      maintenance: !!w.status?.maintenance,
+      messageTitle: boundedText(String(w.status?.messageTitle || ''), 100, 'status_title') || 'Estado del servidor',
+      onlineMessage: boundedText(String(w.status?.onlineMessage || ''), 1000, 'status_online_message') || 'El servidor está **en línea**. Hay {players} de {max} jugadores conectados.',
+      restartingMessage: boundedText(String(w.status?.restartingMessage || ''), 1000, 'status_restarting_message') || 'El servidor está **reiniciándose**. Estamos comprobando la conexión.',
+      offlineMessage: boundedText(String(w.status?.offlineMessage || ''), 1000, 'status_offline_message') || 'El servidor está **apagado** en este momento.',
+      maintenanceMessage: boundedText(String(w.status?.maintenanceMessage || ''), 1000, 'status_maintenance_message') || 'El servidor está en mantenimiento. ¡Vuelve pronto!',
+      onlineButtonLabel: boundedText(String(w.status?.onlineButtonLabel || ''), 80, 'status_online_button') || 'SERVIDOR EN LÍNEA',
+      restartingButtonLabel: boundedText(String(w.status?.restartingButtonLabel || ''), 80, 'status_restarting_button') || 'SERVIDOR REINICIÁNDOSE',
+      offlineButtonLabel: boundedText(String(w.status?.offlineButtonLabel || ''), 80, 'status_offline_button') || 'SERVIDOR APAGADO',
+      restartingGraceSeconds: Math.max(30, Math.min(600, Number(w.status?.restartingGraceSeconds) || 120)),
+    },
   };
   for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId, welcomeNext.leaveMessage.channelId]) if (!validId(id)) throw new Error('welcome_discord_id');
   if (welcomeNext.autoMod.exemptRoleIds.some(id => !/^\d{5,25}$/.test(id))) throw new Error('automod_role_id');
@@ -257,6 +288,24 @@ function readBotStatus(dir) {
     const item = JSON.parse(fs.readFileSync(path.join(dir, 'bot-status.json'), 'utf8'));
     return { online: Date.now() - Number(item.heartbeatAt || 0) < 90_000, heartbeatAt: item.heartbeatAt || 0, tag: String(item.tag || '') };
   } catch { return { online: false, heartbeatAt: 0, tag: '' }; }
+}
+
+function readMinecraftStatus() {
+  try {
+    const item = JSON.parse(fs.readFileSync(MINECRAFT_STATUS_FILE, 'utf8'));
+    const checkedAt = Number(item.checkedAt || 0);
+    if (!checkedAt || Date.now() - checkedAt > 90_000) {
+      return { status: 'unknown', players: 0, max: 0, checkedAt, stale: true };
+    }
+    const status = ['online', 'restarting', 'offline'].includes(item.state) ? item.state : 'unknown';
+    return {
+      status,
+      players: Math.max(0, Number(item.players) || 0),
+      max: Math.max(0, Number(item.max) || 0),
+      checkedAt,
+      stale: false,
+    };
+  } catch { return { status: 'unknown', players: 0, max: 0, checkedAt: 0, stale: true }; }
 }
 
 async function discordContext(cfg) {
@@ -327,7 +376,7 @@ async function checkDiscordConfig(ticketCfg, welcomeCfg) {
   checkChannel(welcome, welcomeCfg.alertsChannelId, 'Alertas de staff', [...basic, [16384n, 'Insertar embeds']]);
   checkChannel(welcome, welcomeCfg.announcementChannelId, 'Anuncios', [...basic, [16384n, 'Insertar embeds'], [32768n, 'Adjuntar archivos']]);
   checkChannel(welcome, welcomeCfg.leaveMessage?.channelId, 'Mensajes de salida', [...basic, [16384n, 'Insertar embeds']]);
-  checkChannel(welcome, welcomeCfg.status?.channelId, 'Estado de Minecraft', basic);
+  checkChannel(welcome, welcomeCfg.status?.channelId, 'Estado de Minecraft', [...basic, [16384n, 'Insertar enlaces']]);
   for (const id of [ticketCfg.supportRoleId, welcomeCfg.staffRoleId, ...(welcomeCfg.autoMod?.exemptRoleIds || [])].filter(Boolean)) {
     if (![...tickets.roles, ...welcome.roles].some(role => role.id === String(id))) issues.push({ label: `Rol ${id}`, bot: 'Discord', missing: ['El rol no existe o no es visible para los bots.'] });
   }
@@ -534,7 +583,7 @@ const server = http.createServer(async (req, res) => {
     (route === '/api/config' && ['GET', 'PUT'].includes(req.method)) ||
     (route === '/api/announcements' && ['GET', 'POST'].includes(req.method)) ||
     (/^\/api\/announcements\/[a-f0-9-]{36}\/(publish|cancel)$/i.test(route) && ['POST', 'DELETE'].includes(req.method)) ||
-    (['/api/access', '/api/permissions', '/api/history', '/api/audit', '/api/analytics', '/api/alerts', '/api/directory', '/api/status', '/api/tickets', '/api/moderation'].includes(route) && req.method === 'GET') ||
+    (['/api/access', '/api/permissions', '/api/history', '/api/audit', '/api/analytics', '/api/alerts', '/api/directory', '/api/status', '/api/minecraft/status', '/api/tickets', '/api/moderation'].includes(route) && req.method === 'GET') ||
     (['/api/permissions', '/api/config/check'].includes(route) && req.method === 'PUT' || route === '/api/config/check' && req.method === 'POST') ||
     (/^\/api\/history\/[a-f0-9-]{36}\/restore$/i.test(route) && req.method === 'POST') ||
     (/^\/api\/tickets\/\d+\/(close|reopen)$/.test(route) && req.method === 'POST')
@@ -571,6 +620,7 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/alerts') { requirePermission(actor, 'alerts:read'); return json(res, 200, { ok: true, alerts: collectAlerts() }); }
     if (route === '/api/directory') { requirePermission(actor, 'config:read'); return json(res, 200, { ok: true, directory: await discordDirectory() }); }
     if (route === '/api/status') { requirePermission(actor, 'botstatus:read'); return json(res, 200, { ok: true, bots: { tickets: readBotStatus(TICKETS_DIR), welcome: readBotStatus(WELCOME_DIR) } }); }
+    if (route === '/api/minecraft/status') { requirePermission(actor, 'botstatus:read'); return json(res, 200, { ok: true, server: readMinecraftStatus() }); }
     if (route === '/api/tickets' && req.method === 'GET') { requirePermission(actor, 'tickets:read'); return json(res, 200, { ok: true, tickets: readOpenTickets(requestUrl.searchParams.get('status') || 'open', requestUrl.searchParams.get('q') || '') }); }
     if (route === '/api/moderation') { requirePermission(actor, 'moderation:read'); return json(res, 200, { ok: true, events: readModerationLog() }); }
     if (/^\/api\/tickets\/\d+\/(close|reopen)$/.test(route)) {
