@@ -245,6 +245,10 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
   const suspicious = w.suspicious || {};
   const welcomeMessage = w.welcomeMessage || {};
   const autoMod = w.autoMod || {};
+  const enteredStatusHost = String(w.status?.host || '').trim();
+  const hostWithPort = /^(.+):(\d{1,5})$/.exec(enteredStatusHost);
+  const statusHost = hostWithPort ? hostWithPort[1] : enteredStatusHost;
+  const statusPort = Number(hostWithPort ? hostWithPort[2] : w.status?.port);
   const welcomeNext = { ...welcomeCfg, welcomeChannelId: String(w.welcomeChannelId || ''), alertsChannelId: String(w.alertsChannelId || ''), staffRoleId: String(w.staffRoleId || ''), announcementChannelId: String(w.announcementChannelId || ''),
     welcomeMessage: { ...(welcomeCfg.welcomeMessage || {}), title: boundedText(String(welcomeMessage.title || ''), 256, 'welcome_title'), description: boundedText(String(welcomeMessage.description || ''), 1500, 'welcome_description'), footer: boundedText(String(welcomeMessage.footer || ''), 200, 'welcome_footer'), color: /^#[0-9a-f]{6}$/i.test(String(welcomeMessage.color || '')) ? String(welcomeMessage.color).toUpperCase() : '#FFAA00', imageUrl: safeHttpsUrl(welcomeMessage.imageUrl, 'welcome_image_url') },
     leaveMessage: { ...(welcomeCfg.leaveMessage || {}), enabled: w.leaveMessage?.enabled === true, channelId: String(w.leaveMessage?.channelId || ''), title: boundedText(String(w.leaveMessage?.title || ''), 256, 'leave_title'), description: boundedText(String(w.leaveMessage?.description || ''), 1500, 'leave_description'), color: /^#[0-9a-f]{6}$/i.test(String(w.leaveMessage?.color || '')) ? String(w.leaveMessage.color).toUpperCase() : '#667085' },
@@ -252,8 +256,8 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
     autoMod: { ...(welcomeCfg.autoMod || {}), enabled: autoMod.enabled === true, filterInvites: autoMod.filterInvites !== false, maxMentions: Math.max(0, Math.min(20, Number(autoMod.maxMentions) || 0)), messageLimit: Math.max(3, Math.min(30, Number(autoMod.messageLimit) || 7)), timeoutMinutes: Math.max(0, Math.min(1440, Number(autoMod.timeoutMinutes) || 0)), exemptRoleIds: Array.isArray(autoMod.exemptRoleIds) ? autoMod.exemptRoleIds.slice(0, 50).map(String) : [] },
     status: {
       ...(welcomeCfg.status || {}),
-      host: boundedText(String(w.status?.host || ''), 253, 'status_host'),
-      port: Number(w.status?.port),
+      host: boundedText(statusHost, 253, 'status_host'),
+      port: statusPort,
       channelId: String(w.status?.channelId || ''),
       maintenance: !!w.status?.maintenance,
       messageTitle: boundedText(String(w.status?.messageTitle || ''), 100, 'status_title') || 'Estado del servidor',
@@ -269,7 +273,7 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
   };
   for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId, welcomeNext.leaveMessage.channelId]) if (!validId(id)) throw new Error('welcome_discord_id');
   if (welcomeNext.autoMod.exemptRoleIds.some(id => !/^\d{5,25}$/.test(id))) throw new Error('automod_role_id');
-  if (!/^[a-z0-9.-]+$/i.test(welcomeNext.status.host) || !validId(welcomeNext.status.channelId) || !Number.isInteger(welcomeNext.status.port) || welcomeNext.status.port < 1 || welcomeNext.status.port > 65535) throw new Error('welcome_status');
+  if (!/^[a-z0-9.:-]+$/i.test(welcomeNext.status.host) || !validId(welcomeNext.status.channelId) || !Number.isInteger(welcomeNext.status.port) || welcomeNext.status.port < 1 || welcomeNext.status.port > 65535) throw new Error('welcome_status');
   return { ticketNext, welcomeNext };
 }
 
