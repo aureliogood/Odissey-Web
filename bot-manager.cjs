@@ -194,6 +194,7 @@ function safeWelcome(cfg) {
     status: {
       host: String(cfg.status?.host || '38.58.179.117'),
       port: Number(cfg.status?.port || 25569),
+      displayAddress: String(cfg.status?.displayAddress || 'mc.odisseymc.lat:25569').slice(0, 260),
       channelId: /^\d{5,25}$/.test(rawStatusChannelId) ? rawStatusChannelId : '',
       maintenance: !!cfg.status?.maintenance,
       messageTitle: String(cfg.status?.messageTitle || 'Estado del servidor').slice(0, 100),
@@ -258,6 +259,7 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
       ...(welcomeCfg.status || {}),
       host: boundedText(statusHost, 253, 'status_host'),
       port: statusPort,
+      displayAddress: boundedText(String(w.status?.displayAddress || ''), 260, 'status_display_address') || 'mc.odisseymc.lat:25569',
       channelId: String(w.status?.channelId || ''),
       maintenance: !!w.status?.maintenance,
       messageTitle: boundedText(String(w.status?.messageTitle || ''), 100, 'status_title') || 'Estado del servidor',
@@ -274,6 +276,7 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
   for (const id of [welcomeNext.welcomeChannelId, welcomeNext.alertsChannelId, welcomeNext.staffRoleId, welcomeNext.announcementChannelId, welcomeNext.leaveMessage.channelId]) if (!validId(id)) throw new Error('welcome_discord_id');
   if (welcomeNext.autoMod.exemptRoleIds.some(id => !/^\d{5,25}$/.test(id))) throw new Error('automod_role_id');
   if (!/^[a-z0-9.:-]+$/i.test(welcomeNext.status.host) || !validId(welcomeNext.status.channelId) || !Number.isInteger(welcomeNext.status.port) || welcomeNext.status.port < 1 || welcomeNext.status.port > 65535) throw new Error('welcome_status');
+  if (!/^[a-z0-9.-]+(?::\d{1,5})?$/i.test(welcomeNext.status.displayAddress)) throw new Error('welcome_status_display_address');
   return { ticketNext, welcomeNext };
 }
 

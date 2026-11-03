@@ -68,6 +68,7 @@
             <p class="hint">El bot consulta Minecraft cada 30 segundos y edita el mismo mensaje. Si pierde conexión después de estar en línea, mostrará «Reiniciando» durante hasta 2 minutos; después marcará «Apagado».</p>
             <div id="minecraftLiveStatus" class="minecraft-live-status" data-state="unknown" role="status"><span class="minecraft-live-dot"></span><span id="minecraftLiveText">Consultando el servidor…</span></div>
             <div class="two-fields"><label>IP o host de Minecraft<input id="statusHost" maxlength="253" placeholder="38.58.179.117"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535" placeholder="25569"></label></div>
+            <label>Dirección pública que verá la comunidad<input id="statusDisplayAddress" maxlength="260" placeholder="mc.odisseymc.lat:25569"><small class="field-help">El bot consulta la IP de conexión, pero publica esta dirección en Discord.</small></label>
             <label>Canal del mensaje de estado <select id="statusChannelId"></select></label>
             <label>Título del mensaje<input id="statusMessageTitle" maxlength="100" placeholder="Estado del servidor"></label>
             <div class="two-fields status-message-fields">
@@ -158,6 +159,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=9" defer></script>
+  <script src="js/bots-panel.js?v=10" defer></script>
 </body>
 </html>
