@@ -273,6 +273,15 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
   return { ticketNext, welcomeNext };
 }
 
+function inputForScope(scope, input, ticketCfg, welcomeCfg) {
+  if (!['tickets', 'welcome', 'status'].includes(scope)) return input;
+  const tickets = safeTickets(ticketCfg);
+  const welcome = safeWelcome(welcomeCfg);
+  if (scope === 'tickets') return { tickets: input.tickets, welcome };
+  if (scope === 'status') return { tickets, welcome: { ...welcome, status: input.status } };
+  return { tickets, welcome: { ...welcome, ...(input.welcome || {}), status: welcome.status } };
+}
+
 function safeHttpsUrl(value, errorCode) {
   const raw = String(value || '').trim();
   if (!raw) return '';
@@ -674,19 +683,21 @@ const server = http.createServer(async (req, res) => {
     if (route === '/api/config' && req.method === 'GET') { requirePermission(actor, 'config:read'); return json(res, 200, { ok: true, tickets: safeTickets(readConfig(TICKETS_DIR)), welcome: safeWelcome(readConfig(WELCOME_DIR)) }); }
     if (route === '/api/config/check' && req.method === 'POST') {
       requirePermission(actor, 'config:write'); const input = await readBody(req);
-      const merged = mergeSubmitted(readConfig(TICKETS_DIR), readConfig(WELCOME_DIR), input);
+      const ticketCfg = readConfig(TICKETS_DIR), welcomeCfg = readConfig(WELCOME_DIR);
+      const merged = mergeSubmitted(ticketCfg, welcomeCfg, inputForScope(input.scope, input, ticketCfg, welcomeCfg));
       return json(res, 200, { ok: true, issues: await checkDiscordConfig(merged.ticketNext, merged.welcomeNext) });
     }
     requirePermission(actor, 'config:write');
     const input = await readBody(req);
     const ticketCfg = readConfig(TICKETS_DIR);
     const welcomeCfg = readConfig(WELCOME_DIR);
-    const next = mergeSubmitted(ticketCfg, welcomeCfg, input);
+    const scope = ['tickets', 'welcome', 'status'].includes(input.scope) ? input.scope : 'all';
+    const next = mergeSubmitted(ticketCfg, welcomeCfg, inputForScope(scope, input, ticketCfg, welcomeCfg));
     const issues = await checkDiscordConfig(next.ticketNext, next.welcomeNext);
     if (issues.length) return json(res, 422, { ok: false, error: 'discord_permission_check_failed', issues });
     saveConfigVersion(actor, next.ticketNext, next.welcomeNext, 'Configuración guardada');
-    saveConfig(TICKETS_DIR, next.ticketNext);
-    saveConfig(WELCOME_DIR, next.welcomeNext);
+    if (scope === 'all' || scope === 'tickets') saveConfig(TICKETS_DIR, next.ticketNext);
+    if (scope === 'all' || scope === 'welcome' || scope === 'status') saveConfig(WELCOME_DIR, next.welcomeNext);
     appendAudit(actor, 'config.updated', { areas: Object.keys(input).filter(key => ['tickets', 'welcome'].includes(key)) });
     return json(res, 200, { ok: true, savedAt: new Date().toISOString() });
   } catch (err) {

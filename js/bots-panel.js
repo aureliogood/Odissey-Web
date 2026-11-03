@@ -133,7 +133,7 @@
     $('panelPermissionsCard').hidden = !state.isAdmin;
     $('auditCard').hidden = !state.isAdmin;
     if (!can('config:read')) {
-      ['ticketTitle', 'ticketDescription', 'ticketFooter', 'supportRoleId', 'logsChannelId', 'categoryDiscordId', 'addCategory', 'categories', 'welcomeChannelId', 'alertsChannelId', 'staffRoleId', 'welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl', 'leaveEnabled', 'leaveChannelId', 'leaveTitle', 'leaveDescription', 'leaveColor', 'statusHost', 'statusPort', 'statusChannelId', 'statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusOnlineButtonLabel', 'statusRestartingButtonLabel', 'statusOfflineButtonLabel', 'statusMaintenance', 'minAccountAgeDays', 'maxSimilarityDistance', 'checkImpersonation', 'protectedUsers', 'blockedKeywords', 'autoModEnabled', 'autoModInvites', 'autoModMaxMentions', 'autoModMessageLimit', 'autoModTimeout', 'autoModExemptRoles'].forEach(id => {
+      ['ticketTitle', 'ticketDescription', 'ticketFooter', 'supportRoleId', 'logsChannelId', 'categoryDiscordId', 'addCategory', 'categories', 'welcomeChannelId', 'alertsChannelId', 'staffRoleId', 'welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl', 'leaveEnabled', 'leaveChannelId', 'leaveTitle', 'leaveDescription', 'leaveColor', 'statusHost', 'statusPort', 'statusChannelId', 'statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusMaintenance', 'minAccountAgeDays', 'maxSimilarityDistance', 'checkImpersonation', 'protectedUsers', 'blockedKeywords', 'autoModEnabled', 'autoModInvites', 'autoModMaxMentions', 'autoModMessageLimit', 'autoModTimeout', 'autoModExemptRoles'].forEach(id => {
         const node = $(id); if (node) (node.closest('label') || node).hidden = true;
       });
     }
@@ -215,9 +215,6 @@
     text('statusRestartingMessage', w.status.restartingMessage);
     text('statusOfflineMessage', w.status.offlineMessage);
     text('statusMaintenanceMessage', w.status.maintenanceMessage);
-    text('statusOnlineButtonLabel', w.status.onlineButtonLabel);
-    text('statusRestartingButtonLabel', w.status.restartingButtonLabel);
-    text('statusOfflineButtonLabel', w.status.offlineButtonLabel);
     text('welcomeTitle', w.welcomeMessage.title); text('welcomeDescription', w.welcomeMessage.description);
     text('welcomeColor', w.welcomeMessage.color); text('welcomeFooter', w.welcomeMessage.footer);
     text('welcomeImageUrl', w.welcomeMessage.imageUrl || '');
@@ -248,13 +245,10 @@
       .replaceAll('{port}', $('statusPort').value || '25569');
     const label = online ? 'En línea' : restarting ? 'Reiniciando' : 'Apagado';
     const emoji = online ? '🟢' : '🔴';
-    const buttonLabel = online ? $('statusOnlineButtonLabel').value
-      : restarting ? $('statusRestartingButtonLabel').value : $('statusOfflineButtonLabel').value;
     const card = $('minecraftPreviewCard');
     card.dataset.state = current;
     $('minecraftPreviewTitle').textContent = `${emoji} ${$('statusMessageTitle').value.trim() || 'Estado del servidor'} · ${label}`;
     $('minecraftPreviewDescription').textContent = `${description}\n\nIP: ${$('statusHost').value.trim() || '38.58.179.117'}:${$('statusPort').value || '25569'}`;
-    $('minecraftPreviewButton').textContent = buttonLabel.trim() || (online ? 'SERVIDOR EN LÍNEA' : restarting ? 'SERVIDOR REINICIÁNDOSE' : 'SERVIDOR APAGADO');
     document.querySelectorAll('[data-status-preview]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.statusPreview === current)));
   }
 
@@ -584,16 +578,17 @@
     }
   }
 
-  async function save(noteId, payload) {
-    const btn = noteId === 'ticketNote' ? $('saveTickets') : $('saveWelcome');
+  async function save(scope, noteId, payload) {
+    const btn = $({ tickets: 'saveTickets', welcome: 'saveWelcome', status: 'saveStatus' }[scope]);
     const old = btn.textContent; btn.disabled = true; btn.textContent = 'Guardando…';
     try {
-      const issueBox = $(noteId === 'ticketNote' ? 'ticketPermissionIssues' : 'welcomePermissionIssues');
-      const check = await request('/api/config/check', { method: 'POST', body: payload });
+      const issueBox = $({ tickets: 'ticketPermissionIssues', welcome: 'welcomePermissionIssues', status: 'statusPermissionIssues' }[scope]);
+      const scopedPayload = { scope, ...payload };
+      const check = await request('/api/config/check', { method: 'POST', body: scopedPayload });
       issueBox.replaceChildren(); issueBox.hidden = !check.issues.length;
       check.issues.forEach(issue => { const line = document.createElement('p'); line.textContent = `${issue.bot} · ${issue.label}: ${issue.missing.join(', ')}`; issueBox.append(line); });
       if (check.issues.length) { $(noteId).textContent = 'Revisa los permisos'; toast('No guardé los cambios porque uno o más bots no tienen acceso a los destinos seleccionados.', true); return; }
-      await request('/api/config', { method: 'PUT', body: payload });
+      await request('/api/config', { method: 'PUT', body: scopedPayload });
       $(noteId).textContent = 'Guardado y aplicado';
       toast('Cambios guardados. Los bots se actualizarán en unos segundos.');
       setTimeout(() => { $(noteId).textContent = ''; }, 4500);
@@ -621,34 +616,23 @@
   $('saveTickets').addEventListener('click', () => {
     state.tickets.panel = { title: $('ticketTitle').value.trim(), description: $('ticketDescription').value.trim(), footer: $('ticketFooter').value.trim() };
     state.tickets.supportRoleId = $('supportRoleId').value.trim(); state.tickets.logsChannelId = $('logsChannelId').value.trim();
-    save('ticketNote', { tickets: state.tickets, welcome: state.welcome });
+    save('tickets', 'ticketNote', { tickets: state.tickets });
   });
   $('saveWelcome').addEventListener('click', () => {
     state.welcome.welcomeChannelId = $('welcomeChannelId').value.trim(); state.welcome.alertsChannelId = $('alertsChannelId').value.trim(); state.welcome.staffRoleId = $('staffRoleId').value.trim(); state.welcome.announcementChannelId = $('announcementChannelId').value.trim();
-    state.welcome.status = {
-      ...state.welcome.status,
-      host: $('statusHost').value.trim(),
-      port: Number($('statusPort').value),
-      channelId: $('statusChannelId').value.trim(),
-      maintenance: $('statusMaintenance').checked,
-      messageTitle: $('statusMessageTitle').value.trim(),
-      onlineMessage: $('statusOnlineMessage').value.trim(),
-      restartingMessage: $('statusRestartingMessage').value.trim(),
-      offlineMessage: $('statusOfflineMessage').value.trim(),
-      maintenanceMessage: $('statusMaintenanceMessage').value.trim(),
-      onlineButtonLabel: $('statusOnlineButtonLabel').value.trim(),
-      restartingButtonLabel: $('statusRestartingButtonLabel').value.trim(),
-      offlineButtonLabel: $('statusOfflineButtonLabel').value.trim(),
-    };
     state.welcome.welcomeMessage = { title: $('welcomeTitle').value.trim(), description: $('welcomeDescription').value.trim(), color: $('welcomeColor').value, footer: $('welcomeFooter').value.trim(), imageUrl: $('welcomeImageUrl').value.trim() };
     state.welcome.leaveMessage = { enabled: $('leaveEnabled').checked, channelId: $('leaveChannelId').value.trim(), title: $('leaveTitle').value.trim(), description: $('leaveDescription').value.trim(), color: $('leaveColor').value };
     state.welcome.suspicious = { minAccountAgeDays: Number($('minAccountAgeDays').value), maxSimilarityDistance: Number($('maxSimilarityDistance').value), checkImpersonation: $('checkImpersonation').checked, protectedUsers: $('protectedUsers').value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ name })), blockedKeywords: $('blockedKeywords').value.split('\n').map(word => word.trim()).filter(Boolean) };
     state.welcome.autoMod = { enabled: $('autoModEnabled').checked, filterInvites: $('autoModInvites').checked, maxMentions: Number($('autoModMaxMentions').value), messageLimit: Number($('autoModMessageLimit').value), timeoutMinutes: Number($('autoModTimeout').value), exemptRoleIds: [...$('autoModExemptRoles').selectedOptions].map(option => option.value) };
-    save('welcomeNote', { tickets: state.tickets, welcome: state.welcome });
+    save('welcome', 'welcomeNote', { welcome: state.welcome });
+  });
+  $('saveStatus').addEventListener('click', () => {
+    state.welcome.status = { ...state.welcome.status, host: $('statusHost').value.trim(), port: Number($('statusPort').value), channelId: $('statusChannelId').value.trim(), maintenance: $('statusMaintenance').checked, messageTitle: $('statusMessageTitle').value.trim(), onlineMessage: $('statusOnlineMessage').value.trim(), restartingMessage: $('statusRestartingMessage').value.trim(), offlineMessage: $('statusOfflineMessage').value.trim(), maintenanceMessage: $('statusMaintenanceMessage').value.trim() };
+    save('status', 'statusNote', { status: state.welcome.status });
   });
   ['ticketTitle', 'ticketDescription', 'ticketFooter'].forEach(id => $(id).addEventListener('input', previewTickets));
   ['welcomeTitle', 'welcomeDescription', 'welcomeColor', 'welcomeFooter', 'welcomeImageUrl'].forEach(id => $(id).addEventListener('input', () => { previewWelcome(); setPreviewScreen('welcome'); }));
-  ['statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusOnlineButtonLabel', 'statusRestartingButtonLabel', 'statusOfflineButtonLabel', 'statusHost', 'statusPort'].forEach(id => $(id).addEventListener('input', previewMinecraftStatus));
+  ['statusMessageTitle', 'statusOnlineMessage', 'statusRestartingMessage', 'statusOfflineMessage', 'statusMaintenanceMessage', 'statusHost', 'statusPort'].forEach(id => $(id).addEventListener('input', previewMinecraftStatus));
   $('statusMaintenance').addEventListener('change', previewMinecraftStatus);
   document.querySelectorAll('[data-status-preview]').forEach(button => button.addEventListener('click', () => {
     state.minecraftPreviewState = button.dataset.statusPreview;

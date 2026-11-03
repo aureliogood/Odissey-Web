@@ -76,12 +76,7 @@
               <label>Mensaje cuando está apagado<textarea id="statusOfflineMessage" rows="3" maxlength="1000"></textarea></label>
               <label>Mensaje de mantenimiento<textarea id="statusMaintenanceMessage" rows="3" maxlength="1000"></textarea></label>
             </div>
-            <div class="two-fields status-message-fields">
-              <label>Texto del botón verde<input id="statusOnlineButtonLabel" maxlength="80"></label>
-              <label>Texto del botón rojo al reiniciar<input id="statusRestartingButtonLabel" maxlength="80"></label>
-              <label>Texto del botón rojo apagado<input id="statusOfflineButtonLabel" maxlength="80"></label>
-            </div>
-            <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar el mensaje de mantenimiento</b><small>El botón conserva el color del estado real del servidor.</small></span></label>
+            <label class="check-row"><input id="statusMaintenance" type="checkbox"><span><b>Mostrar el mensaje de mantenimiento</b><small>El estado real del servidor se sigue mostrando en el título.</small></span></label>
             <div class="minecraft-status-preview">
               <div class="minecraft-preview-heading"><span>VISTA PREVIA DEL MENSAJE</span><span>DISCORD</span></div>
               <div class="minecraft-preview-tabs" role="group" aria-label="Estado de vista previa">
@@ -94,10 +89,11 @@
                 <div class="minecraft-preview-content">
                   <b id="minecraftPreviewTitle">🟢 Estado del servidor · En línea</b>
                   <p id="minecraftPreviewDescription"></p>
-                  <span id="minecraftPreviewButton" class="minecraft-preview-button">SERVIDOR EN LÍNEA</span>
                 </div>
               </article>
             </div>
+            <div id="statusPermissionIssues" class="permission-issues" hidden></div>
+            <div class="form-actions"><span class="save-note" id="statusNote"></span><button class="button primary save" id="saveStatus" type="button">Guardar estado del servidor</button></div>
             <div class="divider"></div><h3>Detección de cuentas</h3>
             <div class="two-fields"><label>Edad mínima de cuenta (días)<input id="minAccountAgeDays" type="number" min="0" max="3650"></label><label>Distancia de similitud<input id="maxSimilarityDistance" type="number" min="0" max="8"></label></div>
             <label class="check-row"><input id="checkImpersonation" type="checkbox"><span><b>Detectar imitaciones del staff</b><small>Compara los nombres nuevos con la lista protegida.</small></span></label>
@@ -111,6 +107,7 @@
             <label>Roles exentos<select id="autoModExemptRoles" multiple size="5"></select><small class="field-help">Usa Ctrl para seleccionar varios roles.</small></label>
             <div class="divider"></div><div class="subhead"><div><h3>Actividad de moderación</h3><p class="hint">Acciones recientes del filtro anti spam.</p></div><button class="button mini" id="refreshModeration" type="button">Actualizar</button></div>
             <div id="moderationActivity" class="dashboard-list"></div>
+            <div id="welcomePermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome" type="button">Guardar bienvenida</button></div>
             <div class="divider"></div><h3>Anuncios y eventos</h3>
             <p class="hint">Publica ahora o programa un mensaje. No se permiten menciones automáticas a roles o a toda la comunidad.</p>
             <label>Canal donde se publicarán <select id="announcementChannelId"></select></label>
@@ -127,7 +124,6 @@
             <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button secondary" id="saveAnnouncementDraft" type="button">Guardar borrador</button><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
             <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
             <div id="announcementHistory" class="announcement-history" aria-live="polite"></div>
-            <div id="welcomePermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome">Guardar cambios</button></div>
           </div>
           <aside class="preview-column">
             <div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div>
@@ -162,6 +158,6 @@
   </main>
   <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
-  <script src="js/bots-panel.js?v=8" defer></script>
+  <script src="js/bots-panel.js?v=9" defer></script>
 </body>
 </html>
