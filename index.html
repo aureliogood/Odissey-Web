@@ -29,13 +29,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/tailwind.css?v=150">
-    <link rel="stylesheet" href="theme.css?v=150">
-    <link rel="stylesheet" href="css/search.css?v=150">
-    <link rel="stylesheet" href="css/index.css?v=150">
-    <link rel="stylesheet" href="css/dala.css?v=150">
-    <link rel="stylesheet" href="/css/nav-shared.css?v=150">
-    <link rel="stylesheet" href="css/dala-polish.css?v=150">
+    <link rel="stylesheet" href="theme.css?v=151">
+    <link rel="stylesheet" href="css/tailwind.css?v=151">
+    <link rel="stylesheet" href="css/index.css?v=151">
+    <link rel="stylesheet" href="css/dala.css?v=151">
+    <link rel="stylesheet" href="/css/nav-shared.css?v=151">
+    <link rel="stylesheet" href="css/dala-polish.css?v=151">
+    <link rel="stylesheet" href="css/search.css?v=151">
     
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
@@ -62,67 +62,71 @@
     <!-- Toast Notification -->
     <div id="hzToast" class="hz-toast">IP copiada al portapapeles ✓</div>
 
-    <!-- Horizon Navbar -->
-    <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[#100a1f]/85 border-b border-white/[0.08]">
-        <div class="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-10">
-            <!-- Brand Logo -->
-            <a class="flex items-center gap-3 text-white transition-opacity hover:opacity-90" href="/">
-                <img src="img/logo-web.webp" alt="Odissey Logo" class="h-10 w-auto object-contain">
-                <span class="font-display text-xl font-bold tracking-tight text-white hidden sm:inline-block">Odissey</span>
+    <!-- Horizon Fixed Header (playhorizon.dev) -->
+    <header class="hz-header">
+        <div class="hz-header-inner">
+            <!-- Horizon Brand (Logo SVG geométrico oficial de PlayHorizon + Tipografía limpia) -->
+            <a class="hz-brand" href="/">
+                <svg viewBox="0 0 16 16" aria-hidden="true" class="hz-brand-icon">
+                    <path fill="#ffffff" d="M4 3h2v4H4zM10 3h2v4h-2z"></path>
+                    <path fill="rgba(255,255,255,0.4)" d="M4 8h2v4H4zM10 8h2v4h-2z"></path>
+                    <path fill="#a98fff" d="M1 7h14v1H1z"></path>
+                </svg>
+                <span class="hz-brand-text">Odissey</span>
             </a>
 
             <!-- Navigation Links -->
-            <nav aria-label="Main" class="hidden items-center lg:flex">
-                <div class="nav-pill">
-                    <a href="/" class="nav-pill__link" aria-current="page">Inicio</a>
-                    <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="nav-pill__link">Tienda</a>
-                    <a href="/wiki" class="nav-pill__link">Wiki</a>
-                    <a href="/reglas" class="nav-pill__link">Reglas</a>
-                    <a href="/noticias" class="nav-pill__link">Noticias</a>
-                    <a href="/eventos" class="nav-pill__link">Eventos</a>
+            <nav aria-label="Main" class="hidden lg:flex items-center">
+                <div class="hz-nav-pills">
+                    <a href="/" class="hz-nav-link" aria-current="page">Inicio</a>
+                    <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="hz-nav-link">Tienda</a>
+                    <a href="/wiki" class="hz-nav-link">Wiki</a>
+                    <a href="/reglas" class="hz-nav-link">Reglas</a>
+                    <a href="/noticias" class="hz-nav-link">Noticias</a>
+                    <a href="/eventos" class="hz-nav-link">Eventos</a>
                     <div class="nav-pill__group">
-                        <a href="/staff" class="nav-pill__link flex items-center gap-1">Staff <svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="m4 6 4 4 4-4"/></svg></a>
+                        <a href="/staff" class="hz-nav-link flex items-center gap-1">Staff <svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="m4 6 4 4 4-4"/></svg></a>
                         <div class="nav-pill__submenu" role="menu">
                             <a href="/soporte" class="nav-pill__sublink" role="menuitem">Soporte y Tickets</a>
                             <a href="/baneos" class="nav-pill__sublink" role="menuitem">Historial de Baneos</a>
                         </div>
                     </div>
-                    <a href="/galeria" class="nav-pill__link">Galería</a>
+                    <a href="/galeria" class="hz-nav-link">Galería</a>
                 </div>
             </nav>
 
             <!-- Navbar Actions -->
             <div class="flex items-center gap-3">
-                <!-- IP Copy Button -->
-                <button type="button" onclick="copyIpAddress()" class="hidden md:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 hover:border-[#a98fff]/40 text-xs font-mono text-white/80 transition-all hover:bg-white/10 hover:text-white" title="Clic para copiar IP">
-                    <span id="serverStatusDot" class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                <!-- IP Copy Button Pill -->
+                <button type="button" onclick="copyIpAddress()" class="hz-ip-pill hidden md:inline-flex" title="Clic para copiar IP">
+                    <span id="serverStatusDot" class="hz-dot-pulse"></span>
                     <span id="serverStatusText">Online</span>
-                    <span class="text-white/40">|</span>
-                    <span class="text-[#c4b5fd] font-semibold">mc.odisseymc.site</span>
+                    <span style="opacity: 0.35;">|</span>
+                    <span style="color: #c4b5fd; font-weight: 600;">mc.odisseymc.site</span>
                 </button>
 
                 <!-- Login / Account Button -->
-                <button type="button" id="enterNavBtn" onclick="openLoginModal()" class="hz-btn-primary !py-2 !px-4 !text-sm flex items-center gap-2">
-                    <img id="enterNavAvatar" class="nav-avatar hidden size-6 rounded-full" alt="" width="24" height="24">
+                <button type="button" id="enterNavBtn" onclick="openLoginModal()" class="hz-btn-primary" style="padding: 8px 18px; font-size: 14px;">
+                    <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="22" height="22" style="border-radius: 50%; width: 22px; height: 22px;">
                     <span id="enterNavText">Entrar</span>
                     <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                 </button>
 
                 <!-- Cart Button -->
-                <button type="button" id="cartBtn" onclick="openCartModal()" class="hidden relative p-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white transition-colors" title="Carrito de compras">
-                    <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <button type="button" id="cartBtn" onclick="openCartModal()" class="hidden relative p-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white" title="Carrito de compras">
+                    <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                     <span id="cartBadge" class="cart-count">0</span>
                 </button>
 
                 <!-- Mobile Menu Button -->
                 <button type="button" id="menuBtn" onclick="toggleMenu()" class="lg:hidden p-2 rounded-full bg-white/[0.05] border border-white/10 text-white" aria-label="Abrir menú">
-                    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div id="menuDropdown" class="menu-desplegable hidden lg:hidden px-6 py-4 bg-[#140e26] border-b border-white/10">
+        <div id="menuDropdown" class="menu-desplegable hidden lg:hidden px-6 py-4 bg-[#140e26] border-b border-white/10" style="position: absolute; top: 72px; left: 0; right: 0;">
             <div class="flex flex-col gap-2">
                 <a href="/" class="px-4 py-2.5 rounded-xl bg-white/[0.05] text-white font-medium">Inicio</a>
                 <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Tienda</a>
@@ -138,73 +142,73 @@
     </header>
 
     <!-- Main Content -->
-    <main id="contenido" class="relative z-10 flex-grow pt-28">
+    <main id="contenido" class="relative z-10 flex-grow" style="padding-top: 104px;">
 
         <!-- ============================================================
              SECTION 1: HERO & BENCHMARK (Matching PlayHorizon layout)
              ============================================================ -->
-        <section class="relative px-6 lg:px-10 max-w-6xl mx-auto pt-8 pb-16 text-center md:text-left">
+        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
             <!-- Eyebrow Pill -->
-            <div class="flex justify-center md:justify-start mb-6">
+            <div style="margin-bottom: 24px;">
                 <div class="hz-badge">
-                    <span class="inline-block size-2 rounded-full bg-[#a98fff] animate-ping mr-1"></span>
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #a98fff; display: inline-block;"></span>
                     Minecraft: Java Edition 1.20 - 1.21.x · Servidor Survival RPG
                 </div>
             </div>
 
             <!-- Giant Hero Headline -->
-            <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] max-w-4xl">
+            <h1 class="font-display" style="font-size: clamp(2.5rem, 6vw, 4.8rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 20px 0; color: #ffffff; max-width: 900px;">
                 La odisea que conoces,<br>
                 <span class="hz-text-purple">llevada a una nueva era.</span>
             </h1>
 
             <!-- Subtitle -->
-            <p class="mt-6 text-lg sm:text-xl text-[#c5c7d1] max-w-2xl leading-relaxed">
+            <p style="font-size: clamp(1.05rem, 2vw, 1.25rem); color: #c5c7d1; max-width: 680px; line-height: 1.6; margin: 0 0 32px 0;">
                 El servidor de Minecraft Java diseñado para la máxima fluidez: 20 TPS estables, economía viva de jugadores, mazmorras personalizadas, pesca legendaria y cero lag.
             </p>
 
             <!-- CTA Buttons -->
-            <div class="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-4">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 24px;">
                 <button type="button" onclick="copyIpAddress()" class="hz-btn-primary">
-                    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                     <span>Copiar IP & Jugar</span>
                 </button>
                 <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-btn-secondary">
-                    <svg class="size-5 text-[#a98fff]" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
+                    <svg style="width: 18px; height: 18px; color: #a98fff;" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
                     <span>Unirse a Discord</span>
                 </a>
             </div>
 
             <!-- Microstats Bar -->
-            <div class="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-xs text-white/50">
-                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Java 1.20 a 1.21.x</span>
-                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-green-400"></span> 20.0 TPS Estables</span>
-                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Protección Anti-Grief</span>
-                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-blue-400"></span> Modo: <span id="serverGamemode">Survival RPG</span></span>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; font-size: 13px; color: rgba(255, 255, 255, 0.55); margin-bottom: 48px;">
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #a98fff;"></span> Java 1.20 a 1.21.x</span>
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #4ade80;"></span> 20.0 TPS Estables</span>
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #a98fff;"></span> Protección Anti-Grief</span>
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #60a5fa;"></span> Modo: <span id="serverGamemode">Survival RPG</span></span>
             </div>
 
             <!-- Performance Benchmark Card (Recreating 3x the frame rate from Horizon) -->
-            <div class="mt-14 hz-card p-6 sm:p-8">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 text-left">
+            <div class="hz-card" style="padding: clamp(24px, 4vw, 36px); margin-bottom: 32px;">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
                     <div>
-                        <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">Rendimiento & Estabilidad</span>
-                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">20.0 TPS constantes, sin tirones.</h2>
-                        <p class="text-sm text-[#c5c7d1] mt-1">Monitoreo activo con optimización de chunks y anti-lag inteligente.</p>
+                        <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">Rendimiento & Estabilidad</span>
+                        <h2 class="font-display" style="font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">20.0 TPS constantes, sin tirones.</h2>
+                        <p style="font-size: 14px; color: #c5c7d1; margin: 0;">Monitoreo activo con optimización de chunks y anti-lag inteligente.</p>
                     </div>
-                    <div class="flex items-center gap-2 self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs text-white/80">
-                        <span class="size-2 rounded-full bg-green-400"></span>
-                        <span>Discord: <strong id="discordPresenceCount" class="text-white">...</strong> en línea</span>
+                    <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); font-size: 12px; color: rgba(255, 255, 255, 0.85);">
+                        <span class="hz-dot-pulse"></span>
+                        <span>Discord: <strong id="discordPresenceCount" style="color: #ffffff;">...</strong> en línea</span>
                     </div>
                 </div>
 
                 <!-- Progress Comparison Bars -->
-                <div class="space-y-5 text-left">
+                <div style="display: flex; flex-direction: column; gap: 20px;">
                     <div>
-                        <div class="flex justify-between text-sm mb-1.5">
-                            <span class="font-semibold text-white flex items-center gap-2">
-                                <span class="size-2 rounded-full bg-[#a98fff]"></span> Odissey Server
+                        <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
+                            <span style="font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                                <span class="size-2" style="border-radius: 50%; background: #a98fff;"></span> Odissey Server
                             </span>
-                            <span class="font-mono text-[#c4b5fd] font-bold">20.0 TPS (100% Fluido)</span>
+                            <span class="font-mono" style="color: #c4b5fd; font-weight: 700;">20.0 TPS (100% Fluido)</span>
                         </div>
                         <div class="hz-bench-bar-track">
                             <div class="hz-bench-bar-fill-purple"></div>
@@ -212,9 +216,9 @@
                     </div>
 
                     <div>
-                        <div class="flex justify-between text-sm mb-1.5">
-                            <span class="text-white/60">Servidores Tradicionales</span>
-                            <span class="font-mono text-white/50">11.8 TPS (Bajones y lag)</span>
+                        <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
+                            <span style="color: rgba(255, 255, 255, 0.6);">Servidores Tradicionales</span>
+                            <span class="font-mono" style="color: rgba(255, 255, 255, 0.5);">11.8 TPS (Bajones y lag)</span>
                         </div>
                         <div class="hz-bench-bar-track">
                             <div class="hz-bench-bar-fill-muted"></div>
@@ -223,70 +227,70 @@
                 </div>
 
                 <!-- Feature tags inside benchmark -->
-                <div class="mt-6 pt-5 border-t border-white/[0.08] flex flex-wrap gap-4 text-xs text-white/70">
-                    <span class="flex items-center gap-1.5">⚡ Latencia optimizada &lt; 40ms</span>
-                    <span class="flex items-center gap-1.5">🚀 Renderizado y carga rápida de chunks</span>
-                    <span class="flex items-center gap-1.5">🛡️ Backups automáticos cada 30 minutos</span>
+                <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: rgba(255, 255, 255, 0.7);">
+                    <span>⚡ Latencia optimizada &lt; 40ms</span>
+                    <span>🚀 Carga acelerada de chunks</span>
+                    <span>🛡️ Backups automáticos cada 30 minutos</span>
                 </div>
             </div>
 
             <!-- Sunset Pixel Art Panoramic Banner (Horizon wallpaper) -->
-            <div class="mt-8 rounded-3xl overflow-hidden border border-white/[0.08] shadow-2xl relative">
-                <img src="img/horizon/about-wallpaper.jpg" alt="Horizon Pixel Sunset Panorama" class="w-full h-auto object-cover max-h-[380px]" loading="lazy">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#100a1f] via-transparent to-transparent"></div>
+            <div style="border-radius: 24px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); position: relative;">
+                <img src="img/horizon/about-wallpaper.jpg" alt="Horizon Pixel Sunset Panorama" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, #100a1f, transparent 40%); pointer-events: none;"></div>
             </div>
         </section>
 
         <!-- ============================================================
              SECTION 2: SAME INPUTS, IDENTICAL OUTPUTS (Survival RPG)
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
-            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">CARACTERÍSTICAS CLAVE</span>
-            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+        <section style="max-width: 1150px; margin: 0 auto; padding: 48px 24px 64px 24px;">
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">CARACTERÍSTICAS CLAVE</span>
+            <h2 class="font-display" style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px 0;">
                 Survival RPG innovador, sin lag ni límites.
             </h2>
-            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-3xl leading-relaxed">
+            <p style="font-size: 16px; color: #c5c7d1; max-width: 720px; line-height: 1.6; margin: 0 0 36px 0;">
                 En Odissey cada mecánica ha sido pulida para respetar el tiempo del jugador: progresión gratificante, economía balanceada y un mundo vibrante listo para tus construcciones.
             </p>
 
             <!-- Visual Showcase Card -->
-            <div class="mt-10 rounded-2xl overflow-hidden border border-white/[0.08] relative group">
-                <img src="img/horizon/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" class="w-full h-auto object-cover max-h-[440px] transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#100a1f] via-transparent to-transparent opacity-80"></div>
-                <div class="absolute bottom-6 left-6 right-6">
-                    <span class="text-xs font-mono uppercase text-[#a98fff]">Mundo Principal</span>
-                    <h3 class="text-xl sm:text-2xl font-bold text-white mt-1">Exploración sin restricciones en Minecraft Java</h3>
+            <div style="border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); position: relative; margin-bottom: 32px;">
+                <img src="img/horizon/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" style="width: 100%; height: auto; max-height: 420px; object-fit: cover; display: block;" loading="lazy">
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 10, 31, 0.95), transparent 50%); pointer-events: none;"></div>
+                <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                    <span class="font-mono" style="font-size: 12px; text-transform: uppercase; color: #a98fff;">Mundo Principal</span>
+                    <h3 class="font-display" style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Exploración sin restricciones en Minecraft Java</h3>
                 </div>
             </div>
 
             <!-- 3 Column Feature Cards -->
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="hz-card p-6">
-                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
-                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="hz-grid-1-3">
+                <div class="hz-card" style="padding: 24px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(169, 143, 255, 0.15); border: 1px solid rgba(169, 143, 255, 0.3); display: flex; align-items: center; justify-content: center; color: #a98fff; margin-bottom: 16px;">
+                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-white">Tu Progreso Protegido</h3>
-                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Tu Progreso Protegido</h3>
+                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
                         Sistema de reclamos de parcelas intuitivo. Tus cofres, granjas y casas quedan blindados contra cualquier intento de griefing o robo.
                     </p>
                 </div>
 
-                <div class="hz-card p-6">
-                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
-                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                <div class="hz-card" style="padding: 24px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(169, 143, 255, 0.15); border: 1px solid rgba(169, 143, 255, 0.3); display: flex; align-items: center; justify-content: center; color: #a98fff; margin-bottom: 16px;">
+                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-white">Economía & Mercado Libre</h3>
-                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Economía & Mercado Libre</h3>
+                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
                         Subastas en tiempo real, tiendas de jugadores y banco comercial. Todo el valor es generado por la comunidad, sin ventajas desbalanceadas.
                     </p>
                 </div>
 
-                <div class="hz-card p-6">
-                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
-                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.12 2.12 0 1 1-3-3l8-8"/><path d="m16 8 2-2 4 4-2 2"/><path d="m18 6 2-2"/></svg>
+                <div class="hz-card" style="padding: 24px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(169, 143, 255, 0.15); border: 1px solid rgba(169, 143, 255, 0.3); display: flex; align-items: center; justify-content: center; color: #a98fff; margin-bottom: 16px;">
+                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.12 2.12 0 1 1-3-3l8-8"/><path d="m16 8 2-2 4 4-2 2"/><path d="m18 6 2-2"/></svg>
                     </div>
-                    <h3 class="font-display text-xl font-bold text-white">Mazmorras & Jefes Épicos</h3>
-                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Mazmorras & Jefes Épicos</h3>
+                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
                         Desafíos semanales con mecánicas custom, botines místicos, pesca personalizada con acuarios y eventos de luna de sangre.
                     </p>
                 </div>
@@ -296,31 +300,31 @@
         <!-- ============================================================
              SECTION 3: BANNER 24/7 (Like Horizon's Minecraft Server Promo)
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-12">
-            <div class="hz-card p-8 sm:p-10 relative overflow-hidden bg-gradient-to-r from-[#1b1433] via-[#161028] to-[#120b22] border-[#a98fff]/30">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    <div class="lg:col-span-7 text-left space-y-4">
-                        <div class="hz-badge !text-xs">
-                            <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
+            <div class="hz-card" style="padding: clamp(24px, 4vw, 40px); background: linear-gradient(135deg, rgba(31, 20, 60, 0.8), rgba(20, 14, 38, 0.9)); border: 1px solid rgba(169, 143, 255, 0.35);">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px;">
+                    <div style="flex: 1 1 500px;">
+                        <div class="hz-badge" style="font-size: 11px; margin-bottom: 16px;">
+                            <span class="hz-dot-pulse"></span>
                             Servidor Siempre Activo
                         </div>
-                        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">
+                        <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #ffffff; margin: 0 0 12px 0;">
                             Tu Servidor de Minecraft, <span class="hz-text-purple">24/7 En Línea.</span>
                         </h2>
-                        <p class="text-sm sm:text-base text-[#c5c7d1] leading-relaxed max-w-xl">
-                            ¿Listo para forjar tu propia leyenda? Entra ahora con la IP <span class="font-mono text-white font-semibold">mc.odisseymc.site</span> y reclama tu Kit Inicial de Aventurero.
+                        <p style="font-size: 15px; color: #c5c7d1; line-height: 1.6; margin: 0 0 24px 0; max-width: 540px;">
+                            ¿Listo para forjar tu propia leyenda? Entra ahora con la IP <span class="font-mono" style="color: #ffffff; font-weight: 700;">mc.odisseymc.site</span> y reclama tu Kit Inicial de Aventurero.
                         </p>
-                        <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px;">
                             <button type="button" onclick="copyIpAddress()" class="hz-btn-primary">
                                 Copiar IP & Entrar
                             </button>
-                            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono text-[#c4b5fd]">
-                                Código: <strong class="text-white">ODISSEY2026</strong>
+                            <span class="font-mono" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 9999px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); font-size: 12px; color: #c4b5fd;">
+                                Código: <strong style="color: #ffffff;">ODISSEY2026</strong>
                             </span>
                         </div>
                     </div>
-                    <div class="lg:col-span-5 flex justify-center lg:justify-end">
-                        <img src="img/horizon/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" class="max-h-[220px] w-auto object-contain filter drop-shadow-[0_10px_25px_rgba(124,77,255,0.4)]" loading="lazy">
+                    <div style="flex: 0 1 auto; margin: 0 auto;">
+                        <img src="img/horizon/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" style="max-height: 200px; width: auto; object-fit: contain; display: block; filter: drop-shadow(0 10px 30px rgba(124,77,255,0.4));" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -329,54 +333,54 @@
         <!-- ============================================================
              SECTION 4: BUILT IN THE OPEN / INFRAESTRUCTURA Y CONEXIÓN
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
-            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">CONEXIÓN & ACCESO</span>
-            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">
+        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">CONEXIÓN & ACCESO</span>
+            <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #ffffff; margin: 8px 0 14px 0;">
                 Conéctate en segundos, juega sin complicaciones.
             </h2>
-            <p class="text-base text-[#c5c7d1] max-w-2xl leading-relaxed mb-10">
-                Odissey no requiere launchers modificados ni instalaciones engorrosas: conéctate desde cualquier versión compatible de Minecraft Java.
+            <p style="font-size: 15px; color: #c5c7d1; max-width: 600px; line-height: 1.6; margin: 0 0 36px 0;">
+                Odissey no requiere launchers modificados ni descargas pesadas: conéctate desde cualquier versión compatible de Minecraft Java.
             </p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="hz-grid-4">
                 <!-- IP Card -->
-                <div class="hz-card p-6 cursor-pointer" onclick="copyIpAddress()" title="Clic para copiar IP">
-                    <div class="flex items-center justify-between text-white/50 mb-4">
-                        <span class="text-xs font-mono">IP PRINCIPAL</span>
-                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <div class="hz-card" style="padding: 22px; cursor: pointer;" onclick="copyIpAddress()" title="Clic para copiar IP">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(255, 255, 255, 0.5);">
+                        <span class="font-mono" style="font-size: 11px;">IP PRINCIPAL</span>
+                        <svg style="width: 16px; height: 16px; color: #a98fff;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                     </div>
-                    <h3 class="font-mono text-lg font-bold text-[#c4b5fd]">mc.odisseymc.site</h3>
-                    <p class="text-xs text-[#c5c7d1] mt-2">Puerto por defecto: 25565. Clic para copiar al portapapeles.</p>
+                    <h3 class="font-mono" style="font-size: 16px; font-weight: 700; color: #c4b5fd; margin: 0 0 6px 0;">mc.odisseymc.site</h3>
+                    <p style="font-size: 12px; color: #c5c7d1; line-height: 1.5; margin: 0;">Puerto por defecto: 25565. Clic para copiar al portapapeles.</p>
                 </div>
 
                 <!-- Version Card -->
-                <div class="hz-card p-6">
-                    <div class="flex items-center justify-between text-white/50 mb-4">
-                        <span class="text-xs font-mono">COMPATIBILIDAD</span>
-                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <div class="hz-card" style="padding: 22px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(255, 255, 255, 0.5);">
+                        <span class="font-mono" style="font-size: 11px;">COMPATIBILIDAD</span>
+                        <svg style="width: 16px; height: 16px; color: #a98fff;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    <h3 class="font-display text-lg font-bold text-white">Java 1.20 - 1.21.x</h3>
-                    <p class="text-xs text-[#c5c7d1] mt-2">Soporte nativo con clientes Vanilla, Lunar, Badlion y Prism.</p>
+                    <h3 class="font-display" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px 0;">Java 1.20 - 1.21.x</h3>
+                    <p style="font-size: 12px; color: #c5c7d1; line-height: 1.5; margin: 0;">Soporte nativo con clientes Vanilla, Lunar, Badlion y Prism.</p>
                 </div>
 
                 <!-- Discord Card -->
-                <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-card p-6 block text-left">
-                    <div class="flex items-center justify-between text-white/50 mb-4">
-                        <span class="text-xs font-mono">COMUNIDAD</span>
-                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
+                <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-card" style="padding: 22px; text-decoration: none; display: block;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(255, 255, 255, 0.5);">
+                        <span class="font-mono" style="font-size: 11px;">COMUNIDAD</span>
+                        <svg style="width: 16px; height: 16px; color: #a98fff;" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
                     </div>
-                    <h3 class="font-display text-lg font-bold text-white">Discord Oficial</h3>
-                    <p class="text-xs text-[#c5c7d1] mt-2">Soporte en directo, canales de voz y anuncios de actualizaciones.</p>
+                    <h3 class="font-display" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px 0;">Discord Oficial</h3>
+                    <p style="font-size: 12px; color: #c5c7d1; line-height: 1.5; margin: 0;">Soporte en directo, canales de voz y anuncios de actualizaciones.</p>
                 </a>
 
                 <!-- Wiki Card -->
-                <a href="/wiki" class="hz-card p-6 block text-left">
-                    <div class="flex items-center justify-between text-white/50 mb-4">
-                        <span class="text-xs font-mono">GUÍAS</span>
-                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                <a href="/wiki" class="hz-card" style="padding: 22px; text-decoration: none; display: block;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(255, 255, 255, 0.5);">
+                        <span class="font-mono" style="font-size: 11px;">GUÍAS</span>
+                        <svg style="width: 16px; height: 16px; color: #a98fff;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
                     </div>
-                    <h3 class="font-display text-lg font-bold text-white">Wiki & Manuales</h3>
-                    <p class="text-xs text-[#c5c7d1] mt-2">Aprende comandos, encantamientos especiales y rangos del servidor.</p>
+                    <h3 class="font-display" style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px 0;">Wiki & Manuales</h3>
+                    <p style="font-size: 12px; color: #c5c7d1; line-height: 1.5; margin: 0;">Aprende comandos, encantamientos especiales y rangos del servidor.</p>
                 </a>
             </div>
         </section>
@@ -384,52 +388,52 @@
         <!-- ============================================================
              SECTION 5: VISUAL GALLERY (Matching Horizon's 4-image showcase)
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
-            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">MUNDOS Y AVENTURA</span>
-            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">MUNDOS Y AVENTURA</span>
+            <h2 class="font-display" style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px 0;">
                 El Minecraft que amas, <span class="hz-text-purple">enriquecido y vibrante.</span>
             </h2>
-            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-3xl leading-relaxed mb-10">
+            <p style="font-size: 16px; color: #c5c7d1; max-width: 720px; line-height: 1.6; margin: 0 0 36px 0;">
                 Explora biomas personalizados, mazmorras en el Nether, parcelas protegidas en el Overworld y profundidades oceánicas con pesca legendaria.
             </p>
 
-            <div class="space-y-6">
+            <div style="display: flex; flex-direction: column; gap: 24px;">
                 <!-- Large Nether Showcase -->
-                <div class="hz-card overflow-hidden group">
-                    <img src="img/horizon/nether.webp" alt="Nether Dungeons in Odissey" class="w-full h-auto object-cover max-h-[380px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                    <div class="p-6 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
-                        <span class="text-xs font-mono text-[#a98fff] uppercase">Dimensión Peligrosa</span>
-                        <h3 class="font-display text-xl font-bold text-white mt-1">Fortalezas Nether & Desafíos con Jefes de Élite</h3>
-                        <p class="text-sm text-[#c5c7d1] mt-1">Consigue materiales legendarios, esencias mágicas y equipamiento único.</p>
+                <div class="hz-card" style="overflow: hidden;">
+                    <img src="img/horizon/nether.webp" alt="Nether Dungeons in Odissey" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy">
+                    <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                        <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Dimensión Peligrosa</span>
+                        <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Fortalezas Nether & Desafíos con Jefes de Élite</h3>
+                        <p style="font-size: 14px; color: #c5c7d1; margin: 0;">Consigue materiales legendarios, esencias mágicas y equipamiento único.</p>
                     </div>
                 </div>
 
                 <!-- 2-Column Split: Village & Night -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="hz-card overflow-hidden group">
-                        <img src="img/horizon/village-800.webp" alt="Peaceful Overworld Village" class="w-full h-auto object-cover max-h-[260px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                        <div class="p-5 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
-                            <span class="text-xs font-mono text-[#a98fff] uppercase">Zonas Comunitarias</span>
-                            <h3 class="font-display text-lg font-bold text-white mt-1">Parcelas y Poblados Pacíficos</h3>
+                <div class="hz-grid-2">
+                    <div class="hz-card" style="overflow: hidden;">
+                        <img src="img/horizon/village-800.webp" alt="Peaceful Overworld Village" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy">
+                        <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                            <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Zonas Comunitarias</span>
+                            <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Parcelas y Poblados Pacíficos</h3>
                         </div>
                     </div>
 
-                    <div class="hz-card overflow-hidden group">
-                        <img src="img/horizon/night-800.webp" alt="Night Event in Odissey" class="w-full h-auto object-cover max-h-[260px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                        <div class="p-5 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
-                            <span class="text-xs font-mono text-[#a98fff] uppercase">Eventos Nocturnos</span>
-                            <h3 class="font-display text-lg font-bold text-white mt-1">Noches Lunares y Recompensas Dobles</h3>
+                    <div class="hz-card" style="overflow: hidden;">
+                        <img src="img/horizon/night-800.webp" alt="Night Event in Odissey" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy">
+                        <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                            <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Eventos Nocturnos</span>
+                            <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Noches Lunares y Recompensas Dobles</h3>
                         </div>
                     </div>
                 </div>
 
                 <!-- Wide Underwater / Pesca Showcase -->
-                <div class="hz-card overflow-hidden group">
-                    <img src="img/horizon/underwater.webp" alt="Underwater Fishing in Odissey" class="w-full h-auto object-cover max-h-[320px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                    <div class="p-6 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
-                        <span class="text-xs font-mono text-[#a98fff] uppercase">Odissey Pesca Exclusiva</span>
-                        <h3 class="font-display text-xl font-bold text-white mt-1">Ecosistemas Marinos, Torneos de Pesca y Acuarios</h3>
-                        <p class="text-sm text-[#c5c7d1] mt-1">Captura más de 60 especies exóticas, desbloquea cebos únicos y compite en el ranking semanal de pescadores.</p>
+                <div class="hz-card" style="overflow: hidden;">
+                    <img src="img/horizon/underwater.webp" alt="Underwater Fishing in Odissey" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block;" loading="lazy">
+                    <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                        <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Odissey Pesca Exclusiva</span>
+                        <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Ecosistemas Marinos, Torneos de Pesca y Acuarios</h3>
+                        <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">Captura más de 60 especies exóticas, desbloquea cebos únicos y compite en el ranking semanal de pescadores.</p>
                     </div>
                 </div>
             </div>
@@ -438,46 +442,46 @@
         <!-- ============================================================
              SECTION 6: COMMUNITY & AVATARS (Matching Horizon's 233 people)
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-center">
-            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">NUESTRA COMUNIDAD</span>
-            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px; text-align: center;">
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">NUESTRA COMUNIDAD</span>
+            <h2 class="font-display" style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px 0;">
                 Respaldado por nuestra gran comunidad.
             </h2>
-            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-2xl mx-auto leading-relaxed mb-12">
+            <p style="font-size: 16px; color: #c5c7d1; max-width: 640px; margin: 0 auto 40px auto; line-height: 1.6;">
                 Jugadores, moderadores y constructores que dan vida al servidor todos los días.
             </p>
 
             <!-- Staff Spotlight Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12 text-left">
-                <div class="hz-card p-4 flex items-center gap-3">
-                    <img src="https://mc-heads.net/avatar/AurelioGood/48" alt="AurelioGood" class="size-12 rounded-xl border border-[#a98fff]/40">
+            <div class="hz-grid-4" style="max-width: 900px; margin: 0 auto 40px auto; text-align: left;">
+                <div class="hz-card" style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+                    <img src="https://mc-heads.net/avatar/AurelioGood/48" alt="AurelioGood" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(169, 143, 255, 0.4); display: block;">
                     <div>
-                        <h4 class="font-bold text-white text-sm">AurelioGood</h4>
-                        <span class="text-xs text-[#a98fff] font-mono">Fundador & Developer</span>
+                        <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">AurelioGood</h4>
+                        <span class="font-mono" style="font-size: 11px; color: #a98fff;">Fundador & Dev</span>
                     </div>
                 </div>
 
-                <div class="hz-card p-4 flex items-center gap-3">
-                    <img src="https://mc-heads.net/avatar/StaffOdissey/48" alt="Equipo de Staff" class="size-12 rounded-xl border border-white/10">
+                <div class="hz-card" style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+                    <img src="https://mc-heads.net/avatar/StaffOdissey/48" alt="Equipo de Staff" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); display: block;">
                     <div>
-                        <h4 class="font-bold text-white text-sm">Equipo de Soporte</h4>
-                        <span class="text-xs text-[#c5c7d1] font-mono">Atención 24/7</span>
+                        <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">Equipo Soporte</h4>
+                        <span class="font-mono" style="font-size: 11px; color: #c5c7d1;">Atención 24/7</span>
                     </div>
                 </div>
 
-                <div class="hz-card p-4 flex items-center gap-3">
-                    <img src="https://mc-heads.net/avatar/BuilderMC/48" alt="Constructores" class="size-12 rounded-xl border border-white/10">
+                <div class="hz-card" style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+                    <img src="https://mc-heads.net/avatar/BuilderMC/48" alt="Constructores" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); display: block;">
                     <div>
-                        <h4 class="font-bold text-white text-sm">Equipo Builder</h4>
-                        <span class="text-xs text-[#c5c7d1] font-mono">Eventos & Mazmorras</span>
+                        <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">Equipo Builder</h4>
+                        <span class="font-mono" style="font-size: 11px; color: #c5c7d1;">Eventos & Dungeons</span>
                     </div>
                 </div>
 
-                <div class="hz-card p-4 flex items-center gap-3">
-                    <img src="https://mc-heads.net/avatar/ModeradorMC/48" alt="Moderación" class="size-12 rounded-xl border border-white/10">
+                <div class="hz-card" style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+                    <img src="https://mc-heads.net/avatar/ModeradorMC/48" alt="Moderación" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); display: block;">
                     <div>
-                        <h4 class="font-bold text-white text-sm">Moderación</h4>
-                        <span class="text-xs text-[#c5c7d1] font-mono">Comunidad Limpia</span>
+                        <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">Moderación</h4>
+                        <span class="font-mono" style="font-size: 11px; color: #c5c7d1;">Comunidad Limpia</span>
                     </div>
                 </div>
             </div>
@@ -578,11 +582,11 @@
             </div>
 
             <!-- Giant Stat Counter (Like Horizon's 281 number) -->
-            <div class="mt-16 text-center">
-                <div class="font-display text-6xl sm:text-8xl font-extrabold tracking-tight text-white">
+            <div style="margin-top: 56px; text-align: center;">
+                <div class="font-display" style="font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 800; letter-spacing: -0.04em; color: #ffffff; line-height: 1;">
                     +2,500
                 </div>
-                <p class="text-lg sm:text-xl text-[#c5c7d1] max-w-xl mx-auto mt-3">
+                <p style="font-size: 17px; color: #c5c7d1; max-width: 500px; margin: 12px auto 0 auto;">
                     Aventureros registrados y disfrutando de la experiencia Odissey.
                 </p>
             </div>
@@ -591,25 +595,25 @@
         <!-- ============================================================
              SECTION 7: ACCORDION FAQ (Matching Horizon's audited harnesses)
              ============================================================ -->
-        <section class="px-6 lg:px-10 max-w-4xl mx-auto py-16 text-left">
-            <div class="text-center mb-12">
-                <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">RESOLVEMOS TUS DUDAS</span>
-                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-2">
+        <section style="max-width: 800px; margin: 0 auto; padding: 24px 24px 64px 24px;">
+            <div style="text-align: center; margin-bottom: 36px;">
+                <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #a98fff;">RESOLVEMOS TUS DUDAS</span>
+                <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: #ffffff; margin: 8px 0 8px 0;">
                     Preguntas Frecuentes
                 </h2>
-                <p class="text-sm sm:text-base text-[#c5c7d1] mt-2">
+                <p style="font-size: 15px; color: #c5c7d1; margin: 0;">
                     Todo lo que necesitas saber antes de ingresar a Odissey.
                 </p>
             </div>
 
-            <div class="space-y-3">
+            <div>
                 <div class="hz-faq-item">
                     <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
                         <span>¿Cuál es la IP del servidor y cómo me conecto?</span>
                         <span class="hz-faq-icon">+</span>
                     </button>
                     <div class="hz-faq-answer">
-                        Abre tu cliente de Minecraft Java Edition, ve a <strong>Multijugador</strong> &gt; <strong>Añadir Servidor</strong>, e introduce la dirección <span class="font-mono text-[#a98fff]">mc.odisseymc.site</span> (puerto estándar 25565). Haz clic en Conectarse y entrarás de inmediato.
+                        Abre tu cliente de Minecraft Java Edition, ve a <strong>Multijugador</strong> &gt; <strong>Añadir Servidor</strong>, e introduce la dirección <span class="font-mono" style="color: #a98fff;">mc.odisseymc.site</span> (puerto estándar 25565). Haz clic en Conectarse y entrarás de inmediato.
                     </div>
                 </div>
 
@@ -639,7 +643,7 @@
                         <span class="hz-faq-icon">+</span>
                     </button>
                     <div class="hz-faq-answer">
-                        El servidor incluye un sistema de protección de parcelas muy intuitivo. Al colocar tu primer cofre recibirás un terreno protegido automáticamente, y podrás expandirlo con la pala de oro o mediante comandos sencillos explicados en la <a href="/wiki" class="text-[#a98fff] underline">Wiki</a>.
+                        El servidor incluye un sistema de protección de parcelas muy intuitivo. Al colocar tu primer cofre recibirás un terreno protegido automáticamente, y podrás expandirlo con la pala de oro o mediante comandos sencillos explicados en la <a href="/wiki" style="color: #a98fff; text-decoration: underline;">Wiki</a>.
                     </div>
                 </div>
 
@@ -684,64 +688,68 @@
     <!-- ============================================================
          HORIZON FOOTER
          ============================================================ -->
-    <footer class="mt-20 border-t border-white/[0.08] bg-[#0c0817] py-14 px-6 lg:px-10 text-sm text-[#8b85a3] relative z-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer style="margin-top: 64px; border-top: 1px solid rgba(255, 255, 255, 0.08); background: #0c0817; padding: 56px 24px 32px 24px; font-size: 14px; color: #8b85a3; position: relative; z-index: 10;">
+        <div style="max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 48px;">
             <!-- Col 1: Brand -->
-            <div class="space-y-4">
-                <a href="/" class="flex items-center gap-3 text-white">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 w-auto object-contain">
-                    <span class="font-display font-bold text-lg text-white">Odissey</span>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #ffffff;">
+                    <svg viewBox="0 0 16 16" aria-hidden="true" style="width: 26px; height: 26px; flex-shrink: 0;">
+                        <path fill="#ffffff" d="M4 3h2v4H4zM10 3h2v4h-2z"></path>
+                        <path fill="rgba(255,255,255,0.4)" d="M4 8h2v4H4zM10 8h2v4h-2z"></path>
+                        <path fill="#a98fff" d="M1 7h14v1H1z"></path>
+                    </svg>
+                    <span class="font-display" style="font-weight: 700; font-size: 18px; color: #ffffff;">Odissey</span>
                 </a>
-                <p class="text-xs text-[#8b85a3] leading-relaxed">
+                <p style="font-size: 13px; color: #8b85a3; line-height: 1.6; margin: 0;">
                     El servidor de Minecraft Java diseñado para la mejor experiencia survival RPG, comunidad activa y rendimiento garantizado.
                 </p>
-                <p class="text-[11px] text-[#8b85a3]/70">
+                <p style="font-size: 11px; color: rgba(139, 133, 163, 0.7); margin: 0;">
                     Odissey no es un producto oficial de Minecraft ni está respaldado por o asociado con Mojang o Microsoft.
                 </p>
             </div>
 
             <!-- Col 2: Enlaces Rápidos -->
             <div>
-                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Navegación</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
-                    <li><a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Tienda Oficial</a></li>
-                    <li><a href="/wiki" class="hover:text-white transition-colors">Wiki & Comandos</a></li>
-                    <li><a href="/reglas" class="hover:text-white transition-colors">Reglamento</a></li>
-                    <li><a href="/noticias" class="hover:text-white transition-colors">Noticias</a></li>
-                    <li><a href="/galeria" class="hover:text-white transition-colors">Galería</a></li>
+                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Navegación</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                    <li><a href="/" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Inicio</a></li>
+                    <li><a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Tienda Oficial</a></li>
+                    <li><a href="/wiki" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Wiki & Comandos</a></li>
+                    <li><a href="/reglas" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Reglamento</a></li>
+                    <li><a href="/noticias" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Noticias</a></li>
+                    <li><a href="/galeria" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Galería</a></li>
                 </ul>
             </div>
 
             <!-- Col 3: Comunidad -->
             <div>
-                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Comunidad</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Discord Oficial</a></li>
-                    <li><a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">TikTok</a></li>
-                    <li><a href="/eventos" class="hover:text-white transition-colors">Eventos & Torneos</a></li>
-                    <li><a href="/staff" class="hover:text-white transition-colors">Conoce al Staff</a></li>
+                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Comunidad</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                    <li><a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'"><span class="size-1.5" style="border-radius: 50%; background: #a98fff;"></span> Discord Oficial</a></li>
+                    <li><a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">TikTok</a></li>
+                    <li><a href="/eventos" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Eventos & Torneos</a></li>
+                    <li><a href="/staff" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Conoce al Staff</a></li>
                 </ul>
             </div>
 
             <!-- Col 4: Soporte & Legal -->
             <div>
-                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Soporte & Legal</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="/soporte" class="hover:text-white transition-colors">Sistema de Tickets</a></li>
-                    <li><a href="/reportes" class="hover:text-white transition-colors">Reportar Usuario</a></li>
-                    <li><a href="/terminos" class="hover:text-white transition-colors">Términos del Servicio</a></li>
-                    <li><a href="/privacidad" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Soporte & Legal</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                    <li><a href="/soporte" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Sistema de Tickets</a></li>
+                    <li><a href="/reportes" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Reportar Usuario</a></li>
+                    <li><a href="/terminos" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Términos del Servicio</a></li>
+                    <li><a href="/privacidad" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Política de Privacidad</a></li>
                 </ul>
             </div>
         </div>
 
         <!-- Sub-bar -->
-        <div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            <p>&copy; 2026 OdisseyMC. Todos los derechos reservados.</p>
-            <div class="flex items-center gap-2">
-                <span class="size-2 rounded-full bg-green-400"></span>
-                <span>Servidor en línea: <strong class="text-white font-mono">mc.odisseymc.site</strong></span>
+        <div style="max-width: 1150px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 12px;">
+            <p style="margin: 0;">&copy; 2026 OdisseyMC. Todos los derechos reservados.</p>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="size-2" style="border-radius: 50%; background: #4ade80;"></span>
+                <span>Servidor en línea: <strong class="font-mono" style="color: #ffffff;">mc.odisseymc.site</strong></span>
             </div>
         </div>
     </footer>
@@ -786,8 +794,7 @@
         }
     </script>
 
-
-    <!-- Modal de entrada por nombre de Minecraft -->
+<!-- Modal de entrada por nombre de Minecraft -->
     <div id="loginModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
         style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
