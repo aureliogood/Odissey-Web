@@ -4,6 +4,10 @@
    ODISSEY HORIZON DESIGN SYSTEM (https://playhorizon.dev)
    Paleta Cósmica Obsidiana + Púrpura Radiante + Glassmorfismo
    ============================================================ */
+.skip-link {
+  display: none !important;
+}
+
 :root {
   /* Tipografías Horizon */
   --font-display: 'Bricolage Grotesque', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
