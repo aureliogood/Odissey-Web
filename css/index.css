@@ -297,42 +297,58 @@ header img {
 /* ----------------------------------------------------------------------------
    HERO BACKDROP & LAYOUT
    ---------------------------------------------------------------------------- */
-.hz-hero-section {
-  position: relative;
-  overflow: hidden;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 24px 64px 24px;
-}
-
-.hz-hero-backdrop {
+/* ============================================================================
+   HERO FULL-WIDTH SPARTAN BACKGROUND & PLAYHORIZON BENCHMARK
+   ============================================================================ */
+.hz-hero-bg-wrapper {
   position: absolute;
   top: 0;
-  right: -5%;
-  width: 75%;
-  height: 100%;
-  max-height: 700px;
+  left: 0;
+  width: 100%;
+  height: 840px;
+  overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.32;
-  mask-image: radial-gradient(ellipse at 70% 35%, black 40%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 70% 35%, black 40%, transparent 80%);
 }
 
-.hz-hero-backdrop-img {
+.hz-hero-bg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 65% 25%;
-  filter: contrast(120%) brightness(95%);
+  object-position: 82% 22%;
+  opacity: 0.90;
+  filter: contrast(112%) brightness(92%);
 }
 
-.hz-hero-backdrop-gradient {
+.hz-hero-bg-overlay {
   position: absolute;
   inset: 0;
   background: 
-    linear-gradient(90deg, #09070f 20%, rgba(9, 7, 15, 0.75) 60%, rgba(9, 7, 15, 0.2) 100%),
-    linear-gradient(0deg, #09070f 5%, transparent 60%);
+    linear-gradient(90deg, #09070f 0%, #09070f 28%, rgba(9, 7, 15, 0.78) 58%, rgba(9, 7, 15, 0.18) 100%),
+    linear-gradient(0deg, #09070f 0%, rgba(9, 7, 15, 0.6) 20%, transparent 65%),
+    linear-gradient(180deg, #09070f 0%, rgba(9, 7, 15, 0.35) 15%, transparent 35%);
+}
+
+@media (max-width: 991px) {
+  .hz-hero-bg-wrapper {
+    height: 740px;
+  }
+  .hz-hero-bg-img {
+    object-position: center 20%;
+    opacity: 0.55;
+  }
+  .hz-hero-bg-overlay {
+    background: 
+      linear-gradient(180deg, rgba(9, 7, 15, 0.5) 0%, rgba(9, 7, 15, 0.92) 65%, #09070f 100%);
+  }
+}
+
+.hz-hero-section {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 64px 24px;
+  z-index: 2;
 }
 
 .hz-hero-layout {
@@ -352,15 +368,15 @@ header img {
 }
 
 /* ----------------------------------------------------------------------------
-   PLAYHORIZON BENCHMARK CARD (TPS INTERACTIVO)
+   PLAYHORIZON BENCHMARK CARD (TPS INTERACTIVO 1:1 CON PLAYHORIZON.DEV)
    ---------------------------------------------------------------------------- */
 .hz-bench-card {
-  background: rgba(18, 14, 29, 0.82);
+  background: rgba(18, 14, 29, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: clamp(24px, 3.5vw, 36px);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
   position: relative;
 }
@@ -370,183 +386,192 @@ header img {
 }
 
 .hz-bench-label {
-  font-family: var(--hz-font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  color: #71717a;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  display: block;
+  font-family: var(--hz-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
   margin-bottom: 12px;
+  display: block;
 }
 
 .hz-bench-title {
   font-family: var(--hz-font-display);
-  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.25rem);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: #ffffff;
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
 }
 
 .hz-bench-desc {
-  font-size: 13.5px;
-  color: #a1a1aa;
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.55;
-  margin: 0 0 28px 0;
+  margin: 0 0 36px 0;
 }
 
 /* Benchmark Rows */
 .hz-bench-row {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+}
+.hz-bench-row:last-of-type {
+  margin-bottom: 0;
 }
 
 .hz-bench-row-top {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 8px;
+  gap: 16px;
 }
 
 .hz-bench-server {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #ffffff;
 }
 
 .hz-bench-server.muted {
-  color: #a1a1aa;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .hz-bench-server-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
-}
-
-.hz-bench-players-chip {
-  font-family: var(--hz-font-mono);
-  font-size: 11px;
-  color: #9370db;
-  background: rgba(147, 112, 219, 0.12);
-  border: 1px solid rgba(147, 112, 219, 0.25);
-  padding: 1px 6px;
-  border-radius: 4px;
-  margin-left: 4px;
 }
 
 .hz-bench-value {
   display: inline-flex;
   align-items: baseline;
-  gap: 3px;
-}
-
-.hz-bench-val-num {
+  gap: 4px;
   font-family: var(--hz-font-display);
-  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
+  letter-spacing: -0.02em;
   color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.hz-bench-value.muted {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .hz-bench-val-unit {
-  font-family: var(--hz-font-mono);
-  font-size: 13px;
-  color: #71717a;
+  font-family: var(--hz-font-sans);
+  font-size: 14px;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: normal;
 }
 
-/* Benchmark Progress Bars */
-.hz-bench-track {
-  width: 100%;
+/* Benchmark Progress Bars (Exact Horizon Dimensions & Styling) */
+.hz-stat-track {
+  position: relative;
+  margin-top: 12px;
   height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  overflow: hidden;
-  position: relative;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.07);
 }
 
-.hz-bench-fill-purple {
-  height: 100%;
-  background: linear-gradient(90deg, #7048e8, #a98fff);
-  box-shadow: 0 0 16px rgba(169, 143, 255, 0.5);
-  border-radius: 9999px;
-  transition: width 0.2s ease;
+.hz-stat-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 6px;
+  background: #7c5cff;
+  filter: blur(10px);
+  opacity: 0.65;
+  pointer-events: none;
 }
 
-.hz-bench-slider-wrap {
-  position: relative;
-  width: 100%;
-  height: 18px;
-  display: flex;
-  align-items: center;
-}
-
-.hz-bench-track-interactive {
-  width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  overflow: hidden;
-  position: relative;
-}
-
-.hz-bench-fill-gray {
-  height: 100%;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 9999px;
-  transition: width 0.08s ease;
-}
-
-.hz-bench-slider {
-  -webkit-appearance: none;
-  appearance: none;
+.hz-stat-bar-purple {
   position: absolute;
   inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6b4bff, #9f86ff 60%, #c9bbff);
   width: 100%;
-  height: 100%;
-  background: transparent;
-  cursor: ew-resize;
-  margin: 0;
-  padding: 0;
-  z-index: 10;
 }
 
-.hz-bench-slider:focus {
-  outline: none;
+.hz-stat-bar-gray {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width 0.05s linear;
 }
 
-.hz-bench-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 6px;
-  height: 20px;
-  border-radius: 3px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  cursor: ew-resize;
-  border: none;
+/* PlayHorizon FPS range slider (Zero browser outline, perfectly centered thumb) */
+.fps-range {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 100% !important;
+  height: 24px !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 10 !important;
 }
 
-.hz-bench-slider::-moz-range-thumb {
-  width: 6px;
-  height: 20px;
-  border-radius: 3px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  cursor: ew-resize;
-  border: none;
+.fps-range:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.fps-range::-webkit-slider-runnable-track {
+  background: transparent !important;
+  border: none !important;
+  height: 100% !important;
+}
+
+.fps-range::-moz-range-track {
+  background: transparent !important;
+  border: none !important;
+}
+
+.fps-range::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  cursor: ew-resize !important;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 2px !important;
+  width: 6px !important;
+  height: 20px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+  margin-top: 2px !important;
+}
+
+.fps-range::-moz-range-thumb {
+  cursor: ew-resize !important;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 2px !important;
+  width: 6px !important;
+  height: 20px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
 .hz-bench-footer {
-  margin-top: 24px;
-  font-size: 12.5px;
-  color: #71717a;
-  line-height: 1.5;
+  margin-top: 32px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0;
 }
 
 .hz-bench-footer strong {
