@@ -1086,8 +1086,16 @@ function trasCambiarSesion(acabasDeEntrar) {
     } catch (e) { /* nada */ }
 
     if (acabasDeEntrar) {
+      // Algunas acciones (como apelar un baneo) necesitan volver a la misma
+      // pagina despues del login. Solo se acepta una ruta local de baneos.
+      var retorno = '';
+      try {
+        retorno = sessionStorage.getItem('odyssey_login_return_to') || '';
+        sessionStorage.removeItem('odyssey_login_return_to');
+        if (!/^\/baneos(?:\.html)?(?:\?.*)?$/.test(retorno)) retorno = '';
+      } catch (e) { retorno = ''; }
       // Un pequeño retardo para que el usuario vea como cambia la cabecera.
-      setTimeout(() => { window.location.href = '/perfil'; }, 220);
+      setTimeout(() => { window.location.href = retorno || '/perfil'; }, 220);
       return;
     }
 

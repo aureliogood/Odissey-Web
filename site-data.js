@@ -60,7 +60,7 @@
 
     data: {
       news: [], events: [], gallery: [], products: [], staff: [], ratings: [],
-      reports: [], orders: [], settings: null, maintenance: null, log: []
+      reports: [], orders: [], banAppeals: [], settings: null, maintenance: null, log: []
     },
     configured: { products: false, productsEmpty: false, staff: false, staffEmpty: false },
     publicLoaded: false,
@@ -140,6 +140,7 @@
             staff: lista('staff'),
             ratings: lista('ratings'),
             reports: lista('reports'),
+            banAppeals: Array.isArray(json.banAppeals) ? json.banAppeals : (previo.banAppeals || []),
             orders: lista('orders'),
             settings: json.settings || previo.settings || null,
             maintenance: json.maintenance || previo.maintenance || null,

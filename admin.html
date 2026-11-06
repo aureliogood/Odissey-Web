@@ -167,6 +167,7 @@ Antes era un div: Enter no hacia nada y un
                             <button type="button" class="tab-btn" data-tab="staff" onclick="switchTab('staff')">Staff</button>
                             <button type="button" class="tab-btn" data-tab="calificaciones" onclick="switchTab('calificaciones')">Calificaciones</button>
                             <button type="button" class="tab-btn" data-tab="reportes" onclick="switchTab('reportes')">Reportes</button>
+                            <button type="button" class="tab-btn" data-tab="apelaciones" onclick="switchTab('apelaciones')">Apelaciones</button>
                             <div class="admin-tabgroup">Tienda</div>
                             <button type="button" class="tab-btn" data-tab="tienda" onclick="switchTab('tienda')">Productos</button>
                             <div class="admin-tabgroup">Sistema</div>
@@ -443,6 +444,12 @@ Antes era un div: Enter no hacia nada y un
                             <div id="reports-list"></div>
                         </div>
 
+                        <div id="tab-apelaciones" class="tab-panel hidden">
+                            <h2 class="text-xl font-bold text-text-light mb-2">Apelaciones de baneos</h2>
+                            <p class="text-text-dark text-sm mb-6">Responde las solicitudes, mantenlas abiertas, ciérralas o elimínalas.</p>
+                            <div id="ban-appeals-list"></div>
+                        </div>
+
                         <!-- Tab: Buscar -->
                         <!-- Lo unico del panel que enseña datos que el resto de
                              visitors no ven: IP, dispositivo y toda la ficha de
@@ -609,9 +616,9 @@ Antes era un div: Enter no hacia nada y un
          site-data.js pide el contenido nada mas entrar y, si la capa no esta
          montada todavia, esa peticion sale a la red y el contenido se queda
          vacio sin reintentar. -->
-    <script src="js/supabase.js?v=147" defer></script>
-    <script src="js/datos.js?v=147" defer></script>
-<script src="site-data.js?v=147"></script>
+    <script src="js/supabase.js?v=148" defer></script>
+    <script src="js/datos.js?v=148" defer></script>
+<script src="site-data.js?v=148"></script>
     <script>
         const loginView = document.getElementById('loginView');
         const dashboardView = document.getElementById('dashboardView');
@@ -1074,6 +1081,7 @@ Antes era un div: Enter no hacia nada y un
             'odissey_gallery': 'gallery',
             'odissey_ratings': 'ratings',
             'odissey_reports': 'reports',
+            'odissey_ban_appeals': 'banAppeals',
             'odissey_orders': 'orders',
             'odissey_admin_log': 'log'
         };
@@ -1135,6 +1143,7 @@ Antes era un div: Enter no hacia nada y un
             if (name === 'tienda') renderProductEditor();
             if (name === 'calificaciones') renderRatings();
             if (name === 'reportes') renderReports();
+            if (name === 'apelaciones') renderBanAppeals();
             if (name === 'ajustes') renderSiteSettingsEditor();
             if (name === 'registro') renderLog();
         }
@@ -2068,6 +2077,79 @@ Antes era un div: Enter no hacia nada y un
         }
 
         // ================================================================
+        // ---------- Apelaciones de baneos ----------
+        function renderBanAppeals() {
+            const appeals = SiteData.get('banAppeals') || [];
+            const list = document.getElementById('ban-appeals-list');
+            list.replaceChildren();
+            if (!appeals.length) {
+                list.innerHTML = '<div class="no-ratings">No hay apelaciones todavía.</div>';
+                return;
+            }
+            appeals.forEach(a => {
+                const id = escapeArgJs(a.id);
+                if (!id) return;
+                const article = document.createElement('article');
+                article.className = 'list-item admin-appeal';
+                const status = a.status === 'closed' ? 'Cerrada' : 'Abierta';
+                article.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span class="title">Apelación: ${escapeHtml(a.player_name || 'Jugador')}</span>
+                        <span class="status-pill ${a.status === 'closed' ? 'status-resuelto' : 'status-proceso'}">${status}</span>
+                    </div>
+                    <div class="sub mb-2">Baneo aplicado por ${escapeHtml(a.ban_staff || 'Desconocido')} • ${a.ban_created_at ? formatDate(a.ban_created_at) : 'Fecha desconocida'} • ${a.ban_expires_at ? 'Hasta ' + formatDate(a.ban_expires_at) : 'Permanente'}</div>
+                    <div class="sub mb-2">Motivo original: ${escapeHtml(a.ban_reason || 'Sin motivo')}</div>
+                    <div class="sub mb-2"><strong>Solicitud:</strong><br>${escapeHtml(a.message || '').replace(/\n/g, '<br>')}</div>
+                    ${a.evidence ? `<div class="sub mb-2"><strong>Pruebas / contexto:</strong><br>${escapeHtml(a.evidence).replace(/\n/g, '<br>')}</div>` : ''}
+                    <div class="meta mb-3">Enviada ${formatDate(a.created_at)} • Cuenta: ${escapeHtml(a.user_id || '')}</div>
+                    <label class="block text-sm mb-2">Respuesta de administración
+                      <textarea id="ban-appeal-response-${id}" maxlength="3000" rows="3" class="w-full p-3 rounded-xl bg-slate-900 border border-slate-700 text-white" placeholder="Escribe una respuesta para el jugador…">${escapeHtml(a.admin_response || '')}</textarea>
+                    </label>
+                    ${a.admin_name ? `<div class="meta mb-3">Última respuesta: ${escapeHtml(a.admin_name)} • ${formatDate(a.updated_at)}</div>` : ''}
+                    <div class="flex flex-wrap gap-2">
+                      <button type="button" class="btn-gold" onclick="saveBanAppeal('${id}')">Guardar respuesta / estado</button>
+                      <button type="button" class="btn-action" onclick="setBanAppealStatus('${id}', '${a.status === 'closed' ? 'open' : 'closed'}')">${a.status === 'closed' ? 'Reabrir' : 'Cerrar'}</button>
+                      <button type="button" class="btn-danger" onclick="deleteBanAppeal('${id}')">Eliminar</button>
+                    </div>`;
+                list.append(article);
+            });
+        }
+
+        async function saveBanAppeal(id, forcedStatus) {
+            const response = document.getElementById('ban-appeal-response-' + id);
+            const current = (SiteData.get('banAppeals') || []).find(a => a.id === id);
+            if (!current) { showToast('No se encontró esa apelación.'); return; }
+            const result = await SiteData.post('/api/admin/ban-appeals/' + encodeURIComponent(id), {
+                token: getSessionToken(), status: forcedStatus || current.status,
+                response: response ? response.value : (current.admin_response || '')
+            });
+            if (!result.json || !result.json.ok) {
+                showToast(adminError(result, 'No se pudo guardar la apelación. Ejecuta la migración 09 en Supabase si aún no lo hiciste.'));
+                return;
+            }
+            showToast('Apelación actualizada.');
+            await reloadAdminAndRedraw();
+            logAdmin('Actualizó una apelación de baneo (' + (forcedStatus || current.status) + ')');
+        }
+
+        async function setBanAppealStatus(id, status) {
+            await saveBanAppeal(id, status);
+        }
+
+        async function deleteBanAppeal(id) {
+            if (!idValido(id)) { showToast('El id de la apelación no es válido.'); return; }
+            if (!confirm('¿Eliminar definitivamente esta apelación?')) return;
+            const result = await SiteData.del('/api/admin/ban-appeals/' + encodeURIComponent(id) + '?token=' + encodeURIComponent(getSessionToken()));
+            if (!result.json || !result.json.ok) {
+                showToast(adminError(result, 'No se pudo eliminar la apelación.'));
+                return;
+            }
+            showToast('Apelación eliminada.');
+            await reloadAdminAndRedraw();
+            logAdmin('Eliminó una apelación de baneo');
+        }
+
+        // ================================================================
         // Pestaña Buscar: registro de gente y ficha completa de cada cuenta
         // ================================================================
         // Lo que se ve aquí NO lo puede ver nadie más que el staff: son las IP,
@@ -2899,7 +2981,7 @@ Antes era un div: Enter no hacia nada y un
     <script src="js/dala-bg.js?v=147"></script>
     <script src="js/dala-menu.js?v=147"></script>
         <script src="js/dala-nav.js?v=147"></script>
-      <script src="auth.js?v=147"></script>
+      <script src="auth.js?v=148"></script>
 </body>
 
 </html>

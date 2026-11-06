@@ -394,6 +394,77 @@ function mantenimientoPlano(m) {
       return responder({ ok: true, reports: reports.data || [], orders: orders.data || [] });
     }
 
+    // ---- apelaciones de baneos ----
+    if (ruta === '/api/ban-appeals/mine' && metodo === 'GET') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const { data, error } = await sb.from('ban_appeals').select('*')
+        .eq('user_id', u.id).order('created_at', { ascending: false });
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      return responder({ ok: true, appeals: data || [] });
+    }
+
+    if (ruta === '/api/ban-appeals' && metodo === 'POST') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const banId = String(cuerpo && cuerpo.banId || '').trim().slice(0, 160);
+      const message = String(cuerpo && cuerpo.message || '').trim().slice(0, 3000);
+      const evidence = String(cuerpo && cuerpo.evidence || '').trim().slice(0, 4000);
+      if (!banId || message.length < 20) return responder({ ok: false, error: 'datos_invalidos' }, 400);
+      const [{ data: ban, error: banError }, profile] = await Promise.all([
+        sb.from('staff_bans').select('id,player_name,player_uuid,reason,staff_name,created_at,expires_at,revoked_at')
+          .eq('id', banId).maybeSingle(),
+        perfilDe(sb, u.id),
+      ]);
+      if (banError) return responder({ ok: false, error: banError.message }, 400);
+      if (!ban || ban.revoked_at || (ban.expires_at && Date.parse(ban.expires_at) <= Date.now())) {
+        return responder({ ok: false, error: 'baneo_no_activo' }, 400);
+      }
+      const mcName = String(profile && profile.mc_name || '').trim();
+      if (!mcName) return responder({ ok: false, error: 'vincula_minecraft' }, 400);
+      if (mcName.toLowerCase() !== String(ban.player_name || '').toLowerCase()) {
+        return responder({ ok: false, error: 'cuenta_no_coincide' }, 403);
+      }
+      const { data: previas, error: prevError } = await sb.from('ban_appeals').select('id')
+        .eq('ban_id', ban.id).eq('user_id', u.id).eq('status', 'open').limit(1);
+      if (prevError) return responder({ ok: false, error: prevError.message }, 400);
+      if ((previas || []).length) return responder({ ok: false, error: 'apelacion_ya_abierta' }, 409);
+      const id = 'ap_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      const { data, error } = await sb.from('ban_appeals').insert({
+        id, ban_id: ban.id, user_id: u.id, player_name: ban.player_name,
+        message, evidence, status: 'open', ban_reason: ban.reason,
+        ban_staff: ban.staff_name, ban_created_at: ban.created_at, ban_expires_at: ban.expires_at,
+      }).select().single();
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      return responder({ ok: true, appeal: data });
+    }
+
+    if (ruta.indexOf('/api/admin/ban-appeals/') === 0) {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      if (!(await esAdmin(sb, u))) return responder({ ok: false, error: 'sin_permiso' }, 403);
+      let id = ruta.slice('/api/admin/ban-appeals/'.length);
+      try { id = decodeURIComponent(id); } catch (e) { /* se conserva */ }
+      id = String(id).trim();
+      if (!id) return responder({ ok: false, error: 'id_invalido' }, 400);
+      if (metodo === 'DELETE') {
+        const { data, error } = await sb.from('ban_appeals').delete().eq('id', id).select('id');
+        if (error) return responder({ ok: false, error: error.message }, 400);
+        return responder({ ok: true, deleted: (data || []).length });
+      }
+      if (metodo === 'POST' || metodo === 'PUT') {
+        const status = String(cuerpo && cuerpo.status || '').trim();
+        const response = String(cuerpo && cuerpo.response || '').trim().slice(0, 3000);
+        if (!['open', 'closed'].includes(status)) return responder({ ok: false, error: 'estado_invalido' }, 400);
+        const profile = await perfilDe(sb, u.id);
+        const { data, error } = await sb.from('ban_appeals').update({
+          status, admin_response: response, admin_name: profile && profile.username || u.email || 'Admin',
+          updated_at: new Date().toISOString(),
+        }).eq('id', id).select().maybeSingle();
+        if (error) return responder({ ok: false, error: error.message }, 400);
+        if (!data) return responder({ ok: false, error: 'no_encontrado' }, 404);
+        return responder({ ok: true, appeal: data });
+      }
+      return responder({ ok: false, error: 'metodo_no_permitido' }, 405);
+    }
+
     /* Lo que ve el panel de admin. Solo rol "admin": el panel no deja
        entrar a los staff, asi que dejarles la API abierta seria una
        puerta de atrás. La RLS tampoco les deja leer estas tablas, asi que
@@ -404,7 +475,7 @@ function mantenimientoPlano(m) {
       if (!(await esAdmin(sb, u))) {
         return responder({ ok: false, error: 'sin_permiso' }, 403);
       }
-      const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log, mant] =
+      const [news, events, gallery, products, staff, ratings, reports, orders, ajustes, log, mant, banAppeals] =
         await Promise.all([
           sb.from('news').select('*'),
           sb.from('events').select('*'),
@@ -421,6 +492,7 @@ function mantenimientoPlano(m) {
              siempre y la vista previa decia "inactivo" aunque estuviera
              activado en la web. */
           sb.from('maintenance').select('*').eq('id', 1).maybeSingle(),
+          sb.from('ban_appeals').select('*').order('created_at', { ascending: false }),
         ]);
       return responder({
         ok: true,
@@ -431,6 +503,7 @@ function mantenimientoPlano(m) {
         staff: staff.data || [],
         ratings: ratings.data || [],
         reports: reports.data || [],
+        banAppeals: banAppeals.data || [],
         orders: orders.data || [],
         settings: ajustes.data || null,
         maintenance: mantenimientoPlano(mant.data),
