@@ -387,12 +387,24 @@ footer a:hover {
   pointer-events: none !important;
 }
 
+/* Desktop Navigation and Mobile Button responsiveness */
+.hz-desktop-nav {
+  display: none;
+}
+
 @media (min-width: 1024px) {
-  #menuDropdown {
-    display: none !important;
-    pointer-events: none !important;
+  .hz-desktop-nav {
+    display: flex !important;
+    align-items: center !important;
   }
 }
+
+@media (max-width: 1023px) {
+  .hz-desktop-nav {
+    display: none !important;
+  }
+}
+
 
 /* ==========================================================================
    Modern Horizon Mobile Menu for All Subpages (.menu-desplegable)
