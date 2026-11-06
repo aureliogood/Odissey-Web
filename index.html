@@ -126,18 +126,17 @@
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div id="menuDropdown" class="menu-desplegable hidden lg:hidden px-6 py-4 bg-[#140e26] border-b border-white/10" style="position: absolute; top: 72px; left: 0; right: 0;">
-            <div class="flex flex-col gap-2">
-                <a href="/" class="px-4 py-2.5 rounded-xl bg-white/[0.05] text-white font-medium">Inicio</a>
-                <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Tienda</a>
-                <a href="/wiki" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Wiki</a>
-                <a href="/reglas" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Reglas</a>
-                <a href="/noticias" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Noticias</a>
-                <a href="/eventos" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Eventos</a>
-                <a href="/staff" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Staff</a>
-                <a href="/soporte" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Soporte</a>
-                <a href="/galeria" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Galería</a>
-            </div>
+        <!-- Mobile Navigation Menu -->
+        <div id="menuDropdown" class="hidden">
+            <a href="/" onclick="closeMenu()">Inicio</a>
+            <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">Tienda</a>
+            <a href="/wiki" onclick="closeMenu()">Wiki</a>
+            <a href="/reglas" onclick="closeMenu()">Reglas</a>
+            <a href="/noticias" onclick="closeMenu()">Noticias</a>
+            <a href="/eventos" onclick="closeMenu()">Eventos</a>
+            <a href="/staff" onclick="closeMenu()">Staff</a>
+            <a href="/soporte" onclick="closeMenu()">Soporte</a>
+            <a href="/galeria" onclick="closeMenu()">Galería</a>
         </div>
     </header>
 
@@ -660,6 +659,42 @@
 
     <!-- Interactive script helper for Horizon features -->
     <script>
+        
+        function toggleMenu() {
+            const menu = document.getElementById('menuDropdown');
+            const btn = document.getElementById('menuBtn');
+            if (!menu) return;
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            } else {
+                menu.classList.add('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('menuDropdown');
+            const btn = document.getElementById('menuBtn');
+            if (menu) menu.classList.add('hidden');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+
+        // Close mobile menu on click outside or Escape
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('menuDropdown');
+            const btn = document.getElementById('menuBtn');
+            if (!menu || !btn) return;
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenu();
+        });
+
         function copyIpAddress() {
             const ip = "mc.odisseymc.site";
             if (navigator.clipboard && window.isSecureContext) {
