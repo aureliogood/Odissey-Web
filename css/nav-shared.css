@@ -37,10 +37,10 @@
     align-items: center;
     gap: 9px;
     padding: 0 12px;
-    border: 2px solid #343434;
-    border-radius: 2px;
-    background: #09090c;
-    box-shadow: 4px 4px 0 #000;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(22, 16, 40, 0.95);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     color: #e6e1f1;
     font: 600 0.8rem var(--font-dala);
     text-decoration: none;
@@ -62,10 +62,10 @@
 .menu-desplegable__grupo {
     display: grid;
     margin: 4px 0;
-    border: 2px solid #292929;
-    border-radius: 2px;
-    background: #09090c;
-    box-shadow: 3px 3px 0 #000;
+    border: 2px solid rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    background: rgba(22, 16, 40, 0.95);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 .menu-desplegable__grupo .menu-desplegable__enlace {
     border-radius: 0;

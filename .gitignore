@@ -33,3 +33,7 @@ ver-supabase.ps1
 
 # Plugins externos
 OdisseyPesca/
+
+# Archivos de modelo y staging de recursos
+*.bbmodel
+_tab_pack_stage/

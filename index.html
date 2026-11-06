@@ -1,447 +1,792 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full antialiased">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        // Aplica el tema guardado ANTES de pintar para evitar el flash de color.
         document.documentElement.classList.toggle('theme-light', false);
     </script>
-    <script>
-        // Marca en la navegacion el enlace de la pagina actual.
-        // Debe ejecutarse después de que el DOM esté listo (el nav está en <body>).
-        document.addEventListener('DOMContentLoaded', function () {
-            var here = location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '/');
-            document.querySelectorAll('.nav-button[href]').forEach(function (a) {
-                var target = new URL(a.getAttribute('href'), location.href).pathname;
-                if (target === here) a.setAttribute('aria-current', 'page');
-            });
-        });
-    </script>
-    <title>Odissey - Minecraft Server</title>
-  <link rel="canonical" href="https://odisseymc.site/">
-    <meta name="description" content="Entra a Odissey, construye junto al mar, consigue los mejores kits y vive tu propia leyenda en Odissey.">
-    <meta name="theme-color" content="#000000">
+    <title>Odissey - Servidor de Minecraft Java</title>
+    <link rel="canonical" href="https://odisseymc.site/">
+    <meta name="description" content="Odissey es el servidor de Minecraft Java definitivo: Survival RPG, economía balanceada, mazmorras personalizadas, pesca mística y 20 TPS sin lag.">
+    <meta name="theme-color" content="#100a1f">
+    <meta name="color-scheme" content="dark">
     <link rel="manifest" href="manifest.json">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Odissey Minecraft Server">
-    <meta property="og:title" content="Odissey - Servidor de Minecraft Java">
-    <meta property="og:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia odisea en comunidad.">
+    <meta property="og:title" content="Odissey - El Servidor de Minecraft Java Definitivo">
+    <meta property="og:description" content="Entra a Odissey desde Minecraft Java Edition y vive una experiencia Survival RPG con 20 TPS estables.">
     <meta property="og:image" content="https://odisseymc.site/img/og-image.jpg">
     <meta property="og:url" content="https://odisseymc.site/">
     <meta property="og:locale" content="es_ES">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Odissey - Servidor de Minecraft Java">
-    <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive tu propia leyenda en Odissey.">
+    <meta name="twitter:description" content="Entra a Odissey desde Minecraft Java Edition y vive una experiencia Survival RPG única.">
     <meta name="twitter:image" content="https://odisseymc.site/img/og-image.jpg">
-    <link rel="stylesheet" href="css/tailwind.css?v=147">
-    <link rel="stylesheet" href="theme.css?v=147">
-    <link rel="stylesheet" href="css/search.css?v=147">
-    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    
+    <!-- Horizon Fonts & Styling -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,400;0,500;0,600;0,700;1,400&display=swap"
-        rel="stylesheet">
-  <link rel="stylesheet" href="css/index.css?v=149">
-  <link rel="stylesheet" href="css/dala.css?v=148">
-    <link rel="stylesheet" href="/css/nav-shared.css?v=2">
-  <link rel="stylesheet" href="css/dala-polish.css?v=2">
-    <link rel="stylesheet" href="css/dala-steve.css?v=147">
-<link rel="stylesheet" href="css/dala-liquid.css?v=147">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/tailwind.css?v=150">
+    <link rel="stylesheet" href="theme.css?v=150">
+    <link rel="stylesheet" href="css/search.css?v=150">
+    <link rel="stylesheet" href="css/index.css?v=150">
+    <link rel="stylesheet" href="css/dala.css?v=150">
+    <link rel="stylesheet" href="/css/nav-shared.css?v=150">
+    <link rel="stylesheet" href="css/dala-polish.css?v=150">
+    
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    
     <script src="js/dala-menu.js?v=147"></script>
     <script src="js/seguro.js?v=147"></script>
     <script src="js/animacion.js?v=147"></script>
-    <script src="js/dala-liquid.js?v=147" defer></script>
-<script src="js/home-typewriter.js?v=1" defer></script>
-        <script type="application/ld+json">
-{
-"@context":  "https://schema.org",
-"@graph":  [
-{
-"@type":  "WebSite",
-"@id":  "https://odisseymc.site/#website",
-"url":  "https://odisseymc.site/",
-"name":  "Odissey Minecraft Server",
-"inLanguage":  "es",
-"publisher":  {
-"@type":  "Organization",
-"@id":  "https://odisseymc.site/#org",
-"name":  "Odissey",
-"url":  "https://odisseymc.site/",
-"logo":  {
-"@type":  "ImageObject",
-"url":  "https://odisseymc.site/img/logo-web.webp",
-"width":  900,
-"height":  382
-}
-}
-},
-{
-"@type":  "VideoGame",
-"@id":  "https://odisseymc.site/#pagina",
-"url":  "https://odisseymc.site/",
-"name":  "Odissey - Servidor de Minecraft Java",
-"inLanguage":  "es",
-"isPartOf":  {
-"@id":  "https://odisseymc.site/#website"
-},
-"publisher":  {
-"@id":  "https://odisseymc.site/#org"
-},
-"description":  "Servidor de Minecraft Java Survival Custom con kits, rangos y comunidad.",
-"genre":  [
-"Survival",
-"Multiplayer",
-"Custom RPG"
-],
-"gamePlatform":  [
-"PC"
-],
-"applicationCategory":  "Game",
-"operatingSystem":  "Minecraft 1.20 - 1.21",
-"image":  "https://odisseymc.site/img/og-image.jpg"
-},
-{
-"@type":  "BreadcrumbList",
-"@id":  "https://odisseymc.site/#miga",
-"itemListElement":  [
-{
-"@type":  "ListItem",
-"position":  1,
-"name":  "Inicio",
-"item":  "https://odisseymc.site/"
-}
-]
-},
-{
-"@id":  "https://odisseymc.site/#website"
-}
-]
-}
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://odisseymc.site/",
+      "name": "Odissey Minecraft Server",
+      "description": "Servidor de Minecraft Java con experiencia Survival RPG y rendimiento óptimo."
+    }
     </script>
-    <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
-    <link rel="stylesheet" href="css/auth.css?v=147">
-    <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
-    <link rel="stylesheet" href="css/turnstile.css?v=147">
-    <link rel="stylesheet" href="/css/responsive.css?v=2">
 </head>
-<body>
-  <a href="#contenido" class="skip-link" data-i18n="skip_link">Ir al contenido</a>
-    <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
-    <!-- Partículas doradas flotantes -->
-    <div class="page-particles" aria-hidden="true">
-        <span class="page-particle" style="left: 8%; top: 70%; animation-delay: 0s;"></span>
-        <span class="page-particle" style="left: 16%; top: 55%; animation-delay: 1.2s;"></span>
-        <span class="page-particle" style="left: 24%; top: 65%; animation-delay: 2.4s;"></span>
-        <span class="page-particle" style="left: 33%; top: 75%; animation-delay: 0.8s;"></span>
-        <span class="page-particle" style="left: 45%; top: 60%; animation-delay: 3.0s;"></span>
-        <span class="page-particle" style="left: 55%; top: 72%; animation-delay: 1.9s;"></span>
-        <span class="page-particle" style="left: 64%; top: 58%; animation-delay: 2.8s;"></span>
-        <span class="page-particle" style="left: 74%; top: 68%; animation-delay: 0.4s;"></span>
-        <span class="page-particle" style="left: 84%; top: 62%; animation-delay: 3.6s;"></span>
-        <span class="page-particle" style="left: 92%; top: 70%; animation-delay: 2.0s;"></span>
-    </div>
-    <div class="overlay">
-        <!-- Banner de mantenimiento (oculto por defecto) -->
-        <div id="maintenanceBanner"
-            class="hidden w-full bg-gold-dark text-always-light text-center text-sm font-semibold px-4 py-2">
-            <span id="maintenanceMsg"></span>
+<body class="min-h-full flex flex-col relative bg-[#100a1f] text-white">
+
+    <!-- Ambient Cosmic Glow (Horizon) -->
+    <div class="hz-bg-glow"></div>
+
+    <!-- Toast Notification -->
+    <div id="hzToast" class="hz-toast">IP copiada al portapapeles ✓</div>
+
+    <!-- Horizon Navbar -->
+    <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-xl bg-[#100a1f]/85 border-b border-white/[0.08]">
+        <div class="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-10">
+            <!-- Brand Logo -->
+            <a class="flex items-center gap-3 text-white transition-opacity hover:opacity-90" href="/">
+                <img src="img/logo-web.webp" alt="Odissey Logo" class="h-10 w-auto object-contain">
+                <span class="font-display text-xl font-bold tracking-tight text-white hidden sm:inline-block">Odissey</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav aria-label="Main" class="hidden items-center lg:flex">
+                <div class="nav-pill">
+                    <a href="/" class="nav-pill__link" aria-current="page">Inicio</a>
+                    <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="nav-pill__link">Tienda</a>
+                    <a href="/wiki" class="nav-pill__link">Wiki</a>
+                    <a href="/reglas" class="nav-pill__link">Reglas</a>
+                    <a href="/noticias" class="nav-pill__link">Noticias</a>
+                    <a href="/eventos" class="nav-pill__link">Eventos</a>
+                    <div class="nav-pill__group">
+                        <a href="/staff" class="nav-pill__link flex items-center gap-1">Staff <svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor"><path d="m4 6 4 4 4-4"/></svg></a>
+                        <div class="nav-pill__submenu" role="menu">
+                            <a href="/soporte" class="nav-pill__sublink" role="menuitem">Soporte y Tickets</a>
+                            <a href="/baneos" class="nav-pill__sublink" role="menuitem">Historial de Baneos</a>
+                        </div>
+                    </div>
+                    <a href="/galeria" class="nav-pill__link">Galería</a>
+                </div>
+            </nav>
+
+            <!-- Navbar Actions -->
+            <div class="flex items-center gap-3">
+                <!-- IP Copy Button -->
+                <button type="button" onclick="copyIpAddress()" class="hidden md:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 hover:border-[#a98fff]/40 text-xs font-mono text-white/80 transition-all hover:bg-white/10 hover:text-white" title="Clic para copiar IP">
+                    <span id="serverStatusDot" class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <span id="serverStatusText">Online</span>
+                    <span class="text-white/40">|</span>
+                    <span class="text-[#c4b5fd] font-semibold">mc.odisseymc.site</span>
+                </button>
+
+                <!-- Login / Account Button -->
+                <button type="button" id="enterNavBtn" onclick="openLoginModal()" class="hz-btn-primary !py-2 !px-4 !text-sm flex items-center gap-2">
+                    <img id="enterNavAvatar" class="nav-avatar hidden size-6 rounded-full" alt="" width="24" height="24">
+                    <span id="enterNavText">Entrar</span>
+                    <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
+                </button>
+
+                <!-- Cart Button -->
+                <button type="button" id="cartBtn" onclick="openCartModal()" class="hidden relative p-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white transition-colors" title="Carrito de compras">
+                    <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span id="cartBadge" class="cart-count">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button type="button" id="menuBtn" onclick="toggleMenu()" class="lg:hidden p-2 rounded-full bg-white/[0.05] border border-white/10 text-white" aria-label="Abrir menú">
+                    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
         </div>
-        <!-- Sticky Navigation -->
-        <nav class="nav-bar sticky top-0 z-50 w-full">
-            <div class="nav-inner flex items-center gap-3 max-w-7xl mx-auto w-full">
-                <a href="./" class="nav-logo flex items-center shrink-0">
-                    <img src="img/logo-web.webp" width="900" height="382" alt="Odissey Logo" class="h-9 md:h-10 w-auto object-contain">
-                </a>
 
-                <div class="nav-pill" role="navigation" aria-label="Secciones">
-                    <a href="https://odissey.cyberdino.online" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="nav_tienda">Tienda</span></a>
-                            <a href="/wiki" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg><span data-i18n="nav_wiki">Wiki</span></a>
-                            <a href="/reglas" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg><span data-i18n="nav_reglas">Reglas</span></a>
-                            <div class="nav-pill__group">
-                                <a href="/staff" class="nav-pill__link" aria-haspopup="true" aria-label="Staff y soporte"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="nav_staff">Staff</span><svg class="nav-pill__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></a>
-                            <a href="/baneos" class="nav-pill__link"><span aria-hidden="true">⛔</span><span>Baneos</span></a>
-                                <div class="nav-pill__submenu" role="menu" aria-label="Enlaces de Staff">
-                                    <a href="/soporte" class="nav-pill__sublink" role="menuitem"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg><span data-i18n="nav_soporte">Soporte</span></a>
-                                    <a href="/baneos" class="nav-pill__sublink" role="menuitem"><span>Baneos</span></a>
-                                </div>
-                            </div>
-                            <a href="/launcher/" class="nav-pill__link"><svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M8 10h4m-2-2v4m5-1h.01M17 9h.01"/></svg><span data-i18n="nav_launcher">Launcher</span></a>
-                </div>
+        <!-- Mobile Navigation Menu -->
+        <div id="menuDropdown" class="menu-desplegable hidden lg:hidden px-6 py-4 bg-[#140e26] border-b border-white/10">
+            <div class="flex flex-col gap-2">
+                <a href="/" class="px-4 py-2.5 rounded-xl bg-white/[0.05] text-white font-medium">Inicio</a>
+                <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Tienda</a>
+                <a href="/wiki" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Wiki</a>
+                <a href="/reglas" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Reglas</a>
+                <a href="/noticias" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Noticias</a>
+                <a href="/eventos" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Eventos</a>
+                <a href="/staff" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Staff</a>
+                <a href="/soporte" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Soporte</a>
+                <a href="/galeria" class="px-4 py-2.5 rounded-xl text-white/80 hover:bg-white/[0.05]">Galería</a>
+            </div>
+        </div>
+    </header>
 
-                <div class="nav-actions flex items-center gap-2 flex-shrink-0">
-                    <button type="button" id="cartBtn" onclick="openCartModal()" data-analytics="clic_carrito"
-                        class="nav-button nav-button-primary" title="Carrito" aria-label="Carrito">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-                        <span id="cartBadge" class="cart-count">0</span>
-                    </button>
-                    <button type="button" id="menuBtn" onclick="toggleMenu()" aria-expanded="false"
-                        class="nav-button nav-button-secondary menu-toggle" title="Menú" aria-label="Abrir menú">
-                        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                    </button>
-                    <button type="button" id="enterNavBtn" onclick="openLoginModal()"
-                        class="nav-button nav-button-primary">
-                        <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
-                        <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
-                    </button>
+    <!-- Main Content -->
+    <main id="contenido" class="relative z-10 flex-grow pt-28">
+
+        <!-- ============================================================
+             SECTION 1: HERO & BENCHMARK (Matching PlayHorizon layout)
+             ============================================================ -->
+        <section class="relative px-6 lg:px-10 max-w-6xl mx-auto pt-8 pb-16 text-center md:text-left">
+            <!-- Eyebrow Pill -->
+            <div class="flex justify-center md:justify-start mb-6">
+                <div class="hz-badge">
+                    <span class="inline-block size-2 rounded-full bg-[#a98fff] animate-ping mr-1"></span>
+                    Minecraft: Java Edition 1.20 - 1.21.x · Servidor Survival RPG
                 </div>
             </div>
-                        <!-- ============ MENU DESPLEGABLE (MOVIL) ============ -->
-                <!-- Por debajo de 1000px la barra de secciones se oculta (css/dala.css
-                     .nav-pill { display: none }) y este panel es la UNICA forma de
-                     navegar. Antes el boton de hamburguesa no hacia nada porque este
-                     bloque no existia en ninguna pagina. La animacion la lleva
-                     js/dala-menu.js, que debe cargarse en la pagina. -->
-                <div id="menuDropdown" class="menu-desplegable hidden">
-                    <div class="menu-desplegable__lista">
-                        <a href="https://odissey.cyberdino.online" class="menu-desplegable__enlace">
-                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                            <span data-i18n="nav_tienda">Tienda</span>
-                        </a>
-                        <a href="/wiki" class="menu-desplegable__enlace">
-                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M10 6h8"/><path d="M10 10h8"/><path d="M10 14h5"/></svg>
-                            <span data-i18n="nav_wiki">Wiki</span>
-                        </a>
-                        <a href="/reglas" class="menu-desplegable__enlace">
-                            <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-                            <span data-i18n="nav_reglas">Reglas</span>
-                        </a>
-                        <div class="menu-desplegable__grupo">
-                            <a href="/staff" class="menu-desplegable__enlace">
-                                <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                <span data-i18n="nav_staff">Staff</span>
-                            </a>
-                            <a href="/soporte" class="menu-desplegable__enlace menu-desplegable__subenlace">
-                                <svg class="menu-desplegable__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="M8.5 8.5v5a1.5 1.5 0 0 0 3 0v-3a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 0 3 0V12"/></svg>
-                                <span data-i18n="nav_soporte">Soporte</span>
-                            </a>
-                            <a href="/baneos" class="menu-desplegable__enlace menu-desplegable__subenlace"><span>Baneos</span></a>
+
+            <!-- Giant Hero Headline -->
+            <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] max-w-4xl">
+                La odisea que conoces,<br>
+                <span class="hz-text-purple">llevada a una nueva era.</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="mt-6 text-lg sm:text-xl text-[#c5c7d1] max-w-2xl leading-relaxed">
+                El servidor de Minecraft Java diseñado para la máxima fluidez: 20 TPS estables, economía viva de jugadores, mazmorras personalizadas, pesca legendaria y cero lag.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <button type="button" onclick="copyIpAddress()" class="hz-btn-primary">
+                    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    <span>Copiar IP & Jugar</span>
+                </button>
+                <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-btn-secondary">
+                    <svg class="size-5 text-[#a98fff]" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
+                    <span>Unirse a Discord</span>
+                </a>
+            </div>
+
+            <!-- Microstats Bar -->
+            <div class="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-xs text-white/50">
+                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Java 1.20 a 1.21.x</span>
+                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-green-400"></span> 20.0 TPS Estables</span>
+                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Protección Anti-Grief</span>
+                <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-blue-400"></span> Modo: <span id="serverGamemode">Survival RPG</span></span>
+            </div>
+
+            <!-- Performance Benchmark Card (Recreating 3x the frame rate from Horizon) -->
+            <div class="mt-14 hz-card p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 text-left">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">Rendimiento & Estabilidad</span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">20.0 TPS constantes, sin tirones.</h2>
+                        <p class="text-sm text-[#c5c7d1] mt-1">Monitoreo activo con optimización de chunks y anti-lag inteligente.</p>
+                    </div>
+                    <div class="flex items-center gap-2 self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs text-white/80">
+                        <span class="size-2 rounded-full bg-green-400"></span>
+                        <span>Discord: <strong id="discordPresenceCount" class="text-white">...</strong> en línea</span>
+                    </div>
+                </div>
+
+                <!-- Progress Comparison Bars -->
+                <div class="space-y-5 text-left">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1.5">
+                            <span class="font-semibold text-white flex items-center gap-2">
+                                <span class="size-2 rounded-full bg-[#a98fff]"></span> Odissey Server
+                            </span>
+                            <span class="font-mono text-[#c4b5fd] font-bold">20.0 TPS (100% Fluido)</span>
+                        </div>
+                        <div class="hz-bench-bar-track">
+                            <div class="hz-bench-bar-fill-purple"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm mb-1.5">
+                            <span class="text-white/60">Servidores Tradicionales</span>
+                            <span class="font-mono text-white/50">11.8 TPS (Bajones y lag)</span>
+                        </div>
+                        <div class="hz-bench-bar-track">
+                            <div class="hz-bench-bar-fill-muted"></div>
                         </div>
                     </div>
                 </div>
-                </nav>
-        <script>
-            function toggleMenu() {
-                const d = document.getElementById('menuDropdown');
-                if (!d) return;
-                if (d.classList.contains('hidden')) d.classList.remove('hidden');
-                else d.classList.add('hidden');
-            }
-            function closeMenu() {
-                const d = document.getElementById('menuDropdown');
-                if (d && !d.classList.contains('hidden')) toggleMenu();
-            }
-            document.addEventListener('click', function (e) {
-                const nav = document.querySelector('nav');
-                const d = document.getElementById('menuDropdown');
-                if (!d || d.classList.contains('hidden')) return;
-                if (nav && !nav.contains(e.target)) closeMenu();
-            });
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') closeMenu();
-            });
-        </script>
-        <main id="contenido" class="flex-grow">
-                        <!-- Hero -->
-            <section class="dala-hero relative overflow-hidden px-4 py-16 md:py-24">
-                <div class="dala-hero-grid relative mx-auto w-full max-w-7xl">
-                    <!-- Columna de texto -->
-                    <div class="reveal flex flex-col items-start text-left" style="transition-delay: 0s;">
-                        <span class="dala-eyebrow">Servidor de Minecraft Java · Survival Custom</span>
-                        <h1 class="dala-hero-title" data-typewriter aria-label="Entra en tu propia odisea."><span class="hero-typewriter__line" aria-hidden="true">Entra en tu</span><br><span class="hero-typewriter__line" aria-hidden="true">propia odisea.</span></h1>
-                        <p class="dala-hero-sub">
-                            Un mundo junto al mar donde todos empiezan con las mismas oportunidades.
-                            Construye tu base, hazte con los mejores kits y decide tu propio camino
-                            hacia la leyenda.
+
+                <!-- Feature tags inside benchmark -->
+                <div class="mt-6 pt-5 border-t border-white/[0.08] flex flex-wrap gap-4 text-xs text-white/70">
+                    <span class="flex items-center gap-1.5">⚡ Latencia optimizada &lt; 40ms</span>
+                    <span class="flex items-center gap-1.5">🚀 Renderizado y carga rápida de chunks</span>
+                    <span class="flex items-center gap-1.5">🛡️ Backups automáticos cada 30 minutos</span>
+                </div>
+            </div>
+
+            <!-- Sunset Pixel Art Panoramic Banner (Horizon wallpaper) -->
+            <div class="mt-8 rounded-3xl overflow-hidden border border-white/[0.08] shadow-2xl relative">
+                <img src="img/horizon/about-wallpaper.jpg" alt="Horizon Pixel Sunset Panorama" class="w-full h-auto object-cover max-h-[380px]" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#100a1f] via-transparent to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 2: SAME INPUTS, IDENTICAL OUTPUTS (Survival RPG)
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
+            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">CARACTERÍSTICAS CLAVE</span>
+            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+                Survival RPG innovador, sin lag ni límites.
+            </h2>
+            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-3xl leading-relaxed">
+                En Odissey cada mecánica ha sido pulida para respetar el tiempo del jugador: progresión gratificante, economía balanceada y un mundo vibrante listo para tus construcciones.
+            </p>
+
+            <!-- Visual Showcase Card -->
+            <div class="mt-10 rounded-2xl overflow-hidden border border-white/[0.08] relative group">
+                <img src="img/horizon/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" class="w-full h-auto object-cover max-h-[440px] transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#100a1f] via-transparent to-transparent opacity-80"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <span class="text-xs font-mono uppercase text-[#a98fff]">Mundo Principal</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mt-1">Exploración sin restricciones en Minecraft Java</h3>
+                </div>
+            </div>
+
+            <!-- 3 Column Feature Cards -->
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="hz-card p-6">
+                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white">Tu Progreso Protegido</h3>
+                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                        Sistema de reclamos de parcelas intuitivo. Tus cofres, granjas y casas quedan blindados contra cualquier intento de griefing o robo.
+                    </p>
+                </div>
+
+                <div class="hz-card p-6">
+                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white">Economía & Mercado Libre</h3>
+                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                        Subastas en tiempo real, tiendas de jugadores y banco comercial. Todo el valor es generado por la comunidad, sin ventajas desbalanceadas.
+                    </p>
+                </div>
+
+                <div class="hz-card p-6">
+                    <div class="size-10 rounded-xl bg-[#a98fff]/15 border border-[#a98fff]/30 flex items-center justify-center text-[#a98fff] mb-4">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.12 2.12 0 1 1-3-3l8-8"/><path d="m16 8 2-2 4 4-2 2"/><path d="m18 6 2-2"/></svg>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white">Mazmorras & Jefes Épicos</h3>
+                    <p class="text-sm text-[#c5c7d1] mt-2 leading-relaxed">
+                        Desafíos semanales con mecánicas custom, botines místicos, pesca personalizada con acuarios y eventos de luna de sangre.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 3: BANNER 24/7 (Like Horizon's Minecraft Server Promo)
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-12">
+            <div class="hz-card p-8 sm:p-10 relative overflow-hidden bg-gradient-to-r from-[#1b1433] via-[#161028] to-[#120b22] border-[#a98fff]/30">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 text-left space-y-4">
+                        <div class="hz-badge !text-xs">
+                            <span class="size-2 rounded-full bg-green-400 animate-pulse"></span>
+                            Servidor Siempre Activo
+                        </div>
+                        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">
+                            Tu Servidor de Minecraft, <span class="hz-text-purple">24/7 En Línea.</span>
+                        </h2>
+                        <p class="text-sm sm:text-base text-[#c5c7d1] leading-relaxed max-w-xl">
+                            ¿Listo para forjar tu propia leyenda? Entra ahora con la IP <span class="font-mono text-white font-semibold">mc.odisseymc.site</span> y reclama tu Kit Inicial de Aventurero.
                         </p>
-<!-- UNA SOLA LLAMADA A LA ACCION.
-                             El bloque del hero tenía dos pesos iguales: un
-                             botón y un enlace con el mismo aspecto. Cuando
-                             hay dos llamadas a la acción del mismo peso,
-                             el visitante no sabe cual hacer y acaba sin
-                             hacer ninguna.
-                             Ahora hay UNA sola: entrar al servidor. Es lo que
-                             la gente quiere (jugar). El Discord se queda,
-                             pero como enlace de texto discreto debajo de la
-                             barra de estado, que es donde lo busca quien ya
-                             sabe lo que es. -->
-                        <div class="mt-9 flex flex-wrap items-center gap-6">
-                            <button type="button" class="btn3d btn-cta-principal"
-                                data-analytics="cta_copiar_ip_portada"
-                                onclick="copyToClipboard('mc.odisseymc.lat', 'IP del servidor:')">
-                                <span data-i18n="cta_copy_ip">Copiar IP del servidor</span> · mc.odisseymc.lat
+                        <div class="flex flex-wrap items-center gap-4 pt-2">
+                            <button type="button" onclick="copyIpAddress()" class="hz-btn-primary">
+                                Copiar IP & Entrar
                             </button>
-                            <a href="/launcher/" class="btn3d btn-secondary" data-analytics="cta_launcher_portada">
-                                <span data-i18n="cta_launcher">Ver launcher para Windows</span>
-                            </a>
-                            <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer"
-                                class="dala-ghost-link" data-analytics="cta_discord_portada">
-                                <span data-i18n="cta_discord">Únete al Discord</span>
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-                            </a>
+                            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono text-[#c4b5fd]">
+                                Código: <strong class="text-white">ODISSEY2026</strong>
+                            </span>
                         </div>
+                    </div>
+                    <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                        <img src="img/horizon/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" class="max-h-[220px] w-auto object-contain filter drop-shadow-[0_10px_25px_rgba(124,77,255,0.4)]" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <!-- Estado del servidor -->
-                        <div class="dala-status mt-12">
-                            <div class="dala-stat">
-                                <span class="dala-stat-label">
-                                    <span id="serverStatusDot" class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
-                                    <span id="serverStatusText" data-i18n="status_online">En línea</span>
-                                </span>
-                                <span class="dala-stat-value playerCount">0</span>
-                                <span class="dala-stat-caption">jugadores conectados</span>
-                            </div>
-                            <div class="dala-stat">
-                                <span class="dala-stat-label">Discord</span>
-                                <span id="discordPresenceCount" class="dala-stat-value">0</span>
-                                <span class="dala-stat-caption">miembros en la comunidad</span>
-                            </div>
-                            <div class="dala-stat">
-                                <span class="dala-stat-label">Versión</span>
-                                <span id="serverVersion" class="dala-stat-value-sm">Obteniendo…</span>
-                                <span id="serverGamemode" class="dala-stat-caption">Survival Custom</span>
-                            </div>
-                        </div>
-                    </div>
+        <!-- ============================================================
+             SECTION 4: BUILT IN THE OPEN / INFRAESTRUCTURA Y CONEXIÓN
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
+            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">CONEXIÓN & ACCESO</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-2 mb-4">
+                Conéctate en segundos, juega sin complicaciones.
+            </h2>
+            <p class="text-base text-[#c5c7d1] max-w-2xl leading-relaxed mb-10">
+                Odissey no requiere launchers modificados ni instalaciones engorrosas: conéctate desde cualquier versión compatible de Minecraft Java.
+            </p>
 
-                    <!-- Ilustración principal de Odissey -->
-                    <div class="dala-constellation-wrap dala-hero-image-wrap reveal" style="transition-delay: .15s;">
-                        <img src="img/tab_logo.png" class="dala-hero-image" alt="Emblema de Odissey MC con casco, barco y templo" width="1536" height="1024" fetchpriority="high">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- IP Card -->
+                <div class="hz-card p-6 cursor-pointer" onclick="copyIpAddress()" title="Clic para copiar IP">
+                    <div class="flex items-center justify-between text-white/50 mb-4">
+                        <span class="text-xs font-mono">IP PRINCIPAL</span>
+                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                     </div>
+                    <h3 class="font-mono text-lg font-bold text-[#c4b5fd]">mc.odisseymc.site</h3>
+                    <p class="text-xs text-[#c5c7d1] mt-2">Puerto por defecto: 25565. Clic para copiar al portapapeles.</p>
                 </div>
-            </section>
-            
 
-            <!-- Guía de entrada -->
-            <section id="guia" class="px-4 py-16 scroll-mt-24">
-                <div class="liquid-glass-container max-w-5xl mx-auto">
-                    <h2 class="section-title section-title--lead text-center mb-2 reveal" data-i18n="guide_title">Cómo entrar al servidor</h2>
-                    <p id="guideSubtitle" class="text-center text-text-light text-lg mb-10 reveal" data-i18n="guide_sub_java">Sigue estos pasos para entrar desde Minecraft Java Edition.</p>
-                    <div class="grid grid-cols-1 gap-6 max-w-xl mx-auto">
-                        <div class="guide-card reveal" id="guideJava">
-                            <div class="guide-header">
-                                <div class="guide-icon">⚓</div>
-                                <div>
-                                    <h3 class="text-xl font-bold text-text-light" data-i18n="guide_java_title">Minecraft Java</h3>
-                                    <p class="text-text-dark text-sm" data-i18n="guide_java_sub">PC (Windows, Mac, Linux)</p>
-                                </div>
-                            </div>
-                            <ol class="guide-list">
-                                <li data-i18n="guide_java_1">Abre Minecraft Java Edition.</li>
-                                <li><span data-i18n="guide_java_2a">Ve a</span> <strong data-i18n="guide_java_2b">Multijugador</strong>.</li>
-                                <li><span data-i18n="guide_java_3a">Pulsa</span> <strong data-i18n="guide_java_3b">Agregar servidor</strong>.</li>
-<li><span data-i18n="guide_java_4">Escribe</span> <code class="guide-code">mc.odisseymc.lat</code> <span data-i18n="guide_java_4b">en la dirección.</span></li>
-                                <li><span data-i18n="guide_java_5a">Pulsa</span> <strong data-i18n="guide_java_5b">Hecho</strong> y entra.</li>
-                            </ol>
-                        </div>
-                        <div class="guide-card hidden" id="guideBedrock">
-                            <div class="guide-header">
-                                <div class="guide-icon">🧱</div>
-                                <div>
-                                    <h3 class="text-xl font-bold text-text-light" data-i18n="guide_bedrock_title">Minecraft Bedrock</h3>
-                                    <p class="text-text-dark text-sm" data-i18n="guide_bedrock_sub">Consolas, móvil y Windows</p>
-                                </div>
-                            </div>
-                            <ol class="guide-list">
-                                <li data-i18n="guide_bedrock_1">Abre Minecraft Bedrock Edition.</li>
-                                <li><span data-i18n="guide_bedrock_2a">Ve a</span> <strong data-i18n="guide_bedrock_2b">Jugar</strong>.</li>
-                                <li><span data-i18n="guide_bedrock_3a">En</span> <strong data-i18n="guide_bedrock_3b">Servidores</strong>, <span data-i18n="guide_bedrock_3c">pulsa</span> <strong data-i18n="guide_bedrock_3d">Añadir servidor</strong>.</li>
-                                <li><span data-i18n="guide_bedrock_4">Escribe</span> <code class="guide-code">Proximamente</code> <span data-i18n="guide_bedrock_4b">en la dirección.</span></li>
-                                <li><span data-i18n="guide_bedrock_5a">Pulsa</span> <strong data-i18n="guide_bedrock_5b">Guardar</strong> <span data-i18n="guide_bedrock_5c">y entra.</span></li>
-                            </ol>
-                        </div>
+                <!-- Version Card -->
+                <div class="hz-card p-6">
+                    <div class="flex items-center justify-between text-white/50 mb-4">
+                        <span class="text-xs font-mono">COMPATIBILIDAD</span>
+                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    <div class="text-center mt-8 reveal">
-                        <button type="button" id="guideSwitchBtn" class="btn3d" aria-pressed="false" data-i18n="guide_switch_bedrock">⟲ Bedrock</button>
-                    </div>
+                    <h3 class="font-display text-lg font-bold text-white">Java 1.20 - 1.21.x</h3>
+                    <p class="text-xs text-[#c5c7d1] mt-2">Soporte nativo con clientes Vanilla, Lunar, Badlion y Prism.</p>
                 </div>
-            </section>
-<!-- Por qué Odissey -->
-            <section id="porque-odissey" class="px-4 py-16 scroll-mt-24">
-                <div class="liquid-glass-container max-w-6xl mx-auto">
-                    <h2 class="section-title reveal" data-i18n="why_title">¿Qué diferencia hay en Odissey a otros servidores?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
-                        <article class="why-card reveal">
-                            <span class="why-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-                            <h3 class="why-card-title" data-i18n="why_c1_t">Para todos igual</h3>
-                            <p class="why-card-text" data-i18n="why_p1">
-                                Odissey no es un servidor más. Mientras muchos lugares venden ventajas que aplastan a los nuevos,
-                                aquí construimos una comunidad donde todos empiezan con las mismas oportunidades y cada hora
-                                invertida se siente. Nuestro mundo es un lienzo vivo: construye tu base junto al mar, hazte con
-                                los mejores kits, abre cofres con llaves infernales y decide tu propio camino hacia la leyenda.
-                            </p>
-                        </article>
-                        <article class="why-card reveal">
-                            <span class="why-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6l8-3zM9.2 12.2l2 2 3.6-3.9"/></svg></span>
-                            <h3 class="why-card-title" data-i18n="why_c2_t">Staff que responde</h3>
-                            <p class="why-card-text" data-i18n="why_p2">
-                                Detrás de todo hay un staff presente, activo y cercano, listo para escucharte desde el primer
-                                día. Nada de reglas absurdas ni administración invisible: aquí reportas, te responden y el juego
-                                se mantiene limpio y justo para todos. Además, nuestro Discord es el corazón de Odissey:
-                                eventos, anuncios y una comunidad que ya se siente como familia.
-                            </p>
-                        </article>
-                        <article class="why-card reveal">
-                            <span class="why-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span>
-                            <h3 class="why-card-title" data-i18n="why_c3_t">IP y acceso</h3>
-                            <p class="why-card-text">
-                                <span data-i18n="why_p3a">¿Buscas un servidor que realmente perdure? La IP se publicará</span> <strong data-i18n="btn_copy_ip">Próximamente</strong>
-                                <span data-i18n="why_p3b">y comprueba por ti mismo por qué quienes llegan, se quedan.</span>
-                            </p>
-                        </article>
+
+                <!-- Discord Card -->
+                <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-card p-6 block text-left">
+                    <div class="flex items-center justify-between text-white/50 mb-4">
+                        <span class="text-xs font-mono">COMUNIDAD</span>
+                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
                     </div>
-                </div>
-            </section>
-            <!-- Testimonios -->
-            <section id="testimonios" class="px-4 py-16 scroll-mt-24">
-                <div class="liquid-glass-container max-w-6xl mx-auto">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-2">
-                        <h2 class="section-title reveal" data-i18n="testimonials_title">Lo que dicen los jugadores</h2>
-                        <button type="button" onclick="openTestimonialPrompt()" class="btn3d" data-i18n="testimonials_rate_btn">★ Dejar mi opinión</button>
-                    </div>
-                    <p class="text-text-light text-lg mb-8 reveal" data-i18n="testimonials_subtitle">Opiniones y valoraciones reales de nuestra comunidad en Odissey.</p>
-                    <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-                </div>
-</section>
-            </main>
-        <!-- Footer Section -->
-        <footer
-            class="p-6 xl:p-8 bg-marine-dark text-text-dark w-full border-t-2 border-marine-light">
-            <div class="flex flex-wrap items-center justify-between gap-x-10 gap-y-8">
-                <a href="/" aria-label="Odissey" class="shrink-0">
-                    <img src="img/logo-web.webp" alt="Odissey Logo" width="900" height="382" style="height:40px;width:auto;max-width:100%;display:block">
+                    <h3 class="font-display text-lg font-bold text-white">Discord Oficial</h3>
+                    <p class="text-xs text-[#c5c7d1] mt-2">Soporte en directo, canales de voz y anuncios de actualizaciones.</p>
                 </a>
-                <div class="flex flex-col items-center gap-3">
-                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_follow">Síguenos</span>
-                    <div class="flex items-center gap-3">
-                        <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" title="Discord" class="discord-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>
-                            Discord
-                        </a>
-                        <a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" title="TikTok" class="tiktok-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
-                            TikTok
-                        </a>
+
+                <!-- Wiki Card -->
+                <a href="/wiki" class="hz-card p-6 block text-left">
+                    <div class="flex items-center justify-between text-white/50 mb-4">
+                        <span class="text-xs font-mono">GUÍAS</span>
+                        <svg class="size-4 text-[#a98fff]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-white">Wiki & Manuales</h3>
+                    <p class="text-xs text-[#c5c7d1] mt-2">Aprende comandos, encantamientos especiales y rangos del servidor.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 5: VISUAL GALLERY (Matching Horizon's 4-image showcase)
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-left">
+            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">MUNDOS Y AVENTURA</span>
+            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+                El Minecraft que amas, <span class="hz-text-purple">enriquecido y vibrante.</span>
+            </h2>
+            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-3xl leading-relaxed mb-10">
+                Explora biomas personalizados, mazmorras en el Nether, parcelas protegidas en el Overworld y profundidades oceánicas con pesca legendaria.
+            </p>
+
+            <div class="space-y-6">
+                <!-- Large Nether Showcase -->
+                <div class="hz-card overflow-hidden group">
+                    <img src="img/horizon/nether.webp" alt="Nether Dungeons in Odissey" class="w-full h-auto object-cover max-h-[380px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                    <div class="p-6 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
+                        <span class="text-xs font-mono text-[#a98fff] uppercase">Dimensión Peligrosa</span>
+                        <h3 class="font-display text-xl font-bold text-white mt-1">Fortalezas Nether & Desafíos con Jefes de Élite</h3>
+                        <p class="text-sm text-[#c5c7d1] mt-1">Consigue materiales legendarios, esencias mágicas y equipamiento único.</p>
                     </div>
                 </div>
-                <div class="flex flex-col items-end gap-2 text-right">
-<span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_ip">IP del servidor</span>
-                    <span class="font-sans text-marine-accent font-semibold">mc.odisseymc.lat</span>
+
+                <!-- 2-Column Split: Village & Night -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="hz-card overflow-hidden group">
+                        <img src="img/horizon/village-800.webp" alt="Peaceful Overworld Village" class="w-full h-auto object-cover max-h-[260px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <div class="p-5 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
+                            <span class="text-xs font-mono text-[#a98fff] uppercase">Zonas Comunitarias</span>
+                            <h3 class="font-display text-lg font-bold text-white mt-1">Parcelas y Poblados Pacíficos</h3>
+                        </div>
+                    </div>
+
+                    <div class="hz-card overflow-hidden group">
+                        <img src="img/horizon/night-800.webp" alt="Night Event in Odissey" class="w-full h-auto object-cover max-h-[260px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <div class="p-5 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
+                            <span class="text-xs font-mono text-[#a98fff] uppercase">Eventos Nocturnos</span>
+                            <h3 class="font-display text-lg font-bold text-white mt-1">Noches Lunares y Recompensas Dobles</h3>
+                        </div>
+                    </div>
                 </div>
-                <div id="adminBtn" class="hidden flex-col items-end gap-2 text-right">
-                    <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_admin">Panel de admin</span>
-                    <a href="/admin" class="font-sans text-marine-accent font-semibold hover:text-gold-light transition-colors duration-200">Admin</a>
+
+                <!-- Wide Underwater / Pesca Showcase -->
+                <div class="hz-card overflow-hidden group">
+                    <img src="img/horizon/underwater.webp" alt="Underwater Fishing in Odissey" class="w-full h-auto object-cover max-h-[320px] transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                    <div class="p-6 bg-[#140e28]/80 backdrop-blur-md border-t border-white/[0.08]">
+                        <span class="text-xs font-mono text-[#a98fff] uppercase">Odissey Pesca Exclusiva</span>
+                        <h3 class="font-display text-xl font-bold text-white mt-1">Ecosistemas Marinos, Torneos de Pesca y Acuarios</h3>
+                        <p class="text-sm text-[#c5c7d1] mt-1">Captura más de 60 especies exóticas, desbloquea cebos únicos y compite en el ranking semanal de pescadores.</p>
+                    </div>
                 </div>
             </div>
-            <p class="text-center text-xs text-text-dark/80 mt-6">&copy; 2026 Odissey. <span data-i18n="footer_res">Todos los derechos reservados.</span></p>
-            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs">
-                <a href="/terminos" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_terms">Términos y condiciones</a>
-                <a href="/privacidad" class="text-text-dark hover:text-marine-accent transition-colors duration-200" data-i18n="footer_privacy">Política de privacidad</a>
+        </section>
+
+        <!-- ============================================================
+             SECTION 6: COMMUNITY & AVATARS (Matching Horizon's 233 people)
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-6xl mx-auto py-16 text-center">
+            <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">NUESTRA COMUNIDAD</span>
+            <h2 class="font-display text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">
+                Respaldado por nuestra gran comunidad.
+            </h2>
+            <p class="text-base sm:text-lg text-[#c5c7d1] max-w-2xl mx-auto leading-relaxed mb-12">
+                Jugadores, moderadores y constructores que dan vida al servidor todos los días.
+            </p>
+
+            <!-- Staff Spotlight Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12 text-left">
+                <div class="hz-card p-4 flex items-center gap-3">
+                    <img src="https://mc-heads.net/avatar/AurelioGood/48" alt="AurelioGood" class="size-12 rounded-xl border border-[#a98fff]/40">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">AurelioGood</h4>
+                        <span class="text-xs text-[#a98fff] font-mono">Fundador & Developer</span>
+                    </div>
+                </div>
+
+                <div class="hz-card p-4 flex items-center gap-3">
+                    <img src="https://mc-heads.net/avatar/StaffOdissey/48" alt="Equipo de Staff" class="size-12 rounded-xl border border-white/10">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Equipo de Soporte</h4>
+                        <span class="text-xs text-[#c5c7d1] font-mono">Atención 24/7</span>
+                    </div>
+                </div>
+
+                <div class="hz-card p-4 flex items-center gap-3">
+                    <img src="https://mc-heads.net/avatar/BuilderMC/48" alt="Constructores" class="size-12 rounded-xl border border-white/10">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Equipo Builder</h4>
+                        <span class="text-xs text-[#c5c7d1] font-mono">Eventos & Mazmorras</span>
+                    </div>
+                </div>
+
+                <div class="hz-card p-4 flex items-center gap-3">
+                    <img src="https://mc-heads.net/avatar/ModeradorMC/48" alt="Moderación" class="size-12 rounded-xl border border-white/10">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Moderación</h4>
+                        <span class="text-xs text-[#c5c7d1] font-mono">Comunidad Limpia</span>
+                    </div>
+                </div>
             </div>
-        </footer>
-    </div>
+
+            <!-- Dense Avatar Mosaic Grid (Like Horizon!) -->
+            <div class="hz-avatar-grid">
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/AurelioGood/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Notch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Jeb_/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Dinnerbone/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Grumm/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Enderman/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Creeper/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Villager/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_PigZombie/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Blaze/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Golem/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Skeleton/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Squid/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Cow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Sheep/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Pig/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ocelot/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Herobrine/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_MushroomCow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Spider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_CaveSpider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Witch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Wolf/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_LavaSlime/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ghast/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Chicken/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/AurelioGood/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Notch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Jeb_/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Dinnerbone/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Grumm/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Enderman/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Creeper/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Villager/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_PigZombie/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Blaze/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Golem/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Skeleton/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Squid/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Cow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Sheep/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Pig/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ocelot/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Herobrine/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_MushroomCow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Spider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_CaveSpider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Witch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Wolf/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_LavaSlime/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ghast/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Chicken/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/AurelioGood/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Notch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Jeb_/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Dinnerbone/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/Grumm/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Steve/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Alex/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Enderman/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Creeper/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Villager/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_PigZombie/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Blaze/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Golem/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Skeleton/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Squid/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Cow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Sheep/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Pig/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ocelot/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Herobrine/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_MushroomCow/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Spider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_CaveSpider/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Witch/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Wolf/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_LavaSlime/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Ghast/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+  <div class="hz-avatar-item" title="Comunidad Odissey"><img src="https://mc-heads.net/avatar/MHF_Chicken/64" alt="Jugador Odissey" loading="lazy" width="38" height="38"></div>
+
+            </div>
+
+            <!-- Giant Stat Counter (Like Horizon's 281 number) -->
+            <div class="mt-16 text-center">
+                <div class="font-display text-6xl sm:text-8xl font-extrabold tracking-tight text-white">
+                    +2,500
+                </div>
+                <p class="text-lg sm:text-xl text-[#c5c7d1] max-w-xl mx-auto mt-3">
+                    Aventureros registrados y disfrutando de la experiencia Odissey.
+                </p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECTION 7: ACCORDION FAQ (Matching Horizon's audited harnesses)
+             ============================================================ -->
+        <section class="px-6 lg:px-10 max-w-4xl mx-auto py-16 text-left">
+            <div class="text-center mb-12">
+                <span class="text-xs uppercase tracking-wider font-semibold text-[#a98fff]">RESOLVEMOS TUS DUDAS</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-2">
+                    Preguntas Frecuentes
+                </h2>
+                <p class="text-sm sm:text-base text-[#c5c7d1] mt-2">
+                    Todo lo que necesitas saber antes de ingresar a Odissey.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Cuál es la IP del servidor y cómo me conecto?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        Abre tu cliente de Minecraft Java Edition, ve a <strong>Multijugador</strong> &gt; <strong>Añadir Servidor</strong>, e introduce la dirección <span class="font-mono text-[#a98fff]">mc.odisseymc.site</span> (puerto estándar 25565). Haz clic en Conectarse y entrarás de inmediato.
+                    </div>
+                </div>
+
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Qué versiones de Minecraft están admitidas?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        El servidor admite versiones de Minecraft Java desde la <strong>1.20 hasta la 1.21.x</strong> más reciente. Puedes ingresar con el launcher oficial, Prism, Lunar o Badlion.
+                    </div>
+                </div>
+
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Es compatible con cuentas No-Premium y Premium?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        Sí, Odissey cuenta con un sistema de autenticación seguro que permite el ingreso tanto de usuarios con cuenta oficial de Minecraft como con launchers alternativos, con skins visibles y guardado de inventario seguro.
+                    </div>
+                </div>
+
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Cómo protejo mis casas, cofres y terrenos?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        El servidor incluye un sistema de protección de parcelas muy intuitivo. Al colocar tu primer cofre recibirás un terreno protegido automáticamente, y podrás expandirlo con la pala de oro o mediante comandos sencillos explicados en la <a href="/wiki" class="text-[#a98fff] underline">Wiki</a>.
+                    </div>
+                </div>
+
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Qué es el sistema de Pesca y RPG exclusivo?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        Odissey cuenta con un sistema propio llamado <strong>OdisseyPesca</strong> que introduce decenas de peces legendarios, cañas mejorables con atributos RPG, cebos mágicos, torneos semanales y la posibilidad de crear tus propios acuarios.
+                    </div>
+                </div>
+
+                <div class="hz-faq-item">
+                    <button type="button" class="hz-faq-question" onclick="toggleFaq(this)">
+                        <span>¿Los rangos de la tienda otorgan ventajas Pay to Win (P2W)?</span>
+                        <span class="hz-faq-icon">+</span>
+                    </button>
+                    <div class="hz-faq-answer">
+                        No. En Odissey apostamos por una experiencia de juego justa. Los rangos de la tienda incluyen ventajas de comodidad, cosméticos únicos, títulos y comandos de utilidad que no rompen el equilibrio del PvP ni de la economía del juego.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hidden hooks for dynamic data scripts (testimonials, news, etc.) -->
+        <div id="testimonials-grid" class="hidden"></div>
+        <div id="news-grid" class="hidden"></div>
+        <div id="events-list" class="hidden"></div>
+        <div id="gallery-grid" class="hidden"></div>
+        <div id="staff-grid" class="hidden"></div>
+        <div id="maintenanceBanner" class="hidden"><span id="maintenanceMsg"></span></div>
+        <div id="adminBtn" class="hidden"><a href="/admin">Admin</a></div>
+        <div id="guideJava" class="hidden"></div>
+        <div id="guideBedrock" class="hidden"></div>
+        <button id="guideSwitchBtn" class="hidden"></button>
+        <span id="guideSubtitle" class="hidden"></span>
+        <button id="langBtn" class="hidden"></button>
+        <span id="serverVersion" class="hidden"></span>
+    </main>
+
+    <!-- ============================================================
+         HORIZON FOOTER
+         ============================================================ -->
+    <footer class="mt-20 border-t border-white/[0.08] bg-[#0c0817] py-14 px-6 lg:px-10 text-sm text-[#8b85a3] relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <!-- Col 1: Brand -->
+            <div class="space-y-4">
+                <a href="/" class="flex items-center gap-3 text-white">
+                    <img src="img/logo-web.webp" alt="Odissey Logo" class="h-9 w-auto object-contain">
+                    <span class="font-display font-bold text-lg text-white">Odissey</span>
+                </a>
+                <p class="text-xs text-[#8b85a3] leading-relaxed">
+                    El servidor de Minecraft Java diseñado para la mejor experiencia survival RPG, comunidad activa y rendimiento garantizado.
+                </p>
+                <p class="text-[11px] text-[#8b85a3]/70">
+                    Odissey no es un producto oficial de Minecraft ni está respaldado por o asociado con Mojang o Microsoft.
+                </p>
+            </div>
+
+            <!-- Col 2: Enlaces Rápidos -->
+            <div>
+                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Navegación</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
+                    <li><a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Tienda Oficial</a></li>
+                    <li><a href="/wiki" class="hover:text-white transition-colors">Wiki & Comandos</a></li>
+                    <li><a href="/reglas" class="hover:text-white transition-colors">Reglamento</a></li>
+                    <li><a href="/noticias" class="hover:text-white transition-colors">Noticias</a></li>
+                    <li><a href="/galeria" class="hover:text-white transition-colors">Galería</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Comunidad -->
+            <div>
+                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Comunidad</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-[#a98fff]"></span> Discord Oficial</a></li>
+                    <li><a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">TikTok</a></li>
+                    <li><a href="/eventos" class="hover:text-white transition-colors">Eventos & Torneos</a></li>
+                    <li><a href="/staff" class="hover:text-white transition-colors">Conoce al Staff</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Soporte & Legal -->
+            <div>
+                <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-4">Soporte & Legal</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="/soporte" class="hover:text-white transition-colors">Sistema de Tickets</a></li>
+                    <li><a href="/reportes" class="hover:text-white transition-colors">Reportar Usuario</a></li>
+                    <li><a href="/terminos" class="hover:text-white transition-colors">Términos del Servicio</a></li>
+                    <li><a href="/privacidad" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sub-bar -->
+        <div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <p>&copy; 2026 OdisseyMC. Todos los derechos reservados.</p>
+            <div class="flex items-center gap-2">
+                <span class="size-2 rounded-full bg-green-400"></span>
+                <span>Servidor en línea: <strong class="text-white font-mono">mc.odisseymc.site</strong></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive script helper for Horizon features -->
+    <script>
+        function copyIpAddress() {
+            const ip = "mc.odisseymc.site";
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(ip).then(() => showHzToast("¡IP mc.odisseymc.site copiada! ✓"));
+            } else {
+                const ta = document.createElement("textarea");
+                ta.value = ip;
+                ta.style.position = "fixed";
+                ta.style.opacity = "0";
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand("copy");
+                    showHzToast("¡IP mc.odisseymc.site copiada! ✓");
+                } catch(e) {
+                    showHzToast("Copia manualmente: mc.odisseymc.site");
+                }
+                document.body.removeChild(ta);
+            }
+        }
+
+        function showHzToast(msg) {
+            const t = document.getElementById("hzToast");
+            if (t) {
+                t.textContent = msg;
+                t.classList.add("show");
+                setTimeout(() => t.classList.remove("show"), 2800);
+            }
+        }
+
+        function toggleFaq(btn) {
+            const item = btn.closest(".hz-faq-item");
+            if (item) {
+                item.classList.toggle("active");
+            }
+        }
+    </script>
+
+
     <!-- Modal de entrada por nombre de Minecraft -->
     <div id="loginModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"

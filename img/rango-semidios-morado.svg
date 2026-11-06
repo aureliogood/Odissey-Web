@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="72%"><stop stop-color="#462078"/><stop offset=".58" stop-color="#1c1037"/><stop offset="1" stop-color="#090817"/></radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4bc"/><stop offset=".42" stop-color="#e3b95e"/><stop offset="1" stop-color="#9d6425"/></linearGradient>
+    <linearGradient id="amethyst" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f0d4ff"/><stop offset=".25" stop-color="#bd77ff"/><stop offset=".68" stop-color="#762de0"/><stop offset="1" stop-color="#38106f"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <pattern id="stars" width="180" height="180" patternUnits="userSpaceOnUse"><circle cx="24" cy="34" r="2" fill="#e7c8ff" opacity=".8"/><circle cx="137" cy="78" r="1.5" fill="#fff" opacity=".65"/><circle cx="83" cy="151" r="2" fill="#bf82ff" opacity=".8"/></pattern>
+  </defs>
+  <rect width="1024" height="1024" rx="170" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="170" fill="url(#stars)"/>
+  <circle cx="512" cy="430" r="322" fill="none" stroke="#a853ff" stroke-width="3" opacity=".32"/>
+  <circle cx="512" cy="430" r="295" fill="none" stroke="url(#gold)" stroke-width="8" opacity=".95"/>
+  <circle cx="512" cy="430" r="278" fill="none" stroke="#d8a9ff" stroke-width="2" opacity=".55"/>
+  <!-- celestial rays -->
+  <g stroke="#d9b5ff" stroke-width="4" opacity=".62">
+    <path d="M512 87v48M512 725v48M169 430h48M807 430h48M269 187l34 34M721 639l34 34M755 187l-34 34M303 639l-34 34"/>
+  </g>
+  <g fill="#fff1b3" filter="url(#glow)"><path d="m512 111 10 24-10 24-10-24z"/><path d="m845 430 24 10 24-10-24-10z"/><circle cx="512" cy="430" r="7"/></g>
+  <!-- crown -->
+  <path d="M365 315 401 204l91 78 20-126 20 126 91-78 36 111-43 39H408z" fill="url(#gold)" stroke="#fff0bd" stroke-width="7" stroke-linejoin="round"/>
+  <path d="m398 338 228 0-13 24H411z" fill="#8c5b20" stroke="#f8dfa0" stroke-width="5"/>
+  <g fill="#762de0" stroke="#ffe7a1" stroke-width="5"><circle cx="401" cy="208" r="13"/><circle cx="512" cy="157" r="13"/><circle cx="623" cy="208" r="13"/></g>
+  <!-- central amethyst shield -->
+  <path d="M512 340 665 397v111c0 115-61 193-153 244-92-51-153-129-153-244V397z" fill="#130c27" stroke="url(#gold)" stroke-width="12"/>
+  <path d="M512 365 642 413v95c0 95-48 162-130 210-82-48-130-115-130-210v-95z" fill="url(#amethyst)" stroke="#f0d5ff" stroke-width="4"/>
+  <path d="M512 397v269M411 451l101 30 101-30M414 566l98 28 98-28" fill="none" stroke="#f1d9ff" stroke-width="5" opacity=".6"/>
+  <path d="m512 420 33 69 76 11-55 53 13 76-67-36-67 36 13-76-55-53 76-11z" fill="#fff1ba" stroke="#fff" stroke-width="5" filter="url(#glow)"/>
+  <circle cx="512" cy="530" r="18" fill="#9a4ceb"/>
+  <!-- title plaque -->
+  <path d="M205 790 259 748h506l54 42-54 42H259z" fill="#130c27" stroke="url(#gold)" stroke-width="8"/>
+  <path d="M262 766h500v48H262z" fill="#39166b" opacity=".9"/>
+  <text x="512" y="806" text-anchor="middle" font-family="Georgia,serif" font-size="54" font-weight="bold" letter-spacing="7" fill="#fff0c0" stroke="#60378a" stroke-width="1">SEMIDIOS</text>
+  <text x="512" y="875" text-anchor="middle" font-family="Arial,sans-serif" font-size="23" font-weight="bold" letter-spacing="9" fill="#d7a9ff">RANGO CELESTIAL</text>
+  <g fill="#e8c57a"><path d="m183 790 17-8v16z"/><path d="m841 790-17-8v16z"/></g>
+</svg>

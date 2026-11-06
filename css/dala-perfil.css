@@ -102,7 +102,7 @@
   outline: 1px solid rgba(255, 255, 255, 0.14) !important;
   outline-offset: 0 !important;
   box-shadow: none !important;
-  background: #0a0a0a !important;
+  background: #140e26 !important;
 }
 
 .perfil-avatar-btn {
@@ -227,7 +227,7 @@
 }
 
 .perfil-input {
-  background-color: #0a0a0a !important;
+  background-color: #140e26 !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 14px !important;
   color: var(--dala-white) !important;
@@ -261,7 +261,7 @@
 .perfil-color input[type='color'] {
   border-radius: 14px !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  background: #0a0a0a !important;
+  background: #140e26 !important;
   height: 46px !important;
   width: 62px !important;
   padding: 4px !important;
@@ -361,7 +361,7 @@
   color: var(--dala-silver) !important;
 }
 .perfil-mc-codigo {
-  background: #0a0a0a !important;
+  background: #140e26 !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 18px !important;
   padding: 1.1rem 1.25rem !important;

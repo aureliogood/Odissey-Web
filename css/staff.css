@@ -141,7 +141,7 @@ html {
         }
         /* Pagina actual: la unica pastilla rellena del menu. */
         .nav-button[aria-current='page'] {
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 100%);
             border-color: transparent;
             color: var(--od-ink);
             font-weight: 600;
@@ -158,7 +158,7 @@ html {
         /* El boton de entrar y el de menu siguen siendo acciones, no
            enlaces de navegacion: por eso si llevan pastilla. */
         .nav-button-primary {
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 100%);
             border-color: rgba(253, 230, 138, 0.6);
             color: var(--od-ink);
             font-weight: 600;
@@ -426,7 +426,7 @@ html {
             border-radius: 9999px;
             background: rgba(234, 179, 8, 0.14);
             border: 1px solid rgba(234, 179, 8, 0.4);
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
         }
         .staff-group-divider {
             width: 100%;
@@ -484,7 +484,7 @@ html {
         .rank-founder {
             background: rgba(234, 179, 8, 0.14);
             border-color: rgba(234, 179, 8, 0.45);
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
         }
         .rank-admin {
             background: rgba(56, 189, 248, 0.12);
@@ -529,7 +529,7 @@ html {
             gap: 0.3rem;
             font-weight: 800;
             font-size: 1rem;
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
         }
         .staff-card-votes {
             font-size: 0.78rem;
@@ -547,7 +547,7 @@ html {
             gap: 0.4rem;
             font-size: 0.82rem;
             font-weight: 700;
-            color: var(--od-marine-accent, #eab308);
+            color: var(--od-marine-accent, #a98fff);
             cursor: pointer;
             background: none;
             border: none;
@@ -557,7 +557,7 @@ html {
         }
         .staff-card-open:hover {
             background: rgba(234, 179, 8, 0.1);
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
         }
         .staff-cta {
             display: flex;
@@ -582,7 +582,7 @@ html {
         .staff-cta-text strong {
             display: block;
             font-size: 1.05rem;
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
         }
         .staff-cta-text span {
             font-size: 0.86rem;
@@ -590,7 +590,7 @@ html {
         }
         .staff-cta-arrow {
             font-size: 1.3rem;
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
             flex-shrink: 0;
         }
         .staff-panel-header {
@@ -687,7 +687,7 @@ display: flex;
             height: 104px;
             border-radius: 9999px;
             padding: 4px;
-            background: linear-gradient(135deg, var(--od-marine-accent, #eab308), var(--od-gold-dark, #b45309));
+            background: linear-gradient(135deg, var(--od-marine-accent, #a98fff), var(--od-gold-dark, #b45309));
             box-shadow: 0 0 24px rgba(234, 179, 8, 0.35);
         }
         .staff-profile-avatar {
@@ -728,7 +728,7 @@ display: flex;
         .profile-stat-value {
             font-size: 1.4rem;
             font-weight: 800;
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
             line-height: 1;
         }
         .profile-stat-label {
@@ -914,7 +914,7 @@ display: flex;
             margin: 4px 0 2px;
         }
         .rating-summary strong {
-            color: var(--od-gold-light, #fde68a);
+            color: var(--od-gold-light, #e0d7ff);
             font-size: 1rem;
         }
         .rating-cat.incomplete {
@@ -1168,7 +1168,7 @@ display: flex;
             color: var(--od-gold-light);
         }
         .pill-pagado {
-            background-color: #0a0a0a;
+            background-color: #140e26;
             color: #7dd3fc;
         }
         .pill-resuelto, .pill-entregado {
@@ -1233,7 +1233,7 @@ display: flex;
             line-height: 1;
             cursor: pointer;
             color: var(--od-ink);
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 100%);
+            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 100%);
             border: 1px solid rgba(253, 230, 138, 0.55);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
                 0 4px 14px rgba(234, 179, 8, 0.22);
@@ -1269,7 +1269,7 @@ display: flex;
             flex: 1;
             min-width: 0;
 background-color: var(--od-marine-dark);
-            border: 2px solid #2a2a2a;
+            border: 2px solid rgba(255, 255, 255, 0.08);
             color: var(--od-text-light);
             border-radius: 9999px;
             padding: 0.35em 0.6em;
@@ -1424,7 +1424,7 @@ background-color: var(--od-marine-dark);
         }
         .badge-noticia { background-color: var(--od-marine-accent); color: var(--od-ink); }
         .badge-actualizacion { background-color: #10b981; color: var(--od-ink); }
-        .badge-changelog { background-color: #eab308; color: #ffffff; }
+        .badge-changelog { background-color: #a98fff; color: #ffffff; }
         .badge-evento { background-color: #3b82f6; color: #ffffff; }
         .badge-mantenimiento { background-color: #f97316; color: var(--od-ink); }
         .event-badge {
@@ -1569,7 +1569,7 @@ background-color: var(--od-marine-dark);
             cursor: pointer;
             outline: none;
             color: var(--od-ink);
-            background: linear-gradient(180deg, #fde68a 0%, #eab308 55%, #ca8a04 100%);
+            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 55%, #ca8a04 100%);
             border: 1px solid rgba(253, 230, 138, 0.55);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
                 0 4px 14px rgba(234, 179, 8, 0.24);
@@ -1666,12 +1666,12 @@ background-color: var(--od-marine-dark);
             border: 1px solid #b91c1c;
         }
         .event-badge-soon {
-            background-color: #0a0a0a;
+            background-color: #140e26;
             color: #93c5fd;
             border: 1px solid #2563eb;
         }
         .event-badge-past {
-            background-color: #0a0a0a;
+            background-color: #140e26;
             color: #bdbdbd;
             border: 1px solid #6b6b6b;
         }
@@ -1870,7 +1870,7 @@ background-color: var(--od-marine-dark);
             padding: 0 10px;
             border: 1px solid transparent;
             border-radius: 10px;
-            background: #eab308;
+            background: #a98fff;
             background-image: none;
             color: #14100a;
             font-family: 'Inter', sans-serif;
@@ -1964,7 +1964,7 @@ background-color: var(--od-marine-dark);
         .btn-online:focus-visible,
         .btn-rating-del:focus-visible {
             outline: none;
-            border-color: #eab308;
+            border-color: #a98fff;
             box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
         }
         /* Estado activo del filtro: velo dorado. Es el estado, no un adorno. */
@@ -1973,7 +1973,7 @@ background-color: var(--od-marine-dark);
             background: rgba(234, 179, 8, 0.16);
             background-image: none;
             border-color: rgba(234, 179, 8, 0.5);
-            color: #fde68a;
+            color: #e0d7ff;
             box-shadow: none;
         }
         .news-filter-btn.active:hover,
@@ -1983,7 +1983,7 @@ background-color: var(--od-marine-dark);
         }
         /* Accion positiva: el boton de aceptar. */
         .cb-accept {
-            background: #eab308;
+            background: #a98fff;
             background-image: none;
             color: #14100a;
         }

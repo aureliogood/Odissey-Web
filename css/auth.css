@@ -101,7 +101,7 @@
    de foco que se ve justo en las circustancias donde mas se necesita
    no esta cumpliendo su funcion. */
 .auth-input:focus {
-  border-color: var(--dala-gold, #eab308) !important;
+  border-color: var(--dala-gold, #a98fff) !important;
   box-shadow:
     0 0 0 3px rgba(234, 179, 8, 0.70),
     0 0 0 1px rgba(234, 179, 8, 0.9) inset !important;
@@ -112,7 +112,7 @@
 .auth-tab:focus-visible,
 .auth-ver:focus-visible,
 .auth-boton:focus-visible {
-  outline: 2px solid var(--dala-gold, #eab308) !important;
+  outline: 2px solid var(--dala-gold, #a98fff) !important;
   outline-offset: 2px !important;
   border-radius: 8px;
 }
@@ -231,7 +231,7 @@
 /* El asterisco de obligatorio. aria-hidden en el HTML: lo que se
    anuncia es el atributo required del input, no un asterisco suelto. */
 .auth-requerido {
-  color: var(--dala-gold, #eab308) !important;
+  color: var(--dala-gold, #a98fff) !important;
   font-size: 1.05em;
   line-height: 1;
 }
@@ -448,7 +448,7 @@
 /* Los botones también necesitan estado de foco propio para que se
    vea el recorrido con teclado. btn3d puede traer el suyo. */
 .auth-boton:focus-visible {
-  outline: 3px solid var(--dala-gold, #eab308) !important;
+  outline: 3px solid var(--dala-gold, #a98fff) !important;
   outline-offset: 3px !important;
 }
 
