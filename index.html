@@ -125,20 +125,59 @@
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <!-- Mobile Navigation Menu -->
-        <div id="menuDropdown" class="hidden">
-            <a href="/" onclick="closeMenu()">Inicio</a>
-            <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">Tienda</a>
-            <a href="/wiki" onclick="closeMenu()">Wiki</a>
-            <a href="/reglas" onclick="closeMenu()">Reglas</a>
-            <a href="/noticias" onclick="closeMenu()">Noticias</a>
-            <a href="/eventos" onclick="closeMenu()">Eventos</a>
-            <a href="/staff" onclick="closeMenu()">Staff</a>
-            <a href="/soporte" onclick="closeMenu()">Soporte</a>
-            <a href="/galeria" onclick="closeMenu()">Galería</a>
+        </header>
+
+    <!-- Mobile Navigation Drawer (Horizon Modern Glass) -->
+    <div id="menuDropdown" class="hidden" style="position: fixed; inset: 0; top: 72px; z-index: 99999; background: rgba(16, 10, 31, 0.98); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); padding: 24px 20px 48px 20px; overflow-y: auto; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+        <div style="max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
+            <a href="/" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🏠</span> Inicio</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🛒</span> Tienda Oficial</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/wiki" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">📖</span> Wiki & Comandos</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/reglas" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">⚖️</span> Reglamento</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/noticias" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">📰</span> Noticias</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/eventos" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🎉</span> Eventos</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/staff" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🛡️</span> Staff & Equipo</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/soporte" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🎫</span> Soporte & Tickets</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+            <a href="/galeria" onclick="closeMenu()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; transition: all 160ms ease;">
+                <span style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 18px;">🖼️</span> Galería</span>
+                <span style="color: rgba(255, 255, 255, 0.35); font-size: 16px;">›</span>
+            </a>
+
+            <!-- Mobile Quick Actions -->
+            <div style="margin-top: 14px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" onclick="copyIpAddress(); closeMenu();" class="hz-btn-primary" style="width: 100%; justify-content: center;">
+                    Copiar IP: mc.odisseymc.site
+                </button>
+                <a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" class="hz-btn-secondary" style="width: 100%; justify-content: center;">
+                    Unirse a Discord
+                </a>
+            </div>
         </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
     <main id="contenido" class="relative z-10 flex-grow" style="padding-top: 104px;">
