@@ -333,3 +333,25 @@ footer {
 footer a:hover {
   color: #ffffff !important;
 }
+
+/* Circular Avatar & Modern Font overrides */
+#enterNavAvatar,
+.nav-avatar,
+.nav-button--avatar .nav-avatar {
+  border-radius: 50% !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  object-fit: cover !important;
+  display: inline-block !important;
+}
+
+#enterNavBtn,
+#enterNavText,
+.nav-button,
+.nav-button-primary {
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif) !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+}

@@ -324,7 +324,7 @@
 
 .auth-boton {
   min-height: 42px !important;
-  font-family: var(--pixel, 'Pixelify Sans', sans-serif) !important;
+  font-family: var(--font-sans, 'Inter', sans-serif); !important;
   font-size: 15px !important;
   font-weight: 600 !important;
   width: 100% !important;
