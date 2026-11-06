@@ -295,9 +295,49 @@ header img {
 }
 
 /* ----------------------------------------------------------------------------
-   HERO TWO-COLUMN LAYOUT & SHOWCASE CARD (Horizon-style)
+   HERO BACKDROP & LAYOUT
    ---------------------------------------------------------------------------- */
+.hz-hero-section {
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 64px 24px;
+}
+
+.hz-hero-backdrop {
+  position: absolute;
+  top: 0;
+  right: -5%;
+  width: 75%;
+  height: 100%;
+  max-height: 700px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.32;
+  mask-image: radial-gradient(ellipse at 70% 35%, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 70% 35%, black 40%, transparent 80%);
+}
+
+.hz-hero-backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 25%;
+  filter: contrast(120%) brightness(95%);
+}
+
+.hz-hero-backdrop-gradient {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, #09070f 20%, rgba(9, 7, 15, 0.75) 60%, rgba(9, 7, 15, 0.2) 100%),
+    linear-gradient(0deg, #09070f 5%, transparent 60%);
+}
+
 .hz-hero-layout {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr;
   gap: 36px;
@@ -311,53 +351,206 @@ header img {
   }
 }
 
-.hz-hero-showcase {
-  background: rgba(18, 14, 29, 0.75);
+/* ----------------------------------------------------------------------------
+   PLAYHORIZON BENCHMARK CARD (TPS INTERACTIVO)
+   ---------------------------------------------------------------------------- */
+.hz-bench-card {
+  background: rgba(18, 14, 29, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  overflow: hidden;
+  padding: clamp(24px, 3.5vw, 36px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
   position: relative;
 }
 
-.hz-hero-showcase-header {
-  padding: 18px 20px 14px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+.hz-bench-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.hz-bench-label {
+  font-family: var(--hz-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.hz-bench-title {
+  font-family: var(--hz-font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+.hz-bench-desc {
+  font-size: 13.5px;
+  color: #a1a1aa;
+  line-height: 1.55;
+  margin: 0 0 28px 0;
+}
+
+/* Benchmark Rows */
+.hz-bench-row {
+  margin-bottom: 24px;
+}
+
+.hz-bench-row-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.hz-bench-server {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.hz-bench-server.muted {
+  color: #a1a1aa;
+}
+
+.hz-bench-server-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.hz-bench-players-chip {
+  font-family: var(--hz-font-mono);
+  font-size: 11px;
+  color: #9370db;
+  background: rgba(147, 112, 219, 0.12);
+  border: 1px solid rgba(147, 112, 219, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.hz-bench-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.hz-bench-val-num {
+  font-family: var(--hz-font-display);
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.hz-bench-val-unit {
+  font-family: var(--hz-font-mono);
+  font-size: 13px;
+  color: #71717a;
+  font-weight: 500;
+}
+
+/* Benchmark Progress Bars */
+.hz-bench-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hz-bench-fill-purple {
+  height: 100%;
+  background: linear-gradient(90deg, #7048e8, #a98fff);
+  box-shadow: 0 0 16px rgba(169, 143, 255, 0.5);
+  border-radius: 9999px;
+  transition: width 0.2s ease;
+}
+
+.hz-bench-slider-wrap {
+  position: relative;
+  width: 100%;
+  height: 18px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
-.hz-hero-showcase-img-wrap {
-  position: relative;
-  overflow: hidden;
-  background: #06040a;
-}
-
-.hz-hero-showcase-img {
+.hz-bench-track-interactive {
   width: 100%;
-  height: 240px;
-  object-fit: cover;
-  display: block;
-  transition: transform 400ms ease;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
 }
 
-.hz-hero-showcase:hover .hz-hero-showcase-img {
-  transform: scale(1.02);
+.hz-bench-fill-gray {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 9999px;
+  transition: width 0.08s ease;
 }
 
-.hz-hero-showcase-overlay {
+.hz-bench-slider {
+  -webkit-appearance: none;
+  appearance: none;
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(18, 14, 29, 0.95) 0%, rgba(18, 14, 29, 0.2) 60%, transparent 100%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: ew-resize;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
 }
 
-.hz-hero-showcase-body {
-  padding: 18px 20px;
-  background: rgba(18, 14, 29, 0.85);
+.hz-bench-slider:focus {
+  outline: none;
+}
+
+.hz-bench-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6px;
+  height: 20px;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  cursor: ew-resize;
+  border: none;
+}
+
+.hz-bench-slider::-moz-range-thumb {
+  width: 6px;
+  height: 20px;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  cursor: ew-resize;
+  border: none;
+}
+
+.hz-bench-footer {
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: #71717a;
+  line-height: 1.5;
+}
+
+.hz-bench-footer strong {
+  color: #ffffff;
 }
 
 /* ----------------------------------------------------------------------------
