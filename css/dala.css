@@ -337,8 +337,8 @@ nav.nav-bar .nav-inner {
 }
 @media (max-width: 1000px) {
   /* ya no caben: se oculta la pastilla y vuelve el boton de menu */
-  .nav-pill { display: none; }
-  .nav-actions .menu-toggle { display: flex !important; }
+  .nav-pill { display: inline-flex !important; }
+  .nav-actions .menu-toggle { display: none !important; }
 }
 
 @media (max-width: 640px) {
@@ -859,30 +859,31 @@ nav .lang-btn:hover {
   box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
 }
 
-/* PELIGRO (Eliminar, Rechazar, Salir) */
+/* PELIGRO (Eliminar, Rechazar, Salir) - Horizon 8px */
 .btn-danger,
 .btn-rating-del,
-.cb-decline,
 .btn-mini-peligro {
-  background: #b52a3a !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
-  border-radius: 0 !important;
+  background: #dc2626 !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 8px !important;
   color: #ffffff !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 #f07a68, inset 0 calc(-1 * var(--block-lip, 4px)) 0 #6e151f !important;
-  font-family: var(--pixel) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  font-family: var(--font-sans, 'Geist', sans-serif) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  height: 36px !important;
+  padding: 0 14px !important;
+  transition: all 160ms ease !important;
 }
 .btn-danger:hover,
 .btn-rating-del:hover,
-.cb-decline:hover,
 .btn-mini-peligro:hover {
-  filter: brightness(1.15) !important;
-  background: #c93041 !important;
+  filter: brightness(1.1) !important;
+  background: #ef4444 !important;
 }
 .btn-danger:active,
-.btn-rating-del:active,
-.cb-decline:active {
-  transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 #6e151f !important;
+.btn-rating-del:active {
+  transform: translateY(1px) !important;
 }
 
 /* CUADRADOS DE CONTROL (Steppers y Cerrar) */
@@ -1985,35 +1986,26 @@ nav #langBtn:active,
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
-  height: 38px !important;
-  min-height: 38px !important;
-  padding: 0 16px 2px 16px !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
-  border-radius: 0 !important;
-  background: var(--hz-face, #5b3fd6) !important;
+  height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
   color: #ffffff !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
-  font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
+  box-shadow: none !important;
+  font-family: var(--font-sans, 'Geist', sans-serif) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
   text-decoration: none !important;
   white-space: nowrap !important;
   cursor: pointer !important;
-  transition: filter 0.12s ease, transform 0.08s ease !important;
+  transition: all 160ms ease !important;
 }
-
 #enterNavBtn:hover,
 .nav-button-primary:hover {
-  filter: brightness(1.15) !important;
-  background: var(--hz-face, #5b3fd6) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
   color: #ffffff !important;
-}
-
-#enterNavBtn:active,
-.nav-button-primary:active {
-  transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
 }
 
 #enterNavText {

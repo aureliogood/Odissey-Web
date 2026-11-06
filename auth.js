@@ -1192,7 +1192,7 @@ async function salir() {
       return;
     }
 
-    const nombre = u.username || '';
+    const nombre = (u.username || '').toLowerCase();
     const avatarUrl = rutaImagen(u.avatar);
     if (img && avatarUrl) {
       img.onerror = function () {
@@ -1204,7 +1204,7 @@ async function salir() {
       img.src = avatarUrl;
       img.alt = nombre;
       img.classList.remove('hidden');
-      if (txt) txt.classList.add('hidden');
+      if (txt) { txt.classList.remove('hidden'); txt.textContent = nombre; }
       btn.classList.add('nav-button--avatar');
     } else {
       if (img) { img.classList.add('hidden'); img.removeAttribute('src'); }

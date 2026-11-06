@@ -1,98 +1,107 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap');
 
 /* ============================================================
    ODISSEY HORIZON DESIGN SYSTEM (https://playhorizon.dev)
-   Paleta Cósmica Obsidiana + Púrpura Radiante + Glassmorfismo
+   Tipografía Geist + Obsidiana Profunda + Contraste Elegante
    ============================================================ */
 .skip-link {
   display: none !important;
 }
 
 :root {
-  /* Tipografías Horizon */
-  --font-display: 'Bricolage Grotesque', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Geist Mono', monospace;
+  /* Tipografías Oficiales Geist (PlayHorizon) */
+  --font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
   --font-pixel: var(--font-sans);
   --pixel: var(--font-sans);
 
-  /* PlayHorizon Colores Base */
-  --hz-bg: #100a1f;
-  --hz-bg-deep: #0a0614;
-  --hz-page: #100a1f;
-  --hz-side: #0c0817;
-  --hz-surface: #17102b;
-  --hz-surface-raised: #1f1638;
-  --hz-panel: #161028;
-  --hz-well: #0c0817;
+  /* PlayHorizon Colores Base: Carbón / Obsidiana Profundo (Sin morado plano) */
+  --hz-bg: #09070f;
+  --hz-bg-deep: #05040a;
+  --hz-page: #09070f;
+  --hz-side: #08060d;
+  --hz-surface: #120e1d;
+  --hz-surface-raised: #181326;
+  --hz-panel: #140f22;
+  --hz-well: #08060d;
 
-  /* Horizon Glass & Borders */
-  --hz-surface-glass: rgba(255, 255, 255, 0.035);
-  --hz-surface-glass-hover: rgba(255, 255, 255, 0.065);
+  /* Horizon Glass & Bordes sutiles */
+  --hz-surface-glass: rgba(255, 255, 255, 0.03);
+  --hz-surface-glass-hover: rgba(255, 255, 255, 0.06);
   --hz-surface-glass-active: rgba(255, 255, 255, 0.09);
   --hz-border-glass: rgba(255, 255, 255, 0.08);
-  --hz-border-glass-hover: rgba(169, 143, 255, 0.35);
-  --hz-border-glass-active: rgba(169, 143, 255, 0.6);
+  --hz-border-glass-hover: rgba(147, 112, 219, 0.35);
+  --hz-border-glass-active: rgba(147, 112, 219, 0.6);
 
-  /* Horizon Acentos Púrpura / Violeta */
-  --hz-primary: #7c4dff;
-  --hz-accent: #a98fff;
-  --hz-accent-hover: #c4b5fd;
-  --hz-accent-soft: rgba(169, 143, 255, 0.15);
-  --hz-face: #6c42f5;
-  --hz-face-bevel: #8a65ff;
-  --hz-face-lip: #4928b8;
-  --hz-primary-glow: rgba(124, 77, 255, 0.45);
+  /* Tokens de Radio Horizon (8px estándar para botones, 14px-18px para tarjetas) */
+  --hz-radius-sm: 6px;
+  --hz-radius: 8px;
+  --hz-radius-md: 10px;
+  --hz-radius-lg: 14px;
+  --hz-radius-xl: 18px;
 
-  /* Horizon Gradientes */
-  --hz-gradient-primary: linear-gradient(135deg, #7042f5 0%, #a98fff 100%);
-  --hz-gradient-primary-hover: linear-gradient(135deg, #8357ff 0%, #b8a2ff 100%);
-  --hz-gradient-text: linear-gradient(135deg, #ffffff 30%, #a98fff 100%);
-  --hz-gradient-glow: radial-gradient(1200px circle at 50% -10%, rgba(124, 77, 255, 0.25), transparent 70%);
+  /* Horizon Acentos Púrpura / Violeta (Sutiles y localizados, no invasivos) */
+  --hz-primary: #7048e8;
+  --hz-primary-hover: #7c4dff;
+  --hz-accent: #9370db;
+  --hz-accent-hover: #b197fc;
+  --hz-accent-soft: rgba(147, 112, 219, 0.12);
+  --hz-face: #5f3dc4;
+  --hz-face-bevel: #7048e8;
+  --hz-face-lip: #4c2889;
+  --hz-primary-glow: rgba(112, 72, 232, 0.28);
 
-  /* Horizon Textos */
+  /* Gradientes Horizon Oficiales */
+  --hz-gradient-primary: linear-gradient(180deg, #7c4dff 0%, #683beb 100%);
+  --hz-gradient-primary-hover: linear-gradient(180deg, #875cff 0%, #7242f5 100%);
+  --hz-gradient-text: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
+  --hz-gradient-purple-text: linear-gradient(180deg, #c4b5fd 0%, #9370db 100%);
+  --hz-gradient-glow: radial-gradient(1000px circle at 50% -15%, rgba(112, 72, 232, 0.18), transparent 70%);
+
+  /* Horizon Textos y Contraste */
   --hz-text-primary: #ffffff;
-  --hz-text-secondary: #c5c7d1;
-  --hz-text-muted: #8b85a3;
+  --hz-text-secondary: #a1a1aa;
+  --hz-text-muted: #71717a;
   --hz-ink: #ffffff;
-  --hz-ink-soft: #c5c7d1;
-  --hz-muted: #8b85a3;
+  --hz-ink-soft: #a1a1aa;
+  --hz-muted: #71717a;
 
-  /* Compatibilidad con variables previas de Odissey (mapeadas a Horizon) */
+  /* Mapeo retrocompatible para subsistemas de Odissey */
   --od-void: var(--hz-bg);
   --od-marine-dark: var(--hz-bg);
   --od-marine-darker: var(--hz-bg-deep);
   --od-marine-medium: var(--hz-surface);
   --od-marine-light: var(--hz-border-glass);
   --od-marine-accent: var(--hz-accent);
-  --od-marine-accent-rgb: 169, 143, 255;
+  --od-marine-accent-rgb: 147, 112, 219;
   --od-gold-light: #c4b5fd;
-  --od-gold-dark: #6c42f5;
-  --od-saffron: #a98fff;
+  --od-gold-dark: #7048e8;
+  --od-saffron: #9370db;
   --od-text-light: #ffffff;
-  --od-text-dark: #c5c7d1;
-  --od-text-muted: #8b85a3;
-  --od-marine-darker-rgb: 10, 6, 20;
+  --od-text-dark: #a1a1aa;
+  --od-text-muted: #71717a;
+  --od-marine-darker-rgb: 5, 4, 10;
   --od-glass-rgb: 255, 255, 255;
   --od-border-rgb: 255, 255, 255;
   --od-shadow-rgb: 0, 0, 0;
-  --od-marine-medium-rgb: 23, 16, 43;
-  --od-marine-dark-rgb: 16, 10, 31;
+  --od-marine-medium-rgb: 18, 14, 29;
+  --od-marine-dark-rgb: 9, 7, 15;
   --od-chip-rgb: 255, 255, 255;
-  --od-chip-alpha: 0.05;
-  --od-ink: #100a1f;
+  --od-chip-alpha: 0.04;
+  --od-ink: #09070f;
   --od-always-light: #ffffff;
   --od-text-light-rgb: 255, 255, 255;
-  --od-text-dark-rgb: 197, 199, 209;
+  --od-text-dark-rgb: 161, 161, 170;
   --od-gold-light-rgb: 196, 181, 253;
 
-  /* Mapeo de tokens Dala a Horizon */
+  /* Mapeo tokens Dala */
   --dala-void: var(--hz-bg);
   --dala-surface: var(--hz-surface);
   --dala-surface-raised: var(--hz-surface-raised);
   --dala-white: #ffffff;
-  --dala-silver: #c5c7d1;
-  --dala-ash: #8b85a3;
+  --dala-silver: #a1a1aa;
+  --dala-ash: #71717a;
   --dala-gold: var(--hz-accent);
   --dala-amber: #c4b5fd;
   --dala-line: rgba(255, 255, 255, 0.08);
@@ -106,35 +115,35 @@ html, body {
   font-family: var(--font-sans);
 }
 
-/* Fondo ambiental Horizon */
+/* Fondo atmosférico sutil y elegante tipo Horizon (Sin morado dominante plano) */
 body {
   background-image: 
-    radial-gradient(1200px circle at 50% -5%, rgba(124, 77, 255, 0.22), transparent 70%),
-    radial-gradient(800px circle at 85% 25%, rgba(169, 143, 255, 0.10), transparent 60%),
-    radial-gradient(900px circle at 15% 55%, rgba(112, 66, 245, 0.08), transparent 60%),
-    radial-gradient(1200px circle at 50% 90%, rgba(124, 77, 255, 0.14), transparent 70%) !important;
+    radial-gradient(1100px circle at 50% -8%, rgba(112, 72, 232, 0.15), transparent 65%),
+    radial-gradient(700px circle at 85% 18%, rgba(147, 112, 219, 0.06), transparent 55%),
+    radial-gradient(800px circle at 15% 40%, rgba(99, 102, 241, 0.04), transparent 55%),
+    radial-gradient(1100px circle at 50% 95%, rgba(112, 72, 232, 0.08), transparent 70%) !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
 }
 
-/* Scrollbar Horizon */
+/* Scrollbar Horizon minimalista */
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--hz-bg-deep);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(169, 143, 255, 0.25);
-  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
   border: 2px solid var(--hz-bg-deep);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(169, 143, 255, 0.45);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 ::selection {
-  background: rgba(124, 77, 255, 0.4);
+  background: rgba(112, 72, 232, 0.45);
   color: #ffffff;
 }

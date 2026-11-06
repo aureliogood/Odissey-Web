@@ -1,12 +1,12 @@
 /* ============================================================
    ODISSEY HORIZON DESIGN STYLESHEET (playhorizon.dev)
-   Estilos completos, autocontenidos y sin dependencias rotas
+   Tipografía Geist + Obsidiana Carbón + Hero Dos Columnas
    ============================================================ */
 
 :root {
-  --hz-font-display: 'Bricolage Grotesque', 'Inter', -apple-system, sans-serif;
-  --hz-font-body: 'Inter', -apple-system, sans-serif;
-  --hz-font-mono: 'JetBrains Mono', 'Geist Mono', monospace;
+  --hz-font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --hz-font-body: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --hz-font-mono: 'Geist Mono', monospace;
 }
 
 *, *::before, *::after {
@@ -16,7 +16,7 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
-  background-color: #100a1f;
+  background-color: #09070f;
   color-scheme: dark;
 }
 
@@ -26,43 +26,41 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #100a1f !important;
+  background-color: #09070f !important;
   color: #ffffff;
   font-family: var(--hz-font-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Background Atmosphere Glow */
+/* Background Atmosphere (PlayHorizon sutil sin morado dominante) */
 .hz-bg-glow {
   position: fixed;
   inset: 0;
   pointer-events: none;
   background-image: 
-    radial-gradient(1200px circle at 50% -10%, rgba(124, 77, 255, 0.28), transparent 70%),
-    radial-gradient(800px circle at 85% 20%, rgba(169, 143, 255, 0.12), transparent 60%),
-    radial-gradient(900px circle at 15% 45%, rgba(99, 102, 241, 0.1), transparent 60%),
-    radial-gradient(1200px circle at 50% 85%, rgba(124, 77, 255, 0.16), transparent 70%);
+    radial-gradient(1100px circle at 50% -10%, rgba(112, 72, 232, 0.16), transparent 70%),
+    radial-gradient(800px circle at 85% 20%, rgba(147, 112, 219, 0.05), transparent 60%);
   background-attachment: fixed;
   z-index: 0;
 }
 
 /* Typography Helpers */
 .hz-text-gradient {
-  background: linear-gradient(135deg, #a98fff 0%, #c4b5fd 40%, #ffffff 100%);
+  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hz-text-purple {
-  background: linear-gradient(135deg, #8a65ff 0%, #a98fff 50%, #c4b5fd 100%);
+  background: linear-gradient(180deg, #d8b4fe 0%, #9370db 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .font-display {
   font-family: var(--hz-font-display) !important;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 
 .font-mono {
@@ -70,7 +68,7 @@ body {
 }
 
 /* ----------------------------------------------------------------------------
-   NAVBAR & HEADER (playhorizon.dev)
+   NAVBAR & HEADER (playhorizon.dev transparente)
    ---------------------------------------------------------------------------- */
 .hz-header {
   position: fixed;
@@ -78,11 +76,11 @@ body {
   left: 0;
   right: 0;
   z-index: 50;
-  height: 72px;
-  background: rgba(16, 10, 31, 0.85);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 64px;
+  background: transparent;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
 }
@@ -95,7 +93,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 }
 
 .hz-brand {
@@ -108,27 +106,27 @@ body {
 }
 
 .hz-brand-icon {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
   display: block;
 }
 
 .hz-brand-text {
   font-family: var(--hz-font-display);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: #ffffff;
 }
 
-/* Logo image strict sizing (prevent any giant overflow) */
+/* Logo image strict sizing */
 .hz-logo-img,
 .nav-logo img,
 header img {
-  max-height: 34px !important;
-  max-width: 160px !important;
-  height: 34px !important;
+  max-height: 32px !important;
+  max-width: 150px !important;
+  height: 32px !important;
   width: auto !important;
   object-fit: contain !important;
   display: block !important;
@@ -137,35 +135,35 @@ header img {
 .hz-nav-pills {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.035);
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  padding: 4px 6px;
+  border-radius: 8px;
+  padding: 3px 6px;
 }
 
 .hz-nav-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  font-size: 14px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 13.5px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  transition: all 180ms ease;
+  transition: all 160ms ease;
 }
 
 .hz-nav-link:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .hz-nav-link[aria-current="page"] {
   color: #ffffff;
-  background: rgba(124, 77, 255, 0.28);
-  border: 1px solid rgba(169, 143, 255, 0.35);
+  background: rgba(112, 72, 232, 0.22);
+  border: 1px solid rgba(147, 112, 219, 0.3);
   font-weight: 600;
 }
 
@@ -173,29 +171,30 @@ header img {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  border-radius: 9999px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.85);
   font-family: var(--hz-font-mono);
   font-size: 12px;
   cursor: pointer;
-  transition: all 180ms ease;
+  transition: all 160ms ease;
 }
 
 .hz-ip-pill:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(169, 143, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
   color: #ffffff;
 }
 
 .hz-dot-pulse {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #4ade80;
-  box-shadow: 0 0 10px #4ade80;
+  box-shadow: 0 0 8px #4ade80;
   display: inline-block;
   animation: hzPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -206,188 +205,187 @@ header img {
 }
 
 /* ----------------------------------------------------------------------------
-   BUTTONS (HORIZON PILL)
+   BUTTONS (HORIZON 8PX COMPACT)
    ---------------------------------------------------------------------------- */
 .hz-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 12px 28px;
-  border-radius: 9999px;
-  background: linear-gradient(135deg, #7042f5 0%, #a98fff 100%);
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #7c4dff 0%, #683beb 100%);
   color: #ffffff !important;
-  font-weight: 600;
-  font-size: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 24px rgba(124, 77, 255, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   cursor: pointer;
   text-decoration: none;
-  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 160ms ease;
+  white-space: nowrap;
 }
 
 .hz-btn-primary:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
-  box-shadow: 0 0 36px rgba(124, 77, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, #875cff 0%, #7242f5 100%);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 2px 8px rgba(112, 72, 232, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .hz-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 12px 26px;
-  border-radius: 9999px;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
-  color: #ffffff !important;
+  color: #e4e4e7 !important;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   cursor: pointer;
   text-decoration: none;
-  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 160ms ease;
+  white-space: nowrap;
 }
 
 .hz-btn-secondary:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(169, 143, 255, 0.4);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
 }
 
 .hz-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: 9999px;
-  background: rgba(124, 77, 255, 0.12);
-  border: 1px solid rgba(169, 143, 255, 0.3);
-  color: #c4b5fd;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e7;
+  font-family: var(--hz-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 /* ----------------------------------------------------------------------------
-   GLASS CARDS (HORIZON)
+   GLASS CARDS (HORIZON 14-16PX)
    ---------------------------------------------------------------------------- */
 .hz-card {
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(18, 14, 29, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 200ms ease;
   position: relative;
   overflow: hidden;
 }
 
 .hz-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(169, 143, 255, 0.35);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 25px rgba(124, 77, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(22, 17, 36, 0.8);
 }
 
 /* ----------------------------------------------------------------------------
-   BENCHMARK PROGRESS BARS
+   HERO TWO-COLUMN LAYOUT & SHOWCASE CARD (Horizon-style)
    ---------------------------------------------------------------------------- */
-.hz-bench-bar-track {
-  width: 100%;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 9999px;
-  overflow: hidden;
-  position: relative;
-}
-
-.hz-bench-bar-fill-purple {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #7042f5, #a98fff);
-  box-shadow: 0 0 16px rgba(169, 143, 255, 0.6);
-  border-radius: 9999px;
-  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hz-bench-bar-fill-muted {
-  height: 100%;
-  width: 48%;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 9999px;
-}
-
-/* ----------------------------------------------------------------------------
-   AVATAR MOSAIC GRID
-   ---------------------------------------------------------------------------- */
-.hz-avatar-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  justify-content: center;
+.hz-hero-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
   align-items: center;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
-.hz-avatar-item {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  background: #17102b;
+@media (min-width: 992px) {
+  .hz-hero-layout {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+  }
+}
+
+.hz-hero-showcase {
+  background: rgba(18, 14, 29, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 180ms ease;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
   position: relative;
 }
 
-.hz-avatar-item:hover {
-  transform: scale(1.3) translateY(-4px);
-  border-color: #a98fff;
-  box-shadow: 0 0 16px rgba(169, 143, 255, 0.7);
-  z-index: 10;
+.hz-hero-showcase-header {
+  padding: 18px 20px 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.hz-avatar-item img {
+.hz-hero-showcase-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #06040a;
+}
+
+.hz-hero-showcase-img {
   width: 100%;
-  height: 100%;
+  height: 240px;
   object-fit: cover;
   display: block;
+  transition: transform 400ms ease;
+}
+
+.hz-hero-showcase:hover .hz-hero-showcase-img {
+  transform: scale(1.02);
+}
+
+.hz-hero-showcase-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(18, 14, 29, 0.95) 0%, rgba(18, 14, 29, 0.2) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.hz-hero-showcase-body {
+  padding: 18px 20px;
+  background: rgba(18, 14, 29, 0.85);
 }
 
 /* ----------------------------------------------------------------------------
    FAQ ACCORDION
    ---------------------------------------------------------------------------- */
 .hz-faq-item {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(18, 14, 29, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  transition: all 200ms ease;
+  border-radius: 12px;
+  transition: all 160ms ease;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .hz-faq-item:hover {
-  border-color: rgba(169, 143, 255, 0.3);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(22, 17, 36, 0.7);
 }
 
 .hz-faq-question {
   width: 100%;
-  padding: 18px 24px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 16px;
   color: #ffffff;
   cursor: pointer;
   background: transparent;
@@ -395,10 +393,10 @@ header img {
 }
 
 .hz-faq-answer {
-  padding: 0 24px 20px 24px;
-  color: #c5c7d1;
-  font-size: 15px;
-  line-height: 1.65;
+  padding: 0 20px 18px 20px;
+  color: #a1a1aa;
+  font-size: 14.5px;
+  line-height: 1.6;
   display: none;
 }
 
@@ -407,22 +405,23 @@ header img {
 }
 
 .hz-faq-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a98fff;
-  transition: transform 220ms ease;
+  color: #a1a1aa;
+  transition: transform 200ms ease;
   flex-shrink: 0;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .hz-faq-item.active .hz-faq-icon {
   transform: rotate(45deg);
-  background: rgba(169, 143, 255, 0.2);
+  background: rgba(112, 72, 232, 0.2);
+  color: #ffffff;
 }
 
 /* ----------------------------------------------------------------------------
@@ -432,18 +431,19 @@ header img {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  padding: 12px 22px;
-  border-radius: 9999px;
-  background: rgba(26, 17, 49, 0.95);
-  border: 1px solid rgba(169, 143, 255, 0.5);
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: rgba(18, 14, 29, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
   font-weight: 500;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 77, 255, 0.35);
+  font-size: 13.5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(16px);
   z-index: 10000;
   transform: translateY(100px);
   opacity: 0;
-  transition: all 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 220ms ease;
 }
 
 .hz-toast.show {
@@ -452,7 +452,7 @@ header img {
 }
 
 /* ----------------------------------------------------------------------------
-   SIZING UTILITIES (Fallback so elements never blow up)
+   SIZING UTILITIES
    ---------------------------------------------------------------------------- */
 .size-1\.5 { width: 6px; height: 6px; }
 .size-2 { width: 8px; height: 8px; }
@@ -467,7 +467,7 @@ header img {
 .hz-grid-1-3 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 @media (min-width: 768px) {
   .hz-grid-1-3 {
@@ -478,7 +478,7 @@ header img {
 .hz-grid-4 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 16px;
 }
 @media (min-width: 640px) {
   .hz-grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -490,7 +490,7 @@ header img {
 .hz-grid-2 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 @media (min-width: 768px) {
   .hz-grid-2 { grid-template-columns: repeat(2, 1fr); }
