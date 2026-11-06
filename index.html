@@ -29,19 +29,115 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="theme.css?v=155">
-    <link rel="stylesheet" href="css/tailwind.css?v=155">
-    <link rel="stylesheet" href="css/index.css?v=155">
-    <link rel="stylesheet" href="css/dala.css?v=155">
-    <link rel="stylesheet" href="css/nav-shared.css?v=155">
-    <link rel="stylesheet" href="css/dala-polish.css?v=155">
-    <link rel="stylesheet" href="css/search.css?v=155">
+    <link rel="stylesheet" href="theme.css?v=157">
+    <link rel="stylesheet" href="css/tailwind.css?v=157">
+    <link rel="stylesheet" href="css/index.css?v=157">
+    <link rel="stylesheet" href="css/dala.css?v=157">
+    <link rel="stylesheet" href="css/nav-shared.css?v=157">
+    <link rel="stylesheet" href="css/dala-polish.css?v=157">
+    <link rel="stylesheet" href="css/search.css?v=157">
     
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     
-    <script src="js/seguro.js?v=147"></script>
-    <script src="js/animacion.js?v=147"></script>
+    <script src="js/seguro.js?v=157"></script>
+    <script src="js/animacion.js?v=157"></script>
+
+    <style>
+        /* ============================================================
+           CRITICAL STYLES FOR HERO BACKGROUND & PLAYHORIZON BENCHMARK
+           (Incrustado directamente para inmunidad total a caché de navegador)
+           ============================================================ */
+        .hz-hero-bg-wrapper {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 860px !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+        }
+        .hz-hero-bg-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: 82% 22% !important;
+            opacity: 0.90 !important;
+            filter: contrast(112%) brightness(92%) !important;
+            display: block !important;
+        }
+        .hz-hero-bg-overlay {
+            position: absolute !important;
+            inset: 0 !important;
+            background: 
+                linear-gradient(90deg, #09070f 0%, #09070f 28%, rgba(9, 7, 15, 0.78) 58%, rgba(9, 7, 15, 0.18) 100%),
+                linear-gradient(0deg, #09070f 0%, rgba(9, 7, 15, 0.6) 20%, transparent 65%),
+                linear-gradient(180deg, #09070f 0%, rgba(9, 7, 15, 0.35) 15%, transparent 35%) !important;
+        }
+        @media (max-width: 991px) {
+            .hz-hero-bg-wrapper { height: 740px !important; }
+            .hz-hero-bg-img { object-position: center 20% !important; opacity: 0.55 !important; }
+            .hz-hero-bg-overlay {
+                background: linear-gradient(180deg, rgba(9, 7, 15, 0.5) 0%, rgba(9, 7, 15, 0.92) 65%, #09070f 100%) !important;
+            }
+        }
+        /* PlayHorizon Benchmark Slider */
+        .fps-range {
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 100% !important;
+            height: 24px !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            cursor: pointer !important;
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            z-index: 10 !important;
+        }
+        .fps-range:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        .fps-range::-webkit-slider-runnable-track {
+            background: transparent !important;
+            border: none !important;
+            height: 100% !important;
+        }
+        .fps-range::-moz-range-track {
+            background: transparent !important;
+            border: none !important;
+        }
+        .fps-range::-webkit-slider-thumb {
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            cursor: ew-resize !important;
+            background: #ffffff !important;
+            border: none !important;
+            border-radius: 2px !important;
+            width: 6px !important;
+            height: 20px !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+            margin-top: 2px !important;
+        }
+        .fps-range::-moz-range-thumb {
+            cursor: ew-resize !important;
+            background: #ffffff !important;
+            border: none !important;
+            border-radius: 2px !important;
+            width: 6px !important;
+            height: 20px !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+        }
+    </style>
 
     <script type="application/ld+json">
     {
@@ -135,10 +231,11 @@
 
         <!-- ============================================================
              HERO FULL-WIDTH SPARTAN BACKGROUND (Artwork oficial Odissey)
+             Incrustado con estilos directos para garantizar renderizado perfecto
              ============================================================ -->
-        <div class="hz-hero-bg-wrapper" aria-hidden="true">
-            <img src="img/odissey-hero.png" alt="" class="hz-hero-bg-img">
-            <div class="hz-hero-bg-overlay"></div>
+        <div class="hz-hero-bg-wrapper" aria-hidden="true" style="position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 860px !important; overflow: hidden !important; pointer-events: none !important; z-index: 0 !important;">
+            <img src="img/odissey-hero.png" alt="" class="hz-hero-bg-img" style="width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: 82% 22% !important; opacity: 0.90 !important; display: block !important;">
+            <div class="hz-hero-bg-overlay" style="position: absolute !important; inset: 0 !important; background: linear-gradient(90deg, #09070f 0%, #09070f 28%, rgba(9, 7, 15, 0.78) 58%, rgba(9, 7, 15, 0.18) 100%), linear-gradient(0deg, #09070f 0%, rgba(9, 7, 15, 0.6) 20%, transparent 65%), linear-gradient(180deg, #09070f 0%, rgba(9, 7, 15, 0.35) 15%, transparent 35%) !important;"></div>
         </div>
 
         <!-- ============================================================
@@ -188,53 +285,53 @@
                 </div>
 
                 <!-- Columna Derecha: Tarjeta de Benchmark TPS Interactivo (1:1 PlayHorizon) -->
-                <div class="hz-bench-card">
-                    <p class="hz-bench-label">Benchmarks</p>
-                    <h2 class="hz-bench-title">
+                <div class="hz-bench-card" style="background: rgba(18, 14, 29, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: clamp(24px, 3.5vw, 36px); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45); position: relative;">
+                    <p class="hz-bench-label" style="font-family: var(--hz-font-sans); font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, 0.6); margin: 0 0 12px 0;">Benchmarks</p>
+                    <h2 class="hz-bench-title" style="font-family: var(--hz-font-display); font-size: clamp(1.8rem, 3.2vw, 2.25rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: #ffffff; margin: 0 0 12px 0;">
                         <span class="hz-text-purple">20 TPS</span> estables.
                     </h2>
-                    <p class="hz-bench-desc">
+                    <p class="hz-bench-desc" style="font-size: 14.5px; color: rgba(255, 255, 255, 0.6); line-height: 1.55; margin: 0 0 36px 0;">
                         Promedio de tick rate en Odissey con carga de jugadores en tiempo real.
                     </p>
 
                     <!-- Fila 1: Odissey (Siempre 20 TPS) -->
-                    <div class="hz-bench-row">
-                        <div class="hz-bench-row-top">
-                            <span class="hz-bench-server">
-                                <svg viewBox="0 0 16 16" class="hz-bench-server-icon" aria-hidden="true">
+                    <div class="hz-bench-row" style="margin-bottom: 32px;">
+                        <div class="hz-bench-row-top" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
+                            <span class="hz-bench-server" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: #ffffff;">
+                                <svg viewBox="0 0 16 16" class="hz-bench-server-icon" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0;">
                                     <path fill="#ffffff" d="M4 3h2v4H4zM10 3h2v4h-2z"></path>
                                     <path fill="rgba(255,255,255,0.4)" d="M4 8h2v4H4zM10 8h2v4h-2z"></path>
                                     <path fill="#a98fff" d="M1 7h14v1H1z"></path>
                                 </svg>
                                 <span>Odissey</span>
                             </span>
-                            <span class="hz-bench-value">
-                                <span id="odisseyTpsNum">20</span>
-                                <span class="hz-bench-val-unit">TPS</span>
+                            <span class="hz-bench-value" style="display: inline-flex; align-items: baseline; gap: 4px;">
+                                <span id="odisseyTpsNum" class="hz-bench-val-num" style="font-family: var(--hz-font-display, 'Geist', sans-serif); font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: #ffffff; font-variant-numeric: tabular-nums;">20</span>
+                                <span class="hz-bench-val-unit" style="font-family: var(--hz-font-sans, 'Geist', sans-serif); font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, 0.5); margin-left: 4px;">TPS</span>
                             </span>
                         </div>
-                        <div class="hz-stat-track">
-                            <div class="hz-stat-glow" aria-hidden="true"></div>
-                            <div class="hz-stat-bar-purple" id="odisseyTpsBar"></div>
+                        <div class="hz-stat-track" style="position: relative; margin-top: 12px; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, 0.07);">
+                            <div class="hz-stat-glow" aria-hidden="true" style="position: absolute; inset: -4px; border-radius: 6px; background: #7c5cff; filter: blur(10px); opacity: 0.65; pointer-events: none;"></div>
+                            <div class="hz-stat-bar-purple" id="odisseyTpsBar" style="position: absolute; inset: 0; border-radius: 2px; background: linear-gradient(90deg, #6b4bff, #9f86ff 60%, #c9bbff); width: 100%;"></div>
                         </div>
                     </div>
 
                     <!-- Fila 2: Otros servidores (Interactivo con Slider) -->
-                    <div class="hz-bench-row">
-                        <div class="hz-bench-row-top">
-                            <span class="hz-bench-server muted">
-                                <svg viewBox="0 0 24 24" class="hz-bench-server-icon" fill="currentColor" aria-hidden="true">
+                    <div class="hz-bench-row" style="margin-bottom: 0;">
+                        <div class="hz-bench-row-top" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
+                            <span class="hz-bench-server muted" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: rgba(255, 255, 255, 0.55);">
+                                <svg viewBox="0 0 24 24" class="hz-bench-server-icon" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; opacity: 0.75;">
                                     <path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m2 4v4h4v2H8v6h2v-2h4v2h2v-6h-2v-2h4V6h-4v4h-4V6z"></path>
                                 </svg>
                                 <span>Otros servidores: <span id="otherPlayersText">2</span> players</span>
                             </span>
-                            <span class="hz-bench-value muted">
-                                <span id="otherTpsNum">20</span>
-                                <span class="hz-bench-val-unit">TPS</span>
+                            <span class="hz-bench-value muted" style="display: inline-flex; align-items: baseline; gap: 4px;">
+                                <span id="otherTpsNum" class="hz-bench-val-num" style="font-family: var(--hz-font-display, 'Geist', sans-serif); font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: rgba(255, 255, 255, 0.55); font-variant-numeric: tabular-nums;">20</span>
+                                <span class="hz-bench-val-unit" style="font-family: var(--hz-font-sans, 'Geist', sans-serif); font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, 0.5); margin-left: 4px;">TPS</span>
                             </span>
                         </div>
-                        <div class="hz-stat-track">
-                            <div class="hz-stat-bar-gray" id="otherTpsBar" style="width: 0%;"></div>
+                        <div class="hz-stat-track" style="position: relative; margin-top: 12px; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, 0.07);">
+                            <div class="hz-stat-bar-gray" id="otherTpsBar" style="position: absolute; inset: 0; border-radius: 2px; background: rgba(255, 255, 255, 0.3); width: 0%; pointer-events: none;"></div>
                             <input 
                                 type="range" 
                                 id="tpsBenchmarkSlider" 
@@ -248,7 +345,7 @@
                         </div>
                     </div>
 
-                    <p class="hz-bench-footer">
+                    <p class="hz-bench-footer" style="margin-top: 32px; font-size: 12px; line-height: 1.6; color: rgba(255, 255, 255, 0.5); margin-bottom: 0;">
                         Arrastra la barra para simular la carga de jugadores. En otros servidores los TPS caen en picada, mientras que Odissey se mantiene inmutable a <strong>20 TPS</strong>.
                     </p>
                 </div>
