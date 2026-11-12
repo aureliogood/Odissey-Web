@@ -1206,17 +1206,15 @@ const mcNameInput = document.getElementById('mcNameInput');
          *
          * Ahora sale del perfil de Supabase, con la misma forma de siempre. */
         function getDiscordUser() {
-            try {
-                var guardado = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
-                if (guardado && guardado.id) return guardado;
-            } catch (err) { /* un valor roto no debe romper la pagina */ }
-        
-            var P = window.OdisseySupabase;
-            if (!P) return null;
-            var ficha = (typeof P.perfilActualSync === 'function') ? P.perfilActualSync() : null;
+            const P = window.OdisseySupabase;
+            if (!P || typeof P.usuarioActualSync !== 'function') return null;
+            const id = P.usuarioActualSync();
+            if (!id) return null;
+
+            const ficha = (typeof P.perfilActualSync === 'function') ? P.perfilActualSync() : null;
             if (ficha) {
                 return {
-                    id: ficha.id,
+                    id: ficha.id || id,
                     username: ficha.username || '',
                     avatar: ficha.avatar_url || '',
                     banner: ficha.banner_url || '',
@@ -1226,10 +1224,15 @@ const mcNameInput = document.getElementById('mcNameInput');
                     rol: ficha.rol || 'user',
                 };
             }
+
+            try {
+                var guardado = JSON.parse(localStorage.getItem('odissey_discord_user') || 'null');
+                if (guardado && guardado.id === id) return guardado;
+            } catch (err) { /* un valor roto no debe romper la pagina */ }
+
             // Hay sesion pero el perfil todavia no ha llegado: se devuelve lo
             // minimo para que la pagina sepa que hay alguien dentro.
-            var id = (typeof P.usuarioActualSync === 'function') ? P.usuarioActualSync() : null;
-            return id ? { id: id, username: '', avatar: '' } : null;
+            return { id: id, username: '', avatar: '' };
         }
         function getCurrentUser() {
             /* Primero Supabase; el metodo viejo queda como reserva. */
@@ -1431,7 +1434,12 @@ const mcNameInput = document.getElementById('mcNameInput');
         }
         function discordAvatarUrl(u, size) {
             if (!u || !u.id) return '';
-            if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=${size}`;
+            const id = String(u.id);
+            const avatar = String(u.avatar || '').trim();
+            if (/^https?:\/\//i.test(avatar)) return avatar;
+            if (avatar.charAt(0) === '/' && avatar.charAt(1) !== '/') return avatar;
+            if (!/^\d{15,22}$/.test(id)) return '';
+            if (avatar) return `https://cdn.discordapp.com/avatars/${id}/${avatar}.png?size=${size}`;
             return discordDefaultAvatar(u);
         }
         function updateNavButton() {

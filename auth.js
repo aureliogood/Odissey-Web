@@ -1178,7 +1178,13 @@ async function salir() {
   // nombre. Con una cuenta de la web (id "web:...") ese avatar no significa
   // nada, así que aquí se muestra directamente el nombre de usuario.
   function actualizarBotonNav() {
-    const u = usuarioGuardado();
+    const supabase = window.OdisseySupabase;
+    const supabaseDisponible = supabase && typeof supabase.usuarioActualSync === 'function';
+    const sesionActiva = supabaseDisponible && supabase.usuarioActualSync();
+    // No confíes en el perfil antiguo de localStorage si Supabase confirma
+    // que no hay una sesión activa: puede dejar una foto de otra cuenta en
+    // el botón «Entrar» después de cerrar sesión o con una sesión vencida.
+    const u = supabaseDisponible ? (sesionActiva ? usuarioGuardado() : null) : usuarioGuardado();
     const txt = document.getElementById('enterNavText');
     const img = document.getElementById('enterNavAvatar');
     const btn = document.getElementById('enterNavBtn');
