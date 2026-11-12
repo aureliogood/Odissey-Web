@@ -62,10 +62,10 @@
   /* Horizon Textos y Contraste */
   --hz-text-primary: #ffffff;
   --hz-text-secondary: #a1a1aa;
-  --hz-text-muted: #71717a;
+  --hz-text-muted: #a1a1aa;
   --hz-ink: #ffffff;
   --hz-ink-soft: #a1a1aa;
-  --hz-muted: #71717a;
+  --hz-muted: #a1a1aa;
 
   /* Mapeo retrocompatible para subsistemas de Odissey */
   --od-void: var(--hz-bg);
@@ -80,7 +80,7 @@
   --od-saffron: #9370db;
   --od-text-light: #ffffff;
   --od-text-dark: #a1a1aa;
-  --od-text-muted: #71717a;
+  --od-text-muted: #a1a1aa;
   --od-marine-darker-rgb: 5, 4, 10;
   --od-glass-rgb: 255, 255, 255;
   --od-border-rgb: 255, 255, 255;
@@ -101,7 +101,7 @@
   --dala-surface-raised: var(--hz-surface-raised);
   --dala-white: #ffffff;
   --dala-silver: #a1a1aa;
-  --dala-ash: #71717a;
+  --dala-ash: #a1a1aa;
   --dala-gold: var(--hz-accent);
   --dala-amber: #c4b5fd;
   --dala-line: rgba(255, 255, 255, 0.08);

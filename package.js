@@ -38,6 +38,8 @@ const EXCLUIDOS = [
   'dev-server.js',
   'probar-login.html',
   'limpiar.html',
+  'BOT-PANEL.md',
+  'OdisseyPesca',
   'package.js',
   'package.bat',
   'package.ps1',
@@ -46,6 +48,7 @@ const EXCLUIDOS = [
   'antispam-conectar.ps1',
   'i18n-completar.ps1',
   'seo-schema.ps1',
+  'ver-supabase.ps1',
   '_comprobar-visible.cjs',
   'nginx.conf.example',
 'odissey-security-headers.conf',
@@ -188,10 +191,22 @@ function comprimir(carpeta, zip) {
   if (fs.existsSync(zip)) fs.unlinkSync(zip);
   /* -r recursivo, -q solo lo que importa. El zip guarda las rutas
      relativas a la carpeta padre, que es lo que espera el hosting. */
-  execFileSync('powershell', [
+  const args = [
     '-NoProfile', '-Command',
     `Compress-Archive -Path '${carpeta}\\*' -DestinationPath '${zip}' -Force`
-  ], { stdio: 'inherit' });
+  ];
+  const ejecutables = [process.env.PWSH_PATH, 'pwsh', 'powershell'].filter(Boolean);
+  let ultimoError;
+  for (const ejecutable of [...new Set(ejecutables)]) {
+    try {
+      execFileSync(ejecutable, args, { stdio: 'inherit' });
+      return;
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+      ultimoError = error;
+    }
+  }
+  throw ultimoError || new Error('No se encontro PowerShell para crear el ZIP.');
 }
 
 function tamano(bytes) {

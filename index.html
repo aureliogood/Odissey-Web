@@ -8,6 +8,7 @@
     </script>
     <title>Odissey - Servidor de Minecraft Java</title>
     <link rel="canonical" href="https://odisseymc.site/">
+    <link rel="preload" as="image" href="img/odissey-hero.jpg" fetchpriority="high">
     <meta name="description" content="Odissey es el servidor de Minecraft Java definitivo: Survival Custom, economía balanceada, mazmorras personalizadas, pesca mística y sin lag.">
     <meta name="theme-color" content="#100a1f">
     <meta name="color-scheme" content="dark">
@@ -41,7 +42,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     
     <script src="js/seguro.js?v=157"></script>
-    <script src="js/animacion.js?v=157"></script>
+    <script src="js/animacion.js?v=157" defer></script>
 
     <style>
         /* ============================================================
@@ -59,13 +60,15 @@
             z-index: 0 !important;
         }
         .hz-hero-bg-img {
+            position: absolute !important;
+            inset: 0 !important;
             width: 100% !important;
             height: 100% !important;
-            object-fit: cover !important;
-            object-position: 82% 22% !important;
+            background-image: url('img/odissey-hero.jpg') !important;
+            background-size: cover !important;
+            background-position: 82% 22% !important;
             opacity: 0.90 !important;
             filter: contrast(112%) brightness(92%) !important;
-            display: block !important;
         }
         .hz-hero-bg-overlay {
             position: absolute !important;
@@ -77,7 +80,7 @@
         }
         @media (max-width: 991px) {
             .hz-hero-bg-wrapper { height: 740px !important; }
-            .hz-hero-bg-img { object-position: center 20% !important; opacity: 0.55 !important; }
+            .hz-hero-bg-img { background-position: center 20% !important; opacity: 0.55 !important; }
             .hz-hero-bg-overlay {
                 background: linear-gradient(180deg, rgba(9, 7, 15, 0.5) 0%, rgba(9, 7, 15, 0.92) 65%, #09070f 100%) !important;
             }
@@ -234,7 +237,7 @@
              Incrustado con estilos directos para garantizar renderizado perfecto
              ============================================================ -->
         <div class="hz-hero-bg-wrapper" aria-hidden="true" style="position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 860px !important; overflow: hidden !important; pointer-events: none !important; z-index: 0 !important;">
-            <img src="img/odissey-hero.png" alt="" class="hz-hero-bg-img" style="width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: 82% 22% !important; opacity: 0.90 !important; display: block !important;">
+            <div class="hz-hero-bg-img" aria-hidden="true"></div>
             <div class="hz-hero-bg-overlay" style="position: absolute !important; inset: 0 !important; background: linear-gradient(90deg, #09070f 0%, #09070f 28%, rgba(9, 7, 15, 0.78) 58%, rgba(9, 7, 15, 0.18) 100%), linear-gradient(0deg, #09070f 0%, rgba(9, 7, 15, 0.6) 20%, transparent 65%), linear-gradient(180deg, #09070f 0%, rgba(9, 7, 15, 0.35) 15%, transparent 35%) !important;"></div>
         </div>
 
@@ -277,7 +280,7 @@
                     </div>
 
                     <!-- Microstats Chips (Geist Mono) -->
-                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 12.5px; color: #71717a; font-family: var(--hz-font-mono);">
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 12.5px; color: #a1a1aa; font-family: var(--hz-font-mono);">
                         <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #4ade80;"></span> Servidor 24/7 En Línea</span>
                         <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #9370db;"></span> Java 1.20 a 1.21.x</span>
                         <span style="display: flex; align-items: center; gap: 6px;"><span class="size-1.5" style="border-radius: 50%; background: #60a5fa;"></span> <span id="serverGamemode">Modo: Survival Custom</span></span>
@@ -353,7 +356,7 @@
 
             <!-- Sunset Pixel Art Panoramic Banner (Horizon wallpaper) -->
             <div style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); position: relative; margin-bottom: 48px;">
-                <img src="img/horizon/about-wallpaper.jpg" alt="Horizon Pixel Sunset Panorama" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy">
+                <img src="img/horizon/about-wallpaper.jpg" alt="Horizon Pixel Sunset Panorama" width="738" height="384" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                 <div style="position: absolute; inset: 0; background: linear-gradient(to top, #09070f, transparent 40%); pointer-events: none;"></div>
             </div>
 
@@ -416,7 +419,7 @@
 
             <!-- Visual Showcase Card -->
             <div style="border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); position: relative; margin-bottom: 32px;">
-                <img src="img/horizon/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" style="width: 100%; height: auto; max-height: 420px; object-fit: cover; display: block;" loading="lazy">
+                <img src="img/horizon/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" width="596" height="335" style="width: 100%; height: auto; max-height: 420px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                 <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 10, 31, 0.95), transparent 50%); pointer-events: none;"></div>
                 <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
                     <span class="font-mono" style="font-size: 12px; text-transform: uppercase; color: #a98fff;">Mundo Principal</span>
@@ -485,7 +488,7 @@
                         </div>
                     </div>
                     <div style="flex: 0 1 auto; margin: 0 auto;">
-                        <img src="img/horizon/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" style="max-height: 200px; width: auto; object-fit: contain; display: block; filter: drop-shadow(0 10px 30px rgba(124,77,255,0.4));" loading="lazy">
+                        <img src="img/horizon/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" width="575" height="450" style="max-height: 200px; width: auto; object-fit: contain; display: block; filter: drop-shadow(0 10px 30px rgba(124,77,255,0.4));" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -561,7 +564,7 @@
             <div style="display: flex; flex-direction: column; gap: 24px;">
                 <!-- Large Nether Showcase -->
                 <div class="hz-card" style="overflow: hidden;">
-                    <img src="img/horizon/nether.webp" alt="Nether Dungeons in Odissey" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy">
+                    <img src="img/horizon/nether.webp" alt="Nether Dungeons in Odissey" width="1600" height="900" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                     <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
                         <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Dimensión Peligrosa</span>
                         <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Fortalezas Nether & Desafíos con Jefes de Élite</h3>
@@ -572,7 +575,7 @@
                 <!-- 2-Column Split: Village & Night -->
                 <div class="hz-grid-2">
                     <div class="hz-card" style="overflow: hidden;">
-                        <img src="img/horizon/village-800.webp" alt="Peaceful Overworld Village" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy">
+                        <img src="img/horizon/village-800.webp" alt="Peaceful Overworld Village" width="800" height="450" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                         <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
                             <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Zonas Comunitarias</span>
                             <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Parcelas y Poblados Pacíficos</h3>
@@ -580,7 +583,7 @@
                     </div>
 
                     <div class="hz-card" style="overflow: hidden;">
-                        <img src="img/horizon/night-800.webp" alt="Night Event in Odissey" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy">
+                        <img src="img/horizon/night-800.webp" alt="Night Event in Odissey" width="800" height="450" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                         <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
                             <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Eventos Nocturnos</span>
                             <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Noches Lunares y Recompensas Dobles</h3>
@@ -590,7 +593,7 @@
 
                 <!-- Wide Underwater / Pesca Showcase -->
                 <div class="hz-card" style="overflow: hidden;">
-                    <img src="img/horizon/underwater.webp" alt="Underwater Fishing in Odissey" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block;" loading="lazy">
+                    <img src="img/horizon/underwater.webp" alt="Underwater Fishing in Odissey" width="1600" height="900" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block;" loading="lazy" decoding="async">
                     <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
                         <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: #a98fff;">Odissey Pesca Exclusiva</span>
                         <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Ecosistemas Marinos, Torneos de Pesca y Acuarios</h3>
@@ -636,7 +639,7 @@
             <!-- Staff Leadership Cards (aureliogood in all lowercase) -->
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 700px; margin: 0 auto 36px auto;">
                 <div class="hz-card" style="padding: 14px 20px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                    <img src="https://mc-heads.net/avatar/aureliogood/48" alt="aureliogood" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(169, 143, 255, 0.4); display: block;">
+                    <img src="https://mc-heads.net/avatar/aureliogood/48" alt="aureliogood" width="48" height="48" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(169, 143, 255, 0.4); display: block;">
                     <div>
                         <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">aureliogood</h4>
                         <span class="font-mono" style="font-size: 11px; color: #a98fff;">Fundador & Dev</span>
@@ -644,7 +647,7 @@
                 </div>
 
                 <div class="hz-card" style="padding: 14px 20px; display: flex; align-items: center; gap: 14px; text-align: left;">
-                    <img src="https://mc-heads.net/avatar/Steve/48" alt="Equipo de Staff" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.15); display: block;">
+                    <img src="https://mc-heads.net/avatar/Steve/48" alt="Equipo de Staff" width="48" height="48" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.15); display: block;">
                     <div>
                         <h4 style="font-weight: 700; color: #ffffff; font-size: 14px; margin: 0;">Equipo de Staff</h4>
                         <span class="font-mono" style="font-size: 11px; color: #c5c7d1;">Soporte & Moderación</span>
@@ -757,7 +760,7 @@
     <!-- ============================================================
          HORIZON FOOTER
          ============================================================ -->
-    <footer style="margin-top: 64px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: #06040a; padding: 56px 24px 32px 24px; font-size: 14px; color: #71717a; position: relative; z-index: 10;">
+    <footer style="margin-top: 64px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: #06040a; padding: 56px 24px 32px 24px; font-size: 14px; color: #a1a1aa; position: relative; z-index: 10;">
         <div style="max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 48px;">
             <!-- Col 1: Brand -->
             <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -769,17 +772,17 @@
                     </svg>
                     <span class="font-display" style="font-weight: 700; font-size: 18px; color: #ffffff;">Odissey</span>
                 </a>
-                <p style="font-size: 13px; color: #71717a; line-height: 1.6; margin: 0;">
+                <p style="font-size: 13px; color: #a1a1aa; line-height: 1.6; margin: 0;">
                     El servidor de Minecraft Java diseñado para la mejor experiencia survival custom, comunidad activa y rendimiento garantizado.
                 </p>
-                <p style="font-size: 11px; color: rgba(113, 113, 122, 0.7); margin: 0;">
+                <p style="font-size: 11px; color: #a1a1aa; margin: 0;">
                     Odissey no es un producto oficial de Minecraft ni está respaldado por o asociado con Mojang o Microsoft.
                 </p>
             </div>
 
             <!-- Col 2: Enlaces Rápidos -->
             <div>
-                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Navegación</h4>
+                <h3 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Navegación</h3>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
                     <li><a href="/" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Inicio</a></li>
                     <li><a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Tienda Oficial</a></li>
@@ -792,7 +795,7 @@
 
             <!-- Col 3: Comunidad -->
             <div>
-                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Comunidad</h4>
+                <h3 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Comunidad</h3>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
                     <li><a href="https://dc.gg/odisseymc" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'"><span class="size-1.5" style="border-radius: 50%; background: #a98fff;"></span> Discord Oficial</a></li>
                     <li><a href="https://www.tiktok.com/@odisseymc" target="_blank" rel="noopener noreferrer" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">TikTok</a></li>
@@ -803,7 +806,7 @@
 
             <!-- Col 4: Soporte & Legal -->
             <div>
-                <h4 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Soporte & Legal</h4>
+                <h3 style="font-weight: 700; color: #ffffff; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 16px 0;">Soporte & Legal</h3>
                 <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
                     <li><a href="/soporte" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Sistema de Tickets</a></li>
                     <li><a href="/reportes" style="color: #8b85a3; text-decoration: none; transition: color 160ms;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b85a3'">Reportar Usuario</a></li>
@@ -1765,7 +1768,7 @@ function openAccountOrLoginModal() {
             grid.innerHTML = staff.map((member, i) => `
                 <div class="staff-card reveal" style="transition-delay: ${i * 0.1}s;">
                     <button type="button" class="staff-trigger" data-staff-name="${escapeHtml(member.name)}" title="Ver información" aria-label="Ver información de ${escapeHtml(member.name)}">
-                        <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" class="staff-skin" onerror="this.onerror=null;this.src='https://placehold.co/128x128/334155/ffffff?text=Error';">
+                        <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" width="128" height="128" class="staff-skin" onerror="this.onerror=null;this.src='https://placehold.co/128x128/334155/ffffff?text=Error';">
                     </button>
                     <h3 class="text-xl font-bold text-text-light">${escapeHtml(member.name)}</h3>
                     <p class="text-marine-accent text-lg">${escapeHtml(member.role)}</p>
@@ -1783,7 +1786,7 @@ function openAccountOrLoginModal() {
             content.innerHTML = `
                 <button class="close-btn" onclick="closeStaffModal()">&times;</button>
                 <div class="staff-panel-header">
-                    <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin">
+                    <img src="https://mc-heads.net/head/${encodeURIComponent(member.minecraft)}/128" alt="${escapeHtml(member.name)} skin" width="128" height="128">
                     <div>
                         <h3>${escapeHtml(member.name)}</h3>
                         <p class="staff-panel-role">${escapeHtml(member.role)}</p>
@@ -2571,7 +2574,7 @@ function toggleLang() {
 </style>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
   <div class="cb-inner">
-    <h5 class="cb-title"></h5>
+    <h3 class="cb-title"></h3>
     <p class="cb-text"></p>
     <div class="cb-actions">
       <button type="button" class="cb-decline" data-cb="decline"></button>
