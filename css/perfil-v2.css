@@ -110,17 +110,23 @@
   backdrop-filter: blur(6px);
 }
 
-/* --- 3. Las dos columnas -----------------------------------------------
-   La columna izquierda era un 19rem fijos con DENTRO un solo control, el
-   color: 19rem de hueco para un campo. Y todo lo que de verdad importa
-   (nombre, bio, nombre de Minecraft) vivia en la de la derecha.
-
-   Ahora la izquierda se estrecha y el reparto se invierte: los datos en
-   la grande, que es donde el ojo esta. */
+/* --- 3. Una sola columna de datos -------------------------------------- */
 .perfil-cuerpo {
-  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) !important;
+  grid-template-columns: minmax(0, 1fr) !important;
   gap: 2rem !important;
   margin-top: 3rem !important;
+}
+
+.perfil-cuerpo[hidden],
+.perfil-hero[hidden],
+.perfil-login[hidden],
+.perfil-aviso[hidden] {
+  display: none !important;
+}
+
+.perfil-col-der {
+  grid-column: 1 / -1;
+  width: 100%;
 }
 
 .perfil-card {

@@ -122,12 +122,7 @@
       perfil_necesitas_cuenta: 'Necesitas una cuenta',
       perfil_necesitas_cuenta_sub: 'Entra o crea tu cuenta para ver y editar tu perfil.',
       perfil_entrar_o_crear: 'Entrar o crear cuenta',
-      perfil_apariencia: 'Apariencia',
-      perfil_apariencia_sub: 'La foto y el banner se cambian arriba, en la cabecera de tu perfil.',
       perfil_cambiar: 'Cambiar',
-      perfil_color: 'Color de acento',
-      perfil_color_sub: 'Se usa en tu nombre y en tu perfil.',
-      perfil_azar: 'Al azar',
       perfil_datos: 'Tus datos',
       perfil_datos_sub: 'Esto es lo que ven los demás en tu perfil.',
       perfil_usuario: 'Nombre de usuario',
@@ -156,13 +151,8 @@
       perfil_necesitas_cuenta: 'You need an account',
       perfil_necesitas_cuenta_sub: 'Log in or create an account to see and edit your profile.',
       perfil_entrar_o_crear: 'Log in or create account',
-      perfil_apariencia: 'Appearance',
-      perfil_apariencia_sub: 'Your photo and banner are changed above, in your profile header.',
       perfil_banner_vacio: 'No banner',
       perfil_cambiar: 'Change',
-      perfil_color: 'Accent colour',
-      perfil_color_sub: 'Used on your name and your profile.',
-      perfil_azar: 'Random',
       perfil_datos: 'Your details',
       perfil_datos_sub: 'This is what others see on your profile.',
       perfil_usuario: 'Username',
@@ -387,41 +377,17 @@
     el('inputBio').value = usuario.bio || '';
     el('inputMc').value = usuario.mcName || '';
     el('inputEmail').value = usuario.email || '';
-    el('inputColor').value = /^#[0-9a-fA-F]{6}$/.test(color || '') ? color : '#e0a52e';
-    el('colorHexo').textContent = el('inputColor').value.toUpperCase();
-
     el('bioCount').textContent = String((usuario.bio || '').length);
     guardado = valoresDelFormulario();
   }
 
   function valoresDelFormulario() {
-    // Solo los campos de texto: el color y las fotos se guardan solos, sin
-    // pasar por "Guardar cambios".
+    // Las fotos se guardan al subirlas; estos campos se guardan con el boton.
     return {
       username: el('inputUsuario').value.trim(),
       bio: el('inputBio').value.trim(),
       mcName: el('inputMc').value.trim(),
     };
-  }
-
-  // El color se guarda en cuanto se elige. Antes tenía que pulsarse "Guardar
-  // cambios y si recargabas antes se perdia, que es justo lo que
-  // el color se guarde al instante.
-  let temporizadorColor = null;
-  function guardarColor() {
-    if (temporizadorColor) clearTimeout(temporizadorColor);
-    temporizadorColor = setTimeout(() => {
-      const accent = el('inputColor').value;
-      api('/api/auth/profile', { body: { accent: accent } }).then((r) => {
-        if (r.ok && r.datos && r.datos.user) {
-          usuario = r.datos.user;
-          try { localStorage.setItem('odissey_discord_user', JSON.stringify(usuario)); } catch (e) { }
-          avisar(t('colorGuardado'), 'es-ok');
-        } else {
-          avisar(errorDe(r, t('errorGuardar')), 'es-error');
-        }
-      });
-    }, 450);
   }
 
   function hayCambios() {
@@ -503,28 +469,6 @@
     avisar(t('passCambiada'), 'es-ok');
   }
 
-  function colorAleatorio() {
-    // Que el color salga dorado para que pegue con el resto del sitio: se
-  // limita el tono y se juega con la saturacion y la luz.
-  const h = 35 + Math.random() * 25;
-  const s = 70 + Math.random() * 25;
-  const l = 45 + Math.random() * 12;
-    el('inputColor').value = hslAHex(h, s, l);
-    el('colorHexo').textContent = el('inputColor').value.toUpperCase();
-    document.documentElement.style.setProperty('--perfil-accent', el('inputColor').value);
-    el('perfilNombre').style.color = el('inputColor').value;
-    guardarColor();
-  }
-
-  function hslAHex(h, s, l) {
-    s /= 100; l /= 100;
-    const k = n => (n + h / 30) % 12;
-    const a = s * Math.min(l, 1 - l);
-    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-    const c = x => Math.round(255 * x).toString(16).padStart(2, '0');
-    return '#' + c(f(0)) + c(f(8)) + c(f(4));
-  }
-
   // ---------- arranque ----------
 
 // ---------- Vincular con Minecraft ----------
@@ -595,6 +539,7 @@
     if (!r.ok || !r.datos || !r.datos.user) {
       el('perfilLogin').hidden = false;
       el('perfilHero').hidden = true;
+      el('perfilAjustes').hidden = true;
       const aviso = el('perfilAviso');
       if (aviso) {
         aviso.textContent = idioma() === 'en'
@@ -663,12 +608,14 @@
     if (!token()) {
       el('perfilLogin').hidden = false;
       el('perfilHero').hidden = true;
+      el('perfilAjustes').hidden = true;
       return;
     }
     const r = await api('/api/auth/me', { method: 'GET' });
     if (!r.ok || !r.datos || !r.datos.user) {
       el('perfilLogin').hidden = false;
       el('perfilHero').hidden = true;
+      el('perfilAjustes').hidden = true;
       return;
     }
     usuario = r.datos.user;
@@ -686,30 +633,27 @@
     el('btnDescartar').addEventListener('click', () => { pintar(); avisar(t('sinGuardar'), ''); });
     el('btnCambiarEmail').addEventListener('click', cambiarEmail);
     el('btnCambiarClave').addEventListener('click', cambiarPassword);
-    el('btnColorAleatorio').addEventListener('click', colorAleatorio);
 
     // Minecraft: solo queda poder desenlazar. El enlace se hace desde el
     // servidor (node vincular-mc.js), no desde aqui.
     if (el('btnMcDesvincular')) el('btnMcDesvincular').addEventListener('click', desvincularMc);
     estadoMc();
 
-    el('btnSalir').addEventListener('click', () => {
-      if (window.OdisseyAuth && window.OdisseyAuth.salir) {
-        window.OdisseyAuth.salir().then(() => { window.location.reload(); });
+    el('btnSalir').addEventListener('click', async () => {
+      el('perfilAjustes').hidden = true;
+      el('perfilHero').hidden = true;
+      el('perfilLogin').hidden = false;
+      const boton = el('btnSalir');
+      boton.disabled = true;
+      try {
+        if (window.OdisseyAuth && window.OdisseyAuth.salir) await window.OdisseyAuth.salir();
+      } finally {
+        window.location.replace('/perfil');
       }
     });
 
     el('btnIrLogin').addEventListener('click', () => {
       if (typeof window.openLoginModal === 'function') window.openLoginModal();
-    });
-
-    // Color: se aplica al momento y se guarda solo
-    el('inputColor').addEventListener('input', () => {
-      const v = el('inputColor').value;
-      el('colorHexo').textContent = v.toUpperCase();
-      document.documentElement.style.setProperty('--perfil-accent', v);
-      el('perfilNombre').style.color = v;
-      guardarColor();
     });
 
     // Bio: cuenta de caracteres
@@ -722,8 +666,7 @@
       el(id).addEventListener('input', marcarCambios);
     });
 
-    // Foto y banner: los dos botones de la cabecera (el "+" de la foto y el
-// de la esquina del banner). En la tarjeta de apariencia ya no hay más.
+    // Foto y banner se cambian con los controles de la cabecera del perfil.
     el('btnAvatar').addEventListener('click', () => el('fileAvatar').click());
     el('btnBanner').addEventListener('click', () => el('fileBanner').click());
 
@@ -753,7 +696,7 @@
 
       window.perfilQuitarFoto = function () {
         usuario.avatar = null;
-        el('perfilAvatar').src = avatarPorDefecto(usuario.username, el('inputColor').value);
+        el('perfilAvatar').src = avatarPorDefecto(usuario.username, usuario.accent || '#e0a52e');
         guardar();
       };
 

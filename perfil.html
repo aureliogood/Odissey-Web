@@ -71,7 +71,7 @@
     <!-- Sistema visual compartido: tarjetas, botones y tipografia. -->
     <link rel="stylesheet" href="css/odiseo.css?v=147">
     <!-- Rediseño del perfil: cabecera, tipografía y dos columnas. Va el ultimo para ganar. -->
-    <link rel="stylesheet" href="css/perfil-v2.css?v=150">
+    <link rel="stylesheet" href="css/perfil-v2.css?v=151">
     <link rel="stylesheet" href="css/responsive.css?v=2">
     <script src="js/seguro.js?v=155"></script>
     <script src="js/animacion.js?v=155"></script>
@@ -224,31 +224,8 @@
 <!-- ===== Aviso de perfil ajeno (perfil.html?u=nombre) ===== -->
         <p class="perfil-aviso" id="perfilAviso" hidden></p>
 
-        <!-- ===== Ajustes, en dos columnas ===== -->
+        <!-- ===== Datos y ajustes de cuenta ===== -->
         <div class="perfil-cuerpo" id="perfilAjustes" hidden>
-
-            <div class="perfil-col perfil-col-izq">
-
-                <section class="perfil-card">
-                    <div class="perfil-card__head">
-                        <h2 data-i18n="perfil_apariencia">Apariencia</h2>
-                        <p data-i18n="perfil_apariencia_sub">La foto y el banner se cambian arriba, en la cabecera de tu perfil.</p>
-                    </div>
-
-                    <div class="perfil-color">
-                        <label class="perfil-label" for="inputColor" data-i18n="perfil_color">Color de acento</label>
-                        <div class="perfil-color-row">
-                            <input type="color" id="inputColor" value="#e0a52e" aria-label="Color de acento">
-                            <span class="perfil-color-info">
-                                <strong id="colorHexo">#e0a52e</strong>
-                                <small data-i18n="perfil_color_sub">Se usa en tu nombre y en tu perfil.</small>
-                            </span>
-                            <button type="button" class="btn-mini btn-mini-fantasma" id="btnColorAleatorio" data-i18n="perfil_azar">Al azar</button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
             <div class="perfil-col perfil-col-der">
 
                 <section class="perfil-card">
@@ -1855,7 +1832,7 @@ cb_accept: 'Accept',
     </script>
 
 <!-- ===== Perfil: carga, edicion y subida de foto/banner ===== -->
-<script src="js/perfil.js?v=147"></script>
+<script src="js/perfil.js?v=148"></script>
     <script src="js/search.js?v=147"></script>
     <!-- Cloudflare Turnstile: aporta OdisseyTurnstile. Va antes de auth.js porque
      auth.js lo necesita en cuanto monta el formulario. La clave SECRETA
