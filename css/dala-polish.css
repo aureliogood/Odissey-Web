@@ -487,9 +487,10 @@ footer a:hover {
   display: inline-flex !important;
   align-items: center !important;
   max-width: 100% !important;
-  overflow-x: auto !important;
+  /* La barra no puede crear un contenedor de recorte: el submenu de Staff
+     sobresale por debajo de sus enlaces. */
+  overflow: visible !important;
   scrollbar-width: none !important;
-  -webkit-overflow-scrolling: touch !important;
 }
 
 .nav-pill::-webkit-scrollbar {
