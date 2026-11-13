@@ -12,6 +12,9 @@
     const startAngle = 135;
     const sweepAngle = 270;
     const radius = 88;
+    let targetValue = Number(dial.dataset.value) || min;
+    let animationFrame = 0;
+    let lastFrameTime = 0;
 
     if (!svg || !arc || !comet || !ticks || !readout) return;
 
@@ -57,13 +60,39 @@
         return min + ((angle - startAngle) / sweepAngle) * (max - min);
     };
 
-    const applyValue = (value) => {
-        const number = Math.max(min, Math.min(max, Math.round(value)));
-        if (typeof window.updateBenchmarkSimulation === 'function') {
-            window.updateBenchmarkSimulation(number);
-        } else {
-            setValue(number);
+    const animateToTarget = (time) => {
+        const current = Number(dial.dataset.value) || min;
+        const elapsed = lastFrameTime ? Math.min(50, time - lastFrameTime) : 16;
+        lastFrameTime = time;
+        const smoothing = 1 - Math.exp(-elapsed / 125);
+        const next = current + (targetValue - current) * smoothing;
+
+        if (Math.abs(targetValue - next) < 0.45) {
+            const finalValue = Math.round(targetValue);
+            if (typeof window.updateBenchmarkSimulation === 'function') {
+                window.updateBenchmarkSimulation(finalValue);
+            } else {
+                setValue(finalValue);
+            }
+            animationFrame = 0;
+            lastFrameTime = 0;
+            return;
         }
+
+        const rounded = Math.round(next);
+        if (rounded !== current) {
+            if (typeof window.updateBenchmarkSimulation === 'function') {
+                window.updateBenchmarkSimulation(rounded);
+            } else {
+                setValue(rounded);
+            }
+        }
+        animationFrame = window.requestAnimationFrame(animateToTarget);
+    };
+
+    const applyValue = (value) => {
+        targetValue = Math.max(min, Math.min(max, Number(value) || min));
+        if (!animationFrame) animationFrame = window.requestAnimationFrame(animateToTarget);
     };
 
     dial.addEventListener('pointerdown', (event) => {
@@ -75,7 +104,7 @@
         if (dial.hasPointerCapture(event.pointerId)) applyValue(valueFromPointer(event));
     });
     dial.addEventListener('keydown', (event) => {
-        const current = Number(dial.dataset.value) || min;
+        const current = targetValue;
         const changes = {
             ArrowRight: 1,
             ArrowUp: 1,
