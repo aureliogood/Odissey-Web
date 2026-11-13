@@ -157,11 +157,87 @@
 .staff-flip-card__return:hover { background: rgba(255,255,255,.09); color: #fff; }
 .staff-flip-card__return:focus-visible { outline: 2px solid var(--brand-gold-light, #ffda78); outline-offset: 2px; }
 
+/* Estilos acotados al modal de perfil para que sus skins y acciones
+   mantengan dimensiones y contraste aunque cambien los estilos globales. */
+#staffModal #staffModalContent {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: min(88vh, 820px);
+  overflow: auto;
+  padding: 26px;
+  border: 1px solid rgba(255, 204, 72, .28);
+  border-top: 3px solid rgba(255, 204, 72, .7);
+  border-radius: 20px;
+  background: rgba(18, 20, 22, .98);
+  color: #f8fafc;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .62), 0 0 38px rgba(234, 179, 8, .1);
+}
+#staffModal .staff-profile-avatar-wrap {
+  box-sizing: border-box;
+  flex: 0 0 104px;
+  width: 104px;
+  height: 104px;
+}
+#staffModal .staff-profile-avatar {
+  display: block;
+  box-sizing: border-box;
+  width: 96px !important;
+  min-width: 96px;
+  max-width: none !important;
+  height: 96px !important;
+  min-height: 96px;
+  max-height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#staffModal .staff-profile-name { color: #fff; }
+#staffModal .staff-profile-actions .rating-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 225, 140, .75) !important;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffdc70, #e8a90b) !important;
+  color: #201708 !important;
+  font-size: .86rem;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(234, 179, 8, .2);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+#staffModal .staff-profile-actions .rating-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.07);
+  box-shadow: 0 9px 24px rgba(234, 179, 8, .34);
+}
+#staffModal .staff-profile-actions .rating-btn svg { width: 16px; height: 16px; }
+#staffModal .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .06);
+  color: #f8fafc;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+#staffModal .close-btn:hover { background: rgba(255, 255, 255, .12); }
+
 @media (max-width: 640px) {
   .staff-card.staff-flip-card,
   .staff-flip-card__inner,
   .staff-flip-card__face { min-height: 310px; }
   .staff-flip-card__back { padding: 18px !important; }
+  #staffModal #staffModalContent { padding: 22px 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
