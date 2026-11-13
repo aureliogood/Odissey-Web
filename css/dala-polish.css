@@ -59,6 +59,8 @@ nav.nav-bar,
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(255, 255, 255, 0.03) !important;
   padding: 3px 6px !important;
+  /* No recortar el submenu absoluto de Staff dentro de la barra. */
+  overflow: visible !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   display: inline-flex !important;
