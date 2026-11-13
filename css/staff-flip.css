@@ -79,15 +79,30 @@
   transition: transform .55s cubic-bezier(.2,.75,.25,1);
 }
 .staff-flip-card:hover .staff-flip-card__cover { transform: scale(1.055); }
+.staff-flip-card__front::before {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at var(--staff-reflect-x, 50%) var(--staff-reflect-y, 35%), rgba(255,255,255,.36), rgba(255,255,255,.13) 15%, transparent 48%),
+    linear-gradient(115deg, transparent 25%, rgba(255,255,255,.08) 43%, transparent 58%);
+  content: '';
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity .28s ease;
+}
+.staff-flip-card:hover .staff-flip-card__front::before,
+.staff-flip-card__front:focus-visible::before { opacity: .9; }
 .staff-flip-card__front::after {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   background: linear-gradient(180deg, rgba(4,6,10,.12) 5%, rgba(4,6,10,.22) 42%, rgba(4,6,10,.86) 100%);
   content: '';
   pointer-events: none;
 }
-.staff-flip-card__front > span { position: relative; z-index: 1; }
+.staff-flip-card__front > span { position: relative; z-index: 3; }
 
 .staff-flip-card__front:hover,
 .staff-flip-card__front:focus-visible {
@@ -152,4 +167,5 @@
 @media (prefers-reduced-motion: reduce) {
   .staff-flip-card__inner { transition-duration: .01ms; }
   .staff-flip-card__cover { transition-duration: .01ms; }
+  .staff-flip-card__front::before { transition-duration: .01ms; }
 }
