@@ -15,6 +15,17 @@
   transform: none !important;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .staff-card.staff-flip-card {
+    perspective: 1000px;
+    transition: transform .24s ease, filter .24s ease !important;
+  }
+  .staff-card.staff-flip-card:hover {
+    transform: translate3d(0, -7px, 0) rotateX(var(--staff-tilt-x, 0deg)) rotateY(var(--staff-tilt-y, 0deg)) !important;
+    filter: drop-shadow(0 22px 25px rgba(0,0,0,.36)) drop-shadow(0 0 14px rgba(234,179,8,.12));
+  }
+}
+
 .staff-flip-card__inner {
   position: relative;
   min-height: 340px;
@@ -65,7 +76,9 @@
   object-position: 40% center;
   pointer-events: none;
   user-select: none;
+  transition: transform .55s cubic-bezier(.2,.75,.25,1);
 }
+.staff-flip-card:hover .staff-flip-card__cover { transform: scale(1.055); }
 .staff-flip-card__front::after {
   position: absolute;
   inset: 0;
@@ -138,4 +151,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .staff-flip-card__inner { transition-duration: .01ms; }
+  .staff-flip-card__cover { transition-duration: .01ms; }
 }

@@ -115,7 +115,7 @@
 <script src="js/mobile-nav.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=1">
     <link rel="stylesheet" href="css/footer-links.css?v=1">
-<link rel="stylesheet" href="css/staff-flip.css?v=1">
+<link rel="stylesheet" href="css/staff-flip.css?v=2">
 </head>
 <body>
   <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
@@ -1310,6 +1310,18 @@ function roleKey(role) {
                 returnButton.addEventListener('click', () => flip(false, front));
                 back.addEventListener('click', event => {
                     if (!event.target.closest('button')) flip(false, front);
+                });
+                card.addEventListener('pointermove', event => {
+                    if (event.pointerType === 'touch' || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+                    const bounds = card.getBoundingClientRect();
+                    const offsetX = (event.clientX - bounds.left) / bounds.width - 0.5;
+                    const offsetY = (event.clientY - bounds.top) / bounds.height - 0.5;
+                    card.style.setProperty('--staff-tilt-x', (offsetY * -7).toFixed(2) + 'deg');
+                    card.style.setProperty('--staff-tilt-y', (offsetX * 7).toFixed(2) + 'deg');
+                });
+                card.addEventListener('pointerleave', () => {
+                    card.style.removeProperty('--staff-tilt-x');
+                    card.style.removeProperty('--staff-tilt-y');
                 });
                 card.addEventListener('keydown', event => {
                     if (event.key === 'Escape' && card.classList.contains('is-flipped')) {
