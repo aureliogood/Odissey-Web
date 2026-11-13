@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v189';
+var CACHE_NAME = 'odissey-v190';
 
 var PRECACHE_URLS = [
   './',
@@ -69,6 +69,7 @@ var PRECACHE_URLS = [
   './css/galeria.css',
   './css/reglas.css',
   './css/staff.css',
+  './css/staff-flip.css',
   './css/soporte.css',
   './css/wiki.css',
   './css/nav-shared.css',

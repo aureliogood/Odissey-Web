@@ -115,6 +115,7 @@
 <script src="js/mobile-nav.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=1">
     <link rel="stylesheet" href="css/footer-links.css?v=1">
+<link rel="stylesheet" href="css/staff-flip.css?v=1">
 </head>
 <body>
   <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
@@ -1242,23 +1243,36 @@ function roleKey(role) {
                     votos = getLang() === 'en' ? 'Not rated yet' : 'Sin valorar';
                 }
                 var mc = member.minecraft || member.name;
-                return '<article class="staff-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
-                    + '<div class="staff-card-top">'
-                        + '<img src="https://mc-heads.net/avatar/' + encodeURIComponent(mc) + '/128"'
-                            + ' alt="" class="staff-card-skin" loading="lazy"'
-                            + ' onerror="this.onerror=null;this.src=\'https://placehold.co/96x96/1b1b22/62626e?text=%3F\';">'
-                        + '<div class="staff-card-id">'
-                            + '<span class="staff-card-name">' + escapeHtml(member.name) + '</span>'
-                            + '<span class="staff-card-bio">' + escapeHtml(member.description || member.bio || '') + '</span>'
+                var en = getLang() === 'en';
+                var staffName = escapeHtml(member.name);
+                return '<article class="staff-card staff-flip-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
+                    + '<div class="staff-flip-card__inner">'
+                        + '<button type="button" class="staff-flip-card__face staff-flip-card__front" aria-expanded="false" aria-label="' + (en ? 'Show information for ' : 'Ver información de ') + staffName + '">'
+                            + '<span class="staff-flip-card__front-name">' + staffName + '</span>'
+                            + '<span class="staff-flip-card__hint">' + (en ? 'Click to flip' : 'Haz clic para girar') + '</span>'
+                        + '</button>'
+                        + '<div class="staff-flip-card__face staff-flip-card__back" inert>'
+                            + '<div class="staff-card-top">'
+                                + '<img src="https://mc-heads.net/avatar/' + encodeURIComponent(mc) + '/128"'
+                                    + ' alt="" class="staff-card-skin" loading="lazy"'
+                                    + ' onerror="this.onerror=null;this.src=\'https://placehold.co/96x96/1b1b22/62626e?text=%3F\';">'
+                                + '<div class="staff-card-id">'
+                                    + '<span class="staff-card-name">' + staffName + '</span>'
+                                    + '<span class="staff-card-role">' + escapeHtml(member.role || '') + '</span>'
+                                + '</div>'
+                            + '</div>'
+                            + '<p class="staff-card-bio">' + escapeHtml(member.description || member.bio || (en ? 'Staff member at OdisseyMC.' : 'Miembro del equipo de OdisseyMC.')) + '</p>'
+                            + '<div class="staff-card-foot">'
+                                + '<span class="staff-card-votes">' + estrellas + ' ' + votos + '</span>'
+                            + '</div>'
+                            + '<div class="staff-flip-card__actions">'
+                                + '<button type="button" class="od-btn staff-card-open" data-staff-name="' + staffName + '">'
+                                    + (en ? 'View profile' : 'Ver perfil') + ' <span aria-hidden="true">→</span>'
+                                + '</button>'
+                                + '<button type="button" class="staff-flip-card__return">' + (en ? 'Back' : 'Volver') + '</button>'
+                            + '</div>'
                         + '</div>'
                     + '</div>'
-                    + '<div class="staff-card-foot">'
-                        + '<span class="staff-card-role">' + escapeHtml(member.role || '') + '</span>'
-                        + '<span class="staff-card-votes">' + estrellas + ' ' + votos + '</span>'
-                    + '</div>'
-                    + '<button type="button" class="od-btn staff-card-open" data-staff-name="' + escapeHtml(member.name) + '">'
-                        + (getLang() === 'en' ? 'View profile' : 'Ver perfil') + ' <span aria-hidden="true">→</span>'
-                    + '</button>'
                 + '</article>';
             }).join('');
 
@@ -1270,6 +1284,29 @@ function roleKey(role) {
                   + (getLang() === 'en' ? 'Add it from the admin panel.' : 'Añádelo desde el panel de administración.') + '</div>';
 
             container.querySelectorAll('.reveal').forEach(el => OdisseyAnimacion.observar(el));
+            container.querySelectorAll('.staff-flip-card').forEach(card => {
+                const front = card.querySelector('.staff-flip-card__front');
+                const back = card.querySelector('.staff-flip-card__back');
+                const returnButton = card.querySelector('.staff-flip-card__return');
+                const flip = (isFlipped, focusTarget) => {
+                    card.classList.toggle('is-flipped', isFlipped);
+                    front.setAttribute('aria-expanded', String(isFlipped));
+                    front.inert = isFlipped;
+                    back.inert = !isFlipped;
+                    if (focusTarget) focusTarget.focus();
+                };
+                front.addEventListener('click', () => flip(true, returnButton));
+                returnButton.addEventListener('click', () => flip(false, front));
+                back.addEventListener('click', event => {
+                    if (!event.target.closest('button')) flip(false, front);
+                });
+                card.addEventListener('keydown', event => {
+                    if (event.key === 'Escape' && card.classList.contains('is-flipped')) {
+                        event.preventDefault();
+                        flip(false, front);
+                    }
+                });
+            });
             container.querySelectorAll('.staff-card-open').forEach(button => {
                 button.addEventListener('click', () => openStaffModal(button.dataset.staffName));
             });
