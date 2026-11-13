@@ -1143,6 +1143,12 @@ try {
 
 function getStaff() {
   const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
+  const removed = new Set((window.STAFF_REMOVED_NAMES || []).map(name => String(name).toLowerCase()));
+  const visible = list => (list || []).filter(member => {
+    const name = String(member.name || '').trim().toLowerCase();
+    const minecraft = String(member.minecraft || '').trim().toLowerCase();
+    return !removed.has(name) && !removed.has(minecraft);
+  });
   /* Si la base de datos trae gente, esa es la buena: es la que se puede
      editar desde el panel.
      Pero si viene VACIA, se cae a la lista de reserva de staff-config.js.
@@ -1150,8 +1156,8 @@ function getStaff() {
      siempre, asi que la condicion se cumplia y se devolvia una lista
      vacia. El resultado era una pagina en blanco con el equipo entero
      sin aparecer. */
-  if (dbStaff.length > 0) return dbStaff;
-  return (window.STAFF || []);
+  if (dbStaff.length > 0) return visible(dbStaff);
+  return visible(window.STAFF || []);
 }
 function roleKey(role) {
             const r = String(role || '').toLowerCase();
@@ -1243,11 +1249,16 @@ function roleKey(role) {
                     votos = getLang() === 'en' ? 'Not rated yet' : 'Sin valorar';
                 }
                 var mc = member.minecraft || member.name;
+                var coverKey = String(mc).trim().toLowerCase();
+                var cover = coverKey === 'aureliogood'
+                    ? 'img/staff/aureliogood.jpg'
+                    : (coverKey === 'logan_beckett' ? 'img/staff/logan-beckett.jpg' : '');
                 var en = getLang() === 'en';
                 var staffName = escapeHtml(member.name);
                 return '<article class="staff-card staff-flip-card reveal" style="transition-delay:' + (i * 0.07) + 's">'
                     + '<div class="staff-flip-card__inner">'
                         + '<button type="button" class="staff-flip-card__face staff-flip-card__front" aria-expanded="false" aria-label="' + (en ? 'Show information for ' : 'Ver información de ') + staffName + '">'
+                            + (cover ? '<img class="staff-flip-card__cover" src="' + cover + '" alt="" loading="lazy" decoding="async">' : '')
                             + '<span class="staff-flip-card__front-name">' + staffName + '</span>'
                             + '<span class="staff-flip-card__hint">' + (en ? 'Click to flip' : 'Haz clic para girar') + '</span>'
                         + '</button>'
@@ -1776,7 +1787,8 @@ async function submitRating() {
             const grid = document.getElementById('testimonials-grid');
             if (!grid) return;
             const all = (window.SiteData && SiteData.get('ratings')) || [];
-            const qualified = all.filter(r => r.stars >= 4 && r.comment);
+            const visibleStaff = new Set(getStaff().map(member => String(member.name || '').trim().toLowerCase()));
+            const qualified = all.filter(r => visibleStaff.has(String(r.staff || '').trim().toLowerCase()) && r.stars >= 4 && r.comment);
             if (qualified.length === 0) {
                 grid.innerHTML = '<div class="content-empty md:col-span-2 lg:col-span-3"><span class="text-3xl mb-3">💬</span><p class="font-semibold text-text-light">Todavía no hay valoraciones.</p><p class="text-sm mt-1">Puedes calificar a un miembro del staff desde su perfil.</p></div>';
                 return;

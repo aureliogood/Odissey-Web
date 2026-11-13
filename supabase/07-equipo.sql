@@ -13,6 +13,12 @@
 --  Para ejecutarlo mas adelante sin duplicar, ON CONFLICT.
 -- ============================================================================
 
+-- Retira del equipo las filas antiguas, aunque ya existan en la base.
+DELETE FROM public.staff_members
+WHERE lower(id) IN ('moishig', 'cenizorojo')
+   OR lower(name) IN ('moishig', 'cenizorojo')
+   OR lower(minecraft) IN ('moishig', 'cenizorojo');
+
 INSERT INTO public.staff_members
   (id, name, role, description, bio, minecraft, discord, sort_order)
 VALUES
@@ -24,17 +30,7 @@ VALUES
   ('logan_beckett', 'Logan_Beckett', 'Admin',
    'Fundador de Midgard MMORPG y admin de OdisseyMC.',
    'Gestiona el servidor y ayuda a que todo funcione sin problemas.',
-   'Logan_Beckett', 'https://discord.com/users/1297030726264291341', 1),
-
-  ('moishig', 'Moishig', 'Moderadora',
-   'Moderadora de OdisseyMC.',
-   'Encargada de mantener la paz y resolver los conflictos del servidor.',
-   'moishig', 'https://discord.com/users/1013991646293143633', 2),
-
-  ('cenizorojo', 'CenizoRojo', 'Ayudante',
-   'Fundador de Dracon y Ayudante de OdisseyMC.',
-   'Siempre listo para ayudar a los nuevos jugadores con sus dudas.',
-   'cenizorojo', NULL, 3)
+   'Logan_Beckett', 'https://discord.com/users/1297030726264291341', 1)
 
 ON CONFLICT (id) DO UPDATE SET
   name        = EXCLUDED.name,

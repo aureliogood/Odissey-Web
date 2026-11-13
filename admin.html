@@ -1064,10 +1064,16 @@ Antes era un div: Enter no hacia nada y un
 
         function getStaff() {
             const dbStaff = (window.SiteData && SiteData.get('staff')) || [];
+            const removed = new Set((window.STAFF_REMOVED_NAMES || []).map(name => String(name).toLowerCase()));
+            const visible = list => (list || []).filter(member => {
+                const name = String(member.name || '').trim().toLowerCase();
+                const minecraft = String(member.minecraft || '').trim().toLowerCase();
+                return !removed.has(name) && !removed.has(minecraft);
+            });
             if (window.SiteData && (SiteData.adminLoaded || SiteData.publicLoaded)) {
-                if (SiteData.configured.staff || SiteData.configured.staffEmpty || dbStaff.length > 0) return dbStaff;
+                if (SiteData.configured.staff || SiteData.configured.staffEmpty || dbStaff.length > 0) return visible(dbStaff);
             }
-            return (window.STAFF || []);
+            return visible(window.STAFF || []);
         }
 
         function getProducts() {
