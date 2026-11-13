@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="css/index.css?v=157">
     <link rel="stylesheet" href="css/dala.css?v=157">
     <link rel="stylesheet" href="css/nav-shared.css?v=157">
-    <link rel="stylesheet" href="css/dala-polish.css?v=158">
+    <link rel="stylesheet" href="css/dala-polish.css?v=159">
     <link rel="stylesheet" href="css/search.css?v=157">
     
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
@@ -151,6 +151,7 @@
       "description": "Servidor de Minecraft Java con experiencia Survival Custom y rendimiento óptimo."
     }
     </script>
+<script src="js/mobile-nav.js?v=1" defer></script>
 </head>
 <body class="min-h-full flex flex-col relative bg-[#100a1f] text-white">
 
@@ -174,7 +175,8 @@
             </a>
 
             <!-- Navigation Links (Exactamente los mismos botones que las subpáginas) -->
-            <div class="nav-pill" role="navigation" aria-label="Secciones">
+            <button type="button" id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú" aria-controls="primaryNavLinks" aria-expanded="false"><svg class="mobile-nav-toggle__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+            <div class="nav-pill" id="primaryNavLinks" role="navigation" aria-label="Secciones">
                 <a href="https://odissey.cyberdino.online" target="_blank" rel="noopener noreferrer" class="nav-pill__link">
                     <svg class="nav-pill__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                     <span data-i18n="nav_tienda">Tienda</span>

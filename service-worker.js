@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v181';
+var CACHE_NAME = 'odissey-v182';
 
 var PRECACHE_URLS = [
   './',
@@ -96,6 +96,7 @@ var PRECACHE_URLS = [
   './js/dala-hero.js',
   './js/dala-liquid.js',
   './js/dala-nav.js',
+  './js/mobile-nav.js',
   './js/perfil.js',
   './js/search.js',
   './js/verificacion.js',
