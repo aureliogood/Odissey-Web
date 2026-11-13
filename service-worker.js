@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v203';
+var CACHE_NAME = 'odissey-v204';
 
 var PRECACHE_URLS = [
   './',
@@ -55,6 +55,7 @@ var PRECACHE_URLS = [
   './theme.css',
   './css/index.css',
   './css/comet-dial.css',
+  './css/accordion-gallery.css',
   './css/rule-icons.css',
   './css/footer-links.css',
   './css/dala.css',
@@ -103,6 +104,7 @@ var PRECACHE_URLS = [
   './js/dala-nav.js',
   './js/mobile-nav.js',
   './js/comet-dial.js',
+  './js/accordion-gallery.js',
   './js/perfil.js',
   './js/search.js',
   './js/verificacion.js',
@@ -118,6 +120,12 @@ var PRECACHE_URLS = [
   './img/icon-192.png',
   './img/icon-512.png',
   './img/og-image.jpg',
+  './img/gallery/features/pets.jpg',
+  './img/gallery/features/meteoritos.jpg',
+  './img/gallery/features/codigos.jpg',
+  './img/gallery/features/protecciones.jpg',
+  './img/gallery/features/crates.jpg',
+  './img/gallery/features/racha.jpg',
   './img/backgrounds/background1.jpg',
   './img/odissey-scenes/about-wallpaper.jpg',
   './img/staff/aureliogood.jpg',

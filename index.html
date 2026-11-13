@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="css/dala-polish.css?v=160">
     <link rel="stylesheet" href="css/search.css?v=158">
     <link rel="stylesheet" href="css/comet-dial.css?v=1">
+    <link rel="stylesheet" href="css/accordion-gallery.css?v=1">
     
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
@@ -99,6 +100,7 @@
     </script>
 <script src="js/mobile-nav.js?v=1" defer></script>
 <script src="js/comet-dial.js?v=2" defer></script>
+<script src="js/accordion-gallery.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=2">
 </head>
 <body class="min-h-full flex flex-col relative bg-[var(--brand-bg)] text-white">
@@ -436,57 +438,45 @@
             </div>
         </section>
 
-        <!-- ============================================================
-             SECTION 5: VISUAL GALLERY (Matching OdisseyMC's 4-image showcase)
-             ============================================================ -->
-        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
-            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-gold);">MUNDOS Y AVENTURA</span>
-            <h2 class="font-display" style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px 0;">
+        <!-- Galería acordeón: cada panel se expande al apuntarlo, enfocarlo o tocarlo. -->
+        <section class="od-feature-section" aria-labelledby="odFeatureTitle">
+            <span class="od-feature-eyebrow">MUNDOS Y AVENTURA</span>
+            <h2 id="odFeatureTitle" class="font-display">
                 El Minecraft que amas, <span class="od-text-gold">enriquecido y vibrante.</span>
             </h2>
-            <p style="font-size: 16px; color: #c5c7d1; max-width: 720px; line-height: 1.6; margin: 0 0 36px 0;">
-                Explora biomas personalizados, mazmorras en el Nether, parcelas protegidas en el Overworld y profundidades oceánicas con pesca legendaria.
-            </p>
+            <p class="od-feature-description">Mascotas, meteoritos, códigos, protecciones, cajas y rachas: descubre todo lo que puedes vivir en Odissey.</p>
 
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <!-- Large Nether Showcase -->
-                <div class="od-card" style="overflow: hidden;">
-                    <img src="img/odissey-scenes/nether.webp" alt="Nether Dungeons in Odissey" width="1600" height="900" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                    <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                        <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: var(--brand-gold);">Dimensión Peligrosa</span>
-                        <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Fortalezas Nether & Desafíos con Jefes de Élite</h3>
-                        <p style="font-size: 14px; color: #c5c7d1; margin: 0;">Consigue materiales legendarios, esencias mágicas y equipamiento único.</p>
-                    </div>
-                </div>
-
-                <!-- 2-Column Split: Village & Night -->
-                <div class="od-grid-2">
-                    <div class="od-card" style="overflow: hidden;">
-                        <img src="img/odissey-scenes/village-800.webp" alt="Peaceful Overworld Village" width="800" height="450" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                        <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                            <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: var(--brand-gold);">Zonas Comunitarias</span>
-                            <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Parcelas y Poblados Pacíficos</h3>
-                        </div>
-                    </div>
-
-                    <div class="od-card" style="overflow: hidden;">
-                        <img src="img/odissey-scenes/night-800.webp" alt="Night Event in Odissey" width="800" height="450" style="width: 100%; height: auto; max-height: 250px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                        <div style="padding: 20px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                            <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: var(--brand-gold);">Eventos Nocturnos</span>
-                            <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Noches Lunares y Recompensas Dobles</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Wide Underwater / Pesca Showcase -->
-                <div class="od-card" style="overflow: hidden;">
-                    <img src="img/odissey-scenes/underwater.webp" alt="Underwater Fishing in Odissey" width="1600" height="900" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                    <div style="padding: 24px; background: rgba(20, 14, 40, 0.85); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.08);">
-                        <span class="font-mono" style="font-size: 11px; text-transform: uppercase; color: var(--brand-gold);">Odissey Pesca Exclusiva</span>
-                        <h3 class="font-display" style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Ecosistemas Marinos, Torneos de Pesca y Acuarios</h3>
-                        <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">Captura más de 60 especies exóticas, desbloquea cebos únicos y compite en el ranking semanal de pescadores.</p>
-                    </div>
-                </div>
+            <div class="od-accordion-gallery" data-accordion-gallery role="group" aria-label="Álbum de funciones de Odissey">
+                <button class="od-accordion-gallery__panel is-active" type="button" aria-expanded="true" aria-label="Mascotas: llévate tu mascota en la aventura">
+                    <img src="img/gallery/features/pets.jpg" alt="Mascotas de Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>01</span><strong>Pets</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">01 / MASCOTAS</span><strong>Pets</strong><span>Llévate una mascota y acompáñala en tu aventura.</span></span>
+                </button>
+                <button class="od-accordion-gallery__panel" type="button" aria-expanded="false" aria-label="Meteoritos: eventos con recompensas para explorar">
+                    <img src="img/gallery/features/meteoritos.jpg" alt="Evento de meteoritos en Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>02</span><strong>Meteoritos</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">02 / EVENTOS</span><strong>Meteoritos</strong><span>Encuentra el impacto y recoge sus recompensas.</span></span>
+                </button>
+                <button class="od-accordion-gallery__panel" type="button" aria-expanded="false" aria-label="Códigos canjeables: reclama recompensas">
+                    <img src="img/gallery/features/codigos.jpg" alt="Códigos canjeables de Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>03</span><strong>Códigos</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">03 / RECOMPENSAS</span><strong>Códigos canjeables</strong><span>Canjea códigos y reclama recompensas especiales.</span></span>
+                </button>
+                <button class="od-accordion-gallery__panel" type="button" aria-expanded="false" aria-label="Protecciones: cuida tus construcciones">
+                    <img src="img/gallery/features/protecciones.jpg" alt="Protecciones de terrenos en Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>04</span><strong>Protecciones</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">04 / TU ESPACIO</span><strong>Protecciones</strong><span>Protege tus construcciones y juega con tranquilidad.</span></span>
+                </button>
+                <button class="od-accordion-gallery__panel" type="button" aria-expanded="false" aria-label="Crates y cajas: abre cajas con llaves para obtener recompensas">
+                    <img src="img/gallery/features/crates.jpg" alt="Crates y cajas de recompensas de Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>05</span><strong>Crates</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">05 / CAJAS</span><strong>Crates y cajas</strong><span>Abre tus cajas con llaves y consigue recompensas.</span></span>
+                </button>
+                <button class="od-accordion-gallery__panel" type="button" aria-expanded="false" aria-label="Racha en pareja: consigue recompensas por jugar con amistades">
+                    <img src="img/gallery/features/racha.jpg" alt="Racha en pareja de Odissey" loading="lazy" decoding="async">
+                    <span class="od-accordion-gallery__rail" aria-hidden="true"><span>06</span><strong>Racha</strong></span>
+                    <span class="od-accordion-gallery__caption" aria-hidden="true"><span class="od-accordion-gallery__index">06 / EN PAREJA</span><strong>Racha</strong><span>Mantén tu racha con amigos y desbloquea premios.</span></span>
+                </button>
             </div>
         </section>
 
