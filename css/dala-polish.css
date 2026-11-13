@@ -551,7 +551,7 @@ footer a:hover {
 .mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__icon {
   transform: rotate(90deg);
 }
-@media (max-width: 1000px) {
+@media (max-width: 860px) {
   .od-header-inner,
   nav.nav-bar .nav-inner {
     position: relative !important;
