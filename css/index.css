@@ -600,7 +600,7 @@ header img {
   width: min(66%, 760px);
   margin-top: 24px;
   padding: 20px 28px 0 0;
-  border-top-right-radius: 22px;
+  border-radius: 0 22px 22px 0;
   border: 0;
   box-shadow: none;
   background-color: var(--brand-bg, #0a0810);
@@ -660,7 +660,7 @@ header img {
     width: min(calc(100% - 16px), 620px);
     margin-top: -30px;
     padding: 18px 18px 0 0;
-    border-top-right-radius: 18px;
+    border-radius: 0 18px 18px 0;
   }
 }
 @media (max-width: 600px) {
