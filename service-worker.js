@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v207';
+var CACHE_NAME = 'odissey-v208';
 
 var PRECACHE_URLS = [
   './',
@@ -129,6 +129,7 @@ var PRECACHE_URLS = [
   './img/gallery/features/racha.jpg',
   './img/backgrounds/background1.jpg',
   './img/odissey-scenes/about-wallpaper.jpg',
+  './img/odissey-scenes/axolotl-biome.png',
   './img/staff/aureliogood.jpg',
   './img/staff/logan-beckett.jpg',
 ];
