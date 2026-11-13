@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v185';
+var CACHE_NAME = 'odissey-v186';
 
 var PRECACHE_URLS = [
   './',
@@ -54,6 +54,8 @@ var PRECACHE_URLS = [
   './css/odiseo.css',
   './theme.css',
   './css/index.css',
+  './css/comet-dial.css',
+  './css/rule-icons.css',
   './css/dala.css',
   './css/dala-liquid.css',
   './css/dala-perfil.css',
@@ -98,6 +100,7 @@ var PRECACHE_URLS = [
   './js/dala-liquid.js',
   './js/dala-nav.js',
   './js/mobile-nav.js',
+  './js/comet-dial.js',
   './js/perfil.js',
   './js/search.js',
   './js/verificacion.js',
@@ -114,6 +117,7 @@ var PRECACHE_URLS = [
   './img/icon-512.png',
   './img/og-image.jpg',
   './img/backgrounds/background1.jpg',
+  './img/odissey-scenes/about-wallpaper.jpg',
 ];
 
 // Paginas que nunca se precargan ni se sirven desde la cache: son privadas.

@@ -505,67 +505,6 @@ header img {
   transition: width 0.05s linear;
 }
 
-/* OdisseyMC FPS range slider (Zero browser outline, perfectly centered thumb) */
-.fps-range {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 100% !important;
-  height: 24px !important;
-  -webkit-appearance: none !important;
-  appearance: none !important;
-  cursor: pointer !important;
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 10 !important;
-}
-
-.fps-range:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.fps-range::-webkit-slider-runnable-track {
-  background: transparent !important;
-  border: none !important;
-  height: 100% !important;
-}
-
-.fps-range::-moz-range-track {
-  background: transparent !important;
-  border: none !important;
-}
-
-.fps-range::-webkit-slider-thumb {
-  -webkit-appearance: none !important;
-  appearance: none !important;
-  cursor: ew-resize !important;
-  background: #ffffff !important;
-  border: none !important;
-  border-radius: 2px !important;
-  width: 6px !important;
-  height: 20px !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
-  margin-top: 2px !important;
-}
-
-.fps-range::-moz-range-thumb {
-  cursor: ew-resize !important;
-  background: #ffffff !important;
-  border: none !important;
-  border-radius: 2px !important;
-  width: 6px !important;
-  height: 20px !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
-}
-
 .od-bench-footer {
   margin-top: 32px;
   font-size: 12px;
@@ -576,6 +515,100 @@ header img {
 
 .od-bench-footer strong {
   color: #ffffff;
+}
+
+/* Editorial home section: one strong image, then three unboxed highlights. */
+.od-story-section {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: clamp(36px, 6vw, 76px) 24px 68px;
+}
+.od-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+}
+.od-story-eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--brand-gold-light, #ffda78);
+  font: 600 .7rem/1.4 var(--od-font-mono, monospace);
+  letter-spacing: .12em;
+}
+.od-story-copy h2 {
+  max-width: 620px;
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -.045em;
+  line-height: 1.08;
+}
+.od-story-copy > p {
+  max-width: 620px;
+  margin: 0 0 20px;
+  color: rgba(255,255,255,.68);
+  font-size: clamp(.96rem, 1.4vw, 1.08rem);
+  line-height: 1.75;
+}
+.od-story-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brand-gold-light, #ffda78);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.od-story-image { min-width: 0; margin: 0; }
+.od-story-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 738 / 384;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 18px;
+  box-shadow: 0 22px 55px rgba(0,0,0,.25);
+}
+.od-story-image figcaption { margin-top: 10px; color: rgba(255,255,255,.45); font-size: .75rem; }
+.od-story-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 40px);
+  margin-top: clamp(38px, 6vw, 70px);
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.od-story-pillar { min-width: 0; }
+.od-story-pillar__index { color: var(--brand-gold-light, #ffda78); font: 600 .65rem/1.4 var(--od-font-mono, monospace); letter-spacing: .1em; }
+.od-story-pillar h3 { margin: 12px 0 8px; color: #fff; font-size: 1rem; font-weight: 650; }
+.od-story-pillar p { margin: 0; color: rgba(255,255,255,.62); font-size: .88rem; line-height: 1.65; }
+
+/* The quick-join row reads as editorial links instead of four cloned cards. */
+.od-access-grid { gap: 0 20px; }
+.od-access-grid > .od-card {
+  padding: 20px 12px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(255,255,255,.14) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.od-access-grid > a.od-card:hover { border-top-color: var(--brand-gold, #e0a52e) !important; }
+
+@media (max-width: 800px) {
+  .od-story-grid { grid-template-columns: minmax(0,1fr); }
+  .od-story-image { max-width: 640px; }
+}
+@media (max-width: 600px) {
+  .od-story-section { padding-inline: 20px; }
+  .od-story-pillars { grid-template-columns: minmax(0,1fr); gap: 0; }
+  .od-story-pillar { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .od-story-pillar:first-child { padding-top: 0; }
+  .od-access-grid { grid-template-columns: minmax(0,1fr); }
 }
 
 /* ----------------------------------------------------------------------------

@@ -32,11 +32,12 @@
     
     <link rel="stylesheet" href="theme.css?v=158">
     <link rel="stylesheet" href="css/tailwind.css?v=158">
-    <link rel="stylesheet" href="css/index.css?v=158">
+    <link rel="stylesheet" href="css/index.css?v=159">
     <link rel="stylesheet" href="css/dala.css?v=158">
     <link rel="stylesheet" href="css/nav-shared.css?v=158">
     <link rel="stylesheet" href="css/dala-polish.css?v=160">
     <link rel="stylesheet" href="css/search.css?v=158">
+    <link rel="stylesheet" href="css/comet-dial.css?v=1">
     
     <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
@@ -85,61 +86,6 @@
                 background: linear-gradient(180deg, rgba(var(--brand-bg-rgb), 0.5) 0%, rgba(var(--brand-bg-rgb), 0.92) 65%, var(--brand-bg) 100%) !important;
             }
         }
-        /* OdisseyMC Benchmark Slider */
-        .fps-range {
-            position: absolute !important;
-            left: 0 !important;
-            right: 0 !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            width: 100% !important;
-            height: 24px !important;
-            -webkit-appearance: none !important;
-            appearance: none !important;
-            cursor: pointer !important;
-            background: transparent !important;
-            border: none !important;
-            outline: none !important;
-            box-shadow: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            z-index: 10 !important;
-        }
-        .fps-range:focus {
-            outline: none !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-        .fps-range::-webkit-slider-runnable-track {
-            background: transparent !important;
-            border: none !important;
-            height: 100% !important;
-        }
-        .fps-range::-moz-range-track {
-            background: transparent !important;
-            border: none !important;
-        }
-        .fps-range::-webkit-slider-thumb {
-            -webkit-appearance: none !important;
-            appearance: none !important;
-            cursor: ew-resize !important;
-            background: #ffffff !important;
-            border: none !important;
-            border-radius: 2px !important;
-            width: 6px !important;
-            height: 20px !important;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
-            margin-top: 2px !important;
-        }
-        .fps-range::-moz-range-thumb {
-            cursor: ew-resize !important;
-            background: #ffffff !important;
-            border: none !important;
-            border-radius: 2px !important;
-            width: 6px !important;
-            height: 20px !important;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
-        }
     </style>
 
     <script type="application/ld+json">
@@ -152,6 +98,7 @@
     }
     </script>
 <script src="js/mobile-nav.js?v=1" defer></script>
+<script src="js/comet-dial.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=2">
 </head>
 <body class="min-h-full flex flex-col relative bg-[var(--brand-bg)] text-white">
@@ -317,147 +264,89 @@
                         </div>
                     </div>
 
-                    <!-- Fila 2: Otros servidores (Interactivo con Slider) -->
-                    <div class="od-bench-row" style="margin-bottom: 0;">
-                        <div class="od-bench-row-top" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
-                            <span class="od-bench-server muted" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: rgba(255, 255, 255, 0.55);">
-                                <svg viewBox="0 0 24 24" class="od-bench-server-icon" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px; flex-shrink: 0; opacity: 0.75;">
-                                    <path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m2 4v4h4v2H8v6h2v-2h4v2h2v-6h-2v-2h4V6h-4v4h-4V6z"></path>
+                    <!-- Comet Dial interactivo: cada posición simula más jugadores en otros servidores. -->
+                    <div class="od-bench-row od-bench-row--comparison" style="margin-bottom: 0;">
+                        <div class="od-bench-row-top">
+                            <span class="od-bench-server muted">
+                                <svg viewBox="0 0 24 24" class="od-bench-server-icon" fill="currentColor" aria-hidden="true"><path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m2 4v4h4v2H8v6h2v-2h4v2h2v-6h-2v-2h4V6h-4v4h-4V6z"></path></svg>
+                                <span>Otros servidores · <span id="otherPlayersText">2</span> jugadores</span>
+                            </span>
+                            <span class="od-bench-value muted">
+                                <span id="otherTpsNum" class="od-bench-val-num">20</span>
+                                <span class="od-bench-val-unit">TPS</span>
+                            </span>
+                        </div>
+
+                        <div class="od-comet-control">
+                            <div id="benchmarkDial" class="od-comet-dial" role="slider" tabindex="0"
+                                aria-label="Jugadores simulados en otros servidores" aria-valuemin="2"
+                                aria-valuemax="100" aria-valuenow="2" aria-valuetext="2 jugadores"
+                                data-value="2">
+                                <svg class="od-comet-dial__svg" viewBox="0 0 240 240" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="odCometGradient" x1="0" y1="1" x2="1" y2="0">
+                                            <stop offset="0" stop-color="#b77618"></stop>
+                                            <stop offset=".55" stop-color="#e0a52e"></stop>
+                                            <stop offset="1" stop-color="#ffda78"></stop>
+                                        </linearGradient>
+                                        <filter id="odCometGlow" x="-200%" y="-200%" width="400%" height="400%">
+                                            <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                                            <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+                                        </filter>
+                                    </defs>
+                                    <g id="benchmarkDialTicks" class="od-comet-dial__ticks"></g>
+                                    <circle class="od-comet-dial__track" cx="120" cy="120" r="88" pathLength="100" transform="rotate(135 120 120)"></circle>
+                                    <circle id="benchmarkDialArc" class="od-comet-dial__arc" cx="120" cy="120" r="88" pathLength="100" transform="rotate(135 120 120)"></circle>
+                                    <circle id="benchmarkDialComet" class="od-comet-dial__comet" cx="57.8" cy="182.2" r="5" filter="url(#odCometGlow)"></circle>
                                 </svg>
-                                <span>Otros servidores: <span id="otherPlayersText">2</span> players</span>
-                            </span>
-                            <span class="od-bench-value muted" style="display: inline-flex; align-items: baseline; gap: 4px;">
-                                <span id="otherTpsNum" class="od-bench-val-num" style="font-family: var(--od-font-display, 'Geist', sans-serif); font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: rgba(255, 255, 255, 0.55); font-variant-numeric: tabular-nums;">20</span>
-                                <span class="od-bench-val-unit" style="font-family: var(--od-font-sans, 'Geist', sans-serif); font-size: 14px; font-weight: 500; color: rgba(255, 255, 255, 0.5); margin-left: 4px;">TPS</span>
-                            </span>
-                        </div>
-                        <div class="od-stat-track" style="position: relative; margin-top: 12px; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, 0.07);">
-                            <div class="od-stat-bar-gray" id="otherTpsBar" style="position: absolute; inset: 0; border-radius: 2px; background: rgba(255, 255, 255, 0.3); width: 0%; pointer-events: none;"></div>
-                            <input 
-                                type="range" 
-                                id="tpsBenchmarkSlider" 
-                                min="2" 
-                                max="100" 
-                                value="2" 
-                                class="fps-range" 
-                                aria-label="Arrastra para simular jugadores en otros servidores"
-                                oninput="updateBenchmarkSimulation(this.value)"
-                            >
+                                <span class="od-comet-dial__readout"><strong id="benchmarkDialPlayers">2</strong><small>JUGADORES</small></span>
+                            </div>
+                            <div class="od-comet-control__copy">
+                                <span class="od-comet-control__eyebrow">CARGA SIMULADA</span>
+                                <strong>Gira el dial y compara</strong>
+                                <p>Al aumentar la cantidad de jugadores, otros servidores pierden TPS. Odissey se mantiene estable.</p>
+                                <span class="od-comet-control__hint">Arrastra · usa ← → o las flechas del teclado</span>
+                            </div>
                         </div>
                     </div>
-
                     <p class="od-bench-footer" style="margin-top: 32px; font-size: 12px; line-height: 1.6; color: rgba(255, 255, 255, 0.5); margin-bottom: 0;">
-                        Arrastra la barra para simular la carga de jugadores. En otros servidores los TPS caen en picada, mientras que Odissey se mantiene inmutable a <strong>20 TPS</strong>.
+                        Ajusta el dial para simular la carga. En esta comparación, Odissey mantiene <strong>20 TPS estables</strong>.
                     </p>
                 </div>
             </div>
 
-            <!-- Sunset Pixel Art Panoramic Banner (OdisseyMC wallpaper) -->
-            <div style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); position: relative; margin-bottom: 48px;">
-                <img src="img/odissey-scenes/about-wallpaper.jpg" alt="Paisaje de Odissey al atardecer en estilo Minecraft" width="738" height="384" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--brand-bg), transparent 40%); pointer-events: none;"></div>
-            </div>
-
-            <!-- Server Features Highlight Card -->
-            <div class="od-card" style="padding: clamp(24px, 4vw, 36px); margin-bottom: 32px;">
-                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
-                    <div>
-                        <span style="font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-gold); font-family: var(--od-font-mono);">EXPERIENCIA SURVIVAL CUSTOM</span>
-                        <h2 class="font-display" style="font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #ffffff; margin: 4px 0 6px 0;">Tu supervivencia, a tu manera y sin complicaciones.</h2>
-                        <p style="font-size: 14px; color: #a1a1aa; margin: 0;">En Odissey cuidamos cada detalle para ofrecerte una aventura justa, limpia y entretenida.</p>
+            <section class="od-story-section" aria-labelledby="odStoryTitle">
+                <div class="od-story-grid">
+                    <div class="od-story-copy">
+                        <span class="od-story-eyebrow">EXPERIENCIA SURVIVAL CUSTOM</span>
+                        <h2 id="odStoryTitle">Sobrevive a tu manera. Escribe tu propia historia.</h2>
+                        <p>En Odissey cuidamos cada detalle para ofrecerte una aventura justa, limpia y entretenida. Construye, comercia y explora a tu ritmo, con sistemas pensados para que tu tiempo en el servidor valga la pena.</p>
+                        <a class="od-story-link" href="/wiki">Conoce el mundo de Odissey <span aria-hidden="true">↗</span></a>
                     </div>
-                    <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 6px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 12px; color: rgba(255, 255, 255, 0.85); font-family: var(--od-font-mono);">
-                        <span class="od-dot-pulse"></span>
-                        <span>IP: mc.odisseymc.site</span>
-                    </div>
+                    <figure class="od-story-image">
+                        <img src="img/odissey-scenes/about-wallpaper.jpg" alt="Molino y paisaje de Minecraft en el mundo de Odissey" width="738" height="384" loading="lazy" decoding="async">
+                        <figcaption>Un mundo abierto para construir tu propia aventura.</figcaption>
+                    </figure>
                 </div>
 
-                <!-- 3 Pillars of Odissey -->
-                <div class="od-grid-1-3" style="margin-bottom: 24px;">
-                    <div style="padding: 18px; border-radius: 10px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.05);">
-                        <div style="font-size: 20px; margin-bottom: 8px;">🛡️</div>
-                        <h3 class="font-display" style="font-size: 15px; font-weight: 600; color: #ffffff; margin: 0 0 6px 0;">Protección Intuitiva</h3>
-                        <p style="font-size: 13px; color: #a1a1aa; line-height: 1.5; margin: 0;">Reclama tus terrenos fácilmente con la pala de oro. Tus cofres, casas y granjas quedan blindados contra robos y griefing.</p>
-                    </div>
-
-                    <div style="padding: 18px; border-radius: 10px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.05);">
-                        <div style="font-size: 20px; margin-bottom: 8px;">🪙</div>
-                        <h3 class="font-display" style="font-size: 15px; font-weight: 600; color: #ffffff; margin: 0 0 6px 0;">Economía Balanceada</h3>
-                        <p style="font-size: 13px; color: #a1a1aa; line-height: 1.5; margin: 0;">Mercado libre entre jugadores, subastas y tiendas físicas. Cero ventajas injustas: el esfuerzo es lo que cuenta.</p>
-                    </div>
-
-                    <div style="padding: 18px; border-radius: 10px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.05);">
-                        <div style="font-size: 20px; margin-bottom: 8px;">🎣</div>
-                        <h3 class="font-display" style="font-size: 15px; font-weight: 600; color: #ffffff; margin: 0 0 6px 0;">OdisseyPesca Exclusivo</h3>
-                        <p style="font-size: 13px; color: #a1a1aa; line-height: 1.5; margin: 0;">Captura peces legendarios, mejora tus cañas con atributos únicos, crea tus acuarios y compite en eventos de pesca.</p>
-                    </div>
+                <div class="od-story-pillars" aria-label="Características de Odissey">
+                    <article class="od-story-pillar">
+                        <span class="od-story-pillar__index">01 / PROTECCIÓN</span>
+                        <h3>Tu espacio, seguro</h3>
+                        <p>Reclama terrenos con la pala de oro. Tus cofres, casas y granjas quedan protegidos contra robos y griefing.</p>
+                    </article>
+                    <article class="od-story-pillar">
+                        <span class="od-story-pillar__index">02 / ECONOMÍA</span>
+                        <h3>El esfuerzo cuenta</h3>
+                        <p>Comercia con otros jugadores, participa en subastas y crea tiendas sin ventajas injustas.</p>
+                    </article>
+                    <article class="od-story-pillar">
+                        <span class="od-story-pillar__index">03 / EXPLORACIÓN</span>
+                        <h3>Siempre hay algo nuevo</h3>
+                        <p>Pesca criaturas legendarias, mejora tus cañas y participa en eventos y desafíos especiales.</p>
+                    </article>
                 </div>
-
-                <!-- Feature tags inside highlight card -->
-                <div style="padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: rgba(255, 255, 255, 0.7); font-family: var(--od-font-mono);">
-                    <span>⚡ Conexión: <strong style="color: var(--brand-gold-light);">mc.odisseymc.site</strong></span>
-                    <span>🚀 Compatible con Java 1.20 a 1.21.x</span>
-                    <span>🛡️ Copias de seguridad automáticas</span>
-                </div>
-            </div>
-        </section>
-        </section>
-
-        <!-- ============================================================
-             SECTION 2: SAME INPUTS, IDENTICAL OUTPUTS (Survival Custom)
-             ============================================================ -->
-        <section style="max-width: 1150px; margin: 0 auto; padding: 48px 24px 64px 24px;">
-            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-gold);">CARACTERÍSTICAS CLAVE</span>
-            <h2 class="font-display" style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: #ffffff; margin: 8px 0 16px 0;">
-                Survival Custom innovador, sin lag ni límites.
-            </h2>
-            <p style="font-size: 16px; color: #c5c7d1; max-width: 720px; line-height: 1.6; margin: 0 0 36px 0;">
-                En Odissey cada mecánica ha sido pulida para respetar el tiempo del jugador: progresión gratificante, economía balanceada y un mundo vibrante listo para tus construcciones.
-            </p>
-
-            <!-- Visual Showcase Card -->
-            <div style="border-radius: 20px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); position: relative; margin-bottom: 32px;">
-                <img src="img/odissey-scenes/cherry-grove.jpg" alt="Odissey Cherry Grove Landscape" width="596" height="335" style="width: 100%; height: auto; max-height: 420px; object-fit: cover; display: block;" loading="lazy" decoding="async">
-                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 10, 31, 0.95), transparent 50%); pointer-events: none;"></div>
-                <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
-                    <span class="font-mono" style="font-size: 12px; text-transform: uppercase; color: var(--brand-gold);">Mundo Principal</span>
-                    <h3 class="font-display" style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 700; color: #ffffff; margin: 4px 0 0 0;">Exploración sin restricciones en Minecraft Java</h3>
-                </div>
-            </div>
-
-            <!-- 3 Column Feature Cards -->
-            <div class="od-grid-1-3">
-                <div class="od-card" style="padding: 24px;">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(var(--brand-gold-rgb), 0.15); border: 1px solid rgba(var(--brand-gold-rgb), 0.3); display: flex; align-items: center; justify-content: center; color: var(--brand-gold); margin-bottom: 16px;">
-                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Tu Progreso Protegido</h3>
-                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
-                        Sistema de reclamos de parcelas intuitivo. Tus cofres, granjas y casas quedan blindados contra cualquier intento de griefing o robo.
-                    </p>
-                </div>
-
-                <div class="od-card" style="padding: 24px;">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(var(--brand-gold-rgb), 0.15); border: 1px solid rgba(var(--brand-gold-rgb), 0.3); display: flex; align-items: center; justify-content: center; color: var(--brand-gold); margin-bottom: 16px;">
-                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
-                    </div>
-                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Economía & Mercado Libre</h3>
-                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
-                        Subastas en tiempo real, tiendas de jugadores y banco comercial. Todo el valor es generado por la comunidad, sin ventajas desbalanceadas.
-                    </p>
-                </div>
-
-                <div class="od-card" style="padding: 24px;">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(var(--brand-gold-rgb), 0.15); border: 1px solid rgba(var(--brand-gold-rgb), 0.3); display: flex; align-items: center; justify-content: center; color: var(--brand-gold); margin-bottom: 16px;">
-                        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14.5 12.5-8 8a2.12 2.12 0 1 1-3-3l8-8"/><path d="m16 8 2-2 4 4-2 2"/><path d="m18 6 2-2"/></svg>
-                    </div>
-                    <h3 class="font-display" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Mazmorras & Jefes Épicos</h3>
-                    <p style="font-size: 14px; color: #c5c7d1; line-height: 1.6; margin: 0;">
-                        Desafíos semanales con mecánicas custom, botines místicos, pesca personalizada con acuarios y eventos de luna de sangre.
-                    </p>
-                </div>
-            </div>
-        </section>
+            </section>
 
         <!-- ============================================================
              SECTION 3: BANNER 24/7 (Like OdisseyMC's Minecraft Server Promo)
@@ -504,7 +393,7 @@
                 Odissey no requiere launchers modificados ni descargas pesadas: conéctate desde cualquier versión compatible de Minecraft Java.
             </p>
 
-            <div class="od-grid-4">
+            <div class="od-grid-4 od-access-grid">
                 <!-- IP Card -->
                 <div class="od-card" style="padding: 22px; cursor: pointer;" onclick="copyIpAddress()" title="Clic para copiar IP">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; color: rgba(255, 255, 255, 0.5);">
@@ -864,20 +753,16 @@
         }
 
         function updateBenchmarkSimulation(val) {
-            const players = parseInt(val, 10);
+            const players = Math.max(2, Math.min(100, parseInt(val, 10) || 2));
             const playersText = document.getElementById("otherPlayersText");
             const otherTpsNum = document.getElementById("otherTpsNum");
-            const otherTpsBar = document.getElementById("otherTpsBar");
             const odisseyTpsNum = document.getElementById("odisseyTpsNum");
             
             if (playersText) playersText.textContent = players;
-            
-            // Sincronización perfecta del slider con la barra gris (1:1 OdisseyMC)
-            const pct = Math.max(0, Math.min(100, ((players - 2) / (100 - 2)) * 100));
-            if (otherTpsBar) otherTpsBar.style.width = pct.toFixed(1) + "%";
+            if (window.odCometDial) window.odCometDial.setValue(players);
             
             // Simulación de degradación de TPS en otros servidores:
-            // Con 2 players: 20 TPS estables
+            // Con 2 jugadores: 20 TPS estables
             // Conforme suben los jugadores, el TPS cae drásticamente hasta ~4.0 TPS
             // En cambio, Odissey se mantiene inquebrantable a 20 TPS
             let tps;
