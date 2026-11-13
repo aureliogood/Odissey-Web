@@ -1,9 +1,9 @@
 /* ============================================================================
-   ODISSEY HORIZON POLISH (https://playhorizon.dev)
-   Sistema de Diseño: Geist Typography + Obsidiana Profunda + Botones Horizon
+   SISTEMA VISUAL ODISSEYMC
+   Sistema de Diseño: Geist Typography + Obsidiana Profunda + Botones OdisseyMC
    ============================================================================ */
 :root {
-  --hz-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --od-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', monospace;
@@ -15,7 +15,7 @@ body {
   line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  background-color: var(--hz-bg, #09070f) !important;
+  background-color: var(--od-bg, var(--brand-bg)) !important;
   color: #ffffff;
 }
 
@@ -26,7 +26,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 p, li, .why-card-text, .text-secondary {
-  color: var(--hz-text-secondary, #a1a1aa);
+  color: var(--od-text-secondary, #a1a1aa);
 }
 
 strong, b {
@@ -38,15 +38,15 @@ strong, b {
 a:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid var(--hz-accent, #9370db);
+  outline: 2px solid var(--od-accent, var(--brand-gold));
   outline-offset: 2px;
 }
 
 /* ----------------------------------------------------------------------------
-   NAVBAR & NAVEGACIÓN HORIZON (TRANSPARENTE)
+   NAVBAR & NAVEGACIÓN OdisseyMC (TRANSPARENTE)
    ---------------------------------------------------------------------------- */
 nav.nav-bar,
-.hz-header {
+.od-header {
   background: transparent !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   -webkit-backdrop-filter: blur(14px) !important;
@@ -76,7 +76,7 @@ nav.nav-bar,
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
-  transition: all 160ms var(--hz-ease-out) !important;
+  transition: all 160ms var(--od-ease-out) !important;
 }
 
 .nav-pill__link:hover {
@@ -85,10 +85,10 @@ nav.nav-bar,
 }
 
 .nav-pill__link[aria-current="page"] {
-  background: rgba(112, 72, 232, 0.22) !important;
+  background: rgba(var(--brand-gold-rgb), 0.22) !important;
   color: #ffffff !important;
   font-weight: 600 !important;
-  border: 1px solid rgba(147, 112, 219, 0.3) !important;
+  border: 1px solid rgba(var(--brand-gold-rgb), 0.3) !important;
 }
 
 .nav-pill__submenu {
@@ -103,7 +103,7 @@ nav.nav-bar,
   border-radius: 10px !important;
   backdrop-filter: blur(16px) !important;
   padding: 6px !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(112, 72, 232, 0.15) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(var(--brand-gold-rgb), 0.15) !important;
 }
 
 .nav-pill__group:hover .nav-pill__submenu,
@@ -120,23 +120,23 @@ nav.nav-bar,
   color: rgba(255, 255, 255, 0.8) !important;
   font-size: 0.85rem !important;
   padding: 8px 12px !important;
-  transition: all 160ms var(--hz-ease-out) !important;
+  transition: all 160ms var(--od-ease-out) !important;
 }
 
 .nav-pill__sublink:hover {
-  background: rgba(112, 72, 232, 0.2) !important;
+  background: rgba(var(--brand-gold-rgb), 0.2) !important;
   color: #ffffff !important;
 }
 
 /* ----------------------------------------------------------------------------
-   SISTEMA DE BOTONES HORIZON (BORDES LIGERAMENTE REDONDEADOS 8px, NO PÍLDORAS)
+   SISTEMA DE BOTONES OdisseyMC (BORDES LIGERAMENTE REDONDEADOS 8px, NO PÍLDORAS)
    ---------------------------------------------------------------------------- */
 .skip-link {
   display: none !important;
 }
 
-/* Botón Principal (Horizon Primary: Violeta elegante, 8px de radio) */
-.hz-btn-primary,
+/* Botón Principal (OdisseyMC Primary: Violeta elegante, 8px de radio) */
+.od-btn-primary,
 .nav-button-primary,
 .btn-gold,
 .btn-gold-inline,
@@ -149,7 +149,7 @@ nav.nav-bar,
   padding: 0 16px !important;
   border-radius: 8px !important;
   border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  background: linear-gradient(180deg, #7c4dff 0%, #683beb 100%) !important;
+  background: linear-gradient(180deg, var(--brand-gold) 0%, var(--brand-gold-dark) 100%) !important;
   color: #ffffff !important;
   font-family: var(--font-sans, 'Geist', sans-serif) !important;
   font-weight: 500 !important;
@@ -161,22 +161,22 @@ nav.nav-bar,
   white-space: nowrap !important;
 }
 
-.hz-btn-primary:hover,
+.od-btn-primary:hover,
 .nav-button-primary:hover,
 .btn-gold:hover,
 .btn-gold-inline:hover,
 .shop-buy-btn:hover {
-  background: linear-gradient(180deg, #875cff 0%, #7242f5 100%) !important;
+  background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%) !important;
   border-color: rgba(255, 255, 255, 0.28) !important;
-  box-shadow: 0 2px 8px rgba(112, 72, 232, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 2px 8px rgba(var(--brand-gold-rgb), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
 }
 
-.hz-btn-primary:active,
+.od-btn-primary:active,
 .btn-gold:active {
   transform: translateY(1px) !important;
 }
 
-/* Botón de Perfil / Entrar en Barra Superior (Horizon Glass 8px) */
+/* Botón de Perfil / Entrar en Barra Superior (OdisseyMC Glass 8px) */
 #enterNavBtn {
   display: inline-flex !important;
   align-items: center !important;
@@ -208,8 +208,8 @@ nav.nav-bar,
   transform: translateY(1px) !important;
 }
 
-/* Botón Secundario (Horizon Secondary: Vidrio oscuro, 8px de radio) */
-.hz-btn-secondary,
+/* Botón Secundario (OdisseyMC Secondary: Vidrio oscuro, 8px de radio) */
+.od-btn-secondary,
 .btn-secondary,
 .btn-ghost,
 .btn-action,
@@ -234,7 +234,7 @@ nav.nav-bar,
   white-space: nowrap !important;
 }
 
-.hz-btn-secondary:hover,
+.od-btn-secondary:hover,
 .btn-secondary:hover,
 .btn-ghost:hover,
 .btn-action:hover,
@@ -259,12 +259,12 @@ nav.nav-bar,
   transition: all 160ms ease !important;
 }
 .cb-accept {
-  background: #7048e8 !important;
+  background: var(--brand-gold-dark) !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 .cb-accept:hover {
-  background: #7c4dff !important;
+  background: var(--brand-gold) !important;
 }
 .cb-decline {
   background: rgba(255, 255, 255, 0.06) !important;
@@ -282,9 +282,9 @@ nav.nav-bar,
 }
 
 /* ----------------------------------------------------------------------------
-   TARJETAS GLASSMORPHISM HORIZON (14px - 16px radio, bordes sutiles)
+   TARJETAS GLASSMORPHISM OdisseyMC (14px - 16px radio, bordes sutiles)
    ---------------------------------------------------------------------------- */
-.hz-card,
+.od-card,
 .why-card,
 .news-card,
 .event-card,
@@ -312,10 +312,10 @@ nav.nav-bar,
   -webkit-backdrop-filter: blur(14px) !important;
   padding: 1.5rem !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
-  transition: all 200ms var(--hz-ease-out) !important;
+  transition: all 200ms var(--od-ease-out) !important;
 }
 
-.hz-card:hover,
+.od-card:hover,
 .why-card:hover,
 .news-card:hover,
 .event-card:hover,
@@ -333,19 +333,19 @@ nav.nav-bar,
   background: rgba(22, 17, 36, 0.8) !important;
 }
 
-/* Galería Horizon */
+/* Galería OdisseyMC */
 .gallery-item {
   border-radius: 12px !important;
   overflow: hidden !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(255, 255, 255, 0.03) !important;
-  transition: all 200ms var(--hz-ease-out) !important;
+  transition: all 200ms var(--od-ease-out) !important;
 }
 .gallery-item:hover {
-  border-color: rgba(147, 112, 219, 0.35) !important;
+  border-color: rgba(var(--brand-gold-rgb), 0.35) !important;
 }
 
-/* Formularios & Inputs Horizon */
+/* Formularios & Inputs OdisseyMC */
 input, textarea, select,
 .auth-input,
 .mc-name-input,
@@ -356,7 +356,7 @@ input, textarea, select,
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   font-family: var(--font-sans, 'Geist', sans-serif) !important;
-  transition: all 160ms var(--hz-ease-out) !important;
+  transition: all 160ms var(--od-ease-out) !important;
 }
 
 input:focus, textarea:focus, select:focus,
@@ -365,12 +365,12 @@ input:focus, textarea:focus, select:focus,
 .rating-comment:focus,
 .search-input:focus {
   background: rgba(255, 255, 255, 0.08) !important;
-  border-color: var(--hz-primary, #7048e8) !important;
-  box-shadow: 0 0 0 2px rgba(112, 72, 232, 0.25) !important;
+  border-color: var(--od-primary, var(--brand-gold-dark)) !important;
+  box-shadow: 0 0 0 2px rgba(var(--brand-gold-rgb), 0.25) !important;
   outline: none !important;
 }
 
-/* Modales Horizon */
+/* Modales OdisseyMC */
 .login-card,
 .account-card,
 .modal-content,
@@ -385,7 +385,7 @@ input:focus, textarea:focus, select:focus,
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Tablas Horizon */
+/* Tablas OdisseyMC */
 table {
   border-collapse: separate !important;
   border-spacing: 0 !important;
@@ -422,7 +422,7 @@ tr:hover td {
 .pill,
 .role-badge,
 .category-pill,
-.hz-badge {
+.od-badge {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
@@ -437,7 +437,7 @@ tr:hover td {
   letter-spacing: normal !important;
 }
 
-/* Footer Horizon */
+/* Footer OdisseyMC */
 footer {
   background: #06040a !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
@@ -493,11 +493,11 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
-  .hz-header-inner {
+  .od-header-inner {
     padding: 0 12px !important;
     gap: 8px !important;
   }
-  .hz-ip-pill {
+  .od-ip-pill {
     display: none !important;
   }
   .nav-pill {
@@ -552,14 +552,14 @@ footer a:hover {
   transform: rotate(90deg);
 }
 @media (max-width: 1000px) {
-  .hz-header-inner,
+  .od-header-inner,
   nav.nav-bar .nav-inner {
     position: relative !important;
   }
 
   .mobile-nav-toggle { display: inline-flex !important; }
 
-  .hz-header .nav-pill,
+  .od-header .nav-pill,
   nav.nav-bar .nav-pill {
     display: none !important;
     position: absolute !important;
@@ -586,14 +586,14 @@ footer a:hover {
     pointer-events: none !important;
   }
 
-  .hz-header.mobile-nav-open .nav-pill,
+  .od-header.mobile-nav-open .nav-pill,
   nav.nav-bar.mobile-nav-open .nav-pill {
     display: flex !important;
     visibility: visible !important;
     pointer-events: auto !important;
   }
 
-  .hz-header .nav-pill__link,
+  .od-header .nav-pill__link,
   nav.nav-bar .nav-pill__link {
     display: flex !important;
     width: 100% !important;
@@ -606,7 +606,7 @@ footer a:hover {
     text-align: left !important;
   }
 
-  .hz-header .nav-pill__icon,
+  .od-header .nav-pill__icon,
   nav.nav-bar .nav-pill__icon {
     display: inline-block !important;
     width: 19px !important;
@@ -614,14 +614,14 @@ footer a:hover {
     flex: 0 0 19px !important;
   }
 
-  .hz-header .nav-pill__group,
+  .od-header .nav-pill__group,
   nav.nav-bar .nav-pill__group {
     display: grid !important;
     width: 100% !important;
     gap: 4px !important;
   }
 
-  .hz-header .nav-pill__submenu,
+  .od-header .nav-pill__submenu,
   nav.nav-bar .nav-pill__submenu {
     position: static !important;
     display: block !important;
@@ -630,7 +630,7 @@ footer a:hover {
     padding: 0 0 0 18px !important;
   }
 
-  .hz-header .nav-pill__sublink,
+  .od-header .nav-pill__sublink,
   nav.nav-bar .nav-pill__sublink {
     min-height: 46px !important;
     padding: 8px 12px !important;

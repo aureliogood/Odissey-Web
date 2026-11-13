@@ -18,7 +18,7 @@
     if (global.__odisseyMcBg) return;
     global.__odisseyMcBg = true;
 
-    var PAL_GOLD = '#eab308';
+    var PAL_GOLD = 'var(--brand-gold)';
     var PAL_FIRE = '#ff9a2e';
     var PAL_TEAL = '#4fe3d0';
 

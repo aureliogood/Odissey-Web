@@ -1,56 +1,54 @@
 
 /* ============================================================================
-   ODISSEY · SISTEMA DE DISEÑO "VOID"
+   ODISSEYMC · SISTEMA VISUAL
    ----------------------------------------------------------------------------
-   Basado en la referencia Dala: lienzo negro absoluto, tipografía blanca de
-   gran escala con pesos ligeros, un único acento dorado y una constelación de
-   partículas triangulares como imagen de marca.
+   Lienzo negro, texto claro, dorado de marca y relieves discretos.
    ----------------------------------------------------------------------------
-   Paleta: negro #000000 · blanco #ffffff · dorado #eab308 · ámbar #ffb829
+   Paleta: negro, grises, dorado y blanco
    Tipografía: Inter (sustituto de PPNeueMontreal).
    Este archivo se enlaza el ÚLTIMO en todas las páginas para imponer el tema
    sobre el CSS de cada página.
    ============================================================================ */
 
 :root {
-  /* Horizon Design Tokens (playhorizon.dev) */
+  /* Tipografía y relieve */
   --font-pixel: 'Inter', -apple-system, sans-serif;
   --pixel: 'Inter', -apple-system, sans-serif;
   --block-outline: 2px;
   --block-bevel: 2px;
   --block-lip: 4px;
 
-  /* PlayHorizon Dark Palette */
-  --hz-page: #0f0d17;
-  --hz-side: #0b0a11;
-  --hz-panel: #1a1727;
-  --hz-raised: #221e34;
-  --hz-button: #2b2641;
-  --hz-button-bevel: #3d3560;
-  --hz-well: #0c0b12;
-  --hz-bevel: #342d52;
-  --hz-lip: #07060b;
-  --hz-outline: #05040a;
-  --hz-face: #5b3fd6;
-  --hz-face-bevel: #8a74ff;
-  --hz-face-lip: #3a2694;
-  --hz-on-face: #ffffff;
-  --hz-ink: #ecedf3;
-  --hz-ink-soft: #c5c7d1;
-  --hz-muted: #a29cb8;
-  --hz-accent: #9a86ff;
-  --panel-edges: inset 0 var(--block-bevel) 0 var(--hz-bevel), inset 0 calc(-1 * var(--block-bevel)) 0 var(--hz-lip);
+  /* OdisseyMC Dark Palette */
+  --od-page: var(--brand-bg);
+  --od-side: var(--brand-bg-deep);
+  --od-panel: var(--brand-surface-raised);
+  --od-raised: var(--brand-surface-raised);
+  --od-button: var(--brand-surface-raised);
+  --od-button-bevel: var(--brand-border);
+  --od-well: var(--brand-well);
+  --od-bevel: var(--brand-border);
+  --od-lip: var(--brand-black);
+  --od-outline: var(--brand-black);
+  --od-face: var(--brand-gold-dark);
+  --od-face-bevel: var(--brand-gold-light);
+  --od-face-lip: var(--brand-gold-deep);
+  --od-on-face: #ffffff;
+  --od-ink: #ecedf3;
+  --od-ink-soft: #c5c7d1;
+  --od-muted: var(--brand-muted);
+  --od-accent: var(--brand-gold-light);
+  --panel-edges: inset 0 var(--block-bevel) 0 var(--od-bevel), inset 0 calc(-1 * var(--block-bevel)) 0 var(--od-lip);
 
   --font-dala: 'Inter', ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  --dala-void: #100a1f;
+  --dala-void: var(--brand-bg);
   --dala-white: #ffffff;
-  --dala-ash: #8b85a3;
-  --dala-silver: #c5c7d1;
-  --dala-gold: #a98fff;
-  --dala-amber: #c4b5fd;
-  --dala-gold-light: #c4b5fd;
+  --dala-ash: var(--brand-muted);
+  --dala-silver: var(--brand-secondary);
+  --dala-gold: var(--brand-gold);
+  --dala-amber: var(--brand-gold-light);
+  --dala-gold-light: var(--brand-gold-light);
 
   /* Escala tipográfica */
   --text-caption: 0.75rem;      /* 12px */
@@ -80,7 +78,7 @@ body {
   font-weight: 200;
   font-feature-settings: 'ss01' on, 'cv05' on;
   letter-spacing: -0.006em;
-  background-color: var(--hz-page, #0f0d17) !important;
+  background-color: var(--od-page, var(--brand-bg)) !important;
   color: var(--dala-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -120,7 +118,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700 !important;
   letter-spacing: 0 !important;
   line-height: 1.15;
-  color: var(--hz-ink, #ecedf3);
+  color: var(--od-ink, #ecedf3);
 }
 
 /* Titulares de sección: grandes, blancos, con tracking negativo. */
@@ -128,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 .section-title--lead {
   font-family: var(--pixel) !important;
   font-weight: 700 !important;
-  color: var(--hz-ink, #ecedf3) !important;
+  color: var(--od-ink, #ecedf3) !important;
   letter-spacing: 0 !important;
   line-height: 1.1;
 }
@@ -207,7 +205,7 @@ nav.nav-bar .nav-inner {
 /* La pastilla se ajusta a lo que ocupa y se centra con margin:auto.
    Con flex:1 1 auto se estiraba al ancho disponible y, al quitarse
    cuatro enlaces, quedaban huecos vacios a los lados. */
-/* Barra de enlaces estilo Horizon (playhorizon.dev) */
+/* Barra de enlaces estilo OdisseyMC de OdisseyMC */
 .nav-pill {
   display: flex !important;
   align-items: center !important;
@@ -240,20 +238,20 @@ nav.nav-bar .nav-inner {
   font-weight: 500 !important;
   letter-spacing: 0 !important;
   white-space: nowrap !important;
-  color: var(--hz-muted, #a29cb8) !important;
+  color: var(--od-muted, var(--brand-muted)) !important;
   text-decoration: none !important;
   transition: color 140ms ease-out, background-color 140ms ease-out, box-shadow 140ms ease-out !important;
 }
 
 .nav-pill__link:hover {
   color: #ffffff !important;
-  background: var(--hz-raised, #221e34) !important;
+  background: var(--od-raised, var(--brand-surface-raised)) !important;
 }
 
 .nav-pill__link[aria-current='page'] {
   color: #ffffff !important;
-  background: var(--hz-raised, #221e34) !important;
-  box-shadow: inset 0 -3px 0 var(--hz-face, #5b3fd6) !important;
+  background: var(--od-raised, var(--brand-surface-raised)) !important;
+  box-shadow: inset 0 -3px 0 var(--od-face, var(--brand-gold-dark)) !important;
 }
 
 .nav-pill__icon {
@@ -517,11 +515,11 @@ nav .lang-btn:hover {
 
 /* Sólo dos accionesaries conservan la píldora dorada: carrito y entrar. */
 .nav-button-primary {
-  background: var(--hz-face, #5b3fd6) !important;
+  background: var(--od-face, var(--brand-gold-dark)) !important;
   background-image: none !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
   min-height: 38px !important;
   padding: 0 16px 2px 16px !important;
   font-family: var(--pixel) !important;
@@ -532,7 +530,7 @@ nav .lang-btn:hover {
 }
 .nav-button-primary:hover {
   filter: brightness(1.15) !important;
-  background: var(--hz-face, #5b3fd6) !important;
+  background: var(--od-face, var(--brand-gold-dark)) !important;
   color: #ffffff !important;
   transform: none;
 }
@@ -677,7 +675,7 @@ nav .lang-btn:hover {
 }
 
 /* ----------------------------------------------------------------------------
-   4. BOTONES — ESTILO HORIZON (playhorizon.dev)
+   4. BOTONES — ESTILO OdisseyMC de OdisseyMC
    Minecraft / Rust Pixel 3D Block Buttons con bisel y relieve
    ---------------------------------------------------------------------------- */
 
@@ -703,11 +701,11 @@ nav .lang-btn:hover {
   gap: 8px;
   min-height: 42px;
   padding: 0 18px 2px 18px;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  background: var(--hz-face, #5b3fd6) !important;
-  color: var(--hz-on-face, #ffffff) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  background: var(--od-face, var(--brand-gold-dark)) !important;
+  color: var(--od-on-face, #ffffff) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
   font-family: var(--pixel) !important;
   font-size: 15px !important;
   font-weight: 600 !important;
@@ -735,7 +733,7 @@ nav .lang-btn:hover {
 .shop-buy-btn:hover {
   filter: brightness(1.15) !important;
   opacity: 1 !important;
-  background: var(--hz-face, #5b3fd6) !important;
+  background: var(--od-face, var(--brand-gold-dark)) !important;
   color: #ffffff !important;
 }
 
@@ -749,7 +747,7 @@ nav .lang-btn:hover {
 .btn-hero-primary:active,
 .shop-buy-btn:active {
   transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
 }
 
 /* BOTONES SECUNDARIOS / GHOST (View on GitHub, Discord, Idioma, Filtros) */
@@ -772,11 +770,11 @@ nav .lang-btn:hover {
   gap: 8px;
   min-height: 38px;
   padding: 0 14px 2px 14px;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  background: var(--hz-button, #2b2641) !important;
-  color: var(--hz-ink, #ecedf3) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+  background: var(--od-button, var(--brand-surface-raised)) !important;
+  color: var(--od-ink, #ecedf3) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-button-bevel, var(--brand-border)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-lip, var(--brand-black)) !important;
   font-family: var(--pixel) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -801,7 +799,7 @@ nav .lang-btn:hover {
 .btn-hero-secondary:hover,
 .nav-button-secondary:hover {
   filter: brightness(1.15) !important;
-  background: #342e50 !important;
+  background: var(--brand-surface-raised) !important;
   color: #ffffff !important;
 }
 
@@ -815,7 +813,7 @@ nav .lang-btn:hover {
 .btn-hero-secondary:active,
 .nav-button-secondary:active {
   transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-lip, var(--brand-black)) !important;
 }
 
 /* MEDIDAS DE BOTÓN */
@@ -838,7 +836,7 @@ nav .lang-btn:hover {
   min-height: 32px !important;
   padding: 0 12px 2px 12px !important;
   font-size: 13px !important;
-  box-shadow: inset 0 1px 0 var(--hz-face-bevel, #8a74ff), inset 0 -3px 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 1px 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 -3px 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
 }
 
 .btn3d.btn-xs,
@@ -847,19 +845,19 @@ nav .lang-btn:hover {
   min-height: 26px !important;
   padding: 0 8px 1px 8px !important;
   font-size: 11px !important;
-  box-shadow: inset 0 1px 0 var(--hz-face-bevel, #8a74ff), inset 0 -2px 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 1px 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 -2px 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
 }
 
 /* FILTRO SELECCIONADO / ACTIVO */
 .news-filter-btn.active,
 .rating-btn.active,
 .lang-btn.active {
-  background: var(--hz-face, #5b3fd6) !important;
+  background: var(--od-face, var(--brand-gold-dark)) !important;
   color: #ffffff !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
 }
 
-/* PELIGRO (Eliminar, Rechazar, Salir) - Horizon 8px */
+/* PELIGRO (Eliminar, Rechazar, Salir) - OdisseyMC 8px */
 .btn-danger,
 .btn-rating-del,
 .btn-mini-peligro {
@@ -898,11 +896,11 @@ nav .lang-btn:hover {
   min-width: 32px;
   min-height: 32px;
   padding: 0;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  background: var(--hz-button, #2b2641) !important;
-  color: var(--hz-ink, #ecedf3) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+  background: var(--od-button, var(--brand-surface-raised)) !important;
+  color: var(--od-ink, #ecedf3) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-button-bevel, var(--brand-border)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-lip, var(--brand-black)) !important;
   font-family: var(--pixel) !important;
   font-size: 16px !important;
   line-height: 1;
@@ -913,14 +911,14 @@ nav .lang-btn:hover {
 .cart-remove:hover,
 .close-btn:hover {
   filter: brightness(1.15) !important;
-  background: #342e50 !important;
+  background: var(--brand-surface-raised) !important;
   color: #ffffff !important;
 }
 .cart-qty-btn:active,
 .cart-remove:active,
 .close-btn:active {
   transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-lip, var(--brand-black)) !important;
 }
 
 /* ICONOS EN BOTONES */
@@ -957,7 +955,7 @@ nav .lang-btn:hover {
 .btn-ghost:focus-visible,
 .cart-qty-btn:focus-visible,
 .close-btn:focus-visible {
-  outline: 2px solid var(--hz-accent, #9a86ff) !important;
+  outline: 2px solid var(--od-accent, var(--brand-gold-light)) !important;
   outline-offset: 2px !important;
 }
 .btn3d:disabled,
@@ -986,7 +984,7 @@ nav .lang-btn:hover {
   color: var(--dala-white) !important;
 }
 /* ----------------------------------------------------------------------------
-   5. SUPERFICIES Y PANELES — ESTILO HORIZON (playhorizon.dev)
+   5. SUPERFICIES Y PANELES — ESTILO OdisseyMC de OdisseyMC
    Bloques con biseles, 2px outline y estilo panel retro Minecraft
    ---------------------------------------------------------------------------- */
 .liquid-glass-container,
@@ -1004,10 +1002,10 @@ nav .lang-btn:hover {
 .account-item,
 .login-card,
 #loginModal .login-card,
-.horizon-row {
-  background: var(--hz-panel, #1a1727) !important;
-  background-color: var(--hz-panel, #1a1727) !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+.odyssey-row {
+  background: var(--od-panel, var(--brand-surface-raised)) !important;
+  background-color: var(--od-panel, var(--brand-surface-raised)) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   box-shadow: var(--panel-edges) !important;
   border-radius: 0 !important;
 }
@@ -1028,56 +1026,56 @@ nav .lang-btn:hover {
 .news-card:hover,
 .event-card:hover,
 .testimonial-card:hover {
-  background: var(--hz-raised, #221e34) !important;
+  background: var(--od-raised, var(--brand-surface-raised)) !important;
 }
 
-/* FILAS DE CARACTERÍSTICAS / CHECKS ESTILO HORIZON (Screenshot 2 inspo) */
-.horizon-checks-grid {
+/* FILAS DE CARACTERÍSTICAS / CHECKS ESTILO OdisseyMC (Screenshot 2 inspo) */
+.odyssey-checks-grid {
   display: grid;
   gap: 10px;
   width: 100%;
   margin: 1.5rem 0;
 }
-.horizon-row {
+.odyssey-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
   gap: 16px;
-  background: var(--hz-panel, #1a1727) !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  background: var(--od-panel, var(--brand-surface-raised)) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   box-shadow: var(--panel-edges) !important;
   border-radius: 0 !important;
   transition: background-color 0.12s ease;
 }
-.horizon-row:hover {
-  background: var(--hz-raised, #221e34) !important;
+.odyssey-row:hover {
+  background: var(--od-raised, var(--brand-surface-raised)) !important;
 }
-.horizon-row .row-index {
+.odyssey-row .row-index {
   font-family: monospace;
   font-size: 14px;
-  color: var(--hz-muted, #a29cb8);
+  color: var(--od-muted, var(--brand-muted));
   width: 28px;
   flex-shrink: 0;
 }
-.horizon-row .row-title {
+.odyssey-row .row-title {
   font-family: var(--pixel);
   font-size: 18px;
   font-weight: 600;
-  color: var(--hz-ink, #ecedf3);
+  color: var(--od-ink, #ecedf3);
   flex-grow: 1;
 }
-.horizon-row .row-meta {
+.odyssey-row .row-meta {
   font-family: monospace;
   font-size: 14px;
-  color: var(--hz-muted, #a29cb8);
+  color: var(--od-muted, var(--brand-muted));
   text-align: right;
   flex-shrink: 0;
 }
-.horizon-disclaimer {
+.odyssey-disclaimer {
   font-family: monospace;
   font-size: 13px;
-  color: var(--hz-muted, #a29cb8);
+  color: var(--od-muted, var(--brand-muted));
   opacity: 0.85;
 }
 
@@ -1887,7 +1885,7 @@ footer a:hover {
   color: #facc15 !important;             /* relleno: dorado */
 }
 .star-rating button:focus-visible {
-  outline: 2px solid #eab308;
+  outline: 2px solid var(--brand-gold);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -1940,7 +1938,7 @@ footer a:hover {
 }
 
 
-/* Botones de acción del navbar estilo Horizon (playhorizon.dev) */
+/* Botones de acción del navbar estilo OdisseyMC de OdisseyMC */
 #cartBtn,
 .nav-button--shop,
 .cart-count {
@@ -1956,11 +1954,11 @@ nav #langBtn,
   height: 38px !important;
   min-height: 38px !important;
   padding: 0 10px 2px 10px !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  background: var(--hz-button, #2b2641) !important;
-  color: var(--hz-ink, #ecedf3) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-button-bevel, #3d3560), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-lip, #07060b) !important;
+  background: var(--od-button, var(--brand-surface-raised)) !important;
+  color: var(--od-ink, #ecedf3) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-button-bevel, var(--brand-border)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-lip, var(--brand-black)) !important;
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
   font-size: 14px !important;
   cursor: pointer !important;
@@ -1970,14 +1968,14 @@ nav #langBtn,
 nav #langBtn:hover,
 .lang-btn:hover {
   filter: brightness(1.15) !important;
-  background: #342e50 !important;
+  background: var(--brand-surface-raised) !important;
   color: #ffffff !important;
 }
 
 nav #langBtn:active,
 .lang-btn:active {
   transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-lip, #07060b) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-lip, var(--brand-black)) !important;
 }
 
 #enterNavBtn,
@@ -2054,7 +2052,7 @@ nav #langBtn:active,
 .menu-toggle:hover {
   filter: none !important;
   background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(169, 143, 255, 0.4) !important;
+  border-color: rgba(var(--brand-gold-rgb), 0.4) !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }

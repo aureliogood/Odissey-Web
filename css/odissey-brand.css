@@ -1,0 +1,306 @@
+/* Identidad visual OdisseyMC. Los tonos vienen del dorado, naranja y blanco
+   del logo oficial; el resto de la interfaz se mantiene en negros y grises. */
+:root {
+  --brand-black: #050607;
+  --brand-bg: #090a0c;
+  --brand-bg-rgb: 9, 10, 12;
+  --brand-bg-deep: #070809;
+  --brand-surface: #121416;
+  --brand-surface-raised: #1b1e22;
+  --brand-panel: #151719;
+  --brand-well: #0b0c0e;
+  --brand-gold: #e0a52e;
+  --brand-gold-rgb: 224, 165, 46;
+  --brand-gold-light: #ffda78;
+  --brand-gold-bright: #f4c447;
+  --brand-gold-dark: #b77618;
+  --brand-gold-deep: #68400d;
+  --brand-white: #f5f5f3;
+  --brand-text: #f1f2f3;
+  --brand-secondary: #b7bbc1;
+  --brand-muted: #858b93;
+  --brand-border: rgba(255, 255, 255, .1);
+  --brand-border-accent: rgba(var(--brand-gold-rgb), .34);
+  --brand-gold-soft: rgba(var(--brand-gold-rgb), .13);
+  --brand-gradient: linear-gradient(180deg, var(--brand-gold-bright), var(--brand-gold-dark));
+  --brand-gradient-hover: linear-gradient(180deg, var(--brand-gold-light), var(--brand-gold));
+
+  /* Alias para las hojas existentes: conservan sus componentes y estados,
+     pero reciben la paleta nueva desde un solo lugar. */
+  --od-bg: var(--brand-bg);
+  --od-bg-deep: var(--brand-black);
+  --od-page: var(--brand-bg);
+  --od-side: var(--brand-black);
+  --od-surface: var(--brand-surface);
+  --od-surface-raised: var(--brand-surface-raised);
+  --od-panel: var(--brand-panel);
+  --od-well: var(--brand-well);
+  --od-surface-glass: rgba(255, 255, 255, .035);
+  --od-surface-glass-hover: rgba(255, 255, 255, .07);
+  --od-surface-glass-active: rgba(255, 255, 255, .1);
+  --od-border-glass: var(--brand-border);
+  --od-border-glass-hover: var(--brand-border-accent);
+  --od-border-glass-active: rgba(var(--brand-gold-rgb), .58);
+  --od-primary: var(--brand-gold-dark);
+  --od-primary-hover: var(--brand-gold);
+  --od-accent: var(--brand-gold);
+  --od-accent-hover: var(--brand-gold-light);
+  --od-accent-soft: var(--brand-gold-soft);
+  --od-face: var(--brand-gold-dark);
+  --od-face-bevel: var(--brand-gold-bright);
+  --od-face-lip: var(--brand-gold-deep);
+  --od-on-face: #171109;
+  --od-primary-glow: rgba(var(--brand-gold-rgb), .18);
+  --od-gradient-primary: var(--brand-gradient);
+  --od-gradient-primary-hover: var(--brand-gradient-hover);
+  --od-gradient-gold-text: linear-gradient(180deg, var(--brand-gold-light), var(--brand-gold));
+  --od-gradient-glow: radial-gradient(900px circle at 50% -12%, rgba(var(--brand-gold-rgb), .09), transparent 68%);
+  --od-text-primary: var(--brand-text);
+  --od-text-secondary: var(--brand-secondary);
+  --od-text-muted: var(--brand-muted);
+  --od-ink: var(--brand-bg);
+  --od-ink-soft: var(--brand-secondary);
+  --od-muted: var(--brand-muted);
+  --od-void: var(--brand-bg);
+  --od-marine-dark: var(--brand-bg);
+  --od-marine-darker: var(--brand-black);
+  --od-marine-medium: var(--brand-surface);
+  --od-marine-light: var(--brand-border);
+  --od-marine-accent: var(--brand-gold);
+  --od-marine-accent-rgb: var(--brand-gold-rgb);
+  --od-gold-light: var(--brand-gold-light);
+  --od-gold-dark: var(--brand-gold-dark);
+  --od-saffron: var(--brand-gold);
+  --od-text-light: var(--brand-white);
+  --od-text-dark: var(--brand-secondary);
+  --od-marine-darker-rgb: 5, 6, 7;
+  --od-marine-medium-rgb: 18, 20, 22;
+  --od-marine-dark-rgb: 9, 10, 12;
+  --od-gold-light-rgb: 255, 218, 120;
+  --od-text-light-rgb: 245, 245, 243;
+  --od-text-dark-rgb: 183, 187, 193;
+  --od-chip-rgb: 255, 255, 255;
+  --od-chip-alpha: .045;
+  --od-always-light: #ffffff;
+
+  --dala-void: var(--brand-bg);
+  --dala-surface: var(--brand-surface);
+  --dala-surface-raised: var(--brand-surface-raised);
+  --dala-white: var(--brand-white);
+  --dala-ash: var(--brand-muted);
+  --dala-silver: var(--brand-secondary);
+  --dala-gold: var(--brand-gold);
+  --dala-amber: var(--brand-gold-light);
+  --dala-gold-light: var(--brand-gold-light);
+  --dala-line: var(--brand-border);
+
+  color-scheme: dark;
+}
+
+html,
+body {
+  background-color: var(--brand-bg) !important;
+  color: var(--brand-text);
+}
+
+body {
+  background-image:
+    radial-gradient(900px circle at 50% -18%, rgba(var(--brand-gold-rgb), .075), transparent 70%),
+    linear-gradient(180deg, var(--brand-black), var(--brand-bg) 38%, var(--brand-black)) !important;
+  background-attachment: fixed !important;
+}
+
+::selection {
+  color: #1a1307;
+  background: var(--brand-gold-light);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--brand-gold-light) !important;
+  outline-offset: 3px !important;
+}
+
+nav.nav-bar,
+.od-header {
+  background: rgba(8, 9, 11, .9) !important;
+  border-bottom-color: rgba(255, 255, 255, .09) !important;
+}
+
+.nav-pill {
+  border-color: var(--brand-border) !important;
+  background: rgba(17, 18, 20, .82) !important;
+}
+
+.nav-pill__link:hover,
+.nav-pill__link[aria-current="page"] {
+  color: var(--brand-gold-light) !important;
+  border-color: var(--brand-border-accent) !important;
+  background: var(--brand-gold-soft) !important;
+}
+
+.nav-pill__icon,
+.nav-pill__chevron {
+  color: var(--brand-gold) !important;
+}
+
+.nav-pill__submenu,
+.nav-pill__sublink {
+  border-color: var(--brand-border) !important;
+  background: var(--brand-surface-raised) !important;
+}
+
+.nav-pill__sublink:hover,
+.nav-pill__sublink:focus-visible {
+  color: var(--brand-gold-light) !important;
+  border-color: var(--brand-border-accent) !important;
+  background: var(--brand-gold-soft) !important;
+}
+
+.od-brand-logo,
+.nav-logo img,
+.od-logo-img {
+  display: block !important;
+  width: auto !important;
+  max-width: min(36vw, 176px) !important;
+  height: 40px !important;
+  max-height: 44px !important;
+  object-fit: contain !important;
+}
+
+.od-brand-logo {
+  width: min(24vw, 150px) !important;
+  height: auto !important;
+  max-height: 44px !important;
+}
+
+.od-btn-primary,
+.btn-primary,
+.btn-gold,
+.btn-gold-inline,
+.shop-buy-btn,
+.nav-button-primary,
+.btn3d,
+#enterNavBtn,
+button.primary {
+  border-color: rgba(var(--brand-gold-rgb), .72) !important;
+  background: var(--brand-gradient) !important;
+  color: #191207 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .32) !important;
+}
+
+.od-btn-primary:hover,
+.btn-primary:hover,
+.btn-gold:hover,
+.btn-gold-inline:hover,
+.shop-buy-btn:hover,
+.nav-button-primary:hover,
+.btn3d:hover,
+#enterNavBtn:hover,
+button.primary:hover {
+  border-color: var(--brand-gold-light) !important;
+  background: var(--brand-gradient-hover) !important;
+  color: #171006 !important;
+  box-shadow: 0 5px 16px rgba(var(--brand-gold-rgb), .22), inset 0 1px 0 rgba(255, 255, 255, .4) !important;
+}
+
+.od-btn-primary:active,
+.btn-primary:active,
+.btn-gold:active,
+.btn-gold-inline:active,
+.shop-buy-btn:active,
+.nav-button-primary:active,
+#enterNavBtn:active,
+button.primary:active {
+  filter: brightness(.96);
+  transform: translateY(1px);
+}
+
+.od-btn-primary:disabled,
+.btn-primary:disabled,
+.btn-gold:disabled,
+.shop-buy-btn:disabled,
+.nav-button-primary:disabled,
+button.primary:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed !important;
+  opacity: .48 !important;
+  filter: saturate(.55);
+  transform: none !important;
+}
+
+.od-btn-secondary,
+.btn-secondary,
+.btn-ghost,
+.btn-action,
+.nav-button,
+.button:not(.primary) {
+  border-color: var(--brand-border) !important;
+  background: rgba(255, 255, 255, .055) !important;
+  color: var(--brand-text) !important;
+}
+
+.od-btn-secondary:hover,
+.btn-secondary:hover,
+.btn-ghost:hover,
+.btn-action:hover,
+.nav-button:hover,
+.button:not(.primary):hover {
+  border-color: var(--brand-border-accent) !important;
+  background: rgba(var(--brand-gold-rgb), .09) !important;
+  color: var(--brand-gold-light) !important;
+}
+
+.od-text-gold,
+.text-marine-accent,
+.text-gold-light,
+.od-brand-accent {
+  color: var(--brand-gold-light) !important;
+}
+
+.od-text-gold {
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.od-stat-bar-gold {
+  background: linear-gradient(90deg, var(--brand-gold-dark), var(--brand-gold), var(--brand-gold-light)) !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+select:focus,
+textarea:focus {
+  border-color: var(--brand-gold) !important;
+  box-shadow: 0 0 0 3px rgba(var(--brand-gold-rgb), .16) !important;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--brand-gold);
+}
+
+.od-card,
+.od-panel,
+.od-surface,
+.card,
+.panel-card,
+.modal-content,
+.login-form-card {
+  border-color: var(--brand-border) !important;
+}
+
+@media (max-width: 640px) {
+  .od-brand-logo,
+  .nav-logo img,
+  .od-logo-img {
+    max-width: 138px !important;
+    height: 36px !important;
+    max-height: 40px !important;
+  }
+}

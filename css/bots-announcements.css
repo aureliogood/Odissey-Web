@@ -60,7 +60,7 @@
 .permission-option input { accent-color: #eec54f; }
 .activity-grid .dashboard-list { max-height: 360px; overflow: auto; }
 .activity-grid .dashboard-row { flex-wrap: wrap; }
-.announcement-status.draft { border-color: #9b83ff55; color: #b8a8ff; }
+.announcement-status.draft { border-color: #e0a52e55; color: #ffda78; }
 
 .preview-switch {
   display: grid;

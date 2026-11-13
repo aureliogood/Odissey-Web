@@ -220,7 +220,7 @@
   // no se vea roto mientras el jugador no suba foto.
   function avatarPorDefecto(nombre, color) {
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">' +
-      '<rect width="96" height="96" fill="' + (color || '#eab308') + '"/>' +
+      '<rect width="96" height="96" fill="' + (color || '#e0a52e') + '"/>' +
       '<text x="48" y="60" font-family="Poppins, sans-serif" font-size="40" font-weight="700" ' +
       'fill="#0f172a" text-anchor="middle">' +
       escapar((nombre || '?').trim().charAt(0).toUpperCase()) + '</text></svg>';
@@ -342,7 +342,7 @@
   function pintar() {
     if (!usuario) return;
 
-    const color = usuario.accent || '#eab308';
+    const color = usuario.accent || '#e0a52e';
     document.documentElement.style.setProperty('--perfil-accent', color);
 
     el('perfilNombre').textContent = usuario.username;
@@ -387,7 +387,7 @@
     el('inputBio').value = usuario.bio || '';
     el('inputMc').value = usuario.mcName || '';
     el('inputEmail').value = usuario.email || '';
-    el('inputColor').value = /^#[0-9a-fA-F]{6}$/.test(color || '') ? color : '#eab308';
+    el('inputColor').value = /^#[0-9a-fA-F]{6}$/.test(color || '') ? color : '#e0a52e';
     el('colorHexo').textContent = el('inputColor').value.toUpperCase();
 
     el('bioCount').textContent = String((usuario.bio || '').length);

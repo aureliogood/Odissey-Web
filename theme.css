@@ -1,83 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap');
 
-/* ============================================================
-   ODISSEY HORIZON DESIGN SYSTEM (https://playhorizon.dev)
-   Tipografía Geist + Obsidiana Profunda + Contraste Elegante
-   ============================================================ */
+/* Base visual compartida para todas las páginas de OdisseyMC. */
 .skip-link {
   display: none !important;
 }
 
 :root {
-  /* Tipografías Oficiales Geist (PlayHorizon) */
+  /* Tipografías Oficiales Geist (OdisseyMC) */
   --font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', monospace;
   --font-pixel: var(--font-sans);
   --pixel: var(--font-sans);
 
-  /* PlayHorizon Colores Base: Carbón / Obsidiana Profundo (Sin morado plano) */
-  --hz-bg: #09070f;
-  --hz-bg-deep: #05040a;
-  --hz-page: #09070f;
-  --hz-side: #08060d;
-  --hz-surface: #120e1d;
-  --hz-surface-raised: #181326;
-  --hz-panel: #140f22;
-  --hz-well: #08060d;
+  /* OdisseyMC Colores Base: Carbón / Obsidiana Profundo (Sin morado plano) */
+  --od-bg: var(--brand-bg);
+  --od-bg-deep: var(--brand-black);
+  --od-page: var(--brand-bg);
+  --od-side: var(--brand-black);
+  --od-surface: var(--brand-surface);
+  --od-surface-raised: var(--brand-surface-raised);
+  --od-panel: var(--brand-panel);
+  --od-well: var(--brand-black);
 
-  /* Horizon Glass & Bordes sutiles */
-  --hz-surface-glass: rgba(255, 255, 255, 0.03);
-  --hz-surface-glass-hover: rgba(255, 255, 255, 0.06);
-  --hz-surface-glass-active: rgba(255, 255, 255, 0.09);
-  --hz-border-glass: rgba(255, 255, 255, 0.08);
-  --hz-border-glass-hover: rgba(147, 112, 219, 0.35);
-  --hz-border-glass-active: rgba(147, 112, 219, 0.6);
+  /* OdisseyMC Glass & Bordes sutiles */
+  --od-surface-glass: rgba(255, 255, 255, 0.03);
+  --od-surface-glass-hover: rgba(255, 255, 255, 0.06);
+  --od-surface-glass-active: rgba(255, 255, 255, 0.09);
+  --od-border-glass: rgba(255, 255, 255, 0.08);
+  --od-border-glass-hover: rgba(var(--brand-gold-rgb), 0.35);
+  --od-border-glass-active: rgba(var(--brand-gold-rgb), 0.6);
 
-  /* Tokens de Radio Horizon (8px estándar para botones, 14px-18px para tarjetas) */
-  --hz-radius-sm: 6px;
-  --hz-radius: 8px;
-  --hz-radius-md: 10px;
-  --hz-radius-lg: 14px;
-  --hz-radius-xl: 18px;
+  /* Tokens de Radio OdisseyMC (8px estándar para botones, 14px-18px para tarjetas) */
+  --od-radius-sm: 6px;
+  --od-radius: 8px;
+  --od-radius-md: 10px;
+  --od-radius-lg: 14px;
+  --od-radius-xl: 18px;
 
-  /* Horizon Acentos Púrpura / Violeta (Sutiles y localizados, no invasivos) */
-  --hz-primary: #7048e8;
-  --hz-primary-hover: #7c4dff;
-  --hz-accent: #9370db;
-  --hz-accent-hover: #b197fc;
-  --hz-accent-soft: rgba(147, 112, 219, 0.12);
-  --hz-face: #5f3dc4;
-  --hz-face-bevel: #7048e8;
-  --hz-face-lip: #4c2889;
-  --hz-primary-glow: rgba(112, 72, 232, 0.28);
+  /* Dorado para acciones y elementos activos; el gris conserva la jerarquía. */
+  --od-primary: var(--brand-gold-dark);
+  --od-primary-hover: var(--brand-gold);
+  --od-accent: var(--brand-gold);
+  --od-accent-hover: var(--brand-gold-light);
+  --od-accent-soft: rgba(var(--brand-gold-rgb), 0.12);
+  --od-face: var(--brand-gold-dark);
+  --od-face-bevel: var(--brand-gold-dark);
+  --od-face-lip: var(--brand-gold-deep);
+  --od-primary-glow: rgba(var(--brand-gold-rgb), 0.28);
 
-  /* Gradientes Horizon Oficiales */
-  --hz-gradient-primary: linear-gradient(180deg, #7c4dff 0%, #683beb 100%);
-  --hz-gradient-primary-hover: linear-gradient(180deg, #875cff 0%, #7242f5 100%);
-  --hz-gradient-text: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
-  --hz-gradient-purple-text: linear-gradient(180deg, #c4b5fd 0%, #9370db 100%);
-  --hz-gradient-glow: radial-gradient(1000px circle at 50% -15%, rgba(112, 72, 232, 0.18), transparent 70%);
+  /* Gradientes OdisseyMC Oficiales */
+  --od-gradient-primary: linear-gradient(180deg, var(--brand-gold) 0%, var(--brand-gold-dark) 100%);
+  --od-gradient-primary-hover: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
+  --od-gradient-text: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
+  --od-gradient-gold-text: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
+  --od-gradient-glow: radial-gradient(1000px circle at 50% -15%, rgba(var(--brand-gold-rgb), 0.18), transparent 70%);
 
-  /* Horizon Textos y Contraste */
-  --hz-text-primary: #ffffff;
-  --hz-text-secondary: #a1a1aa;
-  --hz-text-muted: #a1a1aa;
-  --hz-ink: #ffffff;
-  --hz-ink-soft: #a1a1aa;
-  --hz-muted: #a1a1aa;
+  /* OdisseyMC Textos y Contraste */
+  --od-text-primary: #ffffff;
+  --od-text-secondary: #a1a1aa;
+  --od-text-muted: #a1a1aa;
+  --od-ink: #ffffff;
+  --od-ink-soft: #a1a1aa;
+  --od-muted: #a1a1aa;
 
   /* Mapeo retrocompatible para subsistemas de Odissey */
-  --od-void: var(--hz-bg);
-  --od-marine-dark: var(--hz-bg);
-  --od-marine-darker: var(--hz-bg-deep);
-  --od-marine-medium: var(--hz-surface);
-  --od-marine-light: var(--hz-border-glass);
-  --od-marine-accent: var(--hz-accent);
-  --od-marine-accent-rgb: 147, 112, 219;
-  --od-gold-light: #c4b5fd;
-  --od-gold-dark: #7048e8;
-  --od-saffron: #9370db;
+  --od-void: var(--od-bg);
+  --od-marine-dark: var(--od-bg);
+  --od-marine-darker: var(--od-bg-deep);
+  --od-marine-medium: var(--od-surface);
+  --od-marine-light: var(--od-border-glass);
+  --od-marine-accent: var(--od-accent);
+  --od-marine-accent-rgb: var(--brand-gold-rgb);
+  --od-gold-light: var(--brand-gold-light);
+  --od-gold-dark: var(--brand-gold-dark);
+  --od-saffron: var(--brand-gold);
   --od-text-light: #ffffff;
   --od-text-dark: #a1a1aa;
   --od-text-muted: #a1a1aa;
@@ -85,65 +82,65 @@
   --od-glass-rgb: 255, 255, 255;
   --od-border-rgb: 255, 255, 255;
   --od-shadow-rgb: 0, 0, 0;
-  --od-marine-medium-rgb: 18, 14, 29;
-  --od-marine-dark-rgb: 9, 7, 15;
+  --od-marine-medium-rgb: 18, 20, 22;
+  --od-marine-dark-rgb: 9, 10, 12;
   --od-chip-rgb: 255, 255, 255;
   --od-chip-alpha: 0.04;
-  --od-ink: #09070f;
+  --od-ink: var(--brand-bg);
   --od-always-light: #ffffff;
   --od-text-light-rgb: 255, 255, 255;
   --od-text-dark-rgb: 161, 161, 170;
-  --od-gold-light-rgb: 196, 181, 253;
+  --od-gold-light-rgb: 255, 218, 120;
 
   /* Mapeo tokens Dala */
-  --dala-void: var(--hz-bg);
-  --dala-surface: var(--hz-surface);
-  --dala-surface-raised: var(--hz-surface-raised);
+  --dala-void: var(--od-bg);
+  --dala-surface: var(--od-surface);
+  --dala-surface-raised: var(--od-surface-raised);
   --dala-white: #ffffff;
   --dala-silver: #a1a1aa;
   --dala-ash: #a1a1aa;
-  --dala-gold: var(--hz-accent);
-  --dala-amber: #c4b5fd;
+  --dala-gold: var(--od-accent);
+  --dala-amber: var(--brand-gold-light);
   --dala-line: rgba(255, 255, 255, 0.08);
 
   color-scheme: dark;
 }
 
 html, body {
-  background-color: var(--hz-bg) !important;
-  color: var(--hz-text-primary);
+  background-color: var(--od-bg) !important;
+  color: var(--od-text-primary);
   font-family: var(--font-sans);
 }
 
-/* Fondo atmosférico sutil y elegante tipo Horizon (Sin morado dominante plano) */
+/* Fondo atmosférico sutil y elegante tipo OdisseyMC (Sin morado dominante plano) */
 body {
   background-image: 
-    radial-gradient(1100px circle at 50% -8%, rgba(112, 72, 232, 0.15), transparent 65%),
-    radial-gradient(700px circle at 85% 18%, rgba(147, 112, 219, 0.06), transparent 55%),
-    radial-gradient(800px circle at 15% 40%, rgba(99, 102, 241, 0.04), transparent 55%),
-    radial-gradient(1100px circle at 50% 95%, rgba(112, 72, 232, 0.08), transparent 70%) !important;
+    radial-gradient(1100px circle at 50% -8%, rgba(var(--brand-gold-rgb), 0.15), transparent 65%),
+    radial-gradient(700px circle at 85% 18%, rgba(var(--brand-gold-rgb), 0.06), transparent 55%),
+    radial-gradient(800px circle at 15% 40%, rgba(var(--brand-gold-rgb), 0.04), transparent 55%),
+    radial-gradient(1100px circle at 50% 95%, rgba(var(--brand-gold-rgb), 0.08), transparent 70%) !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
 }
 
-/* Scrollbar Horizon minimalista */
+/* Scrollbar OdisseyMC minimalista */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--hz-bg-deep);
+  background: var(--od-bg-deep);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
-  border: 2px solid var(--hz-bg-deep);
+  border: 2px solid var(--od-bg-deep);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.28);
 }
 
 ::selection {
-  background: rgba(112, 72, 232, 0.45);
+  background: rgba(var(--brand-gold-rgb), 0.45);
   color: #ffffff;
 }

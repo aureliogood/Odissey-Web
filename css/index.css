@@ -1,12 +1,12 @@
 /* ============================================================
-   ODISSEY HORIZON DESIGN STYLESHEET (playhorizon.dev)
+   ESTILOS PRINCIPALES ODISSEYMC
    Tipografía Geist + Obsidiana Carbón + Hero Dos Columnas
    ============================================================ */
 
 :root {
-  --hz-font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --hz-font-body: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --hz-font-mono: 'Geist Mono', monospace;
+  --od-font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --od-font-body: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --od-font-mono: 'Geist Mono', monospace;
 }
 
 *, *::before, *::after {
@@ -16,7 +16,7 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
-  background-color: #09070f;
+  background-color: var(--brand-bg);
   color-scheme: dark;
 }
 
@@ -26,51 +26,51 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #09070f !important;
+  background-color: var(--brand-bg) !important;
   color: #ffffff;
-  font-family: var(--hz-font-body);
+  font-family: var(--od-font-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Background Atmosphere (PlayHorizon sutil sin morado dominante) */
-.hz-bg-glow {
+/* Background Atmosphere (OdisseyMC sutil sin morado dominante) */
+.od-bg-glow {
   position: fixed;
   inset: 0;
   pointer-events: none;
   background-image: 
-    radial-gradient(1100px circle at 50% -10%, rgba(112, 72, 232, 0.16), transparent 70%),
-    radial-gradient(800px circle at 85% 20%, rgba(147, 112, 219, 0.05), transparent 60%);
+    radial-gradient(1100px circle at 50% -10%, rgba(var(--brand-gold-rgb), 0.16), transparent 70%),
+    radial-gradient(800px circle at 85% 20%, rgba(var(--brand-gold-rgb), 0.05), transparent 60%);
   background-attachment: fixed;
   z-index: 0;
 }
 
 /* Typography Helpers */
-.hz-text-gradient {
+.od-text-gradient {
   background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.hz-text-purple {
-  background: linear-gradient(180deg, #d8b4fe 0%, #9370db 100%);
+.od-text-gold {
+  background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .font-display {
-  font-family: var(--hz-font-display) !important;
+  font-family: var(--od-font-display) !important;
   letter-spacing: -0.025em;
 }
 
 .font-mono {
-  font-family: var(--hz-font-mono) !important;
+  font-family: var(--od-font-mono) !important;
 }
 
 /* ----------------------------------------------------------------------------
-   NAVBAR & HEADER (playhorizon.dev transparente)
+   NAVBAR & HEADER (transparente de OdisseyMC)
    ---------------------------------------------------------------------------- */
-.hz-header {
+.od-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -85,7 +85,7 @@ body {
   align-items: center;
 }
 
-.hz-header-inner {
+.od-header-inner {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -96,7 +96,7 @@ body {
   gap: 16px;
 }
 
-.hz-brand {
+.od-brand {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -105,15 +105,15 @@ body {
   flex-shrink: 0;
 }
 
-.hz-brand-icon {
+.od-brand-icon {
   width: 28px;
   height: 28px;
   flex-shrink: 0;
   display: block;
 }
 
-.hz-brand-text {
-  font-family: var(--hz-font-display);
+.od-brand-text {
+  font-family: var(--od-font-display);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -121,7 +121,7 @@ body {
 }
 
 /* Logo image strict sizing */
-.hz-logo-img,
+.od-logo-img,
 .nav-logo img,
 header img {
   max-height: 32px !important;
@@ -132,7 +132,7 @@ header img {
   display: block !important;
 }
 
-.hz-nav-pills {
+.od-nav-pills {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -142,7 +142,7 @@ header img {
   padding: 3px 6px;
 }
 
-.hz-nav-link {
+.od-nav-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -155,19 +155,19 @@ header img {
   transition: all 160ms ease;
 }
 
-.hz-nav-link:hover {
+.od-nav-link:hover {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.06);
 }
 
-.hz-nav-link[aria-current="page"] {
+.od-nav-link[aria-current="page"] {
   color: #ffffff;
-  background: rgba(112, 72, 232, 0.22);
-  border: 1px solid rgba(147, 112, 219, 0.3);
+  background: rgba(var(--brand-gold-rgb), 0.22);
+  border: 1px solid rgba(var(--brand-gold-rgb), 0.3);
   font-weight: 600;
 }
 
-.hz-ip-pill {
+.od-ip-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -177,37 +177,37 @@ header img {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.85);
-  font-family: var(--hz-font-mono);
+  font-family: var(--od-font-mono);
   font-size: 12px;
   cursor: pointer;
   transition: all 160ms ease;
 }
 
-.hz-ip-pill:hover {
+.od-ip-pill:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.16);
   color: #ffffff;
 }
 
-.hz-dot-pulse {
+.od-dot-pulse {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #4ade80;
   box-shadow: 0 0 8px #4ade80;
   display: inline-block;
-  animation: hzPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: odPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes hzPulse {
+@keyframes odPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: .5; transform: scale(1.15); }
 }
 
 /* ----------------------------------------------------------------------------
-   BUTTONS (HORIZON 8PX COMPACT)
+   BUTTONS (OdisseyMC 8PX COMPACT)
    ---------------------------------------------------------------------------- */
-.hz-btn-primary {
+.od-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -215,7 +215,7 @@ header img {
   height: 38px;
   padding: 0 16px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #7c4dff 0%, #683beb 100%);
+  background: linear-gradient(180deg, var(--brand-gold) 0%, var(--brand-gold-dark) 100%);
   color: #ffffff !important;
   font-weight: 500;
   font-size: 14px;
@@ -227,13 +227,13 @@ header img {
   white-space: nowrap;
 }
 
-.hz-btn-primary:hover {
-  background: linear-gradient(180deg, #875cff 0%, #7242f5 100%);
+.od-btn-primary:hover {
+  background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
   border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 2px 8px rgba(112, 72, 232, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 8px rgba(var(--brand-gold-rgb), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.hz-btn-secondary {
+.od-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -252,13 +252,13 @@ header img {
   white-space: nowrap;
 }
 
-.hz-btn-secondary:hover {
+.od-btn-secondary:hover {
   background: rgba(255, 255, 255, 0.09);
   border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff !important;
 }
 
-.hz-badge {
+.od-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -267,7 +267,7 @@ header img {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #e4e4e7;
-  font-family: var(--hz-font-mono);
+  font-family: var(--od-font-mono);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: normal;
@@ -275,9 +275,9 @@ header img {
 }
 
 /* ----------------------------------------------------------------------------
-   GLASS CARDS (HORIZON 14-16PX)
+   GLASS CARDS (OdisseyMC 14-16PX)
    ---------------------------------------------------------------------------- */
-.hz-card {
+.od-card {
   background: rgba(18, 14, 29, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
@@ -289,7 +289,7 @@ header img {
   overflow: hidden;
 }
 
-.hz-card:hover {
+.od-card:hover {
   border-color: rgba(255, 255, 255, 0.16);
   background: rgba(22, 17, 36, 0.8);
 }
@@ -298,9 +298,9 @@ header img {
    HERO BACKDROP & LAYOUT
    ---------------------------------------------------------------------------- */
 /* ============================================================================
-   HERO FULL-WIDTH SPARTAN BACKGROUND & PLAYHORIZON BENCHMARK
+   HERO FULL-WIDTH SPARTAN BACKGROUND & OdisseyMC BENCHMARK
    ============================================================================ */
-.hz-hero-bg-wrapper {
+.od-hero-bg-wrapper {
   position: absolute;
   top: 0;
   left: 0;
@@ -311,7 +311,7 @@ header img {
   z-index: 0;
 }
 
-.hz-hero-bg-img {
+.od-hero-bg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -320,30 +320,30 @@ header img {
   filter: contrast(112%) brightness(92%);
 }
 
-.hz-hero-bg-overlay {
+.od-hero-bg-overlay {
   position: absolute;
   inset: 0;
   background: 
-    linear-gradient(90deg, #09070f 0%, #09070f 28%, rgba(9, 7, 15, 0.78) 58%, rgba(9, 7, 15, 0.18) 100%),
-    linear-gradient(0deg, #09070f 0%, rgba(9, 7, 15, 0.6) 20%, transparent 65%),
-    linear-gradient(180deg, #09070f 0%, rgba(9, 7, 15, 0.35) 15%, transparent 35%);
+    linear-gradient(90deg, var(--brand-bg) 0%, var(--brand-bg) 28%, rgba(var(--brand-bg-rgb), 0.78) 58%, rgba(var(--brand-bg-rgb), 0.18) 100%),
+    linear-gradient(0deg, var(--brand-bg) 0%, rgba(var(--brand-bg-rgb), 0.6) 20%, transparent 65%),
+    linear-gradient(180deg, var(--brand-bg) 0%, rgba(var(--brand-bg-rgb), 0.35) 15%, transparent 35%);
 }
 
 @media (max-width: 991px) {
-  .hz-hero-bg-wrapper {
+  .od-hero-bg-wrapper {
     height: 740px;
   }
-  .hz-hero-bg-img {
+  .od-hero-bg-img {
     object-position: center 20%;
     opacity: 0.55;
   }
-  .hz-hero-bg-overlay {
+  .od-hero-bg-overlay {
     background: 
-      linear-gradient(180deg, rgba(9, 7, 15, 0.5) 0%, rgba(9, 7, 15, 0.92) 65%, #09070f 100%);
+      linear-gradient(180deg, rgba(var(--brand-bg-rgb), 0.5) 0%, rgba(var(--brand-bg-rgb), 0.92) 65%, var(--brand-bg) 100%);
   }
 }
 
-.hz-hero-section {
+.od-hero-section {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
@@ -351,7 +351,7 @@ header img {
   z-index: 2;
 }
 
-.hz-hero-layout {
+.od-hero-layout {
   position: relative;
   z-index: 2;
   display: grid;
@@ -361,16 +361,16 @@ header img {
 }
 
 @media (min-width: 992px) {
-  .hz-hero-layout {
+  .od-hero-layout {
     grid-template-columns: 1.15fr 0.85fr;
     gap: 48px;
   }
 }
 
 /* ----------------------------------------------------------------------------
-   PLAYHORIZON BENCHMARK CARD (TPS INTERACTIVO 1:1 CON PLAYHORIZON.DEV)
+   OdisseyMC BENCHMARK CARD (TPS INTERACTIVO 1:1 CON OdisseyMC)
    ---------------------------------------------------------------------------- */
-.hz-bench-card {
+.od-bench-card {
   background: rgba(18, 14, 29, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
@@ -381,12 +381,12 @@ header img {
   position: relative;
 }
 
-.hz-bench-card:hover {
+.od-bench-card:hover {
   border-color: rgba(255, 255, 255, 0.14);
 }
 
-.hz-bench-label {
-  font-family: var(--hz-font-sans);
+.od-bench-label {
+  font-family: var(--od-font-sans);
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.6);
@@ -394,8 +394,8 @@ header img {
   display: block;
 }
 
-.hz-bench-title {
-  font-family: var(--hz-font-display);
+.od-bench-title {
+  font-family: var(--od-font-display);
   font-size: clamp(1.8rem, 3.2vw, 2.25rem);
   font-weight: 700;
   line-height: 1.1;
@@ -404,7 +404,7 @@ header img {
   margin: 0 0 12px 0;
 }
 
-.hz-bench-desc {
+.od-bench-desc {
   font-size: 14.5px;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.55;
@@ -412,21 +412,21 @@ header img {
 }
 
 /* Benchmark Rows */
-.hz-bench-row {
+.od-bench-row {
   margin-bottom: 32px;
 }
-.hz-bench-row:last-of-type {
+.od-bench-row:last-of-type {
   margin-bottom: 0;
 }
 
-.hz-bench-row-top {
+.od-bench-row-top {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
 }
 
-.hz-bench-server {
+.od-bench-server {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -435,21 +435,21 @@ header img {
   color: #ffffff;
 }
 
-.hz-bench-server.muted {
+.od-bench-server.muted {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.hz-bench-server-icon {
+.od-bench-server-icon {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
 }
 
-.hz-bench-value {
+.od-bench-value {
   display: inline-flex;
   align-items: baseline;
   gap: 4px;
-  font-family: var(--hz-font-display);
+  font-family: var(--od-font-display);
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
@@ -458,20 +458,20 @@ header img {
   font-variant-numeric: tabular-nums;
 }
 
-.hz-bench-value.muted {
+.od-bench-value.muted {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.hz-bench-val-unit {
-  font-family: var(--hz-font-sans);
+.od-bench-val-unit {
+  font-family: var(--od-font-sans);
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: normal;
 }
 
-/* Benchmark Progress Bars (Exact Horizon Dimensions & Styling) */
-.hz-stat-track {
+/* Benchmark Progress Bars (Exact OdisseyMC Dimensions & Styling) */
+.od-stat-track {
   position: relative;
   margin-top: 12px;
   height: 8px;
@@ -479,25 +479,25 @@ header img {
   background: rgba(255, 255, 255, 0.07);
 }
 
-.hz-stat-glow {
+.od-stat-glow {
   position: absolute;
   inset: -4px;
   border-radius: 6px;
-  background: #7c5cff;
+  background: var(--brand-gold);
   filter: blur(10px);
   opacity: 0.65;
   pointer-events: none;
 }
 
-.hz-stat-bar-purple {
+.od-stat-bar-gold {
   position: absolute;
   inset: 0;
   border-radius: 2px;
-  background: linear-gradient(90deg, #6b4bff, #9f86ff 60%, #c9bbff);
+  background: linear-gradient(90deg, var(--brand-gold-dark), var(--brand-gold) 60%, var(--brand-gold-light));
   width: 100%;
 }
 
-.hz-stat-bar-gray {
+.od-stat-bar-gray {
   position: absolute;
   inset: 0;
   border-radius: 2px;
@@ -505,7 +505,7 @@ header img {
   transition: width 0.05s linear;
 }
 
-/* PlayHorizon FPS range slider (Zero browser outline, perfectly centered thumb) */
+/* OdisseyMC FPS range slider (Zero browser outline, perfectly centered thumb) */
 .fps-range {
   position: absolute !important;
   left: 0 !important;
@@ -566,7 +566,7 @@ header img {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-.hz-bench-footer {
+.od-bench-footer {
   margin-top: 32px;
   font-size: 12px;
   line-height: 1.6;
@@ -574,14 +574,14 @@ header img {
   margin-bottom: 0;
 }
 
-.hz-bench-footer strong {
+.od-bench-footer strong {
   color: #ffffff;
 }
 
 /* ----------------------------------------------------------------------------
    FAQ ACCORDION
    ---------------------------------------------------------------------------- */
-.hz-faq-item {
+.od-faq-item {
   background: rgba(18, 14, 29, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
@@ -590,12 +590,12 @@ header img {
   margin-bottom: 10px;
 }
 
-.hz-faq-item:hover {
+.od-faq-item:hover {
   border-color: rgba(255, 255, 255, 0.16);
   background: rgba(22, 17, 36, 0.7);
 }
 
-.hz-faq-question {
+.od-faq-question {
   width: 100%;
   padding: 16px 20px;
   display: flex;
@@ -610,7 +610,7 @@ header img {
   border: none;
 }
 
-.hz-faq-answer {
+.od-faq-answer {
   padding: 0 20px 18px 20px;
   color: #a1a1aa;
   font-size: 14.5px;
@@ -618,11 +618,11 @@ header img {
   display: none;
 }
 
-.hz-faq-item.active .hz-faq-answer {
+.od-faq-item.active .od-faq-answer {
   display: block;
 }
 
-.hz-faq-icon {
+.od-faq-icon {
   width: 22px;
   height: 22px;
   border-radius: 6px;
@@ -636,16 +636,16 @@ header img {
   font-size: 16px;
 }
 
-.hz-faq-item.active .hz-faq-icon {
+.od-faq-item.active .od-faq-icon {
   transform: rotate(45deg);
-  background: rgba(112, 72, 232, 0.2);
+  background: rgba(var(--brand-gold-rgb), 0.2);
   color: #ffffff;
 }
 
 /* ----------------------------------------------------------------------------
    TOAST NOTIFICATION
    ---------------------------------------------------------------------------- */
-.hz-toast {
+.od-toast {
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -664,7 +664,7 @@ header img {
   transition: all 220ms ease;
 }
 
-.hz-toast.show {
+.od-toast.show {
   transform: translateY(0);
   opacity: 1;
 }
@@ -682,39 +682,39 @@ header img {
 .size-12 { width: 48px; height: 48px; }
 
 /* Grid Layouts */
-.hz-grid-1-3 {
+.od-grid-1-3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 @media (min-width: 768px) {
-  .hz-grid-1-3 {
+  .od-grid-1-3 {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.hz-grid-4 {
+.od-grid-4 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 @media (min-width: 640px) {
-  .hz-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .od-grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 1024px) {
-  .hz-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .od-grid-4 { grid-template-columns: repeat(4, 1fr); }
 }
 
-.hz-grid-2 {
+.od-grid-2 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 @media (min-width: 768px) {
-  .hz-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .od-grid-2 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Mobile Menu Button & Dropdown (Horizon) */
+/* Mobile Menu Button & Dropdown (OdisseyMC) */
 #menuBtn,
 .menu-toggle,
 #menuDropdown,

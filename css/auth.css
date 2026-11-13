@@ -101,7 +101,7 @@
    de foco que se ve justo en las circustancias donde mas se necesita
    no esta cumpliendo su funcion. */
 .auth-input:focus {
-  border-color: var(--dala-gold, #a98fff) !important;
+  border-color: var(--dala-gold, var(--brand-gold)) !important;
   box-shadow:
     0 0 0 3px rgba(234, 179, 8, 0.70),
     0 0 0 1px rgba(234, 179, 8, 0.9) inset !important;
@@ -112,7 +112,7 @@
 .auth-tab:focus-visible,
 .auth-ver:focus-visible,
 .auth-boton:focus-visible {
-  outline: 2px solid var(--dala-gold, #a98fff) !important;
+  outline: 2px solid var(--dala-gold, var(--brand-gold)) !important;
   outline-offset: 2px !important;
   border-radius: 8px;
 }
@@ -231,7 +231,7 @@
 /* El asterisco de obligatorio. aria-hidden en el HTML: lo que se
    anuncia es el atributo required del input, no un asterisco suelto. */
 .auth-requerido {
-  color: var(--dala-gold, #a98fff) !important;
+  color: var(--dala-gold, var(--brand-gold)) !important;
   font-size: 1.05em;
   line-height: 1;
 }
@@ -335,12 +335,12 @@
   gap: 0.5rem;
   cursor: pointer;
   touch-action: manipulation;
-  background-color: var(--hz-face, #5b3fd6) !important;
+  background-color: var(--od-face, var(--brand-gold-dark)) !important;
   background-image: none !important;
   color: #ffffff !important;
-  border: var(--block-outline, 2px) solid var(--hz-outline, #05040a) !important;
+  border: var(--block-outline, 2px) solid var(--od-outline, var(--brand-black)) !important;
   border-radius: 0 !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-bevel, #8a74ff), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-bevel, var(--brand-gold-light)), inset 0 calc(-1 * var(--block-lip, 4px)) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
   padding-bottom: 2px !important;
   margin-top: 1rem !important;
   transition: filter 0.12s ease, transform 0.08s ease !important;
@@ -348,7 +348,7 @@
 
 .auth-boton:hover:not(:disabled) {
   filter: brightness(1.15) !important;
-  background-color: var(--hz-face, #5b3fd6) !important;
+  background-color: var(--od-face, var(--brand-gold-dark)) !important;
   color: #ffffff !important;
 }
 
@@ -357,7 +357,7 @@
    poco, que si se nota. */
 .auth-boton:active:not(:disabled) {
   transform: translateY(2px) !important;
-  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--hz-face-lip, #3a2694) !important;
+  box-shadow: inset 0 var(--block-bevel, 2px) 0 var(--od-face-lip, var(--brand-gold-deep)) !important;
 }
 
 .auth-boton:disabled {
@@ -448,7 +448,7 @@
 /* Los botones también necesitan estado de foco propio para que se
    vea el recorrido con teclado. btn3d puede traer el suyo. */
 .auth-boton:focus-visible {
-  outline: 3px solid var(--dala-gold, #a98fff) !important;
+  outline: 3px solid var(--dala-gold, var(--brand-gold)) !important;
   outline-offset: 3px !important;
 }
 
@@ -604,7 +604,7 @@ html.theme-light .auth-input::placeholder {
 }
 
 html.theme-light .auth-input:focus {
-  border-color: #ca8a04 !important;
+  border-color: var(--brand-gold-dark) !important;
   box-shadow:
     0 0 0 3px rgba(202, 138, 4, 0.4),
     0 0 0 1px rgba(202, 138, 4, 0.8) inset !important;

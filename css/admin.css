@@ -272,7 +272,7 @@ body {
         }
 
         .status-proceso {
-            background-color: #140e26;
+            background-color: var(--brand-surface);
             color: #7dd3fc;
         }
 
@@ -499,7 +499,7 @@ body {
             padding: 0 10px;
             border: 1px solid transparent;
             border-radius: 10px;
-            background: #a98fff;
+            background: var(--brand-gold);
             background-image: none;
             color: #14100a;
             font-family: 'Inter', sans-serif;
@@ -593,7 +593,7 @@ body {
         .btn-online:focus-visible,
         .btn-rating-del:focus-visible {
             outline: none;
-            border-color: #a98fff;
+            border-color: var(--brand-gold);
             box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
         }
         /* Estado activo del filtro: velo dorado. Es el estado, no un adorno. */
@@ -602,7 +602,7 @@ body {
             background: rgba(234, 179, 8, 0.16);
             background-image: none;
             border-color: rgba(234, 179, 8, 0.5);
-            color: #e0d7ff;
+            color: var(--brand-gold-light);
             box-shadow: none;
         }
         .news-filter-btn.active:hover,
@@ -612,7 +612,7 @@ body {
         }
         /* Accion positiva: el boton de aceptar. */
         .cb-accept {
-            background: #a98fff;
+            background: var(--brand-gold);
             background-image: none;
             color: #14100a;
         }
@@ -1136,7 +1136,7 @@ body {
     padding: 0 12px;
     border-radius: 10px;
     border: 1px solid transparent;
-    background: #a98fff;
+    background: var(--brand-gold);
     background-image: none;
     color: #14100a;
     font-family: 'Inter', sans-serif;
@@ -1147,7 +1147,7 @@ body {
     transition: background-color 0.15s ease, transform 0.15s ease;
 }
 .login-form-card .btn-continue:hover {
-    background: #f5c518;
+    background: var(--brand-gold-bright);
     transform: none;
     box-shadow: none;
 }

@@ -189,7 +189,7 @@
   function pintar(lista) {
     resultados.innerHTML = lista.slice(0, MAX).map(u => {
       const letra = (u.username || '?').charAt(0).toUpperCase();
-      const color = u.accent || '#eab308';
+      const color = u.accent || 'var(--brand-gold)';
       const src = rutaAvatar(u.avatar);
       const foto = src
         ? '<img class="buscador-avatar" src="' + esc(src) + '" alt="" loading="lazy" onerror="this.outerHTML=\'<span class=&quot;buscador-inicial&quot; style=&quot;background:' + esc(color) + '&quot;>' + esc(letra) + '</span>\'">'

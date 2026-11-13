@@ -102,7 +102,7 @@
   outline: 1px solid rgba(255, 255, 255, 0.14) !important;
   outline-offset: 0 !important;
   box-shadow: none !important;
-  background: #140e26 !important;
+  background: var(--brand-surface) !important;
 }
 
 .perfil-avatar-btn {
@@ -227,7 +227,7 @@
 }
 
 .perfil-input {
-  background-color: #140e26 !important;
+  background-color: var(--brand-surface) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 14px !important;
   color: var(--dala-white) !important;
@@ -261,7 +261,7 @@
 .perfil-color input[type='color'] {
   border-radius: 14px !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  background: #140e26 !important;
+  background: var(--brand-surface) !important;
   height: 46px !important;
   width: 62px !important;
   padding: 4px !important;
@@ -295,7 +295,7 @@
     border-color 0.15s var(--ease-dala), transform 0.15s var(--ease-dala);
 }
 .btn-mini:hover {
-  background: #f5c518 !important;
+  background: var(--brand-gold-bright) !important;
   transform: none;
 }
 .btn-mini-fantasma {
@@ -361,7 +361,7 @@
   color: var(--dala-silver) !important;
 }
 .perfil-mc-codigo {
-  background: #140e26 !important;
+  background: var(--brand-surface) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 18px !important;
   padding: 1.1rem 1.25rem !important;

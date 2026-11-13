@@ -23,7 +23,7 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v183';
+var CACHE_NAME = 'odissey-v184';
 
 var PRECACHE_URLS = [
   './',
@@ -75,6 +75,7 @@ var PRECACHE_URLS = [
   './css/texto-legal.css',
   './css/auth.css',
   './css/turnstile.css',
+  './css/odissey-brand.css',
 
   // JS.
   './auth.js',
@@ -106,6 +107,7 @@ var PRECACHE_URLS = [
   // pagina privada que NUNCA entra en la cache (ver NUNCA_EN_CACHE).
   './manifest.json',
   './img/logo-web.webp',
+  './img/odisseymc-logo.png',
   './img/favicon-48.png',
   './img/apple-touch-icon.png',
   './img/icon-192.png',

@@ -23,7 +23,7 @@
        misma de la referencia: los elementos se deslizan, no saltan.
      - Mucho aire. Los bloques van separados 46px o mas.
 
-   El dorado (#f5c518) es el unico color. Todo lo demas es una escala de
+   El dorado (var(--brand-gold-bright)) es el unico color. Todo lo demas es una escala de
    grises. Es lo que hace que un boton se vea a la primera sin gritar.
    ============================================================================ */
 
@@ -44,9 +44,9 @@
   --od-texto-3: #62626e;
 
   /* El unico color */
-  --od-dorado:      #f5c518;
-  --od-dorado-tenue: rgba(245, 197, 24, 0.12);
-  --od-dorado-linea: rgba(245, 197, 24, 0.35);
+  --od-dorado:      var(--brand-gold-bright);
+  --od-dorado-tenue: rgba(var(--brand-gold-rgb), 0.12);
+  --od-dorado-linea: rgba(var(--brand-gold-rgb), 0.35);
 
   /* Formas */
   --od-viva:    75px;

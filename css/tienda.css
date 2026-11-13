@@ -139,7 +139,7 @@ html {
         }
         /* Pagina actual: la unica pastilla rellena del menu. */
         .nav-button[aria-current='page'] {
-            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 100%);
+            background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
             border-color: transparent;
             color: var(--od-ink);
             font-weight: 600;
@@ -150,13 +150,13 @@ html {
             opacity: 1;
         }
         .nav-button[aria-current='page']:hover {
-            background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+            background: linear-gradient(180deg, #fef3c7 0%, var(--brand-gold) 100%);
             color: var(--od-ink);
         }
         /* El boton de entrar y el de menu siguen siendo acciones, no
            enlaces de navegacion: por eso si llevan pastilla. */
         .nav-button-primary {
-            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 100%);
+            background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 100%);
             border-color: rgba(253, 230, 138, 0.6);
             color: var(--od-ink);
             font-weight: 600;
@@ -164,7 +164,7 @@ html {
                 0 4px 14px rgba(234, 179, 8, 0.24);
         }
         .nav-button-primary:hover {
-            background: linear-gradient(180deg, #fef3c7 0%, #f0c02c 100%);
+            background: linear-gradient(180deg, #fef3c7 0%, var(--brand-gold) 100%);
             border-color: transparent;
             color: var(--od-ink);
             transform: translateY(-1px);
@@ -459,7 +459,7 @@ background-color: #381a1a;
             color: var(--od-gold-light);
         }
         .pill-pagado {
-            background-color: #140e26;
+            background-color: var(--brand-surface);
             color: #7dd3fc;
         }
         .pill-resuelto, .pill-entregado {
@@ -696,7 +696,7 @@ background-color: #381a1a;
             cursor: pointer;
             outline: none;
             color: var(--od-ink);
-            background: linear-gradient(180deg, #e0d7ff 0%, #a98fff 55%, #ca8a04 100%);
+            background: linear-gradient(180deg, var(--brand-gold-light) 0%, var(--brand-gold) 55%, var(--brand-gold-dark) 100%);
             border: 1px solid rgba(253, 230, 138, 0.55);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
                 0 4px 14px rgba(234, 179, 8, 0.24);
@@ -1135,7 +1135,7 @@ background-color: #381a1a;
             min-height: 36px;
             padding: 0 12px;
             border-radius: 10px;
-            background-color: #a98fff;
+            background-color: var(--brand-gold);
             background-image: none;
             color: #14100a;
             font-family: 'Inter', sans-serif;
@@ -1153,7 +1153,7 @@ background-color: #381a1a;
         }
         .shop-buy-btn:hover {
             transform: none;
-            background-color: #f5c518;
+            background-color: var(--brand-gold-bright);
         }
         .shop-buy-btn:active {
             transform: translateY(1px);
@@ -1375,7 +1375,7 @@ background-color: #381a1a;
             padding: 0 10px;
             border: 1px solid transparent;
             border-radius: 10px;
-            background: #a98fff;
+            background: var(--brand-gold);
             background-image: none;
             color: #14100a;
             font-family: 'Inter', sans-serif;
@@ -1469,7 +1469,7 @@ background-color: #381a1a;
         .btn-online:focus-visible,
         .btn-rating-del:focus-visible {
             outline: none;
-            border-color: #a98fff;
+            border-color: var(--brand-gold);
             box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.28);
         }
         /* Estado activo del filtro: velo dorado. Es el estado, no un adorno. */
@@ -1478,7 +1478,7 @@ background-color: #381a1a;
             background: rgba(234, 179, 8, 0.16);
             background-image: none;
             border-color: rgba(234, 179, 8, 0.5);
-            color: #e0d7ff;
+            color: var(--brand-gold-light);
             box-shadow: none;
         }
         .news-filter-btn.active:hover,
@@ -1488,7 +1488,7 @@ background-color: #381a1a;
         }
         /* Accion positiva: el boton de aceptar. */
         .cb-accept {
-            background: #a98fff;
+            background: var(--brand-gold);
             background-image: none;
             color: #14100a;
         }

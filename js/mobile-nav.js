@@ -3,7 +3,7 @@
   const links = document.getElementById('primaryNavLinks');
   if (!button || !links) return;
 
-  const shell = button.closest('.hz-header, nav.nav-bar');
+  const shell = button.closest('.od-header, nav.nav-bar');
   if (!shell) return;
 
   const setOpen = (open) => {
