@@ -1,0 +1,33 @@
+/* Footer links stay legible against the dark site footer. */
+footer .discord-btn,
+footer .tiktok-btn {
+  display: inline-flex !important;
+  min-height: 36px !important;
+  width: auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font: 600 13px/1 var(--od-font-sans, Inter, sans-serif) !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+}
+
+footer .discord-btn { background: #5865f2 !important; border-color: #5865f2 !important; }
+footer .tiktok-btn { background: #17171c !important; }
+footer .discord-btn svg,
+footer .tiktok-btn svg { display: block !important; width: 17px !important; height: 17px !important; flex: 0 0 17px !important; }
+footer .discord-btn:hover { background: #4752c4 !important; border-color: #4752c4 !important; }
+footer .tiktok-btn:hover { background: #292930 !important; border-color: rgba(255,255,255,.35) !important; }
+footer .discord-btn:focus-visible,
+footer .tiktok-btn:focus-visible { outline: 2px solid #ffda78 !important; outline-offset: 3px; }
+
+footer .footer-server-ip {
+  color: var(--brand-gold-light, #ffda78) !important;
+  font-family: var(--od-font-mono, monospace);
+  font-weight: 700;
+  letter-spacing: .01em;
+}
