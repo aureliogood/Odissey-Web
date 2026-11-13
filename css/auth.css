@@ -280,11 +280,17 @@
    encima del otro. */
 .auth-tabs {
   display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .auth-tab {
   min-height: 44px !important;
-  display: inline-flex;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   touch-action: manipulation;
@@ -297,6 +303,17 @@
    falta repetir el selector con el id para ganarle. */
 #loginModal .auth-tab {
   min-height: 44px !important;
+}
+
+#loginModal .auth-tabs {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  width: 100% !important;
+}
+
+#loginModal .auth-tab {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
 }
 
 /* Con el area tactil de 44px, el texto tiene que apartarse mas para no
@@ -324,7 +341,7 @@
 
 .auth-boton {
   min-height: 42px !important;
-  font-family: var(--font-sans, 'Inter', sans-serif); !important;
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
   font-size: 15px !important;
   font-weight: 600 !important;
   width: 100% !important;
@@ -379,7 +396,7 @@
    El selector lleva #loginModal a proposito: sin el, dala.css gana por
    especificidad (1-1-0 frente a 0-1-0) aunque los dos usen
    !important, y la caja no se va. */
-#loginModal .auth-field,
+#loginModal#loginModal .auth-field,
 .auth-field {
   background: transparent !important;
   border: 0 !important;
@@ -394,6 +411,15 @@
    contra el ancestro posicionado más cercano, que es otro yvaries. */
 .auth-input-wrap {
   position: relative;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#loginModal .auth-input-wrap {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* El estado activo se distingue por peso ademas de por color, para

@@ -113,12 +113,12 @@
 }
     </script>
     <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
-    <link rel="stylesheet" href="css/auth.css?v=147">
-    <!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
+<!-- Turnstile: se carga la ULTIMA para ganar por cascada a dala.css. -->
     <link rel="stylesheet" href="css/turnstile.css?v=147">
 <script src="js/mobile-nav.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=1">
     <link rel="stylesheet" href="css/footer-links.css?v=1">
+    <link rel="stylesheet" href="css/auth.css?v=151">
 </head>
 <body>
   <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
@@ -1391,7 +1391,7 @@ account_cart_of: 'Cart of',
             if (token) SiteData.loadMy(token);
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=147').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=148').catch(() => { });
         }
 </script>
     <!-- ===== Progreso de scroll + botón volver arriba ===== -->
