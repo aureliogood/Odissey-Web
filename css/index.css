@@ -371,18 +371,18 @@ header img {
    OdisseyMC BENCHMARK CARD (TPS INTERACTIVO 1:1 CON OdisseyMC)
    ---------------------------------------------------------------------------- */
 .od-bench-card {
-  background: rgba(21, 14, 43, 0.68);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.24);
+  border: 0;
   border-radius: 16px;
   padding: clamp(24px, 3.5vw, 36px);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: none;
   position: relative;
 }
 
 .od-bench-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: transparent;
 }
 
 .od-bench-label {
