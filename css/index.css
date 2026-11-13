@@ -601,7 +601,15 @@ header img {
   margin-top: 24px;
   padding: 20px 28px 0 0;
   border-top-right-radius: 22px;
-  background: var(--brand-bg, #0a0810);
+  border: 0;
+  box-shadow: none;
+  background-color: var(--brand-bg, #0a0810);
+  background-image:
+    radial-gradient(1100px circle at 50% -10%, rgba(var(--brand-gold-rgb), .16), transparent 70%),
+    radial-gradient(800px circle at 85% 20%, rgba(var(--brand-gold-rgb), .05), transparent 60%),
+    radial-gradient(900px circle at 50% -18%, rgba(var(--brand-gold-rgb), .075), transparent 70%),
+    linear-gradient(180deg, var(--brand-black), var(--brand-bg) 38%, var(--brand-black));
+  background-attachment: fixed;
 }
 .od-story-copy > p { margin-bottom: 16px; }
 .od-story-pillars {
