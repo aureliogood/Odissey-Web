@@ -460,6 +460,13 @@ footer a:hover {
   display: inline-block !important;
 }
 
+/* The generic avatar styling above must never override the logged-out state.
+   Otherwise the empty image's black background appears as a blank circle. */
+#enterNavAvatar.hidden,
+.nav-avatar.hidden {
+  display: none !important;
+}
+
 /* Eliminación permanente del botón de 3 líneas y menú hamburguesa */
 #menuBtn,
 .menu-toggle,
