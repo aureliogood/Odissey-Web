@@ -23,18 +23,16 @@
 // es lo unico que invalida la cache vieja al activar la nueva version.
 // (El ?v=147 de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v179';
+var CACHE_NAME = 'odissey-v180';
 
 var PRECACHE_URLS = [
   './',
   './index.html',
 
-  // Solo los archivos .html, no las rutas limpias: el servidor traduce
-  // /tienda a /tienda.html, asi que cache.add de una ruta limpia y la de
-  // su .html guardarian DOS entradas en la cache por cada pagina. El
+  // Solo se precargan las páginas HTML que se sirven desde este dominio.
+  // La tienda redirige al comercio externo y no debe guardarse aquí. El
   // gestor de navegacion de mas abajo ya sabe pasar de una a otra cuando
   // no hay red.
-  './tienda.html',
   './reglas.html',
   './staff.html',
   './noticias.html',
@@ -119,7 +117,7 @@ var PRECACHE_URLS = [
 // El panel de administracion no debe quedar en la cache del dispositivo:
 // si alguien lo abre sin conexion en un movil que no es suyo, tendria las
 // pantallas de edicion en pantalla completa.
-var NUNCA_EN_CACHE = ['/admin.html', '/admin', '/staffverificar.html', '/staffverificar'];
+var NUNCA_EN_CACHE = ['/admin.html', '/admin', '/staffverificar.html', '/staffverificar', '/bots.html', '/bots'];
 
 function esRutaPrivada(ruta) {
   for (var i = 0; i < NUNCA_EN_CACHE.length; i++) {
@@ -171,10 +169,9 @@ self.addEventListener('activate', function (event) {
   );
 });
 
-/* Las rutas limpias que el .htaccess traduce a un .html. Si no hay red y
-   el visitante pide /tienda, se le sirve la copia de /tienda.html. */
+/* Las rutas limpias que el .htaccess traduce a un .html. */
 var PAGINAS = [
-  'staff', 'tienda', 'reglas', 'noticias', 'eventos', 'galeria', 'soporte',
+  'staff', 'reglas', 'noticias', 'eventos', 'galeria', 'soporte',
   'reportes', 'postulaciones', 'wiki', 'perfil', 'privacidad', 'baneos',
   'terminos',
 ];
