@@ -73,13 +73,14 @@
     <link rel="stylesheet" href="css/perfil-v2.css?v=151">
     <link rel="stylesheet" href="css/responsive.css?v=2">
     <script src="js/seguro.js?v=155"></script>
-    <script src="js/animacion.js?v=155"></script>
+    <script src="js/animacion.js?v=157"></script>
 <script src="js/mobile-nav.js?v=1" defer></script>
 <link rel="stylesheet" href="css/odissey-brand.css?v=1">
     <link rel="stylesheet" href="css/footer-links.css?v=1">
     <link rel="stylesheet" href="css/auth.css?v=151">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
     <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
     <div class="page-particles" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -115,7 +116,7 @@
                 </button>
                     <button type="button" id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú" aria-controls="primaryNavLinks" aria-expanded="false"><svg class="mobile-nav-toggle__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
                     <button type="button" id="enterNavBtn" onclick="openLoginModal()"
-                    class="nav-button nav-button-primary">
+                    class="nav-button nav-button-primary" aria-label="Entrar">
                     <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
                     <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                 </button>
@@ -175,7 +176,7 @@
         });
     </script>
 
-    <main id="contenido" class="flex-grow">
+    <main id="main-content" class="flex-grow">
     <div class="perfil-wrap">
 
         <!-- ===== Cabecera: banner, foto, nombre y color ===== -->
@@ -186,7 +187,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.5-3.5a2 2 0 0 0-2.8 0L6 21"/></svg>
                     <span data-i18n="perfil_banner_vacio">Sin banner</span>
                 </div>
-                <button type="button" class="perfil-banner-btn" id="btnBanner">
+                <button type="button" class="perfil-banner-btn" id="btnBanner" aria-label="Cambiar banner">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.5-3.5a2 2 0 0 0-2.8 0L6 21"/></svg>
                     <span data-i18n="perfil_cambiar_banner">Cambiar banner</span>
                 </button>
@@ -218,7 +219,7 @@
         <section class="perfil-login" id="perfilLogin" hidden>
             <h2 data-i18n="perfil_necesitas_cuenta">Necesitas una cuenta</h2>
             <p data-i18n="perfil_necesitas_cuenta_sub">Entra o crea tu cuenta para ver y editar tu perfil.</p>
-            <button type="button" class="btn3d" id="btnIrLogin" data-i18n="perfil_entrar_o_crear">Entrar o crear cuenta</button>
+            <button type="button" class="btn3d" id="btnIrLogin" data-i18n="perfil_entrar_o_crear" aria-label="Entrar o crear cuenta">Entrar o crear cuenta</button>
         </section>
 
 <!-- ===== Aviso de perfil ajeno (perfil.html?u=nombre) ===== -->
@@ -247,8 +248,8 @@
                     <p class="perfil-nota" data-i18n="perfil_mc_sub">Se usa para entregarte las compras que hagas en la tienda.</p>
 
                     <div class="perfil-acciones-datos">
-                        <button type="button" class="btn-mini" id="btnGuardar" data-i18n="perfil_guardar_boton">Guardar cambios</button>
-                        <button type="button" class="btn-mini btn-mini-fantasma" id="btnDescartar" data-i18n="perfil_descartar">Descartar</button>
+                        <button type="button" class="btn-mini" id="btnGuardar" data-i18n="perfil_guardar_boton" aria-label="Guardar cambios">Guardar cambios</button>
+                        <button type="button" class="btn-mini btn-mini-fantasma" id="btnDescartar" data-i18n="perfil_descartar" aria-label="Descartar">Descartar</button>
                         <span class="perfil-estado" id="perfilEstado" data-i18n="perfil_estado_inicial">Los cambios se guardan aquí.</span>
                     </div>
                 </section>
@@ -262,7 +263,7 @@
                     <label class="perfil-label" for="inputEmail" data-i18n="perfil_correo">Correo electrónico</label>
                     <div class="perfil-linea-input">
                         <input class="perfil-input" id="inputEmail" type="email" autocomplete="email">
-                        <button type="button" class="btn-mini" id="btnCambiarEmail" data-i18n="perfil_cambiar">Cambiar</button>
+                        <button type="button" class="btn-mini" id="btnCambiarEmail" data-i18n="perfil_cambiar" aria-label="Cambiar">Cambiar</button>
                     </div>
 
                     <div class="perfil-fila">
@@ -270,7 +271,7 @@
                             <strong data-i18n="perfil_clave_titulo">Contraseña</strong>
                             <small data-i18n="perfil_clave_sub">Cámbiala si crees que alguien la sabe.</small>
                         </div>
-                        <button type="button" class="btn-mini" id="btnCambiarClave" data-i18n="perfil_cambiar_clave">Cambiar</button>
+                        <button type="button" class="btn-mini" id="btnCambiarClave" data-i18n="perfil_cambiar_clave" aria-label="Cambiar">Cambiar</button>
                     </div>
 
 <!-- ===== Vincular con Minecraft (acceso al panel de admin) ===== -->
@@ -287,8 +288,8 @@
                             <small id="perfilMcCuenta"></small>
                         </div>
                         <div class="perfil-mc-botones">
-                            <button type="button" class="btn-mini" id="btnMcVincular">Generar codigo</button>
-                            <button type="button" class="btn-mini btn-mini-peligro" id="btnMcDesvincular" hidden>Desvincular</button>
+                            <button type="button" class="btn-mini" id="btnMcVincular" aria-label="Generar codigo">Generar codigo</button>
+                            <button type="button" class="btn-mini btn-mini-peligro" id="btnMcDesvincular" hidden aria-label="Desvincular">Desvincular</button>
                         </div>
                     </div>
                 </section>
@@ -300,7 +301,7 @@
                             <strong data-i18n="perfil_salir">Cerrar sesión</strong>
                             <small data-i18n="perfil_salir_sub">Sales de este navegador y tendrás que volver a entrar.</small>
                         </div>
-                        <button type="button" class="btn-mini btn-mini-peligro" id="btnSalir" data-i18n="perfil_salir_boton">Salir</button>
+                        <button type="button" class="btn-mini btn-mini-peligro" id="btnSalir" data-i18n="perfil_salir_boton" aria-label="Salir">Salir</button>
                     </div>
                 </section>
             </div>
@@ -342,21 +343,21 @@
     <!-- Modal de entrada por nombre de Minecraft -->
     <div id="loginModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Cuenta de">
         <div id="loginView" class="login-card">
             <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
         </div>
         <div id="accountView" class="account-card hidden">
-            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <button class="close-btn" onclick="closeLoginModal()" aria-label="&amp;times;">&times;</button>
             <div class="user-header">
                 <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
                 <div class="user-info">
                     <h3><span data-i18n="account_title">Cuenta de</span> <span id="username-display"></span></h3>
                     <div class="user-actions">
-                        <button type="button" id="logout-btn" class="btn3d" onclick="handleLogout()" data-i18n="nav_logout">Cerrar sesión</button>
+                        <button type="button" id="logout-btn" class="btn3d" onclick="handleLogout()" data-i18n="nav_logout" aria-label="Cerrar sesión">Cerrar sesión</button>
                         <div class="currency-selector">
                             <span data-i18n="currency_label">Moneda:</span>
-                            <select id="currency">
+                            <select id="currency" aria-label="USD COP EUR">
                                 <option value="USD">USD</option>
                                 <option value="COP">COP</option>
                                 <option value="EUR">EUR</option>
@@ -369,7 +370,7 @@
             <div class="mc-name-row">
                 <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
                 <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
-                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
+                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save" aria-label="Guardar">Guardar</button>
             </div>
             <hr class="divider">
             <div id="cart-content">
@@ -380,7 +381,7 @@
                     <span data-i18n="cart_total">Total:</span>
                     <span id="cart-total">$0.00</span>
                 </div>
-                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+                <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout" aria-label="REALIZAR PEDIDO">REALIZAR PEDIDO</button>
             </div>
             <hr class="divider">
             <div class="flex items-center gap-2 mb-2">
@@ -395,15 +396,15 @@
     <!-- Modal de información del staff -->
     <div id="staffModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Diálogo">
         <div id="staffModalContent" class="staff-panel"></div>
     </div>
     <!-- Modal de calificación de staff -->
     <div id="ratingModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Calificar a aureliogood">
         <div id="ratingView" class="staff-panel">
-            <button class="close-btn" onclick="closeRatingModal()">&times;</button>
+            <button class="close-btn" onclick="closeRatingModal()" aria-label="&amp;times;">&times;</button>
             <div class="staff-panel-header">
                 <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin" width="128" height="128">
                 <div>
@@ -422,15 +423,15 @@
             </div>
             <textarea id="rating-comment" name="comentario" class="rating-comment" maxlength="500" rows="3" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
             <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn">Enviar calificación</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn" aria-label="Enviar calificación">Enviar calificación</button>
         </div>
     </div>
     <!-- Modal de reporte de jugador -->
     <div id="reportModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Reportar un jugador">
         <div id="reportView" class="staff-panel">
-            <button class="close-btn" onclick="closeReportModal()">&times;</button>
+            <button class="close-btn" onclick="closeReportModal()" aria-label="&amp;times;">&times;</button>
             <div class="staff-panel-header">
                 <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head" width="128" height="128">
                 <div>
@@ -444,7 +445,7 @@
                 <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa" width="40" height="40">
                 <input type="text" id="report-target" name="jugador" placeholder="Jugador a reportar" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="16" pattern="[A-Za-z0-9_]{1,16}" required aria-label="Nombre del jugador a reportar">
             </div>
-            <select id="report-reason" class="rating-comment mt-4">
+            <select id="report-reason" class="rating-comment mt-4" aria-label="Trampa / Hacks Spam Acoso Duplicación Griefing Otro">
                 <option value="Trampa / Hacks">Trampa / Hacks</option>
                 <option value="Spam">Spam</option>
                 <option value="Acoso">Acoso</option>
@@ -460,16 +461,16 @@
                  envio (ver js/formulario.js). -->
             <input type="text" id="report-trampa" class="form-trampa"
                 tabindex="-1" autocomplete="off" aria-hidden="true"
-                name="sitio_web" value="">
+                name="sitio_web" value="" aria-label="Report trampa">
             <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn">Enviar reporte</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn" aria-label="Enviar reporte">Enviar reporte</button>
         </div>
     </div>
     <!-- Modal Lightbox para la Galería de Builds -->
     <div id="lightboxModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[10000] hidden items-center justify-center p-4"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);" aria-label="Diálogo">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()" aria-label="&amp;times;">&times;</button>
         <div class="flex flex-col items-center max-w-4xl w-full">
             <img id="lightboxImg" src="" alt="Build" width="1280" height="720" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
             <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
@@ -531,7 +532,7 @@
         }
         async function updatePlayerCounts() {
             const config = (window.SITE_CONFIG || {});
-            const serverIp = config.serverIp || 'play.odissey.net';
+            const serverIp = config.serverIp || 'mc.odisseymc.site';
             const gamemode = config.gamemode || 'Survival Custom';
             const gamemodeEl = document.getElementById('serverGamemode');
             if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
@@ -612,7 +613,7 @@ try {
             return localStorage.getItem('odissey_discord_session');
         }
         /* El bot guardaba aqui el usuario de Discord. Ese bot ya no existe, asi
-         * que esto solo se llenaba cuando el servidor de Discord回答aba, y con
+         * que esto solo se llenaba cuando el servidor de Discord respondíaaba, y con
          * Supabase nunca se llenaba: la tarjeta de cuenta salia con "Cuenta de"
          * y despues en blanco, y el boton de la cabecera no llevaba al perfil.
          *
@@ -720,24 +721,12 @@ try {
         }
         let ticketShownCount = -1;
         async function fetchTicketsData() {
-            const token = getSessionToken();
-            if (!token) return [];
-            try {
-                const res = await fetch(API_BASE + '/api/tickets?token=' + encodeURIComponent(token));
-                const data = await res.json();
-                return (data && data.ok && data.tickets) ? data.tickets : [];
-            } catch (err) { return []; }
+            // Rutas de tickets retiradas con el bot.
+            return [];
         }
         async function markTicketsRead() {
-            const token = getSessionToken();
-            if (!token) return;
-            try {
-                await fetch(API_BASE + '/api/tickets/read', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
-                });
-            } catch (err) { }
+            // Rutas de tickets retiradas con el bot.
+            return;
         }
         function setTicketNotifCount(n) {
             const badge = document.getElementById('ticketNotifBadge');
@@ -923,7 +912,8 @@ try {
             if (e.key === 'Escape' && !document.getElementById('lightboxModal').classList.contains('hidden')) closeLightbox();
         });
         function startDiscordLogin() {
-            window.location.href = API_BASE + '/discord/login';
+            // El acceso con Discord se ha retirado.
+            return;
         }
         async function saveMcName() {
             const token = getSessionToken();
@@ -1602,7 +1592,7 @@ try {
         // ================= Cambio de idioma (ES/EN) =================
         const I18N = {
             es: {
-                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_jugar: 'Entrar al servidor', cta_discord: 'Únete al Discord',
                 cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
                 cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
                 btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
@@ -1610,13 +1600,13 @@ try {
                 btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
                 btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
                 btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
-                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escríbenos por WhatsApp',
                 menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
                 faq_title: 'Preguntas frecuentes',
                 err_carga: 'No se ha podido cargar. Recarga la página.',
                 err_red: 'Sin conexión. Comprueba tu internet.',
                 err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
-                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
+                estado_cargando: 'Cargando…', estado_vacio: 'Nada por aquí todavía.',
 nav_eventos: 'Eventos',
 nav_galeria: 'Galería',
 rules_title: 'Reglas',
@@ -1690,7 +1680,7 @@ cb_accept: 'Aceptar',
                 err_carga: 'Could not load. Reload the page.',
                 err_red: 'No connection. Check your internet.',
                 err_generico: 'Something went wrong. Try again.',
-                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
+                estado_cargando: 'Loading…', estado_vacio: 'Nothing here yet.',
 nav_eventos: 'Events',
 nav_galeria: 'Gallery',
 rules_title: 'Rules',
@@ -1778,7 +1768,12 @@ cb_accept: 'Accept',
             applyLang();
         }
         function getTheme() {
-            return false ? 'light' : 'dark';
+            try {
+                const g = localStorage.getItem('odissey_theme');
+                if (g === 'light' || g === 'dark') return g;
+            } catch (e) { }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+            return 'dark';
         }
         function applyTheme() {
             const light = getTheme() === 'light';
@@ -1827,7 +1822,7 @@ cb_accept: 'Accept',
             }
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=148').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=213').catch(() => { });
         }
     </script>
 
@@ -1839,3 +1834,5 @@ cb_accept: 'Accept',
      no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=147" defer></script>
 <script src="auth.js?v=147"></script>
+</body>
+</html>

@@ -263,12 +263,13 @@ nav.nav-bar,
   transition: all 160ms ease !important;
 }
 .cb-accept {
-  background: var(--brand-gold-dark) !important;
+  /* Dorado mas oscuro: el blanco sobre #b77618 tenia 3.73:1 de contraste. */
+  background: #8a560d !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 .cb-accept:hover {
-  background: var(--brand-gold) !important;
+  background: var(--brand-gold-dark) !important;
 }
 .cb-decline {
   background: rgba(255, 255, 255, 0.06) !important;
@@ -445,7 +446,7 @@ tr:hover td {
 footer {
   background: #06040a !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
-  color: #71717a !important;
+  color: #a1a1aa !important;
 }
 footer a:hover {
   color: #ffffff !important;

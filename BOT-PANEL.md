@@ -1,5 +1,9 @@
 # Panel de bots
 
+> Nota (2026-11-22): el bot/API en `/bot` y el panel de Azure ya no forman
+> parte del despliegue de la web en GitHub Pages. Este documento se conserva
+> solo como referencia histórica.
+
 El panel está en `https://odisseymc.site/bots.html` y administra la configuración guardada en Azure.
 
 ## Acceso y seguridad

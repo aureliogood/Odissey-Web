@@ -1,8 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap');
 
 /* Base visual compartida para todas las páginas de OdisseyMC. */
+/* Enlace de salto al contenido: oculto hasta que recibe el foco con tab. */
 .skip-link {
-  display: none !important;
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100000;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--brand-gold, #e0a52e);
+  color: #171109;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #ffffff;
 }
 
 :root {

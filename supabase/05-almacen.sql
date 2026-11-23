@@ -100,6 +100,45 @@ CREATE POLICY "perfiles borrar" ON storage.objects
   );
 
 -- ============================================================================
+--  CUBO DE EVIDENCIAS (reportes de soporte)
+-- ----------------------------------------------------------------------------
+--  Antes el bot guardaba las capturas en /uploads. Como el bot ya no existe,
+--  soporte.html sube el archivo a este cubo a traves de /api/upload.
+--  Lectura publica para que el admin pueda ver la captura, escritura solo
+--  dentro de la carpeta del usuario autenticado.
+-- ============================================================================
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'evidencias',
+  'evidencias',
+  true,
+  26214400, -- 25 MB, el mismo tope que ponia el formulario
+  ARRAY['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'video/mp4', 'video/webm']
+)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "evidencias lectura" ON storage.objects;
+CREATE POLICY "evidencias lectura" ON storage.objects
+  FOR SELECT USING (bucket_id = 'evidencias');
+
+DROP POLICY IF EXISTS "evidencias subir" ON storage.objects;
+CREATE POLICY "evidencias subir" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'evidencias'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "evidencias borrar" ON storage.objects;
+CREATE POLICY "evidencias borrar" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'evidencias'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- ============================================================================
 --  FIN
 --
 --  Comprobaciones (NO forman parte de este script, van aparte contra la

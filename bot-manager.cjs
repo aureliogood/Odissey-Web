@@ -43,7 +43,6 @@ function cors(req, res) {
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-    res.setHeader('Access-Control-Allow-Private-Network', 'true');
     res.setHeader('Access-Control-Max-Age', '600');
   }
   return allowed;
@@ -194,7 +193,7 @@ function safeWelcome(cfg) {
     status: {
       host: String(cfg.status?.host || '38.58.179.117'),
       port: Number(cfg.status?.port || 25569),
-      displayAddress: String(cfg.status?.displayAddress || 'mc.odisseymc.lat:25569').slice(0, 260),
+      displayAddress: String(cfg.status?.displayAddress || 'mc.odisseymc.site').slice(0, 260),
       channelId: /^\d{5,25}$/.test(rawStatusChannelId) ? rawStatusChannelId : '',
       maintenance: !!cfg.status?.maintenance,
       messageTitle: String(cfg.status?.messageTitle || 'Estado del servidor').slice(0, 100),
@@ -259,7 +258,7 @@ function mergeSubmitted(ticketCfg, welcomeCfg, input) {
       ...(welcomeCfg.status || {}),
       host: boundedText(statusHost, 253, 'status_host'),
       port: statusPort,
-      displayAddress: boundedText(String(w.status?.displayAddress || ''), 260, 'status_display_address') || 'mc.odisseymc.lat:25569',
+      displayAddress: boundedText(String(w.status?.displayAddress || ''), 260, 'status_display_address') || 'mc.odisseymc.site',
       channelId: String(w.status?.channelId || ''),
       maintenance: !!w.status?.maintenance,
       messageTitle: boundedText(String(w.status?.messageTitle || ''), 100, 'status_title') || 'Estado del servidor',

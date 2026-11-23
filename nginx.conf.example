@@ -137,23 +137,11 @@ server {
     }
 
     # ---------------------------------------------------------------
-    # RATE LIMIT EN LOS LOGINS (fuerza bruta)
+    # LOGIN Y REGISTRO
     # ---------------------------------------------------------------
-    # El limite REAL de intentos tiene que hacerlo el bot (por cuenta
-    # y con bloqueo temporal). Esto es la capa de red: frena a un
-    # atacante que prueba contrasenas desde IPs distintas.
-    location /bot/api/auth/login {
-        limit_req zone=odissey_login burst=5 nodelay;
-        limit_req_status 429;
-        proxy_pass http://127.0.0.1:3000;
-        include /etc/nginx/proxy_params;
-    }
-    location /bot/api/auth/register {
-        limit_req zone=odissey_login burst=3 nodelay;
-        limit_req_status 429;
-        proxy_pass http://127.0.0.1:3000;
-        include /etc/nginx/proxy_params;
-    }
+    # Ya no hay un /bot/api que proxear: Supabase Auth gestiona el login y
+    # aplica sus propios limites de intentos. La zona limit_req de arriba
+    # se conserva por si se quiere limitar otra ruta publica.
 
     # ---------------------------------------------------------------
     # FICHEROS QUE NUNCA SE SIRVEN
@@ -197,12 +185,14 @@ server {
     }
 
     # ---------------------------------------------------------------
-    # EL BOT (Node.js)
+    # PANEL LOCAL DE BOTS (Node.js, solo loopback)
     # ---------------------------------------------------------------
-    # El bot corre en local (127.0.0.1:3000) y Nginx hace de proxy.
-    # Por eso, desde fuera, la IP del proceso del bot no se ve nunca.
-    location /bot/ {
-        proxy_pass http://127.0.0.1:3000/bot/;
+    # El panel corre en 127.0.0.1:32170 (bot-manager.cjs). No es el bot
+    # antiguo de /bot, que ya no existe. Si no usas el panel, puedes
+    # borrar este bloque y su limit_req.
+    location /panel/ {
+        limit_req zone=odissey_login burst=10 nodelay;
+        proxy_pass http://127.0.0.1:32170/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";

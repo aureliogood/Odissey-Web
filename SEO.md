@@ -16,7 +16,7 @@
 | 03 | Aviso de cookies | Hecho: banner + `js/analitica.js` que solo mide si se acepta |
 | 04 | Forzar HTTPS | Hecho en `.htaccess`; falta **activar SSL** en el panel |
 | 05 | Meta títulos y descripciones | Hecho: cada página tiene los suyos, ya no son 8 copias del mismo |
-| 06 | Datos estructurados | Hecho: JSON-LD por página (`seo-schema.ps1`) |
+| 06 | Datos estructurados | Hecho: JSON-LD por página (generado con `seo-schema.ps1`, script retirado) |
 | 07 | Sitemap y robots.txt | Hecho |
 | 08 | Ficha de Google | Hecho: `sitemap.xml` + `robots.txt`. Falta el código de verificación (§3) |
 | 09 | Favicon | Hecho |
@@ -26,7 +26,7 @@
 | 13 | Contraste de colores | **Pendiente**: revisar a mano (§5) |
 | 14 | Que se vea bien en móvil | Hecho: `js/dala-nav.js` añadido donde faltaba |
 | 15 | Página 404 personalizada | Hecho |
-| 16 | Enlaces rotos arreglados | Hecho: `ftexto.ps1 enlaces` sale limpio |
+| 16 | Enlaces rotos arreglados | Hecho: verificado históricamente con `ftexto.ps1` (script retirado) |
 | 17 | Formularios protegidos contra spam | Hecho: `js/formulario.js` |
 | 18 | Botón de WhatsApp visible | **Pendiente**: falta el número (§2) |
 | 19 | Analítica instalada | Hecho: `js/analitica.js`, sin terceros |

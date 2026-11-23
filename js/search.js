@@ -154,7 +154,7 @@
       if (mine !== peticion) return;          // hay una busqueda mas nueva
       if (r.status === 429) return mensaje(t('short'));
       if (!j || !j.ok) return mensaje(t('error'));
-      const lista = Array.isArray(j.results) ? j.results : [];
+      const lista = Array.isArray(j.users) ? j.users : [];
       if (!lista.length) return mensaje(t('none'));
       pintar(lista);
     } catch (err) {

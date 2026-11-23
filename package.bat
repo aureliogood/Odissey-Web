@@ -7,7 +7,4 @@ if errorlevel 1 (
   exit /b 1
 )
 echo.
-echo [AVISO] Si tocaste theme.css, un .css o un .js, sube el ?v= de los HTML
-echo         y el CACHE_NAME de service-worker.js, o los navegadores
-echo         seguiran viendo la version vieja.
 endlocal

@@ -65,7 +65,7 @@
         .bridge-codigo code{display:inline-block;padding:.6rem .9rem;border-radius:10px;background:rgba(var(--od-marine-accent-rgb),.14);border:1px dashed rgba(var(--od-marine-accent-rgb),.55);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.15rem;letter-spacing:.16em;font-weight:700;color:var(--od-text-light);user-select:all}
     </style>
   <script src="js/seguro.js?v=147"></script>
-    <script src="js/animacion.js?v=147"></script>
+    <script src="js/animacion.js?v=157"></script>
     <script src="js/dala-liquid.js?v=147" defer></script>
     <!-- Login y registro: se carga la ULTIMA porque css/dala.css usa !important sobre los inputs y no se puede ganar desde theme.css. -->
 <link rel="stylesheet" href="css/responsive.css?v=2">
@@ -132,7 +132,7 @@ Antes era un div: Enter no hacia nada y un
                             <label for="adminPass">Contraseña</label>
                             <input id="adminPass" name="password" type="password" autocomplete="current-password"
                                 maxlength="128" required>
-                            <button type="submit" class="btn-continue" id="access-btn">ENTRAR</button>
+                            <button type="submit" class="btn-continue" id="access-btn" aria-label="ENTRAR">ENTRAR</button>
                         </form>
                         <p class="error-msg" id="login-error" role="alert" aria-live="polite"></p>
                         <p class="admin-mc-help">¿Todavía no tienes cuenta? <a href="/perfil">Créala desde tu perfil</a>.</p>
@@ -148,34 +148,34 @@ Antes era un div: Enter no hacia nada y un
                                 <p class="text-text-dark text-sm mt-1">Sesión iniciada como: <span
                                         class="text-marine-accent font-semibold" id="admin-welcome"></span></p>
                             </div>
-                            <button type="button" class="btn-logout" onclick="handleAdminLogout()">Cerrar sesión</button>
+                            <button type="button" class="btn-logout" onclick="handleAdminLogout()" aria-label="Cerrar sesión">Cerrar sesión</button>
                         </div>
 
                         <!-- Pestañas. Se mantiene la clase .tab-btn y el data-tab porque
                              switchTab() las usa para cambiar de sección. Lo nuevo es la
                              clase .admin-tabs, que la convierte en barra lateral. -->
                         <div class="admin-tabs" role="tablist" aria-label="Secciones del panel">
-                            <button type="button" class="tab-btn active" data-tab="inicio" onclick="switchTab('inicio')">Inicio</button>
+                            <button type="button" class="tab-btn active" data-tab="inicio" onclick="switchTab('inicio')" aria-label="Inicio">Inicio</button>
                             <div class="admin-tabgroup">General</div>
-                            <button type="button" class="tab-btn" data-tab="mantenimiento" onclick="switchTab('mantenimiento')">Mantenimiento</button>
+                            <button type="button" class="tab-btn" data-tab="mantenimiento" onclick="switchTab('mantenimiento')" aria-label="Mantenimiento">Mantenimiento</button>
                             <div class="admin-tabgroup">Contenido</div>
-                            <button type="button" class="tab-btn" data-tab="noticias" onclick="switchTab('noticias')">Noticias</button>
-                            <button type="button" class="tab-btn" data-tab="eventos" onclick="switchTab('eventos')">Eventos</button>
-                            <button type="button" class="tab-btn" data-tab="galeria" onclick="switchTab('galeria')">Galería</button>
+                            <button type="button" class="tab-btn" data-tab="noticias" onclick="switchTab('noticias')" aria-label="Noticias">Noticias</button>
+                            <button type="button" class="tab-btn" data-tab="eventos" onclick="switchTab('eventos')" aria-label="Eventos">Eventos</button>
+                            <button type="button" class="tab-btn" data-tab="galeria" onclick="switchTab('galeria')" aria-label="Galería">Galería</button>
                             <div class="admin-tabgroup">Comunidad</div>
-                            <button type="button" class="tab-btn" data-tab="buscar" onclick="switchTab('buscar')">
+                            <button type="button" class="tab-btn" data-tab="buscar" onclick="switchTab('buscar')" aria-label="Buscar">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="tab-icon"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
                                 Buscar
                             </button>
-                            <button type="button" class="tab-btn" data-tab="staff" onclick="switchTab('staff')">Staff</button>
-                            <button type="button" class="tab-btn" data-tab="calificaciones" onclick="switchTab('calificaciones')">Calificaciones</button>
-                            <button type="button" class="tab-btn" data-tab="reportes" onclick="switchTab('reportes')">Reportes</button>
-                            <button type="button" class="tab-btn" data-tab="apelaciones" onclick="switchTab('apelaciones')">Apelaciones</button>
+                            <button type="button" class="tab-btn" data-tab="staff" onclick="switchTab('staff')" aria-label="Staff">Staff</button>
+                            <button type="button" class="tab-btn" data-tab="calificaciones" onclick="switchTab('calificaciones')" aria-label="Calificaciones">Calificaciones</button>
+                            <button type="button" class="tab-btn" data-tab="reportes" onclick="switchTab('reportes')" aria-label="Reportes">Reportes</button>
+                            <button type="button" class="tab-btn" data-tab="apelaciones" onclick="switchTab('apelaciones')" aria-label="Apelaciones">Apelaciones</button>
                             <div class="admin-tabgroup">Tienda</div>
-                            <button type="button" class="tab-btn" data-tab="tienda" onclick="switchTab('tienda')">Productos</button>
+                            <button type="button" class="tab-btn" data-tab="tienda" onclick="switchTab('tienda')" aria-label="Productos">Productos</button>
                             <div class="admin-tabgroup">Sistema</div>
-                            <button type="button" class="tab-btn" data-tab="ajustes" onclick="switchTab('ajustes')">Ajustes Web</button>
-                            <button type="button" class="tab-btn" data-tab="registro" onclick="switchTab('registro')">Registro</button>
+                            <button type="button" class="tab-btn" data-tab="ajustes" onclick="switchTab('ajustes')" aria-label="Ajustes Web">Ajustes Web</button>
+                            <button type="button" class="tab-btn" data-tab="registro" onclick="switchTab('registro')" aria-label="Registro">Registro</button>
                         </div>
 
                         <!-- Tab: Inicio -->
@@ -218,15 +218,15 @@ Antes era un div: Enter no hacia nada y un
 
                             <h3 class="text-lg font-bold text-text-light mb-4">Acciones rápidas</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <button type="button" class="quick-btn" onclick="copyText('play.odissey.net', 'IP copiada')">
+                                <button type="button" class="quick-btn" onclick="copyText('mc.odisseymc.site', 'IP copiada')" aria-label="📋 Copiar IP mc.odisseymc.site">
                                     <span class="block text-marine-accent">📋 Copiar IP</span>
-                                    <span class="text-xs text-text-dark">play.odissey.net</span>
+                                    <span class="text-xs text-text-dark">mc.odisseymc.site</span>
                                 </button>
-                                <button type="button" class="quick-btn" onclick="copyText('https://dc.gg/odisseymc', 'Enlace de Discord copiado')">
+                                <button type="button" class="quick-btn" onclick="copyText('https://dc.gg/odisseymc', 'Enlace de Discord copiado')" aria-label="💬 Copiar enlace del Discord dc.gg/odisseymc">
                                     <span class="block text-marine-accent">💬 Copiar enlace del Discord</span>
                                     <span class="text-xs text-text-dark">dc.gg/odisseymc</span>
                                 </button>
-                                <button type="button" class="quick-btn" onclick="copyText(location.origin + '/', 'Enlace de la web copiado')">
+                                <button type="button" class="quick-btn" onclick="copyText(location.origin + '/', 'Enlace de la web copiado')" aria-label="🌐 Copiar enlace de la web Link público de Odissey">
                                     <span class="block text-marine-accent">🌐 Copiar enlace de la web</span>
                                     <span class="text-xs text-text-dark">Link público de Odissey</span>
                                 </button>
@@ -249,7 +249,7 @@ Antes era un div: Enter no hacia nada y un
                                 </label>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">Mensaje de mantenimiento</label>
-                                    <input type="text" id="maint-msg" class="admin-input" placeholder="Ej: Mantenimiento programado hoy de 18:00 a 20:00 UTC por actualización." oninput="previewMaintenance()">
+                                    <input type="text" id="maint-msg" class="admin-input" placeholder="Ej: Mantenimiento programado hoy de 18:00 a 20:00 UTC por actualización." oninput="previewMaintenance()" aria-label="Ej: Mantenimiento programado hoy de 18:00 a 20:00 UTC por actualización.">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-2">Previsualización en vivo:</label>
@@ -258,8 +258,8 @@ Antes era un div: Enter no hacia nada y un
                                     </div>
                                 </div>
                                 <div class="flex gap-3 pt-2">
-                                    <button type="button" class="btn-gold" onclick="saveMaintenance()">Guardar mantenimiento</button>
-                                    <button type="button" class="btn-online" onclick="setServerOnline()">Poner servidor online</button>
+                                    <button type="button" class="btn-gold" onclick="saveMaintenance()" aria-label="Guardar mantenimiento">Guardar mantenimiento</button>
+                                    <button type="button" class="btn-online" onclick="setServerOnline()" aria-label="Poner servidor online">Poner servidor online</button>
                                 </div>
                             </div>
                         </div>
@@ -271,7 +271,7 @@ Antes era un div: Enter no hacia nada y un
                                     <h2 class="text-xl font-bold text-text-light">Noticias y Anuncios</h2>
                                     <p class="text-text-dark text-sm">Publica novedades, avisos de eventos o notas de actualización (changelog).</p>
                                 </div>
-                                <button type="button" class="btn-gold" onclick="toggleNewsForm()">+ Nueva noticia</button>
+                                <button type="button" class="btn-gold" onclick="toggleNewsForm()" aria-label="+ Nueva noticia">+ Nueva noticia</button>
                             </div>
 
                             <div id="news-form" class="list-item mb-6 hidden">
@@ -279,11 +279,11 @@ Antes era un div: Enter no hacia nada y un
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                     <div class="md:col-span-2">
                                         <label class="block text-xs text-text-dark mb-1">Título</label>
-                                        <input type="text" id="new-news-title" class="admin-input" placeholder="Ej: ¡Apertura de la Temporada 2!">
+                                        <input type="text" id="new-news-title" class="admin-input" placeholder="Ej: ¡Apertura de la Temporada 2!" aria-label="Ej: ¡Apertura de la Temporada 2!">
                                     </div>
                                     <div>
                                         <label class="block text-xs text-text-dark mb-1">Categoría</label>
-                                        <select id="new-news-cat" class="admin-select">
+                                        <select id="new-news-cat" class="admin-select" aria-label="Noticia Actualización Evento Mantenimiento Changelog">
                                             <option value="Noticia">Noticia</option>
                                             <option value="Actualización">Actualización</option>
                                             <option value="Evento">Evento</option>
@@ -297,8 +297,8 @@ Antes era un div: Enter no hacia nada y un
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button type="button" class="btn-gold" onclick="saveNewsItem()">Publicar</button>
-                                    <button type="button" class="btn-action" onclick="toggleNewsForm()">Cancelar</button>
+                                    <button type="button" class="btn-gold" onclick="saveNewsItem()" aria-label="Publicar">Publicar</button>
+                                    <button type="button" class="btn-action" onclick="toggleNewsForm()" aria-label="Cancelar">Cancelar</button>
                                 </div>
                             </div>
 
@@ -312,7 +312,7 @@ Antes era un div: Enter no hacia nada y un
                                     <h2 class="text-xl font-bold text-text-light">Cronograma de Eventos</h2>
                                     <p class="text-text-dark text-sm">Gestiona los próximos eventos y actividades del servidor.</p>
                                 </div>
-                                <button type="button" class="btn-gold" onclick="toggleEventForm()">+ Nuevo evento</button>
+                                <button type="button" class="btn-gold" onclick="toggleEventForm()" aria-label="+ Nuevo evento">+ Nuevo evento</button>
                             </div>
 
                             <div id="event-form" class="list-item mb-6 hidden">
@@ -320,11 +320,11 @@ Antes era un div: Enter no hacia nada y un
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                     <div class="md:col-span-2">
                                         <label class="block text-xs text-text-dark mb-1">Título del evento</label>
-                                        <input type="text" id="new-event-title" class="admin-input" placeholder="Ej: Torneo de Gladiadores y Batalla Naval">
+                                        <input type="text" id="new-event-title" class="admin-input" placeholder="Ej: Torneo de Gladiadores y Batalla Naval" aria-label="Ej: Torneo de Gladiadores y Batalla Naval">
                                     </div>
                                     <div>
                                         <label class="block text-xs text-text-dark mb-1">Fecha</label>
-                                        <input type="date" id="new-event-date" class="admin-input">
+                                        <input type="date" id="new-event-date" class="admin-input" aria-label="New event date">
                                     </div>
                                     <div class="md:col-span-3">
                                         <label class="block text-xs text-text-dark mb-1">Descripción y premios</label>
@@ -332,8 +332,8 @@ Antes era un div: Enter no hacia nada y un
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button type="button" class="btn-gold" onclick="saveEventItem()">Guardar evento</button>
-                                    <button type="button" class="btn-action" onclick="toggleEventForm()">Cancelar</button>
+                                    <button type="button" class="btn-gold" onclick="saveEventItem()" aria-label="Guardar evento">Guardar evento</button>
+                                    <button type="button" class="btn-action" onclick="toggleEventForm()" aria-label="Cancelar">Cancelar</button>
                                 </div>
                             </div>
 
@@ -347,7 +347,7 @@ Antes era un div: Enter no hacia nada y un
                                     <h2 class="text-xl font-bold text-text-light">Galería de Construcciones</h2>
                                     <p class="text-text-dark text-sm">Muestra las mejores creaciones y capturas de la comunidad.</p>
                                 </div>
-                                <button type="button" class="btn-gold" onclick="toggleGalleryForm()">+ Añadir imagen</button>
+                                <button type="button" class="btn-gold" onclick="toggleGalleryForm()" aria-label="+ Añadir imagen">+ Añadir imagen</button>
                             </div>
 
                             <div id="gallery-form" class="list-item mb-6 hidden">
@@ -355,19 +355,19 @@ Antes era un div: Enter no hacia nada y un
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                     <div class="md:col-span-2">
                                         <label class="block text-xs text-text-dark mb-1">URL de la imagen (enlace directo JPG/PNG)</label>
-                                        <input type="url" id="new-gal-url" class="admin-input" placeholder="https://ejemplo.com/captura.png" oninput="previewGalleryUrl()">
+                                        <input type="url" id="new-gal-url" class="admin-input" placeholder="https://ejemplo.com/captura.png" oninput="previewGalleryUrl()" aria-label="https://ejemplo.com/captura.png">
                                     </div>
                                     <div class="md:col-span-2">
                                         <label class="block text-xs text-text-dark mb-1">Pie de foto / Autor</label>
-                                        <input type="text" id="new-gal-caption" class="admin-input" placeholder="Ej: Faro de la Bahía por Aurelio">
+                                        <input type="text" id="new-gal-caption" class="admin-input" placeholder="Ej: Faro de la Bahía por Aurelio" aria-label="Ej: Faro de la Bahía por Aurelio">
                                     </div>
                                 </div>
                                 <div id="gal-preview-container" class="mb-4 hidden">
                                     <img id="gal-preview-img" src="" alt="Vista previa" width="400" height="200" class="max-h-48 rounded-lg border border-marine-light object-cover">
                                 </div>
                                 <div class="flex gap-2">
-                                    <button type="button" class="btn-gold" onclick="saveGalleryItem()">Añadir a la galería</button>
-                                    <button type="button" class="btn-action" onclick="toggleGalleryForm()">Cancelar</button>
+                                    <button type="button" class="btn-gold" onclick="saveGalleryItem()" aria-label="Añadir a la galería">Añadir a la galería</button>
+                                    <button type="button" class="btn-action" onclick="toggleGalleryForm()" aria-label="Cancelar">Cancelar</button>
                                 </div>
                             </div>
 
@@ -381,12 +381,12 @@ Antes era un div: Enter no hacia nada y un
                                     <h2 class="text-xl font-bold text-text-light">Miembros del staff</h2>
                                     <p class="text-text-dark text-sm">Los cambios se aplican en la web desde este navegador.</p>
                                 </div>
-                                <button type="button" class="btn-gold" onclick="addStaffMember()">+ Añadir miembro</button>
+                                <button type="button" class="btn-gold" onclick="addStaffMember()" aria-label="+ Añadir miembro">+ Añadir miembro</button>
                             </div>
 <div id="staff-fields" class="space-y-4"></div>
                             <div class="flex flex-wrap gap-3 mt-6">
-                                <button type="button" class="btn-gold" onclick="saveStaff()">Guardar cambios</button>
-                                <button type="button" class="btn-action" onclick="resetStaff()">Restaurar original</button>
+                                <button type="button" class="btn-gold" onclick="saveStaff()" aria-label="Guardar cambios">Guardar cambios</button>
+                                <button type="button" class="btn-action" onclick="resetStaff()" aria-label="Restaurar original">Restaurar original</button>
                             </div>
 
                             <!-- Conexion del plugin del servidor con la web.
@@ -404,8 +404,8 @@ Antes era un div: Enter no hacia nada y un
                                         <p class="text-text-dark text-sm" id="bridge-estado">Comprobando…</p>
                                     </div>
                                     <div class="flex flex-wrap gap-2">
-                                        <button type="button" class="btn-gold" id="bridge-btn" onclick="bridgeConectar()">Conectar servidor</button>
-                                        <button type="button" class="btn-action" id="bridge-reset" onclick="bridgeDesconectar()">Desconectar</button>
+                                        <button type="button" class="btn-gold" id="bridge-btn" onclick="bridgeConectar()" aria-label="Conectar servidor">Conectar servidor</button>
+                                        <button type="button" class="btn-action" id="bridge-reset" onclick="bridgeDesconectar()" aria-label="Desconectar">Desconectar</button>
                                     </div>
                                 </div>
                                 <div id="bridge-codigo" class="bridge-codigo hidden">
@@ -424,12 +424,12 @@ Antes era un div: Enter no hacia nada y un
                                     <h2 class="text-xl font-bold text-text-light">Productos de la tienda</h2>
                                     <p class="text-text-dark text-sm">Edita precios, nombres y añade o quita productos.</p>
                                 </div>
-                                <button type="button" class="btn-gold" onclick="addProduct()">+ Añadir producto</button>
+                                <button type="button" class="btn-gold" onclick="addProduct()" aria-label="+ Añadir producto">+ Añadir producto</button>
                             </div>
                             <div id="product-fields" class="space-y-4"></div>
                             <div class="flex flex-wrap gap-3 mt-6">
-                                <button type="button" class="btn-gold" onclick="saveProducts()">Guardar cambios</button>
-                                <button type="button" class="btn-action" onclick="resetProducts()">Restaurar original</button>
+                                <button type="button" class="btn-gold" onclick="saveProducts()" aria-label="Guardar cambios">Guardar cambios</button>
+                                <button type="button" class="btn-action" onclick="resetProducts()" aria-label="Restaurar original">Restaurar original</button>
                             </div>
                         </div>
 
@@ -490,7 +490,7 @@ Antes era un div: Enter no hacia nada y un
 
                             <div class="admin-subcabecera">
                                 <h3 class="text-lg font-bold text-text-light">Conectados ahora</h3>
-                                <button type="button" class="btn-action" id="buscar-admin-refrescar">Actualizar</button>
+                                <button type="button" class="btn-action" id="buscar-admin-refrescar" aria-label="Actualizar">Actualizar</button>
                             </div>
                             <div id="buscar-admin-sesiones" class="tabla-envoltorio">
                                 <div class="vacio">Cargando…</div>
@@ -541,8 +541,8 @@ Antes era un div: Enter no hacia nada y un
                                 <h3 id="confirmar-titulo">¿Seguro?</h3>
                                 <p id="confirmar-texto" class="text-text-dark text-sm"></p>
                                 <div class="modal-acciones">
-                                    <button type="button" class="btn-action" id="confirmar-no">Cancelar</button>
-                                    <button type="button" class="btn-danger" id="confirmar-si">Sí, adelante</button>
+                                    <button type="button" class="btn-action" id="confirmar-no" aria-label="Cancelar">Cancelar</button>
+                                    <button type="button" class="btn-danger" id="confirmar-si" aria-label="Sí, adelante">Sí, adelante</button>
                                 </div>
                             </div>
                         </div>
@@ -554,33 +554,33 @@ Antes era un div: Enter no hacia nada y un
                             <div class="max-w-xl space-y-4">
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">IP del servidor (Minecraft)</label>
-                                    <input type="text" id="cfg-server-ip" class="admin-input" placeholder="play.odissey.net">
+                                    <input type="text" id="cfg-server-ip" class="admin-input" placeholder="mc.odisseymc.site" aria-label="mc.odisseymc.site">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">Puerto del servidor</label>
-                                    <input type="text" id="cfg-server-port" class="admin-input" placeholder="25565">
+                                    <input type="text" id="cfg-server-port" class="admin-input" placeholder="25565" aria-label="25565">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">Modalidad del servidor</label>
-                                    <input type="text" id="cfg-gamemode" class="admin-input" placeholder="Survival Custom">
+                                    <input type="text" id="cfg-gamemode" class="admin-input" placeholder="Survival Custom" aria-label="Survival Custom">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">Enlace de invitación de Discord</label>
-                                    <input type="url" id="cfg-discord-invite" class="admin-input" placeholder="https://dc.gg/odisseymc">
+                                    <input type="url" id="cfg-discord-invite" class="admin-input" placeholder="https://dc.gg/odisseymc" aria-label="https://dc.gg/odisseymc">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">ID del Servidor de Discord (para widget embebido en Soporte)</label>
-                                    <input type="text" id="cfg-discord-id" class="admin-input" placeholder="Ej: 123456789012345678 (o déjalo vacío)">
+                                    <input type="text" id="cfg-discord-id" class="admin-input" placeholder="Ej: 123456789012345678 (o déjalo vacío)" aria-label="Ej: 123456789012345678 (o déjalo vacío)">
                                     <p class="text-xs text-text-dark mt-1">Cómo activarlo en Discord: Ajustes del servidor > Widget > Habilitar widget del servidor y copia el "ID de servidor".</p>
                                 </div>
                                 <div class="pt-2 flex gap-3">
-                                    <button type="button" class="btn-gold" onclick="saveSiteSettings()">Guardar ajustes</button>
-                                    <button type="button" class="btn-action" onclick="resetSiteSettings()">Restaurar predeterminados</button>
+                                    <button type="button" class="btn-gold" onclick="saveSiteSettings()" aria-label="Guardar ajustes">Guardar ajustes</button>
+                                    <button type="button" class="btn-action" onclick="resetSiteSettings()" aria-label="Restaurar predeterminados">Restaurar predeterminados</button>
                                 </div>
                                 <div class="pt-6 border-t border-marine-medium">
                                     <h3 class="text-base font-bold text-text-light mb-1">Importar datos guardados en este navegador</h3>
                                     <p class="text-xs text-text-dark mb-3">Si ya editabas noticias, tienda, staff, reportes o pedidos con el panel anterior (localStorage), impórtalos aquí una sola vez para guardarlos en la base de datos del bot.</p>
-                                    <button type="button" class="btn-gold" onclick="migrateBrowserData()">Importar desde este navegador</button>
+                                    <button type="button" class="btn-gold" onclick="migrateBrowserData()" aria-label="Importar desde este navegador">Importar desde este navegador</button>
                                     <p class="text-xs text-text-dark mt-2" id="migrate-msg"></p>
                                 </div>
                             </div>
@@ -1536,7 +1536,7 @@ Antes era un div: Enter no hacia nada y un
         function getSiteSettings() {
             const saved = (window.SiteData && SiteData.get('settings')) || {};
             return Object.assign({}, window.DEFAULT_SITE_CONFIG || {
-                serverIp: 'play.odissey.net',
+                serverIp: 'mc.odisseymc.site',
                 serverPort: '25565',
                 gamemode: 'Survival Custom',
                 discordInvite: 'https://dc.gg/odisseymc',
@@ -1555,7 +1555,7 @@ Antes era un div: Enter no hacia nada y un
 
         async function saveSiteSettings() {
             const settings = {
-                serverIp: document.getElementById('cfg-server-ip').value.trim() || 'play.odissey.net',
+                serverIp: document.getElementById('cfg-server-ip').value.trim() || 'mc.odisseymc.site',
                 serverPort: document.getElementById('cfg-server-port').value.trim() || '25565',
                 gamemode: document.getElementById('cfg-gamemode').value.trim() || 'Survival Custom',
                 discordInvite: document.getElementById('cfg-discord-invite').value.trim() || 'https://dc.gg/odisseymc',
@@ -2891,12 +2891,12 @@ Antes era un div: Enter no hacia nada y un
 #cookie-banner .cb-text a{color:var(--od-marine-accent,var(--brand-gold));text-decoration:underline}
 #cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 </style>
-<div id="cookie-banner" role="dialog" aria-live="polite">
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Diálogo">
   <div class="cb-head">🍪</div>
   <div class="cb-text"></div>
   <div class="cb-actions">
-    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
-    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline" aria-label="Botón"></button>
+    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept" aria-label="Botón"></button>
   </div>
 </div>
 <script>

@@ -16,6 +16,7 @@
 #                                 Odissey NO es WordPress: esto no aplica.
 # =============================================================
 
+> El bot ya no forma parte del despliegue; estas notas se conservan solo como referencia histórica. Las cabeceras CSP reales están en .htaccess y odissey-security-headers.conf.
 
 # -------------------------------------------------------------
 # 1. CLOUDFLARE (gratis) - LO MAS RECOMENDADO
@@ -25,7 +26,7 @@
 #  1) Crear cuenta en cloudflare.com y anadir odisseymc.site.
 #     En el DNS, pon los registros con el icono de nube naranja
 #     (proxy activada). NO uses el plug-in de WordPress, no hace
-#     falta: esto es una web estatica + un bot de Node.
+#     falta: esto es una web estatica en GitHub Pages + Supabase.
 #
 #  2) SSL/TLS > Overview:
 #        Full (strict)  <- obligatorio. Con "Flexible" el trafico
@@ -94,7 +95,12 @@
 #     or (http.request.uri.path contains "..%2f")
 #  Action: Block
 #
-#  --- REGLA 5: Limitar la API (fuerza bruta) ----------------------
+#  --- HISTORICO: las reglas 5, 6 y 9 apuntaban a /bot/api/* --------
+#  El bot ya no forma parte del despliegue; Supabase Auth gestiona login
+#  y registro con sus propios limites. Estas tres reglas NO aplican hoy:
+#  se conservan como referencia por si hiciera falta limitar otro endpoint.
+#
+#  --- REGLA 5 (historica): Limitar la API (fuerza bruta) ----------
 #  Name:  Limitar intentos de login
 #  Expression:    starts_with(http.request.uri.path, "/bot/api/auth/login")
 #  Rate limiting: 5 requests / 1 minute, por IP
@@ -103,7 +109,7 @@
 #  En el editor de reglas, en "Configure rate limiting", pon
 #  "Counting characteristics > IP Address".
 #
-#  --- REGLA 6: Limitar el registro (alta automatica) --------------
+#  --- REGLA 6 (historica): Limitar el registro --------------------
 #  Name:  Limitar cuentas nuevas
 #  Expression:    starts_with(http.request.uri.path, "/bot/api/auth/register")
 #  Rate limiting: 3 requests / 10 minutes, por IP
@@ -120,7 +126,7 @@
 #  Si algun dia hay presupuesto, Super Bot Fight Mode + las
 #  reglas de Allow/Block por user agent.
 #
-#  --- REGLA 9: Rate limit de descargas de la API ------------------
+#  --- REGLA 9 (historica): Rate limit de la API ------------------
 #  Name:  Limitar la API en general
 #  Expression:    starts_with(http.request.uri.path, "/bot/api/")
 #  Rate limiting: 120 requests / 1 minute, por IP
@@ -137,7 +143,9 @@
 #       sitio (los scripts se cargan en otro momento y rompen el
 #       orden de arranque).
 #
-#  8) Lo que Cloudflare NO puede hacer y hay que hacer en el bot:
+#  8) HISTORICO: lo que Cloudflare no podia hacer y se hacia en el bot:
+#     Ya no hay bot: contrastalo con Supabase Auth / RLS antes de aplicar
+#     nada de esta lista.
 #     - El rate limiting por CUENTA (no por IP) cuando alguien entra
 #       desde la IP de una oficina o una escuela.
 #     - El bloqueo temporal a los 5 intentos fallidos.
@@ -150,7 +158,7 @@
 # 2. MODSECURITY / LITESPEED WAF (en el servidor)
 # -------------------------------------------------------------
 #  ModSecurity es un modulo de Apache/LiteSpeed que aplica reglas
-#  sobre CADA peticion antes de que llegue al PHP o al bot. Es la
+#  sobre CADA peticion antes de que llegue al PHP o al antiguo bot. Es la
 #  capa que vive en el servidor y que sigue funcionando aunque
 #  Cloudflare este caido.
 #
@@ -174,7 +182,8 @@
 #  Reglas extra para Odissey (archivomodsecurity/odissey-rules.conf):
 #
 #  -------------------------------------------------------------
-#  # Limitar el cuerpo de la peticion: el bot solo necesita JSON.
+#  # Limitar el cuerpo de la peticion: la web/Supabase no necesitan
+#  # cuerpos grandes.
 #  SecRuleRequestBodyLimit 262144 "id:1001,\
 #    phase:1,deny,status:413,log,\
 #    msg:'Cuerpo de peticion demasiado grande'"
@@ -196,8 +205,9 @@
 #    "id:1004,phase:1,deny,status:404,log,\
 #    msg:'Intento de leer un fichero de configuracion'"
 #
-#  # Fuerza bruta contra el login: mas de 20 intentos por minuto
-#  # desde la misma IP. Es la version de red de la regla por cuenta.
+#  # HISTORICO: fuerza bruta contra el login del bot (ruta /bot/api/...).
+#  # Mas de 20 intentos por minuto desde la misma IP. El bot ya no existe:
+#  # la ruta no esta desplegada; la referencia se conserva solo como ejemplo.
 #  SecRule REQUEST_URI "@streq /bot/api/auth/login" \
 #    "id:1005,phase:1,chain,log,deny,status:429"
 #    SecRule IP:REQUEST_COUNT "@gt 20" "t:none"
@@ -210,8 +220,8 @@
 #  -------------------------------------------------------------
 #
 #  NOTA IMPORTANTE sobre ModSecurity y este proyecto:
-#  El sitio usa mucho JavaScript con plantilla en linea, y el bot
-#  recibe JSON. Si al activar ModSecurity alguna cosa rompe, mira
+#  El sitio usa mucho JavaScript con plantilla en linea (y antes el bot
+#  recibia JSON). Si al activar ModSecurity alguna cosa rompe, mira
 #  /var/log/modsec_audit.log para ver que regla salta y ajustala con
 #  SecRuleRemoveById. No desactives ModSecurity entero para que una
 #  pagina cargue: eso seria volver a estar desprotegido.
@@ -227,18 +237,15 @@
 #  Odissey NO es WordPress. No hay panel de WordPress, ni plugins,
 #  ni tema, ni wp-admin. Todo eso son problemas de otra plataforma.
 #
-#  Para esta web, el equivalente real es:
+#  Equivalente real (HISTORICO: describia el despliegue con bot):
 #
-#  - "Plugins y tema al dia" -> las dependencias del bot:
+#  - "Plugins y tema al dia" -> antes, las dependencias del bot:
 #      cd /ruta/del/bot && npm audit --audit-level=high
-#      Si sale algo, se actualiza antes de desplegar.
-#  - "Acceso distinto a wp-admin" -> esto YA esta hecho:
-#      /admin existe, pero para llegar hace falta
-#        (a) estar logueado con una cuenta de la web,
-#        (b) que esa cuenta este vinculada a una cuenta de Minecraft
-#            que sea OP del servidor,
-#        (c) que el bot lo confirme en /api/admin/check.
-#      Y ahora ademas, en Nginx, una Basic Auth por delante
-#      (ver nginx.conf.example).
+#      El bot ya no se despliega. Hoy hay que revisar las librerias
+#      que cargan los HTML desde CDN y la configuracion de Supabase.
+#  - "Acceso distinto a wp-admin" -> /admin sigue protegido, pero ya no
+#      hay un /api/admin/check en el bot: el rol admin lo comprueba RLS
+#      en Supabase (ver supabase/02-politicas.sql). La Basic Auth de Nginx
+#      descrita en nginx.conf.example era del despliegue anterior.
 #  - "Escaner de virus diario" -> ver SEGURIDAD.md, seccion
 #      "Escaneo de malware".

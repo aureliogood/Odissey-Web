@@ -49,7 +49,7 @@
       <link rel="stylesheet" href="css/dala-liquid.css?v=147">
     <script src="js/dala-menu.js?v=147"></script>
     <script src="js/seguro.js?v=147"></script>
-    <script src="js/animacion.js?v=147"></script>
+    <script src="js/animacion.js?v=157"></script>
     <script src="js/dala-liquid.js?v=147" defer></script>
         <script type="application/ld+json">
 {
@@ -121,6 +121,7 @@
     <link rel="stylesheet" href="css/auth.css?v=151">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
     <div class="overlay">
         <!-- Banner de mantenimiento (oculto por defecto) -->
@@ -158,7 +159,7 @@
                     </button>
                     <button type="button" id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú" aria-controls="primaryNavLinks" aria-expanded="false"><svg class="mobile-nav-toggle__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
                     <button type="button" id="enterNavBtn" onclick="openLoginModal()"
-                        class="nav-button nav-button-primary">
+                        class="nav-button nav-button-primary" aria-label="Entrar">
                         <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="30" height="30"><span id="enterNavText">Entrar</span>
                         <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                     </button>
@@ -217,7 +218,7 @@
                 if (e.key === 'Escape') closeMenu();
             });
         </script>
-        <main id="contenido" class="flex-grow px-4 py-16">
+        <main id="main-content" class="flex-grow px-4 py-16">
             <div class="max-w-6xl mx-auto">
 <header class="shop-hero">
                     <span class="shop-ember" style="left: 12%;" aria-hidden="true"></span>
@@ -261,7 +262,7 @@
                             <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <input type="text" id="shopSearch" class="filter-input" data-i18n-placeholder="filter_search" placeholder="Buscar producto...">
+                            <input type="text" id="shopSearch" class="filter-input" data-i18n-placeholder="filter_search" placeholder="Buscar producto..." aria-label="filter_search">
                         </div>
                         <div class="filter-field">
                             <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -374,12 +375,12 @@
     <!-- Modal de entrada por nombre de Minecraft -->
     <div id="loginModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Cuenta de">
         <div id="loginView" class="login-card">
             <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
         </div>
 <div id="accountView" class="account-card hidden">
-            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <button class="close-btn" onclick="closeLoginModal()" aria-label="&amp;times;">&times;</button>
             <div class="user-header">
                 <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
                 <div class="user-info">
@@ -388,7 +389,7 @@
                         <span id="username-display"></span>
                     </h3>
                     <div class="user-actions">
-                        <button type="button" id="logout-btn" class="btn3d btn-sm" onclick="handleLogout()" data-i18n="nav_logout">Cerrar sesión</button>
+                        <button type="button" id="logout-btn" class="btn3d btn-sm" onclick="handleLogout()" data-i18n="nav_logout" aria-label="Cerrar sesión">Cerrar sesión</button>
                     </div>
                 </div>
             </div>
@@ -396,7 +397,7 @@
             <div class="mc-name-row">
                 <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para recibir el rango</label>
                 <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
-                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
+                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save" aria-label="Guardar">Guardar</button>
             </div>
             <hr class="divider">
             <div id="cart-section">
@@ -408,7 +409,7 @@
                         <span data-i18n="cart_total">Total:</span>
                         <span id="cart-total">$0.00</span>
                     </div>
-                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout" aria-label="REALIZAR PEDIDO">REALIZAR PEDIDO</button>
                 </div>
             </div>
             <div id="profile-section">
@@ -705,7 +706,7 @@ const mcNameInput = document.getElementById('mcNameInput');
             return localStorage.getItem('odissey_discord_session');
         }
         /* El bot guardaba aqui el usuario de Discord. Ese bot ya no existe, asi
-         * que esto solo se llenaba cuando el servidor de Discord回答aba, y con
+         * que esto solo se llenaba cuando el servidor de Discord respondíaaba, y con
          * Supabase nunca se llenaba: la tarjeta de cuenta salia con "Cuenta de"
          * y despues en blanco, y el boton de la cabecera no llevaba al perfil.
          *
@@ -892,24 +893,12 @@ if (mcNameInput) mcNameInput.value = (info && info.mcName) || '';
         }
         let ticketShownCount = -1;
         async function fetchTicketsData() {
-            const token = getSessionToken();
-            if (!token) return [];
-            try {
-                const res = await fetch(API_BASE + '/api/tickets?token=' + encodeURIComponent(token));
-                const data = await res.json();
-                return (data && data.ok && data.tickets) ? data.tickets : [];
-            } catch (err) { return []; }
+            // Rutas de tickets retiradas con el bot.
+            return [];
         }
         async function markTicketsRead() {
-            const token = getSessionToken();
-            if (!token) return;
-            try {
-                await fetch(API_BASE + '/api/tickets/read', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
-                });
-            } catch (err) { }
+            // Rutas de tickets retiradas con el bot.
+            return;
         }
         function setTicketNotifCount(n) {
             const badge = document.getElementById('ticketNotifBadge');
@@ -1050,7 +1039,8 @@ function openAccountOrLoginModal() {
             if (e.key === 'Escape' && !loginModal.classList.contains('hidden')) closeLoginModal();
         });
         function startDiscordLogin() {
-            window.location.href = API_BASE + '/discord/login';
+            // El acceso con Discord se ha retirado.
+            return;
         }
         async function saveMcName() {
             const token = getSessionToken();
@@ -1175,7 +1165,7 @@ loadRates();
         // ================= Cambio de idioma (ES/EN) =================
         const I18N = {
             es: {
-                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_jugar: 'Entrar al servidor', cta_discord: 'Únete al Discord',
                 cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
                 cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
                 btn_entrar: 'Entrar', btn_crear: 'Crear cuenta', btn_guardar: 'Guardar',
@@ -1183,13 +1173,13 @@ loadRates();
                 btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
                 btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
                 btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
-                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escríbenos por WhatsApp',
                 menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
                 faq_title: 'Preguntas frecuentes',
                 err_carga: 'No se ha podido cargar. Recarga la página.',
                 err_red: 'Sin conexión. Comprueba tu internet.',
                 err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
-                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
+                estado_cargando: 'Cargando…', estado_vacio: 'Nada por aquí todavía.',
 nav_eventos: 'Eventos',
 cb_decline: 'Rechazar',
 cb_accept: 'Aceptar',
@@ -1262,7 +1252,7 @@ account_cart_of: 'Carrito de',
                 err_carga: 'Could not load. Reload the page.',
                 err_red: 'No connection. Check your internet.',
                 err_generico: 'Something went wrong. Try again.',
-                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
+                estado_cargando: 'Loading…', estado_vacio: 'Nothing here yet.',
 nav_eventos: 'Events',
 cb_decline: 'Reject',
 cb_accept: 'Accept',
@@ -1354,7 +1344,12 @@ account_cart_of: 'Cart of',
             applyLang();
         }
         function getTheme() {
-            return false ? 'light' : 'dark';
+            try {
+                const g = localStorage.getItem('odissey_theme');
+                if (g === 'light' || g === 'dark') return g;
+            } catch (e) { }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+            return 'dark';
         }
         function applyTheme() {
             const light = getTheme() === 'light';
@@ -1391,7 +1386,7 @@ account_cart_of: 'Cart of',
             if (token) SiteData.loadMy(token);
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=148').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=213').catch(() => { });
         }
 </script>
     <!-- ===== Progreso de scroll + botón volver arriba ===== -->
@@ -1429,12 +1424,12 @@ account_cart_of: 'Cart of',
 #cookie-banner .cb-text a{color:var(--od-marine-accent,var(--brand-gold));text-decoration:underline}
 #cookie-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 </style>
-<div id="cookie-banner" role="dialog" aria-live="polite">
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Diálogo">
   <div class="cb-head">🍪</div>
   <div class="cb-text"></div>
   <div class="cb-actions">
-    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline"></button>
-    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept"></button>
+    <button type="button" class="cb-btn cb-decline" data-cb="decline" data-i18n="cb_decline" aria-label="Botón"></button>
+    <button type="button" class="cb-btn cb-accept" data-cb="accept" data-i18n="cb_accept" aria-label="Botón"></button>
   </div>
 </div>
 <script>
@@ -1518,3 +1513,5 @@ account_cart_of: 'Cart of',
      no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=147" defer></script>
 <script src="auth.js?v=147"></script>
+</body>
+</html>

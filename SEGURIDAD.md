@@ -8,6 +8,8 @@
 #  mantiene esto lo es.
 # =============================================================
 
+> El bot ya no forma parte del despliegue; estas notas se conservan solo como referencia histórica. Las cabeceras CSP reales están en .htaccess y odissey-security-headers.conf.
+
 ## 0. Resumen: qué está hecho y qué falta
 
 | Capa | Estado | Dónde |
@@ -22,15 +24,18 @@
 | Enfriamiento de intentos de login | Hecho (cliente) | `admin.html` |
 | Reautenticación para acciones críticas | Hecho (cliente) | `admin.html` |
 | Anti-spam en formularios | Hecho (cliente) | `js/formulario.js` |
-| **Passwords con hash fuerte** | **PENDIENTE: es en el bot** | abajo, §4.2 |
-| **2FA para administradores** | **PENDIENTE: es en el bot** | abajo, §4.3 |
-| **Rate limit por IP en el servidor** | **PENDIENTE: es en el bot** | abajo, §4.1 |
+| **Passwords con hash fuerte** | Histórico (bot retirado); hoy lo gestiona Supabase Auth | abajo, §4.2 |
+| **2FA para administradores** | Histórico (bot retirado); valorar MFA de Supabase | abajo, §4.3 |
+| **Rate limit por IP en el servidor** | Histórico (bot retirado); hoy: Supabase Auth + Cloudflare | abajo, §4.1 |
 | Backups automáticos | Documentado, falta configurar | abajo, §6 |
 | Integridad de ficheros | Documentado, falta configurar | abajo, §6.3 |
 | Escaneo de malware | Documentado, falta configurar | abajo, §6.4 |
 
-Lo que queda pendiente es todo del lado del **bot de Node.js**, que no
-está en esta carpeta. Cada punto dice exactamente dónde tocar.
+Las secciones que hablan del **bot de Node.js** son históricas: el bot ya
+no está en el despliegue. Hoy la autenticación y los permisos viven en
+Supabase (Auth + RLS), las cabeceras en `.htaccess` y
+`odissey-security-headers.conf`, y la protección perimetral en Cloudflare.
+Cada punto histórico dice dónde se habría tocado entonces.
 
 
 ## 1. Red y certificados
@@ -116,12 +121,14 @@ de CSP, dice exactamente qué recurso lo provocó y qué línea de la
 política hay que corregir.
 
 
-## 4. Autenticación — lo que falta (todo en el bot)
+## 4. Autenticación — notas históricas del bot (solo referencia)
 
-Esta sección es la más importante. Lo del cliente ya está; lo que
-falta es lo del servidor, que es el que manda.
+Esta sección describía tareas del antiguo servidor Node. Ya no aplican tal
+cual: Supabase Auth gestiona contraseñas y sesiones, y RLS aplica los
+permisos en la base de datos. Se conserva como contexto histórico; para el
+estado actual de la migración, ver `MIGRACION-SUPABASE.md`.
 
-### 4.1 Rate limiting por IP y por cuenta
+### 4.1 Rate limiting por IP y por cuenta (histórico)
 
 **Por qué:** sin esto, un atacante puede probar millones de
 contraseñas por segundo. El enfriamiento del navegador (5 intentos)
@@ -183,7 +190,7 @@ En la red, `nginx.conf.example` ya trae una capa más
 (`limit_req` por IP). Las dos juntas: la de red para el volumen, la
 de aplicación para el detalle.
 
-### 4.2 Hash de contraseñas
+### 4.2 Hash de contraseñas (histórico)
 
 **Por qué:** el bot guarda contraseñas para poder comprobar el login.
 Si esas contraseñas se roban de la base de datos, con MD5 o SHA1
@@ -224,7 +231,7 @@ porque el hash no tiene la contraseña. La forma correcta:
 Es algo molesto pero es la única forma. Nunca re-hashear sin tener la
 contraseña en la mano.
 
-### 4.3 2FA para administradores
+### 4.3 2FA para administradores (histórico)
 
 **Por qué:** una contraseña robada (phishing, fuerza bruta, una
 contraseña reutilizada de otra web) da acceso total al panel. Con 2FA,
@@ -327,12 +334,10 @@ linea de contenido. El HTML estaba perfecto, los enlaces funcionaban y
 la consola no decia nada. Es el peor tipo de fallo posible, porque no
 se ve hasta que ya lo ha visto todo el mundo.
 
-Por eso `ftexto.ps1` ejecuta siempre una comprobacion que carga cada
-pagina de verdad y verifica que ningun `.reveal` se queda sin ver:
-
-```
-powershell -ExecutionPolicy Bypass -File ftexto.ps1
-```
+Antes se comprobaba con el script `ftexto.ps1`, que cargaba cada pagina de
+verdad y verificaba que ningun `.reveal` se quedara sin ver. Ese script de
+mantenimiento ya no está en el repositorio; la comprobacion manual sigue
+siendo util (abrir las paginas y mirar que el contenido aparece).
 
 Ademas hay dos redes de seguridad en `js/animacion.js`, para que esto
 no vuelva a pasar aunque el observer falle:
@@ -354,9 +359,9 @@ no vuelva a pasar aunque el observer falle:
   navegador bloquearía cualquier script inyectado aunque se corrigiese
   el XSS. Es la mejora de seguridad más grande que queda. Muy
   laborioso: cientos de atributos.
-- **Tres pares de CSS idénticos** (`eventos`/`noticias`,
-  `reportes`/`postulaciones`, y `404`/`privacidad`/`terminos`):
-  ~140 KB de duplicados en disco.
+- ~~**Tres pares de CSS idénticos** (`eventos`/`noticias`,
+  `reportes`/`postulaciones`, y `404`/`privacidad`/`terminos`).~~
+  Resuelto: se borraron los CSS huérfanos duplicados que nadie cargaba.
 - **3 pares de bloques `loading="lazy"`** ya arreglados, pero siguen
   sin `width`/`height` 170 imágenes más.
 
@@ -370,9 +375,11 @@ no vuelva a pasar aunque el observer falle:
 - **1 copia fuera del servidor** (la que te salva si te hackean el
   hosting entero).
 
-**Copias automáticas cada noche:**
+**Copias automáticas cada noche (histórico):**
 
-Si el bot está en un VPS con systemd:
+El ejemplo siguiente correspondía al antiguo bot en un VPS con systemd;
+el sitio actual se publica en GitHub Pages y Supabase gestiona sus propias
+copias. Se conserva como referencia, no como paso del despliegue actual:
 ```bash
 # /etc/cron.d/odissey-backup
 0 4 * * * root /home/odissey/backup.sh >> /var/log/odissey-backup.log 2>&1
@@ -413,13 +420,14 @@ Si eso no funciona, la copia no sirve.
 
 ### 6.2 Registro de auditoría
 
-Odissey ya tiene algo: `/api/admin/log` registra quién entra al
-panel y qué borra. Lo que falta:
+Histórico: el antiguo bot ofrecía `/api/admin/log` y `/api/admin/registro`
+para registrar entradas al panel y cambios. Hoy la actividad se consulta en
+Supabase (Auth y la tabla de auditoría correspondiente, si está activada).
+Lo que conviene revisar:
 
 - Registrar también los **cambios de permisos** (dar admin, cambiar
   rol) y los **inicios de sesión** de los administradores con IP y
-  dispositivo. El panel ya tiene esa pantalla (`/api/admin/registro`),
-  pero conviene confirmar que el bot está escribiendo en ella.
+  dispositivo, usando los mecanismos de Supabase en vez del bot.
 
 - **No registrar contraseñas ni tokens** en los logs. Nunca. Si
   alguien lee el log, no debe poder entrar con lo que haya ahí.
@@ -472,7 +480,7 @@ gratuito que vigila por fuera: **Sucuri SiteCheck** o
 ### 6.5 Mantener todo actualizado
 
 ```bash
-# En la carpeta del bot:
+# Histórico: en la carpeta del antiguo bot:
 npm audit --audit-level=high
 npm outdated
 
@@ -480,7 +488,9 @@ npm outdated
 mvn dependency:tree | grep -i 'vulnerable\|SNYK'
 ```
 
-Cada mes, y **antes** de cada despliegue.
+Cada mes, y **antes** de cada despliegue. En la web estática no hay
+dependencias npm que auditar: las librerías se sirven desde CDN y hay que
+revisar sus versiones en los HTML.
 
 
 ## 7. Comprobación rápida (5 minutos, hazla cada mes)

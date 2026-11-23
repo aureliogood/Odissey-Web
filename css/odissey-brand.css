@@ -97,6 +97,55 @@
   color-scheme: dark;
 }
 
+/* Tema claro. El botón de tema guarda la preferencia en localStorage y
+   applyTheme() añade esta clase al <html>. Antes la clase no tenía estilos
+   globales: el botón parecía funcionar pero la página no cambiaba. */
+html.theme-light {
+  color-scheme: light;
+  --brand-black: #eef2f7;
+  --brand-bg: #ffffff;
+  --brand-bg-deep: #e2e8f0;
+  --brand-surface: #f8fafc;
+  --brand-surface-raised: #f1f5f9;
+  --brand-panel: #ffffff;
+  --brand-well: #f1f5f9;
+  --brand-text: #0f172a;
+  --brand-white: #ffffff;
+  --brand-secondary: #475569;
+  --brand-muted: #64748b;
+  --brand-border: rgba(15, 23, 42, 0.14);
+  --brand-border-accent: rgba(15, 23, 42, 0.28);
+  --od-bg: #ffffff;
+  --od-bg-deep: #e2e8f0;
+  --od-page: #ffffff;
+  --od-side: #f1f5f9;
+  --od-surface: #f8fafc;
+  --od-surface-raised: #f1f5f9;
+  --od-panel: #ffffff;
+  --od-well: #f1f5f9;
+  --od-surface-glass: rgba(15, 23, 42, 0.035);
+  --od-surface-glass-hover: rgba(15, 23, 42, 0.06);
+  --od-border-glass: rgba(15, 23, 42, 0.12);
+  --od-border-glass-hover: rgba(15, 23, 42, 0.24);
+  --od-text-primary: #0f172a;
+  --od-text-secondary: #475569;
+  --od-text-muted: #64748b;
+  --od-text-light: #0f172a;
+  --od-ink: #0f172a;
+  --od-ink-soft: #475569;
+  --od-muted: #64748b;
+  --od-on-face: #ffffff;
+  --od-marine-darker-rgb: 15, 23, 42;
+  --od-marine-medium-rgb: 241, 245, 249;
+  --od-marine-dark-rgb: 255, 255, 255;
+  --od-text-light-rgb: 15, 23, 42;
+  --od-text-dark-rgb: 71, 85, 105;
+}
+
+html.theme-light body {
+  background-image: linear-gradient(180deg, #ffffff, #f8fafc 45%, #eef2f7) !important;
+}
+
 html,
 body {
   background-color: var(--brand-bg) !important;

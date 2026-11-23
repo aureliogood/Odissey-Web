@@ -234,12 +234,8 @@
     const cuerpo = Object.assign({}, o.body || {});
     const conCuerpo = cuerpo && Object.keys(cuerpo).length > 0;
 
-    let url = API + ruta;
-    const tk = token();
-    if (tk && o.auth !== false) {
-      if (metodo === 'GET') url += (url.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(tk);
-      else cuerpo.token = tk;
-    }
+    // Supabase guarda la sesión en localStorage: el token no va en la URL.
+    const url = API + ruta;
 
     const res = await fetch(url, {
       method: metodo,
@@ -256,8 +252,6 @@
     } catch (e) {
       falloJson = e.message || 'la respuesta no es JSON';
     }
-    console.log('[API] ' + url.slice(-30) + ' status=' + res.status + ' resOk=' + res.ok +
-      ' datosOk=' + (datos && datos.ok) + ' tipoDatos=' + typeof datos);
     return { ok: res.ok, status: res.status, datos: datos, falloJson: falloJson };
   }
 
@@ -301,9 +295,7 @@
       return null;
     }
 
-    const tk = token();
-    const url = API + '/api/auth/profile/image?kind=' + kind + '&ext=' + encodeURIComponent(ext)
-      + (tk ? '&token=' + encodeURIComponent(tk) : '');
+    const url = API + '/api/auth/profile/image?kind=' + kind + '&ext=' + encodeURIComponent(ext);
     avisar(idioma() === 'en' ? 'Uploading…' : 'Subiendo…', '');
     const res = await fetch(url, {
       method: 'POST',
@@ -457,7 +449,7 @@
     if (nueva === null) return;
 
     const r = await api('/api/auth/password', { body: { currentPassword: actual, newPassword: nueva } });
-    if (!r.ok || !r.datos || !r.dados.ok) {
+    if (!r.ok || !r.datos || !r.datos.ok) {
       avisar(errorDe(r, t('passMal')), 'es-error');
       return;
     }

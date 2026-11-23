@@ -1,85 +1,100 @@
-# Migración a Supabase — qué hacer y en qué orden
+# Migración a Supabase — estado actual y scripts de referencia
 
-> Estado a 2026-10-10. La web ya está en GitHub Pages y **el backend
-> (el bot) ya no es accesible**: `odisseymc.site/bot` devuelve 404 porque
-> ese dominio lo sirve GitHub Pages, que solo da archivos estáticos. O sea
-> que login, registro, tickets, reportes y panel de admin **ahora mismo no
-> funcionan**. Esto no es una mejora: es recuperar esa parte.
-
----
-
-## 0. Lo que hay que ejecutar en Supabase (tú, 5 minutos)
-
-En el panel de Supabase → **SQL Editor** → New query. Ejecuta los tres
-archivos **por este orden**, porque el segundo usa funciones del primero:
-
-| Orden | Archivo | Qué crea |
-|---|---|---|
-| 1º | `supabase/01-esquema.sql` | Tablas y funciones base |
-| 2º | `supabase/02-politicas.sql` | Políticas RLS |
-| 3º | `supabase/03-datos.sql` | Triggers, función de login, comprobaciones |
-
-**El paso 3 termina con dos consultas de comprobación.** Ambas deben
-devolver **cero filas**:
-
-- `SIN RLS: …` — si sale alguna tabla, esa tabla está abierta para todo el
-  mundo. Es el fallo más grave posible y no avisa por sí solo.
-- `POLIZA ABIERTA: …` — policies de escritura sin condición.
-
-Si alguna sale, no sigas: mándame lo que devuelven.
-
-### Después, en Authentication → Providers → Email
-
-Deja marcado **Confirm email**. Está así a propósito: es lo que permite
-que Supabase envíe el "confirma tu correo" y que bloquee los bots que se
-registran en lote.
+> **Estado a 2026-11-22: la migración YA está implementada.** La web es un
+> sitio estático publicado en GitHub Pages y el bot/API en `/bot` ya no forma
+> parte del despliegue: no hay backend Node que atienda peticiones.
+> `js/datos.js` intercepta las llamadas de la web a su propia ruta `/api/*`
+> y las responde desde Supabase, con permisos aplicados por RLS. Login,
+> registro, perfil, contenido, reportes, valoraciones, pedidos y panel de
+> administración funcionan contra Supabase. Las funciones que dependían de
+> un proceso siempre encendido (tickets en Discord, RCON, puente de staff)
+> se retiraron; no se han reimplementado.
 
 ---
 
-## 1. Lo que ya está hecho en la web
+## 0. Los scripts SQL: fuente de la verdad del esquema
 
-- `js/supabase.js` — cliente único (uno solo para toda la web: con varios,
-  las sesiones se pisan entre páginas).
-- `site-config.js` — URL y publishable key.
+Los SQL de `supabase/` ya están aplicados en el proyecto de Supabase y son
+la referencia del esquema, las políticas y los datos iniciales: si hay que
+cambiar la base de datos, primero se cambia el SQL correspondiente y luego
+se ejecuta en Supabase → **SQL Editor**. No existe una copia de esta lógica
+en el bot, porque el bot ya no está desplegado.
+
+| Archivo | Para qué sirve |
+|---|---|
+| `supabase/01-esquema.sql` | Tablas base y estructuras compartidas |
+| `supabase/02-politicas.sql` | Políticas RLS: aquí están los permisos reales |
+| `supabase/03-datos.sql` | Trigger de alta de perfil, validación de nombre y comprobaciones |
+| `supabase/04-comprobacion.sql` | Informe de verificación (solo lectura) |
+| `supabase/05-almacen.sql` | Cubo de Storage para imágenes de perfil y políticas |
+| `supabase/06-comprobar-almacen.sql` | Verificación del cubo y sus políticas (solo lectura) |
+| `supabase/07-equipo.sql` | Datos iniciales de `staff_members` |
+| `supabase/08-baneos.sql` | Historial público de baneos |
+| `supabase/09-apelaciones-baneos.sql` | Apelaciones de baneos desde la web |
+
+`04-comprobacion.sql` y `06-comprobar-almacen.sql` son solo `SELECT`: se
+pueden ejecutar las veces que haga falta. Si `02-politicas.sql` deja alguna
+tabla sin RLS o una política de escritura sin condición, hay que corregirla
+en el propio SQL antes de dar nada por bueno.
+
+### En Authentication → Providers → Email
+
+Conviene verificar que sigue marcado **Confirm email**: es lo que hace que
+Supabase envíe el correo de confirmación y frena el registro masivo de bots.
+
+---
+
+## 1. Lo que ya está implementado en la web
+
+- `js/supabase.js` — cliente único (con varios, las sesiones se pisan entre
+  páginas). Se carga antes que `auth.js` en las páginas que lo usan.
+- `site-config.js` — URL del proyecto y publishable key. No hay URL del bot.
 - `auth.js` — login y registro contra Supabase Auth; también
   `comprobarSesion()` y `salir()`.
-- `auth.js` enlazado en 14 páginas, antes de `auth.js` (que lo necesita).
-- Verificado en Chrome real: la librería carga, el cliente se crea, el login
-  llega a Supabase y responde "credenciales incorrectas". **Cero llamadas
-  al bot.**
+- `js/datos.js` — interceptor de `fetch()` para las peticiones de la web a
+  su propio `/api/*`. Mantiene las ~221 llamadas existentes y las resuelve
+  contra Supabase: sesión, perfil, comprobación de admin, contenido,
+  reportes, valoraciones, pedidos y panel de administración. Los permisos
+  los aplica RLS en la base de datos, no JavaScript.
+- `supabase/02-politicas.sql` — políticas RLS por rol; `supabase/*.sql` es
+  la fuente de la verdad del esquema.
 
 ---
 
-## 2. Lo que falta
+## 2. Estado de las tareas que antes estaban pendientes
 
-Nada de esto está hecho todavía:
-
-| # | Tarea | Dónde |
+| # | Tarea | Estado actual |
 |---|---|---|
-| 1 | Perfil: `/api/auth/profile`, `/api/auth/profile/image` | `auth.js`, `perfil.js` |
-| 2 | Contenido: noticias, eventos, galería, productos, ajustes | `site-data.js`, `site-config.js` |
-| 3 | Reportes, valoraciones, pedidos | 6 páginas |
-| 4 | Panel de admin (con RLS por rol) | `admin.html` |
-| 5 | Tickets → Discord (Edge Function) | `web.js` |
-| 6 | **Eliminar el bot** y la integración de Turnstile | `Bot-Tickets/` |
-| 7 | Migrar los datos de `tickets.db` | `Bot-Tickets/tickets.db` |
+| 1 | Perfil: `/api/auth/profile`, `/api/auth/profile/image` | Hecho en `auth.js` + `js/datos.js` (tabla `profiles` y Storage) |
+| 2 | Contenido: noticias, eventos, galería, productos, ajustes | Hecho: `js/datos.js` sirve `/api/content` desde Supabase |
+| 3 | Reportes, valoraciones, pedidos | Hecho en `js/datos.js`, con RLS |
+| 4 | Panel de admin (con RLS por rol) | Hecho en `admin.html` + `supabase/02-politicas.sql` |
+| 5 | Tickets → Discord (Edge Function) | Retirado: no hay bot; `/api/tickets/*` responde 501 |
+| 6 | Eliminar el bot y su integración | El bot está fuera del despliegue; `js/turnstile.js` sigue pidiendo el reto en cliente (ver §4) |
+| 7 | Migrar los datos de `tickets.db` | No aplica: no hay backend al que migrarlos. Solo tendrían salvación desde una copia antigua, fuera de este repo |
 
-### Funciones del bot que desaparecen
+### Funciones retiradas (sin sustituto)
 
-Decidido por ti:
-
+- **Tickets en Discord** (`/api/tickets/*`) — creación de canales.
 - **RCON de Minecraft** (`/api/mc/*`) — leía la lista de OP por TCP.
 - **Puente de staff** (`/api/staff/puente*`) — intercambio de códigos en vivo.
+- **Vinculación de Discord** (`/api/auth/discord/*`), `/api/guilds/*` y
+  `/api/discord/stats`.
 
 Necesitaban un proceso siempre encendido, y GitHub Pages no lo es.
+`js/datos.js` responde 501 a estas rutas y oculta la interfaz que las usaba.
 
 ---
 
-## 3. La trampa de las cuentas existentes
+## 3. Las cuentas del bot (contexto histórico)
 
-Las cuentas del bot están con contraseñas cifradas por `database.js`
+> Esta sección se conserva solo para explicar por qué no se intentó
+> importar la antigua base de usuarios. El bot ya no está desplegado y
+> las cuentas se crean directamente en Supabase Auth.
+
+Las cuentas del bot estaban cifradas por `database.js`
 (`db.hashPassword`). Supabase Auth usa **bcrypt** por su cuenta. Son
-algoritmos distintos: **no se puede transferring el hash tal cual**.
+algoritmos distintos: **no se puede transferir el hash tal cual**.
 
 Alguien con cuenta en el bot **no podrá entrar** con la misma contraseña
 tras la migración. Dos caminos:
@@ -92,7 +107,10 @@ tras la migración. Dos caminos:
   que de verdad se nota perder). Requiere la `service_role key`, que es
   secreta y va solo en el servidor.
 
-Dime cuál cuando lleguemos a ese punto.
+En la práctica no hay migración activa: no existe el bot del que importar
+usuarios, y el alta se hace en Supabase Auth. El camino B quedaría como
+referencia solo si se recuperase una copia antigua con cuentas que hubiera
+que preservar.
 
 ---
 
@@ -121,14 +139,15 @@ una cerradura provisional.
 
 ## 5. Publicar
 
-Todo esto **está en tu disco, no subido**. La web en producción sigue igual
-(con el login roto) hasta que subas.
+La web se publica como sitio estático en GitHub Pages: el despliegue es el
+push a la rama publicada, no un servidor Node. El zip sigue siendo útil
+para un hosting clásico:
 
 ```powershell
 node package.js          # genera web-publish.zip
 ```
 
-`supabase/` y los scripts `_*.cjs` quedan fuera del zip a propósito.
-
-**No subas todavía** hasta tener las tablas creadas en Supabase: si subes
-antes, el login dá error contra tablas inexistentes.
+`supabase/`, los SQL y los artefactos `_*` quedan fuera del zip a propósito.
+Antes de publicar, confirma que los SQL de la tabla anterior están aplicados
+en Supabase: si faltan tablas o políticas, las llamadas desde `js/datos.js`
+darán error aunque el sitio estático cargue bien.

@@ -237,11 +237,6 @@
     }
   }
 
-/** Id del usuario con sesion, o null. De un vistazo, sin esperar. */
-  function perfilActualSync() {
-    return ficha.cache ? ficha.perfil : null;
-  }
-
   /* Espera a que la sesion este DE VERDAD decidida.
 
      obtener() resuelve en cuanto el cliente esta creado, que no es lo

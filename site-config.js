@@ -11,11 +11,11 @@
 //                        > Widget > activar y copiar el ID.
 // =============================================================
 window.DEFAULT_SITE_CONFIG = {
-    serverIp: '38.58.179.117:25569',
-    serverPort: '25569',
+    serverIp: 'mc.odisseymc.site',
+    serverPort: '25565',
     version: '1.20 - 1.21',
     gamemode: 'Survival Custom',
-    discordInvite: 'https://dc.gg/odisseymc',
+    discordInvite: 'https://discord.gg/odisseymc',
     discordServerId: '1542393721318940782',
 
     // ------------------------------------------------------
@@ -113,7 +113,7 @@ window.SITE_CONFIG = Object.assign({}, window.DEFAULT_SITE_CONFIG);
                 // Supabase configurado: entonces no llega nunca y hay que
                 // seguir adelante igualmente, que es lo que hacia este
                 // archivo antes (simplemente no se aplicaba nada).
-                if (intentos > 120) { listo(); return; }
+                if (intentos > 100) { listo(); return; }
                 setTimeout(mirar, 50);
             })();
         });

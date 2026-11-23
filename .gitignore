@@ -18,12 +18,18 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
-# Scripts de comprobacion. Empiezan por guion bajo y NO son parte del
-# sitio: miden el login, el contraste y la geometria con un navegador
-# real. Estaban en el repositorio publico y no deberian: enseyan como
-# esta hecho el sitio sin aportar nada.
+# Artefactos de depuracion y temporales. Empiezan por guion bajo y NO
+# son parte del sitio: capturas, notas y scripts de comprobacion (medidas
+# del login, contraste y geometria con navegador real). No deberian estar
+# en el repositorio publico: enseyan como esta hecho el sitio sin aportar
+# nada.
+_*.png
+_*.txt
 _*.cjs
 !_comprobar-visible.cjs
+
+# Logs
+*.log
 
 # Comprobaciones propias de la migracion a Supabase.
 # OJO: la carpeta supabase/ NO se ignora a proposito. Los SQL son la

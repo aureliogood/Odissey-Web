@@ -85,6 +85,11 @@ function fueraDePublicacion(nombre) {
      cuela, llega al zip. Por eso el filtro va aqui, en copiar(), que
      es lo que decide de verdad. */
   if (/^_.*\.cjs$/i.test(nombre)) return true;
+  /* Capturas y notas de depuracion (_admin.png, _msg.txt...). Antes se
+     subian al hosting; algunas mostraban el panel de administracion. */
+  if (/^_.*\.(png|jpe?g|txt|webp)$/i.test(nombre)) return true;
+  /* Herramientas de build y scripts locales. */
+  if (/\.(ps1|bat|zip|md)$/i.test(nombre)) return true;
   /* Los SQL de Supabase se ejecutan en el panel de supabase.co, no en el
      hosting. La carpeta va en EXCLUIDOS, porque aqui solo llega el nombre
      sin ruta y un /^supabase\// no encajaria nunca. */
@@ -133,6 +138,8 @@ const NUNCA_PUBLICO = [
      no rompe nada, pero publica en el hosting las pruebas y deja a
      cualquiera ver como esta hecho. */
   /^_.*\.cjs$/i,
+  /^_.*\.(png|jpe?g|txt|webp)$/i,
+  /\.(bat|zip)$/i,
   /* Los SQL de Supabase se ejecutan en el panel de supabase.co, no en el
      hosting. No son secretos, pero tampoco tienen por que estar ahi. */
   /^supabase\//i,
@@ -238,5 +245,5 @@ console.log('  1. Abre el hosting y sube el CONTENIDO del zip en la carpeta');
 console.log('     publica (htdocs / public_html / www), no el zip entero.');
 console.log('  2. El .htaccess va dentro: sin el, las rutas limpias');
 console.log('     (/tienda, /staff...) no funcionaran.');
-console.log('  3. La API del bot (odisseymc.site/bot) tiene que estar');
-console.log('     levantada, si no el estado del servidor sale a 0.');
+console.log('  3. Los datos los sirve Supabase desde el navegador: revisa que');
+console.log('     site-config.js tenga la URL y la clave publicas correctas.');

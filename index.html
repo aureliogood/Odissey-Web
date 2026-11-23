@@ -44,7 +44,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
     
     <script src="js/seguro.js?v=157"></script>
-    <script src="js/animacion.js?v=157" defer></script>
+    <script src="js/animacion.js?v=157"></script>
 
     <style>
         /* ============================================================
@@ -105,6 +105,7 @@
     <link rel="stylesheet" href="css/auth.css?v=151">
 </head>
 <body class="min-h-full flex flex-col relative bg-[var(--brand-bg)] text-white">
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
     <!-- Ambient Cosmic Glow (OdisseyMC) -->
     <div class="od-bg-glow"></div>
@@ -152,7 +153,7 @@
             <!-- Navbar Actions -->
             <div class="flex items-center gap-3">
                 <!-- IP Copy Button Pill -->
-                <button type="button" onclick="copyIpAddress()" class="od-ip-pill hidden md:inline-flex" title="Clic para copiar IP">
+                <button type="button" onclick="copyIpAddress()" class="od-ip-pill hidden md:inline-flex" title="Clic para copiar IP" aria-label="Clic para copiar IP">
                     <span id="serverStatusDot" class="od-dot-pulse"></span>
                     <span id="serverStatusText">Online</span>
                     <span style="opacity: 0.35;">|</span>
@@ -161,14 +162,14 @@
 
                 <!-- Login / Account Button with Circular Avatar -->
                 <button type="button" id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú" aria-controls="primaryNavLinks" aria-expanded="false"><svg class="mobile-nav-toggle__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-                <button type="button" id="enterNavBtn" onclick="openLoginModal()" class="od-btn-primary">
+                <button type="button" id="enterNavBtn" onclick="openLoginModal()" class="od-btn-primary" aria-label="Entrar">
                     <img id="enterNavAvatar" class="nav-avatar hidden" alt="" width="24" height="24" style="border-radius: 50% !important; width: 24px !important; height: 24px !important; object-fit: cover !important; border: 1.5px solid rgba(255,255,255,0.3) !important;">
                     <span id="enterNavText">Entrar</span>
                     <span id="ticketNotifBadge" class="ticket-notif-badge hidden"></span>
                 </button>
 
                 <!-- Cart Button -->
-                <button type="button" id="cartBtn" onclick="openCartModal()" class="hidden relative p-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white" title="Carrito de compras">
+                <button type="button" id="cartBtn" onclick="openCartModal()" class="hidden relative p-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:bg-white/10 text-white" title="Carrito de compras" aria-label="Carrito de compras">
                     <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                     <span id="cartBadge" class="cart-count">0</span>
                 </button>
@@ -178,7 +179,7 @@
     </header>
 
     <!-- Main Content -->
-    <main id="contenido" class="relative z-10 flex-grow" style="padding-top: 104px;">
+    <main id="main-content" class="relative z-10 flex-grow" style="padding-top: 104px;">
 
         <!-- ============================================================
              HERO FULL-WIDTH SPARTAN BACKGROUND (Artwork oficial Odissey)
@@ -217,7 +218,7 @@
 
                     <!-- CTA Buttons (OdisseyMC 8px Rounded, Compact) -->
                     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 28px;">
-                        <button type="button" onclick="copyIpAddress()" class="od-btn-primary">
+                        <button type="button" onclick="copyIpAddress()" class="od-btn-primary" aria-label="Copiar IP &amp; Jugar">
                             <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                             <span>Copiar IP & Jugar</span>
                         </button>
@@ -241,7 +242,7 @@
                         <span class="od-text-gold">20 TPS</span> estables.
                     </h2>
                     <p class="od-bench-desc" style="font-size: 14.5px; color: rgba(255, 255, 255, 0.6); line-height: 1.55; margin: 0 0 36px 0;">
-                        Promedio de tick rate en Odissey con carga de jugadores en tiempo real.
+                        Comparativa orientativa: cómo responde un servidor bien optimizado al aumentar la carga.
                     </p>
 
                     <!-- Fila 1: Odissey (Siempre 20 TPS) -->
@@ -271,7 +272,7 @@
                         <div class="od-bench-row-top">
                             <span class="od-bench-server muted">
                                 <svg viewBox="0 0 24 24" class="od-bench-server-icon" fill="currentColor" aria-hidden="true"><path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m2 4v4h4v2H8v6h2v-2h4v2h2v-6h-2v-2h4V6h-4v4h-4V6z"></path></svg>
-                                <span>Otros servidores · <span id="otherPlayersText">2</span> jugadores</span>
+                                <span>Otros servidores · <span id="otherPlayersText">2</span> jugadores simulados</span>
                             </span>
                             <span class="od-bench-value muted">
                                 <span id="otherTpsNum" class="od-bench-val-num">20</span>
@@ -316,6 +317,8 @@
                     </p>
                 </div>
             </div>
+
+        </section>
 
             <section class="od-story-section" aria-labelledby="odStoryTitle">
                 <div class="od-story-grid">
@@ -555,7 +558,7 @@
 
             <div>
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Cuál es la IP del servidor y cómo me conecto? +">
                         <span>¿Cuál es la IP del servidor y cómo me conecto?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -565,7 +568,7 @@
                 </div>
 
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Qué versiones de Minecraft están admitidas? +">
                         <span>¿Qué versiones de Minecraft están admitidas?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -575,7 +578,7 @@
                 </div>
 
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Es compatible con cuentas No-Premium y Premium? +">
                         <span>¿Es compatible con cuentas No-Premium y Premium?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -585,7 +588,7 @@
                 </div>
 
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Cómo protejo mis casas, cofres y terrenos? +">
                         <span>¿Cómo protejo mis casas, cofres y terrenos?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -595,7 +598,7 @@
                 </div>
 
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Qué es el sistema de Pesca exclusivo? +">
                         <span>¿Qué es el sistema de Pesca exclusivo?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -605,7 +608,7 @@
                 </div>
 
                 <div class="od-faq-item">
-                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)">
+                    <button type="button" class="od-faq-question" onclick="toggleFaq(this)" aria-label="¿Los rangos de la tienda otorgan ventajas Pay to Win (P2W)? +">
                         <span>¿Los rangos de la tienda otorgan ventajas Pay to Win (P2W)?</span>
                         <span class="od-faq-icon">+</span>
                     </button>
@@ -626,9 +629,9 @@
         <div id="adminBtn" class="hidden"><a href="/admin">Admin</a></div>
         <div id="guideJava" class="hidden"></div>
         <div id="guideBedrock" class="hidden"></div>
-        <button id="guideSwitchBtn" class="hidden"></button>
+        <button id="guideSwitchBtn" class="hidden" aria-label="Guide Switch Btn"></button>
         <span id="guideSubtitle" class="hidden"></span>
-        <button id="langBtn" class="hidden"></button>
+        <button id="langBtn" class="hidden" aria-label="Lang Btn"></button>
         <span id="serverVersion" class="hidden"></span>
     </main>
 
@@ -763,18 +766,18 @@
 <!-- Modal de entrada por nombre de Minecraft -->
     <div id="loginModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9999] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Cuenta de">
         <div id="loginView" class="login-card">
             <button type="button" class="close-btn" onclick="closeLoginModal()" data-i18n-aria="close" aria-label="Cerrar">&times;</button>
         </div>
 <div id="accountView" class="account-card hidden">
-            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <button class="close-btn" onclick="closeLoginModal()" aria-label="&amp;times;">&times;</button>
             <div class="user-header">
                 <img id="user-bust" src="https://mc-heads.net/avatar/steve/100" alt="Minecraft Head" width="100" height="100">
                 <div class="user-info">
                     <h3><span data-i18n="account_title" id="accountViewTitle">Cuenta de</span> <span id="username-display"></span></h3>
                     <div class="user-actions">
-                        <button type="button" id="logout-btn" class="btn3d btn-sm" onclick="handleLogout()" data-i18n="nav_logout">Cerrar sesión</button>
+                        <button type="button" id="logout-btn" class="btn3d btn-sm" onclick="handleLogout()" data-i18n="nav_logout" aria-label="Cerrar sesión">Cerrar sesión</button>
                     </div>
                 </div>
             </div>
@@ -782,7 +785,7 @@
             <div class="mc-name-row">
                 <label for="mcNameInput" class="mc-name-label" data-i18n="mc_name">Nombre MC para compras in-game</label>
                 <input id="mcNameInput" name="minecraft" type="text" class="mc-name-input" maxlength="16" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" pattern="[A-Za-z0-9_]{3,16}" placeholder="Steve" aria-label="Tu nombre de Minecraft">
-                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save">Guardar</button>
+                <button type="button" class="btn3d btn-sm" onclick="saveMcName()" data-i18n="mc_save" aria-label="Guardar">Guardar</button>
             </div>
             <hr class="divider">
             <div id="cart-section">
@@ -794,7 +797,7 @@
                         <span data-i18n="cart_total">Total:</span>
                         <span id="cart-total">$0.00</span>
                     </div>
-                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout">REALIZAR PEDIDO</button>
+                    <button type="button" class="btn3d w-full" onclick="checkoutCart()" data-analytics="conversion_compra" data-i18n="cart_checkout" aria-label="REALIZAR PEDIDO">REALIZAR PEDIDO</button>
                 </div>
             </div>
             <div id="profile-section">
@@ -812,15 +815,15 @@
     <!-- Modal de información del staff -->
     <div id="staffModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Diálogo">
         <div id="staffModalContent" class="staff-panel"></div>
     </div>
     <!-- Modal de calificación de staff -->
     <div id="ratingModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Calificar a aureliogood">
         <div id="ratingView" class="staff-panel">
-            <button class="close-btn" onclick="closeRatingModal()">&times;</button>
+            <button class="close-btn" onclick="closeRatingModal()" aria-label="&amp;times;">&times;</button>
             <div class="staff-panel-header">
                 <img id="rating-skin" src="https://mc-heads.net/head/aureliogood/128" alt="Staff skin" width="128" height="128">
                 <div>
@@ -839,15 +842,15 @@
             </div>
             <textarea id="rating-comment" name="comentario" class="rating-comment" maxlength="500" rows="3" placeholder="Cuéntanos algo breve (opcional)..."></textarea>
             <p id="rating-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn">Enviar calificación</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitRating()" data-analytics="conversion_valoracion" data-i18n="rating_submit_btn" aria-label="Enviar calificación">Enviar calificación</button>
         </div>
     </div>
     <!-- Modal de reporte de jugador -->
     <div id="reportModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[9998] items-center justify-center p-4 hidden"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);" aria-label="Reportar un jugador">
         <div id="reportView" class="staff-panel">
-            <button class="close-btn" onclick="closeReportModal()">&times;</button>
+            <button class="close-btn" onclick="closeReportModal()" aria-label="&amp;times;">&times;</button>
             <div class="staff-panel-header">
                 <img src="https://mc-heads.net/head/steve/128" alt="Reportar jugador" id="report-player-head" width="128" height="128">
                 <div>
@@ -861,7 +864,7 @@
                 <img id="report-head-preview" src="https://mc-heads.net/head/steve/40" alt="Vista previa" width="40" height="40">
                 <input type="text" id="report-target" name="jugador" placeholder="Jugador a reportar" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="16" pattern="[A-Za-z0-9_]{1,16}" required aria-label="Nombre del jugador a reportar">
             </div>
-            <select id="report-reason" class="rating-comment mt-4">
+            <select id="report-reason" class="rating-comment mt-4" aria-label="Trampa / Hacks Spam Acoso Duplicación Griefing Otro">
                 <option value="Trampa / Hacks">Trampa / Hacks</option>
                 <option value="Spam">Spam</option>
                 <option value="Acoso">Acoso</option>
@@ -877,16 +880,16 @@
                  envio (ver js/formulario.js). -->
             <input type="text" id="report-trampa" class="form-trampa"
                 tabindex="-1" autocomplete="off" aria-hidden="true"
-                name="sitio_web" value="">
+                name="sitio_web" value="" aria-label="Report trampa">
             <p id="report-msg" class="text-sm mt-3 min-h-[1.2em]" style="color:#ffb74d;"></p>
-            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn">Enviar reporte</button>
+            <button type="button" class="btn3d w-full mt-4" onclick="submitReport()" data-analytics="conversion_reporte" data-i18n="report_submit_btn" aria-label="Enviar reporte">Enviar reporte</button>
         </div>
     </div>
     <!-- Modal Lightbox para la Galería de Builds -->
     <div id="lightboxModal" role="dialog" aria-modal="true"
         class="fixed inset-0 z-[10000] hidden items-center justify-center p-4"
-        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()">&times;</button>
+        style="background-color: rgba(var(--od-marine-darker-rgb), 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);" aria-label="Diálogo">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-marine-accent transition-colors font-bold z-10" onclick="closeLightbox()" aria-label="&amp;times;">&times;</button>
         <div class="flex flex-col items-center max-w-4xl w-full">
             <img id="lightboxImg" src="" alt="Build" width="1280" height="720" class="max-h-[75vh] w-auto max-w-full rounded-2xl shadow-2xl border-2 border-marine-accent object-contain">
             <p id="lightboxCap" class="mt-4 text-center text-text-light font-medium text-base md:text-lg"></p>
@@ -977,7 +980,7 @@
         }
         async function updatePlayerCounts() {
             const config = (window.SITE_CONFIG || {});
-            const serverIp = config.serverIp || 'play.odissey.net';
+            const serverIp = config.serverIp || 'mc.odisseymc.site';
             const gamemode = config.gamemode || 'Survival Custom';
             const gamemodeEl = document.getElementById('serverGamemode');
             if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
@@ -1066,7 +1069,7 @@ const mcNameInput = document.getElementById('mcNameInput');
             return localStorage.getItem('odissey_discord_session');
         }
         /* El bot guardaba aqui el usuario de Discord. Ese bot ya no existe, asi
-         * que esto solo se llenaba cuando el servidor de Discord回答aba, y con
+         * que esto solo se llenaba cuando el servidor de Discord respondíaaba, y con
          * Supabase nunca se llenaba: la tarjeta de cuenta salia con "Cuenta de"
          * y despues en blanco, y el boton de la cabecera no llevaba al perfil.
          *
@@ -1177,24 +1180,12 @@ const mcNameInput = document.getElementById('mcNameInput');
         }
         let ticketShownCount = -1;
         async function fetchTicketsData() {
-            const token = getSessionToken();
-            if (!token) return [];
-            try {
-                const res = await fetch(API_BASE + '/api/tickets?token=' + encodeURIComponent(token));
-                const data = await res.json();
-                return (data && data.ok && data.tickets) ? data.tickets : [];
-            } catch (err) { return []; }
+            // Rutas de tickets retiradas con el bot.
+            return [];
         }
         async function markTicketsRead() {
-            const token = getSessionToken();
-            if (!token) return;
-            try {
-                await fetch(API_BASE + '/api/tickets/read', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
-                });
-            } catch (err) { }
+            // Rutas de tickets retiradas con el bot.
+            return;
         }
         function setTicketNotifCount(n) {
             const badge = document.getElementById('ticketNotifBadge');
@@ -1414,7 +1405,8 @@ function openAccountOrLoginModal() {
             if (e.key === 'Escape' && !document.getElementById('lightboxModal').classList.contains('hidden')) closeLightbox();
         });
         function startDiscordLogin() {
-            window.location.href = API_BASE + '/discord/login';
+            // El acceso con Discord se ha retirado.
+            return;
         }
         async function saveMcName() {
             const token = getSessionToken();
@@ -2124,7 +2116,7 @@ function renderDiscordWidget() {
         // ================= Cambio de idioma (ES/EN) =================
         const I18N = {
             es: {
-                cta_jugar: 'Entrar al servidór', cta_discord: 'Únete al Discord',
+                cta_jugar: 'Entrar al servidor', cta_discord: 'Únete al Discord',
                 cta_copy_ip: 'Copiar IP del servidor', cta_launcher: 'Ver launcher para Windows',
                 cta_tienda: 'Ver la tienda', cta_entrar: 'Entrar', cta_salir: 'Cerrar sesión',
                 cta_registro: 'Crear cuenta', cta_entrar_cuenta: 'Entrar en mi cuenta',
@@ -2133,13 +2125,13 @@ function renderDiscordWidget() {
                 btn_copiar: 'Copiar', btn_volver: 'Volver', btn_salir: 'Salir',
                 btn_soporte: 'Pedir ayuda', btn_reportar: 'Reportar jugador',
                 btn_valorar: 'Valorar', btn_comprar: 'Comprar', btn_carrito: 'Carrito',
-                btn_menu: 'Abrir menú', btn_whatsapp: 'Escr¡benos por WhatsApp',
+                btn_menu: 'Abrir menú', btn_whatsapp: 'Escríbenos por WhatsApp',
                 menu_abrir: 'Abrir menú', menu_cerrar: 'Cerrar menú',
                 faq_title: 'Preguntas frecuentes',
                 err_carga: 'No se ha podido cargar. Recarga la página.',
                 err_red: 'Sin conexión. Comprueba tu internet.',
                 err_generico: 'Algo ha ido mal. Inténtalo de nuevo.',
-                estado_cargando: 'Cargando¿', estado_vacio: 'Nada por aquí todavía.',
+                estado_cargando: 'Cargando…', estado_vacio: 'Nada por aquí todavía.',
 why_c1_t: 'Para todos igual',
 why_c2_t: 'Staff que responde',
 why_c3_t: 'IP y acceso',
@@ -2175,7 +2167,7 @@ guide_java_4b: 'en la dirección.',
                 guide_sub_bedrock: 'Sigue estos pasos para entrar desde Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'mc.odisseymc.lat',
+btn_copy_ip: 'mc.odisseymc.site',
 why_title: '¿Qué diferencia hay en Odissey a otros servidores?',
 why_p1: 'Odissey no es un servidor más. Mientras muchos lugares venden ventajas que aplastan a los nuevos, aquí construimos una comunidad donde todos empiezan con las mismas oportunidades y cada hora invertida se siente. Nuestro mundo es un lienzo vivo: construye tu base junto al mar, hazte con los mejores kits, abre cofres con llaves infernales y decide tu propio camino hacia la leyenda.',
 why_p2: 'Detrás de todo hay un staff presente, activo y cercano, listo para escucharte desde el primer día. Nada de reglas absurdas ni administración invisible: aquí reportas, te responden y el juego se mantiene limpio y justo para todos. Además, nuestro Discord es el corazón de Odissey: eventos, anuncios y una comunidad que ya se siente como familia.',
@@ -2229,7 +2221,7 @@ cb_accept: 'Aceptar',
                 err_carga: 'Could not load. Reload the page.',
                 err_red: 'No connection. Check your internet.',
                 err_generico: 'Something went wrong. Try again.',
-                estado_cargando: 'Loading¿', estado_vacio: 'Nothing here yet.',
+                estado_cargando: 'Loading…', estado_vacio: 'Nothing here yet.',
 why_c1_t: 'The same for everyone',
 why_c2_t: 'Staff who answers',
 why_c3_t: 'IP and access',
@@ -2265,7 +2257,7 @@ guide_java_4b: 'in the address field.',
                 guide_sub_bedrock: 'Follow these steps to join from Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'mc.odisseymc.lat',
+btn_copy_ip: 'mc.odisseymc.site',
 why_title: 'What makes Odissey different from other servers?',
 why_p1: 'Odissey is not just another server. While many places sell advantages that crush newcomers, here we build a community where everyone starts with the same chances and every hour you invest is felt. Our world is a living canvas: build your base by the sea, get the best kits, open chests with infernal keys and choose your own path to legend.',
 why_p2: 'Behind it all there is a staff that is present, active and approachable, ready to listen from day one. No absurd rules and no invisible administration: you report, they answer, and the game stays clean and fair for everyone. Our Discord is also the heart of Odissey: events, announcements and a community that already feels like family.',
@@ -2333,7 +2325,12 @@ function toggleLang() {
             renderDiscordWidget();
         }
         function getTheme() {
-            return false ? 'light' : 'dark';
+            try {
+                const g = localStorage.getItem('odissey_theme');
+                if (g === 'light' || g === 'dark') return g;
+            } catch (e) { }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+            return 'dark';
         }
         function applyTheme() {
             const light = getTheme() === 'light';
@@ -2382,7 +2379,7 @@ function toggleLang() {
             }
         });
         if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-            navigator.serviceWorker.register('service-worker.js?v=148').catch(() => { });
+            navigator.serviceWorker.register('service-worker.js?v=213').catch(() => { });
         }
     </script>
 <!-- Aviso de cookies -->
@@ -2451,8 +2448,8 @@ function toggleLang() {
     <h3 class="cb-title"></h3>
     <p class="cb-text"></p>
     <div class="cb-actions">
-      <button type="button" class="cb-decline" data-cb="decline"></button>
-      <button type="button" class="cb-accept" data-cb="accept"></button>
+      <button type="button" class="cb-decline" data-cb="decline" aria-label="Botón"></button>
+      <button type="button" class="cb-accept" data-cb="accept" aria-label="Botón"></button>
     </div>
   </div>
 </div>
@@ -2551,3 +2548,5 @@ function toggleLang() {
      no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=147" defer></script>
 <script src="auth.js?v=147"></script>
+</body>
+</html>

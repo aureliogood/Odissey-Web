@@ -50,7 +50,7 @@
      se responde 501 y la interfaz que la usa se oculta. */
   const RETIRADAS = [
     /^\/api\/tickets/,
-    /^\/api\/mc\//,
+    /^\/api\/mc\/(?!status$).*/,
     /^\/api\/staff\/puente/,
     /^\/api\/staff\/(link|status)/,
     /^\/api\/auth\/discord/,
@@ -124,9 +124,12 @@
 
 
   function responder(datos, codigo) {
+    const status = codigo || 200;
     return Promise.resolve({
-      ok: true,
-      status: codigo || 200,
+      // Un 4xx/5xx tiene que llegar como ok:false. Antes siempre era true
+      // y las paginas con `if (!r.ok)` creian que habia funcionado.
+      ok: status >= 200 && status < 300,
+      status: status,
       json: function () { return Promise.resolve(datos); },
       text: function () { return Promise.resolve(JSON.stringify(datos)); },
       clone: function () { return this; },
@@ -336,18 +339,69 @@ function mantenimientoPlano(m) {
       return responder({ ok: true, path: url.publicUrl, url: url.publicUrl, ...columna });
     }
 
+    /* Evidencia de reportes (soporte.html). Antes el bot guardaba el archivo
+       en /uploads; aqui va a un cubo de Storage aparte con su propia politica.
+       Elnombre va dentro de la carpeta del usuario para que la RLS sepa
+       quien lo subio. */
+    if (ruta === '/api/upload') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const nombre = String(query.name || 'evidencia').replace(/[^A-Za-z0-9_.\-]/g, '_').slice(-80);
+      const buffer = await cuerpoBinario(peticion);
+      if (!buffer || !buffer.length) return responder({ ok: false, error: 'archivo_vacio' }, 400);
+      if (buffer.length > 25 * 1024 * 1024) return responder({ ok: false, error: 'demasiado_grande' }, 413);
+      const rutaArchivo = u.id + '/' + Date.now() + '_' + nombre;
+      const { error } = await sb.storage.from('evidencias').upload(rutaArchivo, buffer, {
+        contentType: peticion && peticion.headers && peticion.headers.get
+          ? (peticion.headers.get('content-type') || 'application/octet-stream')
+          : 'application/octet-stream',
+        cacheControl: '31536000',
+      });
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      const { data: url } = sb.storage.from('evidencias').getPublicUrl(rutaArchivo);
+      return responder({ ok: true, url: url.publicUrl, path: url.publicUrl });
+    }
+
     if (ruta === '/api/auth/password') {
       if (!u) return responder({ ok: false }, 401);
-      const { error } = await sb.auth.updateUser({ password: cuerpo && cuerpo.password });
+
+      // La web envia currentPassword y newPassword (camelCase, como el bot).
+      // Verificamos la contraseña actual antes de cambiarla: Supabase permite
+      // updateUser con una sesion valida, pero eso no demostraria que quien
+      // pulsa el boton conoce la clave actual.
+      const actual = cuerpo && cuerpo.currentPassword;
+      const nueva = cuerpo && cuerpo.newPassword;
+      if (!actual || typeof nueva !== 'string' || nueva.length < 8) {
+        return responder({ ok: false, error: 'Datos de contraseña no válidos (mínimo 8 caracteres).' }, 400);
+      }
+      const comprobacion = await sb.auth.signInWithPassword({ email: u.email, password: actual });
+      if (comprobacion.error) {
+        return responder({ ok: false, error: 'La contraseña actual no es correcta.' }, 400);
+      }
+      const { error } = await sb.auth.updateUser({ password: nueva });
       if (error) return responder({ ok: false, error: error.message }, 400);
-      return responder({ ok: true });
+
+      // La sesion puede haberse refrescado al cambiar la clave. Se devuelve
+      // el token vigente para que perfil.js lo guarde y no cierre la sesion.
+      const { data: sesion } = await sb.auth.getSession();
+      const p = await perfilDe(sb, u.id);
+      return responder({
+        ok: true,
+        user: usuarioPlano(u, p),
+        token: (sesion && sesion.session && sesion.session.access_token) || null,
+      });
     }
 
     if (ruta === '/api/auth/email') {
       if (!u) return responder({ ok: false }, 401);
       const { error } = await sb.auth.updateUser({ email: cuerpo && cuerpo.email });
       if (error) return responder({ ok: false, error: error.message }, 400);
-      return responder({ ok: true });
+      const { data: sesion } = await sb.auth.getSession();
+      const p = await perfilDe(sb, u.id);
+      return responder({
+        ok: true,
+        user: usuarioPlano(u, p),
+        token: (sesion && sesion.session && sesion.session.access_token) || null,
+      });
     }
 
     // ---- contenido publico ----
@@ -511,6 +565,118 @@ function mantenimientoPlano(m) {
       });
     }
 
+    /* ---- registro de sesiones / lupa / ficha del panel admin ----
+       El panel heredó estas tres rutas del bot. La RLS de login_log solo
+       deja leer a los admin; aun asi se comprueba el rol aqui tambien. */
+    async function datosAdmin() {
+      if (!u) return { error: responder({ ok: false, error: 'no_auth' }, 401) };
+      if (!(await esAdmin(sb, u))) return { error: responder({ ok: false, error: 'sin_permiso' }, 403) };
+      return {};
+    }
+
+    function filaLogin(l) {
+      return {
+        uid: l.uid || null,
+        username: l.username || l.login || '',
+        login: l.login || '',
+        correcto: !!l.correcto,
+        motivo: l.motivo || '',
+        creado: l.creado || null,
+        cuando: l.creado || null,
+        ip: l.ip || '',
+        device: l.dispositivo || l.user_agent || '',
+      };
+    }
+
+    if (ruta === '/api/admin/registro') {
+      const permiso = await datosAdmin();
+      if (permiso.error) return permiso.error;
+      const limite = Math.min(200, Math.max(1, parseInt(query.limite, 10) || 60));
+      const { data, error } = await sb.from('login_log').select('*')
+        .order('creado', { ascending: false }).limit(limite);
+      if (error) return responder({ ok: false, error: error.message }, 400);
+      // Las sesiones abiertas las gestiona Supabase; desde el cliente no se
+      // pueden enumerar. El historial de entradas si esta disponible.
+      return responder({ ok: true, sesiones: [], logins: (data || []).map(filaLogin) });
+    }
+
+    if (ruta === '/api/admin/buscar') {
+      const permiso = await datosAdmin();
+      if (permiso.error) return permiso.error;
+      const q = (query.q || '').trim().toLowerCase();
+      if (q.length < 2) return responder({ ok: true, resultados: [] });
+      const [{ data: porNombre }, { data: porMc }] = await Promise.all([
+        sb.from('profiles').select('*').ilike('username_lower', '%' + q + '%').limit(20),
+        sb.from('profiles').select('*').ilike('mc_name', '%' + q + '%').limit(20),
+      ]);
+      const vistos = {};
+      const resultados = (porNombre || []).concat(porMc || []).filter(function (p) {
+        if (vistos[p.id]) return false;
+        vistos[p.id] = true;
+        return true;
+      }).map(function (p) {
+        return {
+          uid: p.id,
+          username: p.username,
+          email: '', // el correo de otras cuentas no esta expuesto al cliente
+          mc_name: p.mc_name || '',
+          accent_color: p.accent_color || '',
+          last_seen: p.visto || p.creado || null,
+          role: p.rol || 'user',
+          suspendido_hasta: null,
+        };
+      });
+      return responder({ ok: true, resultados: resultados });
+    }
+
+    if (ruta === '/api/admin/usuario') {
+      const permiso = await datosAdmin();
+      if (permiso.error) return permiso.error;
+      const uid = query.uid || '';
+      if (!uid) return responder({ ok: false, error: 'faltan_datos' }, 400);
+      const [{ data: p }, { data: logins }, { data: reportes }, { data: valoraciones }] = await Promise.all([
+        sb.from('profiles').select('*').eq('id', uid).maybeSingle(),
+        sb.from('login_log').select('*').eq('uid', uid).order('creado', { ascending: false }).limit(50),
+        sb.from('reports').select('id').eq('user_id', uid),
+        sb.from('ratings').select('id').eq('user_id', uid),
+      ]);
+      if (!p) return responder({ ok: false, error: 'usuario_no_encontrado' }, 404);
+      const cuenta = {
+        uid: p.id,
+        username: p.username,
+        email: '',
+        role: p.rol || 'user',
+        mc_name: p.mc_name || '',
+        bio: p.bio || '',
+        creado: p.creado || null,
+        visto: p.visto || null,
+        tiene_password: true,
+        ultima_ip: '',
+        ultimo_dispositivo: '',
+        suspendido_hasta: null,
+        suspendido_motivo: '',
+        suspendido_por: '',
+      };
+      return responder({
+        ok: true,
+        ficha: {
+          cuenta: cuenta,
+          minecraft: p.mc_name ? {
+            mc_name: p.mc_name, mc_uuid: '', es_op: false,
+            verificado: false, desde: p.creado || null,
+          } : null,
+          actividad: {
+            sesiones: (logins || []).length,
+            reportes: (reportes || []).length,
+            calificaciones: (valoraciones || []).length,
+            tickets: 0, // los tickets se retiraron con el bot
+          },
+          sesiones: [],
+          logins: (logins || []).map(filaLogin),
+        },
+      });
+    }
+
     if (ruta === '/api/mcname') {
       if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
       const { error } = await sb.from('profiles')
@@ -520,12 +686,42 @@ function mantenimientoPlano(m) {
       return responder({ ok: true });
     }
 
+    /* Estado del enlace con Minecraft. El RCON del bot se ha retirado, pero
+       el vinculo se guarda en profiles.mc_name y la pagina de perfil solo
+       necesita saber si existe y si la cuenta tiene permisos de admin. */
+    if (ruta === '/api/mc/status' && metodo === 'GET') {
+      if (!u) return responder({ ok: false, error: 'no_auth' }, 401);
+      const p = await perfilDe(sb, u.id);
+      return responder({
+        ok: true,
+        vinculado: !!(p && p.mc_name),
+        mcName: (p && p.mc_name) || '',
+        esAdmin: !!(p && p.rol === 'admin'),
+        verificado: false,
+      });
+    }
+
     if (ruta === '/api/users/search') {
       const q = (query.q || (cuerpo && cuerpo.q) || '').toLowerCase();
       if (!q) return responder({ ok: true, users: [] });
       const { data } = await sb.from('profiles').select('*')
         .ilike('username_lower', '%' + q + '%').limit(20);
       return responder({ ok: true, users: data || [] });
+    }
+
+    /* Perfil publico: perfil.html?u=nombre. Solo se devuelven los campos
+       que la propia pagina ya trata como publicos; nunca el email ni el rol
+       real de otra cuenta (perfil.js lo fuerza a 'user'). */
+    if (ruta.indexOf('/api/users/') === 0) {
+      const nombre = decodeURIComponent(ruta.slice('/api/users/'.length)).trim().toLowerCase();
+      if (!nombre) return responder({ ok: false, error: 'usuario_no_encontrado' }, 404);
+      const { data: p } = await sb.from('profiles').select('*')
+        .eq('username_lower', nombre).maybeSingle();
+      if (!p) return responder({ ok: false, error: 'usuario_no_encontrado' }, 404);
+      const publico = usuarioPlano({ id: p.id, email: '' }, p);
+      publico.joinedAt = p.creado ? new Date(p.creado).getTime() : 0;
+      publico.createdAt = publico.joinedAt;
+      return responder({ ok: true, user: publico });
     }
 
     // ---- valoraciones ----
@@ -729,8 +925,8 @@ function mantenimientoPlano(m) {
           /* Restaurar: se deja la fila como estaba con los valores de
              fabrica. No se borra, para no romper los NOT NULL. */
           var { error: errR } = await sb.from('site_settings').update({
-            server_ip: 'odisseymc.net', server_port: '25565', gamemode: 'Survival Custom',
-            discord_invite: 'https://discord.gg/odisseymc', discord_server_id: null,
+            server_ip: 'mc.odisseymc.site', server_port: '25565', gamemode: 'Survival Custom',
+            discord_invite: 'https://discord.gg/odisseymc', discord_server_id: '1542393721318940782',
             version: '1.20 - 1.21', updated_at: new Date().toISOString(),
           }).eq('id', 1);
           if (errR) return responder({ ok: false, error: errR.message }, 400);

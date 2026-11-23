@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090a0c">
   <meta name="description" content="Panel de administración para los bots de Discord de Odissey MC.">
+  <link rel="canonical" href="https://odisseymc.site/bots">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>Panel de bots · Odissey MC</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +23,9 @@
   <header class="topbar"><a class="brand" href="/"><img class="brand-logo" src="img/odisseymc-logo.png" alt="Logo de OdisseyMC" width="2148" height="732"><span><small>BOT CONTROL</small></span></a><a class="back" href="/admin">Panel de administración <span>↗</span></a></header>
   <main class="shell">
     <section class="intro"><div><p class="eyebrow"><i></i> CONTROL EN AZURE</p><h1>Tus bots, <em>bajo control.</em></h1><p class="lead">Edita los paneles, mensajes y detecciones. Los cambios se guardan en Azure y se aplican en vivo.</p></div><div class="connection" id="connection"><span class="pulse"></span><span id="connectionText">Conectando con Azure…</span></div></section>
-    <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal">Conectar con Azure</button><button class="button secondary hidden" id="retry">Reintentar conexión</button></section>
+    <section id="gate" class="card gate"><div class="gate-icon">⌁</div><h2 id="gateTitle">Comprobando tu acceso</h2><p id="gateText">Inicia sesión con una cuenta administradora de Odissey.</p><a class="button primary hidden" id="loginLink" href="/perfil">Iniciar sesión</a><button class="button primary hidden" id="connectLocal" aria-label="Conectar con Azure">Conectar con Azure</button><button class="button secondary hidden" id="retry" aria-label="Reintentar conexión">Reintentar conexión</button></section>
     <div id="app" class="hidden">
-      <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button><button class="tab" data-tab="activity"><span class="tab-icon">◷</span>Actividad <small>REGISTROS</small></button></nav>
+      <nav class="tabs" aria-label="Configuración de bots"><button class="tab active" data-tab="tickets" aria-label="▤ Tickets BOT 01"><span class="tab-icon">▤</span>Tickets <small>BOT 01</small></button><button class="tab" data-tab="welcome" aria-label="✦ Bienvenida BOT 02"><span class="tab-icon">✦</span>Bienvenida <small>BOT 02</small></button><button class="tab" data-tab="activity" aria-label="◷ Actividad REGISTROS"><span class="tab-icon">◷</span>Actividad <small>REGISTROS</small></button></nav>
       <section class="pane active" id="pane-tickets">
         <div class="section-heading"><div><p class="eyebrow">CENTRO DE SOPORTE</p><h2>Panel de tickets</h2><p>Personaliza el texto que ve la comunidad y las opciones para abrir un ticket.</p></div><span class="live-badge"><i></i> Se aplica en vivo</span></div>
         <div class="layout">
@@ -36,12 +37,12 @@
             <div class="divider"></div><h3>Destino y equipo</h3>
             <label>Rol de soporte <select id="supportRoleId"></select></label>
             <label>Canal de registros y transcripts <select id="logsChannelId"></select></label>
-            <div class="divider"></div><div class="subhead"><div><h3>Secciones de tickets</h3><p class="hint">Cada sección crea una opción en el panel.</p></div><button class="button mini" id="addCategory">＋ Añadir</button></div>
+            <div class="divider"></div><div class="subhead"><div><h3>Secciones de tickets</h3><p class="hint">Cada sección crea una opción en el panel.</p></div><button class="button mini" id="addCategory" aria-label="＋ Añadir">＋ Añadir</button></div>
             <div id="categories" class="category-list"></div><small class="field-help">Discord permite hasta cinco secciones en este formato de panel.</small>
-            <div class="divider"></div><div class="subhead"><div><h3>Tickets</h3><p class="hint">Busca, revisa, cierra o reabre tickets. Los cierres guardan el transcript.</p></div><button class="button mini" id="refreshTickets" type="button">Actualizar</button></div>
+            <div class="divider"></div><div class="subhead"><div><h3>Tickets</h3><p class="hint">Busca, revisa, cierra o reabre tickets. Los cierres guardan el transcript.</p></div><button class="button mini" id="refreshTickets" type="button" aria-label="Actualizar">Actualizar</button></div>
             <div class="two-fields"><label>Estado<select id="ticketStatusFilter"><option value="open">Abiertos</option><option value="closed">Cerrados</option><option value="all">Todos</option></select></label><label>Buscar<input id="ticketSearch" type="search" placeholder="N.º, usuario o categoría"></label></div>
             <div id="openTickets" class="dashboard-list" aria-live="polite"></div>
-            <div id="ticketPermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets">Guardar cambios</button></div>
+            <div id="ticketPermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="ticketNote"></span><button class="button primary save" id="saveTickets" aria-label="Guardar cambios">Guardar cambios</button></div>
           </div>
           <aside class="preview-column"><div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div><div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># soporte</span></div><div class="discord-body"><div class="discord-avatar">O</div><div><div class="discord-author">Odissey Support <small>HOY A LAS 12:04</small></div><div class="discord-embed"><div class="embed-title" id="previewTitle"></div><p id="previewDescription"></p><div class="preview-options" id="previewCategories"></div><div class="embed-footer" id="previewFooter"></div></div></div></div></div><div class="tip"><span>↻</span><p>El panel publicado por el bot se edita al guardar. Si todavía no publicaste uno, usa <code>/setup</code> en Discord.</p></div></aside>
         </div>
@@ -51,7 +52,7 @@
         <div class="layout">
           <div class="card form-card">
             <h3>Canales y equipo</h3>
-            <div class="bot-health-grid"><article><span>Bot de tickets</span><b id="ticketsBotStatus">Consultando…</b><small id="ticketsBotHeartbeat"></small></article><article><span>Bot global</span><b id="welcomeBotStatus">Consultando…</b><small id="welcomeBotHeartbeat"></small></article><button class="button mini" id="refreshBotStatus" type="button">Actualizar estado</button></div>
+            <div class="bot-health-grid"><article><span>Bot de tickets</span><b id="ticketsBotStatus">Consultando…</b><small id="ticketsBotHeartbeat"></small></article><article><span>Bot global</span><b id="welcomeBotStatus">Consultando…</b><small id="welcomeBotHeartbeat"></small></article><button class="button mini" id="refreshBotStatus" type="button" aria-label="Actualizar estado">Actualizar estado</button></div>
             <label>Canal de bienvenida <select id="welcomeChannelId"></select></label>
             <label>Canal privado de alertas <select id="alertsChannelId"></select></label>
             <label>Rol que recibe alertas <select id="staffRoleId"></select></label>
@@ -70,7 +71,7 @@
             <p class="hint">El bot consulta Minecraft cada 30 segundos y edita el mismo mensaje. Si pierde conexión después de estar en línea, mostrará «Reiniciando» durante hasta 2 minutos; después marcará «Apagado».</p>
             <div id="minecraftLiveStatus" class="minecraft-live-status" data-state="unknown" role="status"><span class="minecraft-live-dot"></span><span id="minecraftLiveText">Consultando el servidor…</span></div>
             <div class="two-fields"><label>IP o host de Minecraft<input id="statusHost" maxlength="253" placeholder="38.58.179.117"></label><label>Puerto<input id="statusPort" type="number" min="1" max="65535" placeholder="25569"></label></div>
-            <label>Dirección pública que verá la comunidad<input id="statusDisplayAddress" maxlength="260" placeholder="mc.odisseymc.lat:25569"><small class="field-help">El bot consulta la IP de conexión, pero publica esta dirección en Discord.</small></label>
+            <label>Dirección pública que verá la comunidad<input id="statusDisplayAddress" maxlength="260" placeholder="mc.odisseymc.site"><small class="field-help">El bot consulta la IP de conexión, pero publica esta dirección en Discord.</small></label>
             <label>Canal del mensaje de estado <select id="statusChannelId"></select></label>
             <label>Título del mensaje<input id="statusMessageTitle" maxlength="100" placeholder="Estado del servidor"></label>
             <div class="two-fields status-message-fields">
@@ -83,9 +84,9 @@
             <div class="minecraft-status-preview">
               <div class="minecraft-preview-heading"><span>VISTA PREVIA DEL MENSAJE</span><span>DISCORD</span></div>
               <div class="minecraft-preview-tabs" role="group" aria-label="Estado de vista previa">
-                <button type="button" data-status-preview="online" aria-pressed="true">En línea</button>
-                <button type="button" data-status-preview="restarting" aria-pressed="false">Reiniciando</button>
-                <button type="button" data-status-preview="offline" aria-pressed="false">Apagado</button>
+                <button type="button" data-status-preview="online" aria-pressed="true" aria-label="En línea">En línea</button>
+                <button type="button" data-status-preview="restarting" aria-pressed="false" aria-label="Reiniciando">Reiniciando</button>
+                <button type="button" data-status-preview="offline" aria-pressed="false" aria-label="Apagado">Apagado</button>
               </div>
               <article id="minecraftPreviewCard" class="minecraft-preview-card" data-state="online">
                 <span class="minecraft-preview-accent"></span>
@@ -96,7 +97,7 @@
               </article>
             </div>
             <div id="statusPermissionIssues" class="permission-issues" hidden></div>
-            <div class="form-actions"><span class="save-note" id="statusNote"></span><button class="button primary save" id="saveStatus" type="button">Guardar estado del servidor</button></div>
+            <div class="form-actions"><span class="save-note" id="statusNote"></span><button class="button primary save" id="saveStatus" type="button" aria-label="Guardar estado del servidor">Guardar estado del servidor</button></div>
             <div class="divider"></div><h3>Detección de cuentas</h3>
             <div class="two-fields"><label>Edad mínima de cuenta (días)<input id="minAccountAgeDays" type="number" min="0" max="3650"></label><label>Distancia de similitud<input id="maxSimilarityDistance" type="number" min="0" max="8"></label></div>
             <label class="check-row"><input id="checkImpersonation" type="checkbox"><span><b>Detectar imitaciones del staff</b><small>Compara los nombres nuevos con la lista protegida.</small></span></label>
@@ -108,9 +109,9 @@
             <div class="two-fields"><label>Máx. menciones por mensaje<input id="autoModMaxMentions" type="number" min="0" max="20"><small class="field-help">0 desactiva este filtro.</small></label><label>Mensajes por 10 segundos<input id="autoModMessageLimit" type="number" min="3" max="30"></label></div>
             <label>Timeout tras 3 infracciones (minutos)<input id="autoModTimeout" type="number" min="0" max="1440"><small class="field-help">0 elimina el mensaje, pero no aplica timeout.</small></label>
             <label>Roles exentos<select id="autoModExemptRoles" multiple size="5"></select><small class="field-help">Usa Ctrl para seleccionar varios roles.</small></label>
-            <div class="divider"></div><div class="subhead"><div><h3>Actividad de moderación</h3><p class="hint">Acciones recientes del filtro anti spam.</p></div><button class="button mini" id="refreshModeration" type="button">Actualizar</button></div>
+            <div class="divider"></div><div class="subhead"><div><h3>Actividad de moderación</h3><p class="hint">Acciones recientes del filtro anti spam.</p></div><button class="button mini" id="refreshModeration" type="button" aria-label="Actualizar">Actualizar</button></div>
             <div id="moderationActivity" class="dashboard-list"></div>
-            <div id="welcomePermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome" type="button">Guardar bienvenida</button></div>
+            <div id="welcomePermissionIssues" class="permission-issues" hidden></div><div class="form-actions"><span class="save-note" id="welcomeNote"></span><button class="button primary save" id="saveWelcome" type="button" aria-label="Guardar bienvenida">Guardar bienvenida</button></div>
             <div class="divider"></div><h3>Anuncios y eventos</h3>
             <p class="hint">Publica ahora o programa un mensaje. No se permiten menciones automáticas a roles o a toda la comunidad.</p>
             <label>Canal donde se publicarán <select id="announcementChannelId"></select></label>
@@ -118,21 +119,21 @@
             <label>Título<input id="announcementTitle" maxlength="180" placeholder="Novedades de Odissey"></label>
             <label>Mensaje<textarea id="announcementDescription" rows="4" maxlength="3000" placeholder="Escribe lo que quieres comunicar..."></textarea></label>
             <label>Imágenes del anuncio<input id="announcementImage" type="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple><small class="field-help">Hasta 3 imágenes PNG, JPG, GIF o WebP · máximo 5 MB cada una. Se mostrarán debajo del texto.</small></label>
-            <button class="button mini announcement-remove-image" id="removeAnnouncementImage" type="button" hidden>Quitar imagen</button>
+            <button class="button mini announcement-remove-image" id="removeAnnouncementImage" type="button" hidden aria-label="Quitar imagen">Quitar imagen</button>
             <div class="two-fields"><label>Texto del botón (opcional)<input id="announcementButtonLabel" maxlength="80" placeholder="Más información"></label><label>Enlace HTTPS<input id="announcementButtonUrl" type="url" maxlength="500" placeholder="https://..." ></label></div>
             <label>Miniatura (URL HTTPS, opcional)<input id="announcementThumbnailUrl" type="url" maxlength="500" placeholder="https://.../logo.png"></label>
             <label>Texto al pie<input id="announcementFooter" maxlength="200" value="Odissey MC · Información oficial"></label>
             <div class="two-fields"><label>Fecha del evento (opcional)<input id="announcementEventAt" maxlength="100" placeholder="Sábado 8:00 p. m."></label><label>Programar para (opcional)<input id="announcementSchedule" type="datetime-local"></label></div>
             <label>Repetir<select id="announcementRepeat"><option value="">No repetir</option><option value="weekly">Cada semana</option><option value="monthly">Cada 30 días</option></select><small class="field-help">Si eliges una fecha, la repetición empieza en esa fecha; si no, comienza al publicar.</small></label>
-            <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button secondary" id="saveAnnouncementDraft" type="button">Guardar borrador</button><button class="button primary" id="sendAnnouncement" type="button">Publicar anuncio</button></div>
-            <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button">Actualizar</button></div>
+            <div class="form-actions"><span class="save-note" id="announcementNote"></span><button class="button secondary" id="saveAnnouncementDraft" type="button" aria-label="Guardar borrador">Guardar borrador</button><button class="button primary" id="sendAnnouncement" type="button" aria-label="Publicar anuncio">Publicar anuncio</button></div>
+            <div class="subhead announcement-history-head"><div><h3>Actividad reciente</h3><p class="hint">Estado de publicaciones y eventos programados.</p></div><button class="button mini" id="refreshAnnouncements" type="button" aria-label="Actualizar">Actualizar</button></div>
             <div id="announcementHistory" class="announcement-history" aria-live="polite"></div>
           </div>
           <aside class="preview-column">
             <div class="preview-label"><span>VISTA PREVIA</span><span>DISCORD</span></div>
             <div class="preview-switch" role="tablist" aria-label="Tipo de mensaje para la vista previa">
-              <button class="preview-switch-button active" type="button" role="tab" aria-selected="true" aria-controls="welcomePreviewScreen" data-preview-screen="welcome">Bienvenida</button>
-              <button class="preview-switch-button" type="button" role="tab" aria-selected="false" aria-controls="announcementPreviewScreen" data-preview-screen="announcement">Anuncio / evento</button>
+              <button class="preview-switch-button active" type="button" role="tab" aria-selected="true" aria-controls="welcomePreviewScreen" data-preview-screen="welcome" aria-label="Bienvenida">Bienvenida</button>
+              <button class="preview-switch-button" type="button" role="tab" aria-selected="false" aria-controls="announcementPreviewScreen" data-preview-screen="announcement" aria-label="Anuncio / evento">Anuncio / evento</button>
             </div>
             <section class="preview-screen active" id="welcomePreviewScreen" role="tabpanel">
               <div class="discord-window"><div class="discord-top"><span class="discord-dot"></span><span>odissey-mc</span><span class="discord-channel"># bienvenidas</span></div><div class="discord-body"><div class="discord-avatar">🐨</div><div><div class="discord-author">Odissey Welcome <small>HOY A LAS 12:04</small></div><div class="welcome-embed" id="welcomePreview"><h3 id="welcomePreviewTitle"></h3><p id="welcomePreviewDescription"></p><div class="welcome-members">✦ &nbsp;Ahora somos una comunidad</div><img id="welcomePreviewImage" class="dashboard-preview-image" alt="Vista previa de bienvenida" hidden><div class="embed-footer" id="welcomePreviewFooter"></div></div></div></div></div>
@@ -147,19 +148,19 @@
         </div>
       </section>
       <section class="pane" id="pane-activity">
-        <div class="section-heading"><div><p class="eyebrow">OPERACIÓN Y SEGURIDAD</p><h2>Actividad y controles</h2><p>Alertas, métricas, versiones de configuración y permisos del panel.</p></div><button class="button mini" id="refreshActivity" type="button">Actualizar</button></div>
+        <div class="section-heading"><div><p class="eyebrow">OPERACIÓN Y SEGURIDAD</p><h2>Actividad y controles</h2><p>Alertas, métricas, versiones de configuración y permisos del panel.</p></div><button class="button mini" id="refreshActivity" type="button" aria-label="Actualizar">Actualizar</button></div>
         <div class="activity-grid">
           <article class="card activity-card"><h3>Resumen · 30 días</h3><div id="analyticsSummary" class="analytics-summary"></div><div id="analyticsChart" class="analytics-chart"></div></article>
           <article class="card activity-card"><h3>Alertas</h3><p class="hint">Los fallos también se envían al canal privado de alertas.</p><div id="alertsList" class="dashboard-list"></div></article>
           <article class="card activity-card"><h3>Versiones de configuración</h3><p class="hint">Restaura una versión anterior si un cambio causa problemas.</p><div id="configVersions" class="dashboard-list"></div></article>
-          <article class="card activity-card" id="panelPermissionsCard"><h3>Permisos para el rol Staff</h3><p class="hint">Controla qué puede consultar o administrar una cuenta con rol Staff en la web.</p><div id="permissionOptions" class="permission-options"></div><button class="button primary" id="savePermissions" type="button">Guardar permisos</button></article>
+          <article class="card activity-card" id="panelPermissionsCard"><h3>Permisos para el rol Staff</h3><p class="hint">Controla qué puede consultar o administrar una cuenta con rol Staff en la web.</p><div id="permissionOptions" class="permission-options"></div><button class="button primary" id="savePermissions" type="button" aria-label="Guardar permisos">Guardar permisos</button></article>
           <article class="card activity-card" id="auditCard"><h3>Registro de cambios</h3><p class="hint">Muestra quién hizo cambios, publicó anuncios o gestionó tickets.</p><div id="auditList" class="dashboard-list"></div></article>
         </div>
       </section>
       <footer class="page-footer"><span>ODISSEY MC · BOT CONTROL</span><span>Azure · Guardado seguro</span></footer>
     </div>
   </main>
-  <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel">Cancelar</button><button class="button primary" id="commitCategory" value="default">Guardar sección</button></div></form></dialog>
+  <dialog id="categoryDialog"><form method="dialog" id="categoryForm"><div class="dialog-head"><div><p class="eyebrow">SECCIÓN DEL PANEL</p><h2 id="dialogTitle">Añadir sección</h2></div><button class="icon-button" value="cancel" aria-label="Cerrar">×</button></div><input type="hidden" id="editCategoryIndex"><label>Nombre<input id="categoryLabel" required maxlength="80"></label><div class="two-fields"><label>Emoji<input id="categoryEmoji" maxlength="24" placeholder="🎫"></label><label>ID interno<input id="categoryId" required maxlength="32" placeholder="soporte"></label></div><label>Texto del botón<input id="categoryButtonLabel" maxlength="32" placeholder="Abrir"></label><label>Descripción<textarea id="categoryDescription" rows="3" maxlength="350"></textarea></label><label>Categoría de Discord<select id="categoryDiscordId"></select></label><label>Color<input id="categoryColor" type="color" value="#ffaa00"></label><div class="dialog-actions"><button class="button secondary" value="cancel" aria-label="Cancelar">Cancelar</button><button class="button primary" id="commitCategory" value="default" aria-label="Guardar sección">Guardar sección</button></div></form></dialog>
   <div class="toast" id="toast" role="status"></div>
   <script src="js/bots-panel.js?v=10" defer></script>
 </body>

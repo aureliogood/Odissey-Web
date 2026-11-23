@@ -11,7 +11,7 @@
 //     metodo y cache.put() con un POST lanzaba "TypeError: Request
 //     method POST is unsupported" en cada inicio de sesion, registro,
 //     compra o reporte de la web.
-//   - No cachea la API (/bot/...). Ahi viven el token de sesion y los
+//   - No cachea la API (/api/...). Ahi viven el token de sesion y los
 //     datos del usuario: guardarlos en Cache Storage los deja a mano de
 //     cualquier script que corra en el mismo origen.
 //   - No cachea peticiones de otros dominios (Google Fonts, mc-heads,
@@ -21,9 +21,9 @@
 
 // Version de la cache. Si cambias un archivo del sitio, sube este numero:
 // es lo unico que invalida la cache vieja al activar la nueva version.
-// (El ?v=151 de los <link> es otra cosa: solo rompe la cache del
+// (El ?v=... de los <link> es otra cosa: solo rompe la cache del
 //  navegador, no la de aqui.)
-var CACHE_NAME = 'odissey-v212';
+var CACHE_NAME = 'odissey-v213';
 
 var PRECACHE_URLS = [
   './',
@@ -65,18 +65,11 @@ var PRECACHE_URLS = [
   './css/search.css',
   './css/perfil.css',
   './css/perfil-v2.css',
-  './css/verificacion.css',
-  './css/eventos-noticias.css',
-  './css/galeria.css',
-  './css/reglas.css',
-  './css/staff.css',
   './css/staff-flip.css',
-  './css/soporte.css',
   './css/wiki.css',
   './css/nav-shared.css',
   './css/responsive.css',
   './css/tienda.css',
-  './css/reportes-postulaciones.css',
   './css/texto-legal.css',
   './css/auth.css',
   './css/turnstile.css',
@@ -98,9 +91,7 @@ var PRECACHE_URLS = [
   './js/formulario.js',
   './js/analitica.js',
   './js/dala-art.js',
-  './js/dala-auth-steve.js',
   './js/dala-bg.js',
-  './js/dala-hero.js',
   './js/dala-liquid.js',
   './js/dala-nav.js',
   './js/mobile-nav.js',
@@ -223,8 +214,8 @@ self.addEventListener('fetch', function (event) {
   var url = new URL(req.url);
 
   // La API no se cachea nunca: lleva el token de sesion en la URL y los datos
-  // del usuario en la respuesta.
-  if (url.pathname.indexOf('/bot') === 0) return;
+  // del usuario en la respuesta. Antes solo se excluia /bot, que ya no existe.
+  if (url.pathname.indexOf('/api/') === 0) return;
 
   // Rutas privadas: nunca ni en cache ni servidas desde ella.
   if (esRutaPrivada(url.pathname)) return;

@@ -105,16 +105,9 @@
     const cuerpo = Object.assign({}, o.body || {});
     const conCuerpo = cuerpo && Object.keys(cuerpo).length > 0;
 
-    if (global.console && console.warn) {
-      console.warn('[auth] ' + metodo + ' ' + ruta + ' todavia va al bot. ' +
-        'Esta ruta hay que migrarla a Supabase.');
-    }
-
-    let url = API + ruta;
-    if (o.auth !== false && token()) {
-      if (metodo === 'GET') url += (url.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(token());
-      else cuerpo.token = token();
-    }
+    // La sesión la tiene Supabase en localStorage; no hay que mandar el
+    // token por la URL (acababa en logs y en el historial del navegador).
+    const url = API + ruta;
 
     const res = await fetch(url, {
       method: metodo,
@@ -404,9 +397,8 @@ sub: 'Entra con el correo con el que te registraste.',
   const ESCUDO = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>';
   const CHAT = '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 20.5l1.6-4.4A8.4 8.4 0 0 1 12 3.5a8.4 8.4 0 0 1 9 8Z"/>';
 
-  // Antes aqui iba el logo de la web. Ahora es Steve en 3D, montado con cajas
-  // CSS por js/dala-auth-steve.js: gira la cabeza y te sigue con la mirada
-  // mientras escribes, y se tapa los ojos en el campo de contrasena.
+  // Antes aqui iba el logo de la web. Ahora se usa el orbe liquido de
+  // js/dala-liquid.js: el Steve 3D que habia aqui se retiro por duplicado.
   function cabeceraAuth() {
     /* En el login cabe el orbe liquido de js/dala-liquid.js, no Steve: los
        dos a la vez saturaban la cabecera. El Steve 3D sigue en su sitio en
@@ -915,7 +907,7 @@ if (!correo.includes('@')) {
     }
     estadoBoton(boton, false);
 
-    if (!r || r.error || !r.data || !r.data.user) {
+    if (!r || r.error || !r.data || !r.data.user || !r.data.session) {
       mostrarError('authErrorLogin', textoErrorSupabase(r && r.error, t('errCredenciales')));
       /* Si el problema es la contraseña, se enfoca ese campo: es casi
          siempre un error de tecleo y es donde hay que corregir. */
@@ -1134,33 +1126,20 @@ async function salir() {
   // ---------- Discord opcional ----------
 
   function conectarDiscord() {
-    // El login dejó una cookie de sesión, así que el servidor sabe a qué
-    // cuenta engancharle el Discord al volver de Discord.
-    window.location.href = API + '/discord/login?intention=link';
+    // El acceso con Discord se retiró al migrar a Supabase. En vez de
+    // navegar a una ruta que ya no existe, se abre el login normal.
+    if (typeof window.openLoginModal === 'function') window.openLoginModal();
   }
 
   async function desconectarDiscord() {
-    const r = await api('/api/auth/discord/unlink', { body: {} });
-    if (r.ok && r.datos && r.datos.user) {
-      guardarSesion(token(), r.datos.user);
-      try {
-        if (typeof window.updateNavButton === 'function') window.updateNavButton();
-        if (typeof window.openLoginModal === 'function') window.openLoginModal();
-      } catch (e) { /* nada */ }
-      inyectarPanelDiscord();
-    }
+    // No existe vinculación con Discord desde la migración: nada que desatar.
+    return false;
   }
 
   function hayDiscord() {
     const u = usuarioGuardado();
     return !!(u && u.discord && u.discord.linked);
   }
-
-  function inyectarPanelDiscord() {
-    // El ajuste de Discord vive ahora en la página de perfil, así que aquí no
-    // se toca el panel de cuenta. Se deja la función por si hiciera falta.
-    return;
-}
 
   // Las fotos del perfil se guardan en el bot como "/uploads/nombre.png". Se
   // piden a través de la API para que funcionen sin depender de cómo el
@@ -1239,22 +1218,6 @@ function conectarBotonPerfil() {
 
   // ---------- arranque ----------
 
-  function devolverSesionDeDiscord() {
-    // Al volver de conectar Discord, el servidor pasa el token en la URL.
-    const params = new URLSearchParams(window.location.search);
-    const nuevo = params.get('discord_linked');
-    if (nuevo) {
-      guardarSoloToken(nuevo);
-      window.location.replace(window.location.pathname);
-      return true;
-    }
-    if (params.get('discord_error')) {
-      window.location.replace(window.location.pathname);
-      return true;
-    }
-    return false;
-  }
-
 /* Antes preguntaba al bot si la sesion seguia viva con /api/auth/me. Ahora
      la sesion la guarda Supabase en localStorage y el propio cliente dice si
      sigue viva, sin ir al servidor: mas rapido y sin depender de que el
@@ -1279,7 +1242,7 @@ function conectarBotonPerfil() {
         rol: (perfil && perfil.rol) || 'user',
         avatar: (perfil && perfil.avatar_url) || null,
       });
-      inyectarPanelDiscord();
+
     }).catch(() => { /* sin red: se mantiene lo que había */ });
   }
 
@@ -1406,14 +1369,10 @@ if (window.OdisseyDatos && !window.OdisseyDatos.instalado) {
           const vista = lv.querySelector('#authFormRegistro') ? 'registro' : 'acceso';
           mostrarVista(vista);
         }
-        inyectarPanelDiscord();
       }, 60);
     }, true);
 
-    if (!devolverSesionDeDiscord()) {
-      comprobarSesion();
-      inyectarPanelDiscord();
-    }
+    comprobarSesion();
   }
 
   if (document.readyState === 'loading') {

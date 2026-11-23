@@ -210,7 +210,7 @@
     text('autoModMaxMentions', autoMod.maxMentions ?? 5); text('autoModMessageLimit', autoMod.messageLimit ?? 7);
     text('autoModTimeout', autoMod.timeoutMinutes ?? 10);
     text('statusHost', w.status.host); text('statusPort', w.status.port); $('statusMaintenance').checked = !!w.status.maintenance;
-    text('statusDisplayAddress', w.status.displayAddress || 'mc.odisseymc.lat:25569');
+    text('statusDisplayAddress', w.status.displayAddress || 'mc.odisseymc.site');
     text('statusMessageTitle', w.status.messageTitle);
     text('statusOnlineMessage', w.status.onlineMessage);
     text('statusRestartingMessage', w.status.restartingMessage);
@@ -242,14 +242,14 @@
       ? $('statusMaintenanceMessage').value
       : messages[current];
     description = (description || '').replaceAll('{players}', '4').replaceAll('{max}', '100')
-      .replaceAll('{host}', $('statusDisplayAddress').value.trim() || 'mc.odisseymc.lat:25569')
+      .replaceAll('{host}', $('statusDisplayAddress').value.trim() || 'mc.odisseymc.site')
       .replaceAll('{port}', $('statusPort').value || '25569');
     const label = online ? 'En línea' : restarting ? 'Reiniciando' : 'Apagado';
     const emoji = online ? '🟢' : '🔴';
     const card = $('minecraftPreviewCard');
     card.dataset.state = current;
     $('minecraftPreviewTitle').textContent = `${emoji} ${$('statusMessageTitle').value.trim() || 'Estado del servidor'} · ${label}`;
-    $('minecraftPreviewDescription').textContent = `${description}\n\nIP: ${$('statusDisplayAddress').value.trim() || 'mc.odisseymc.lat:25569'}`;
+    $('minecraftPreviewDescription').textContent = `${description}\n\nIP: ${$('statusDisplayAddress').value.trim() || 'mc.odisseymc.site'}`;
     document.querySelectorAll('[data-status-preview]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.statusPreview === current)));
   }
 
