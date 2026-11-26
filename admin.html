@@ -218,9 +218,9 @@ Antes era un div: Enter no hacia nada y un
 
                             <h3 class="text-lg font-bold text-text-light mb-4">Acciones rápidas</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <button type="button" class="quick-btn" onclick="copyText('mc.odisseymc.site', 'IP copiada')" aria-label="📋 Copiar IP mc.odisseymc.site">
+                                <button type="button" class="quick-btn" onclick="copyText('mc.odisseymc.lat', 'IP copiada')" aria-label="📋 Copiar IP mc.odisseymc.lat">
                                     <span class="block text-marine-accent">📋 Copiar IP</span>
-                                    <span class="text-xs text-text-dark">mc.odisseymc.site</span>
+                                    <span class="text-xs text-text-dark">mc.odisseymc.lat</span>
                                 </button>
                                 <button type="button" class="quick-btn" onclick="copyText('https://dc.gg/odisseymc', 'Enlace de Discord copiado')" aria-label="💬 Copiar enlace del Discord dc.gg/odisseymc">
                                     <span class="block text-marine-accent">💬 Copiar enlace del Discord</span>
@@ -554,7 +554,7 @@ Antes era un div: Enter no hacia nada y un
                             <div class="max-w-xl space-y-4">
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">IP del servidor (Minecraft)</label>
-                                    <input type="text" id="cfg-server-ip" class="admin-input" placeholder="mc.odisseymc.site" aria-label="mc.odisseymc.site">
+                                    <input type="text" id="cfg-server-ip" class="admin-input" placeholder="mc.odisseymc.lat" aria-label="mc.odisseymc.lat">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-text-dark mb-1">Puerto del servidor</label>
@@ -1536,7 +1536,7 @@ Antes era un div: Enter no hacia nada y un
         function getSiteSettings() {
             const saved = (window.SiteData && SiteData.get('settings')) || {};
             return Object.assign({}, window.DEFAULT_SITE_CONFIG || {
-                serverIp: 'mc.odisseymc.site',
+                serverIp: 'mc.odisseymc.lat',
                 serverPort: '25565',
                 gamemode: 'Survival Custom',
                 discordInvite: 'https://dc.gg/odisseymc',
@@ -1555,7 +1555,7 @@ Antes era un div: Enter no hacia nada y un
 
         async function saveSiteSettings() {
             const settings = {
-                serverIp: document.getElementById('cfg-server-ip').value.trim() || 'mc.odisseymc.site',
+                serverIp: document.getElementById('cfg-server-ip').value.trim() || 'mc.odisseymc.lat',
                 serverPort: document.getElementById('cfg-server-port').value.trim() || '25565',
                 gamemode: document.getElementById('cfg-gamemode').value.trim() || 'Survival Custom',
                 discordInvite: document.getElementById('cfg-discord-invite').value.trim() || 'https://dc.gg/odisseymc',

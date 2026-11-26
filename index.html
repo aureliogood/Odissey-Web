@@ -32,7 +32,7 @@
     
     <link rel="stylesheet" href="theme.css?v=158">
     <link rel="stylesheet" href="css/tailwind.css?v=158">
-    <link rel="stylesheet" href="css/index.css?v=165">
+    <link rel="stylesheet" href="css/index.css?v=166">
     <link rel="stylesheet" href="css/dala.css?v=158">
     <link rel="stylesheet" href="css/nav-shared.css?v=158">
     <link rel="stylesheet" href="css/dala-polish.css?v=163">
@@ -157,7 +157,7 @@
                     <span id="serverStatusDot" class="od-dot-pulse"></span>
                     <span id="serverStatusText">Online</span>
                     <span style="opacity: 0.35;">|</span>
-                    <span style="color: var(--brand-gold-light); font-weight: 600;">mc.odisseymc.site</span>
+                    <span style="color: var(--brand-gold-light); font-weight: 600;">mc.odisseymc.lat</span>
                 </button>
 
                 <!-- Login / Account Button with Circular Avatar -->
@@ -355,32 +355,67 @@
             </section>
 
         <!-- ============================================================
-             SECTION 3: BANNER 24/7 (Like OdisseyMC's Minecraft Server Promo)
+             SECTION 3: TOPS DEL SERVIDOR (datos de BK-Tops vía Supabase)
              ============================================================ -->
-        <section style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
-            <div class="od-card" style="padding: clamp(24px, 4vw, 40px); background: linear-gradient(135deg, rgba(31, 20, 60, 0.8), rgba(20, 14, 38, 0.9)); border: 1px solid rgba(var(--brand-gold-rgb), 0.35);">
-                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px;">
-                    <div style="flex: 1 1 500px;">
-                        <div class="od-badge" style="font-size: 11px; margin-bottom: 16px;">
-                            <span class="od-dot-pulse"></span>
-                            Odissey Client · Launcher para Windows
-                        </div>
-                        <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #ffffff; margin: 0 0 12px 0;">
-                            Tu aventura empieza con <span class="od-text-gold">Odissey Client.</span>
-                        </h2>
-                        <p style="font-size: 15px; color: #c5c7d1; line-height: 1.6; margin: 0 0 24px 0; max-width: 540px;">
-                            Prepara tu versión, organiza tus herramientas y abre Minecraft desde un solo lugar. Tu launcher se queda fuera del juego para que disfrutes una partida limpia.
-                        </p>
-                        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px;">
-                            <a href="/launcher/" class="od-btn-primary" aria-label="Ir a la página para descargar Odissey Client">
-                                Descargar Odissey Client <span aria-hidden="true">↗</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div style="flex: 0 1 auto; margin: 0 auto;">
-                        <img src="img/odissey-scenes/steve-alex-wolf.webp" alt="Steve, Alex and Wolf" width="575" height="450" style="max-height: 200px; width: auto; object-fit: contain; display: block; filter: drop-shadow(0 10px 30px rgba(var(--brand-gold-rgb), 0.4));" loading="lazy" decoding="async">
-                    </div>
+        <section id="odTopsSection" style="max-width: 1150px; margin: 0 auto; padding: 24px 24px 64px 24px;">
+            <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px;">
+                <div>
+                    <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-gold);">RANKINGS DEL SERVIDOR</span>
+                    <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #ffffff; margin: 8px 0 0 0;">
+                        Los mejores de <span class="od-text-gold">Odissey.</span>
+                    </h2>
                 </div>
+                <p id="odTopsUpdated" style="margin: 0; font-size: 12px; color: #8b8b95; font-family: var(--od-font-mono);"></p>
+            </div>
+            <p style="font-size: 15px; color: #c5c7d1; max-width: 640px; line-height: 1.6; margin: 12px 0 28px 0;">
+                Clasificación de la comunidad, sincronizada desde el servidor. ¿Crees que puedes llegar al número uno?
+            </p>
+
+            <div class="od-tops-grid">
+                <article class="od-top-card" data-top="kills" aria-labelledby="odTopKillsTitle">
+                    <header class="od-top-card__head">
+                        <span class="od-top-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/></svg>
+                        </span>
+                        <div>
+                            <h3 id="odTopKillsTitle">Top Kills</h3>
+                            <p>Jugadores con más eliminaciones</p>
+                        </div>
+                    </header>
+                    <ol class="od-top-list" id="odTopKills">
+                        <li class="od-top-empty">Cargando ranking…</li>
+                    </ol>
+                </article>
+
+                <article class="od-top-card" data-top="money" aria-labelledby="odTopMoneyTitle">
+                    <header class="od-top-card__head">
+                        <span class="od-top-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
+                        </span>
+                        <div>
+                            <h3 id="odTopMoneyTitle">Top Dinero</h3>
+                            <p>Las mayores fortunas del servidor</p>
+                        </div>
+                    </header>
+                    <ol class="od-top-list" id="odTopMoney">
+                        <li class="od-top-empty">Cargando ranking…</li>
+                    </ol>
+                </article>
+
+                <article class="od-top-card" data-top="hours" aria-labelledby="odTopHoursTitle">
+                    <header class="od-top-card__head">
+                        <span class="od-top-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </span>
+                        <div>
+                            <h3 id="odTopHoursTitle">Top Horas</h3>
+                            <p>Los jugadores más constantes</p>
+                        </div>
+                    </header>
+                    <ol class="od-top-list" id="odTopHours">
+                        <li class="od-top-empty">Cargando ranking…</li>
+                    </ol>
+                </article>
             </div>
         </section>
 
@@ -403,7 +438,7 @@
                         <span class="font-mono" style="font-size: 11px;">IP PRINCIPAL</span>
                         <svg style="width: 16px; height: 16px; color: var(--brand-gold);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                     </div>
-                    <h3 class="font-mono" style="font-size: 16px; font-weight: 700; color: var(--brand-gold-light); margin: 0 0 6px 0;">mc.odisseymc.site</h3>
+                    <h3 class="font-mono" style="font-size: 16px; font-weight: 700; color: var(--brand-gold-light); margin: 0 0 6px 0;">mc.odisseymc.lat</h3>
                     <p style="font-size: 12px; color: #c5c7d1; line-height: 1.5; margin: 0;">Puerto por defecto: 25565. Clic para copiar al portapapeles.</p>
                 </div>
 
@@ -563,7 +598,7 @@
                         <span class="od-faq-icon">+</span>
                     </button>
                     <div class="od-faq-answer">
-                        Abre tu cliente de Minecraft Java Edition, ve a <strong>Multijugador</strong> &gt; <strong>Añadir Servidor</strong>, e introduce la dirección <span class="font-mono" style="color: var(--brand-gold);">mc.odisseymc.site</span> (puerto estándar 25565). Haz clic en Conectarse y entrarás de inmediato.
+                        Abre tu cliente de Minecraft Java Edition, ve a <strong>Multijugador</strong> &gt; <strong>Añadir Servidor</strong>, e introduce la dirección <span class="font-mono" style="color: var(--brand-gold);">mc.odisseymc.lat</span> (puerto estándar 25565). Haz clic en Conectarse y entrarás de inmediato.
                     </div>
                 </div>
 
@@ -632,7 +667,6 @@
         <button id="guideSwitchBtn" class="hidden" aria-label="Guide Switch Btn"></button>
         <span id="guideSubtitle" class="hidden"></span>
         <button id="langBtn" class="hidden" aria-label="Lang Btn"></button>
-        <span id="serverVersion" class="hidden"></span>
     </main>
 
     <!-- ============================================================
@@ -694,7 +728,7 @@
             <p style="margin: 0;">&copy; 2026 OdisseyMC. Todos los derechos reservados.</p>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <span class="size-2" style="border-radius: 50%; background: #4ade80;"></span>
-                <span>Servidor en línea: <strong class="font-mono" style="color: #ffffff;">mc.odisseymc.site</strong></span>
+                <span>Servidor en línea: <strong class="font-mono" style="color: #ffffff;">mc.odisseymc.lat</strong></span>
             </div>
         </div>
     </footer>
@@ -702,9 +736,9 @@
     <!-- Interactive script helper for OdisseyMC features -->
     <script>
         function copyIpAddress() {
-            const ip = "mc.odisseymc.site";
+            const ip = "mc.odisseymc.lat";
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(ip).then(() => showOdToast("¡IP mc.odisseymc.site copiada! ✓"));
+                navigator.clipboard.writeText(ip).then(() => showOdToast("¡IP mc.odisseymc.lat copiada! ✓"));
             } else {
                 const ta = document.createElement("textarea");
                 ta.value = ip;
@@ -714,9 +748,9 @@
                 ta.select();
                 try {
                     document.execCommand("copy");
-                    showOdToast("¡IP mc.odisseymc.site copiada! ✓");
+                    showOdToast("¡IP mc.odisseymc.lat copiada! ✓");
                 } catch(e) {
-                    showOdToast("Copia manualmente: mc.odisseymc.site");
+                    showOdToast("Copia manualmente: mc.odisseymc.lat");
                 }
                 document.body.removeChild(ta);
             }
@@ -980,7 +1014,7 @@
         }
         async function updatePlayerCounts() {
             const config = (window.SITE_CONFIG || {});
-            const serverIp = config.serverIp || 'mc.odisseymc.site';
+            const serverIp = config.serverIp || 'mc.odisseymc.lat';
             const gamemode = config.gamemode || 'Survival Custom';
             const gamemodeEl = document.getElementById('serverGamemode');
             if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;
@@ -1000,45 +1034,30 @@ const dot = document.getElementById('serverStatusDot');
             try {
                 const res = await fetch(`https://api.mcstatus.io/v2/status/java/${encodeURIComponent(serverIp)}`);
                 const data = await res.json();
-                const version = (data.version && data.version.name) ? data.version.name : '';
                 document.querySelectorAll('.playerCount').forEach(el => el.textContent = `${data.players ? data.players.online : 0}`);
-                const versionEl = document.getElementById('serverVersion');
-                if (versionEl) {
-                    if (manualStatus === 'maintenance') {
-                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
-                        versionEl.className = 'text-xs text-yellow-400 mt-1';
-                        setState('maintenance');
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
-                        if (statusTxt) {
-                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
-                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
-                        }
-                    } else if (data.online || manualStatus === 'online') {
-                        versionEl.textContent = (getLang() === 'en' ? 'Version: ' : 'Versión: ') + (version || '1.20 - 1.21');
-                        versionEl.className = 'text-xs text-green-400 mt-1';
-                        setState('online');
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse state-online';
-                        if (statusTxt) {
-                            statusTxt.textContent = manualStatus === 'online' ? (getLang() === 'en' ? 'Active' : 'Activo') : (getLang() === 'en' ? 'Online' : 'En línea');
-                            statusTxt.className = 'text-[11px] font-semibold text-green-400 state-online';
-                        }
-                    } else {
-                        versionEl.textContent = getLang() === 'en' ? 'Maintenance mode' : 'Servidor en mantenimiento';
-                        versionEl.className = 'text-xs text-yellow-400 mt-1';
-                        setState('maintenance');
-                        if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
-                        if (statusTxt) {
-                            statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
-                            statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
-                        }
+                if (manualStatus === 'maintenance') {
+                    setState('maintenance');
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
+                    if (statusTxt) {
+                        statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                        statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
+                    }
+                } else if (data.online || manualStatus === 'online') {
+                    setState('online');
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse state-online';
+                    if (statusTxt) {
+                        statusTxt.textContent = manualStatus === 'online' ? (getLang() === 'en' ? 'Active' : 'Activo') : (getLang() === 'en' ? 'Online' : 'En línea');
+                        statusTxt.className = 'text-[11px] font-semibold text-green-400 state-online';
+                    }
+                } else {
+                    setState('maintenance');
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-yellow-400 state-maintenance';
+                    if (statusTxt) {
+                        statusTxt.textContent = getLang() === 'en' ? 'Maintenance' : 'Mantenimiento';
+                        statusTxt.className = 'text-[11px] font-semibold text-yellow-400 state-maintenance';
                     }
                 }
             } catch (err) {
-                const versionEl = document.getElementById('serverVersion');
-                if (versionEl) {
-                    versionEl.textContent = getLang() === 'en' ? 'Status: Online' : 'Estado: En línea';
-                    versionEl.className = 'text-xs text-text-dark mt-1';
-                }
                 if (manualStatus === 'online') {
                     setState('online');
                     if (dot) dot.className = 'w-2 h-2 rounded-full bg-green-400 animate-pulse state-online';
@@ -2167,7 +2186,7 @@ guide_java_4b: 'en la dirección.',
                 guide_sub_bedrock: 'Sigue estos pasos para entrar desde Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'mc.odisseymc.site',
+btn_copy_ip: 'mc.odisseymc.lat',
 why_title: '¿Qué diferencia hay en Odissey a otros servidores?',
 why_p1: 'Odissey no es un servidor más. Mientras muchos lugares venden ventajas que aplastan a los nuevos, aquí construimos una comunidad donde todos empiezan con las mismas oportunidades y cada hora invertida se siente. Nuestro mundo es un lienzo vivo: construye tu base junto al mar, hazte con los mejores kits, abre cofres con llaves infernales y decide tu propio camino hacia la leyenda.',
 why_p2: 'Detrás de todo hay un staff presente, activo y cercano, listo para escucharte desde el primer día. Nada de reglas absurdas ni administración invisible: aquí reportas, te responden y el juego se mantiene limpio y justo para todos. Además, nuestro Discord es el corazón de Odissey: eventos, anuncios y una comunidad que ya se siente como familia.',
@@ -2257,7 +2276,7 @@ guide_java_4b: 'in the address field.',
                 guide_sub_bedrock: 'Follow these steps to join from Minecraft Bedrock Edition.',
                 guide_switch_bedrock: '⟲ Bedrock',
                 guide_switch_java: '⟳ Java',
-btn_copy_ip: 'mc.odisseymc.site',
+btn_copy_ip: 'mc.odisseymc.lat',
 why_title: 'What makes Odissey different from other servers?',
 why_p1: 'Odissey is not just another server. While many places sell advantages that crush newcomers, here we build a community where everyone starts with the same chances and every hour you invest is felt. Our world is a living canvas: build your base by the sea, get the best kits, open chests with infernal keys and choose your own path to legend.',
 why_p2: 'Behind it all there is a staff that is present, active and approachable, ready to listen from day one. No absurd rules and no invisible administration: you report, they answer, and the game stays clean and fair for everyone. Our Discord is also the heart of Odissey: events, announcements and a community that already feels like family.',
@@ -2548,5 +2567,145 @@ function toggleLang() {
      no esta aqui, se atiende desde Supabase. -->
     <script src="js/turnstile.js?v=147" defer></script>
 <script src="auth.js?v=147"></script>
+<script>
+    /* ============================================================
+       TOPS DEL SERVIDOR (BK-Tops -> Supabase -> /api/tops)
+       Se pinta después de DOMContentLoaded para que js/datos.js ya
+       haya instalado el interceptor de /api/* (va con defer).
+       ============================================================ */
+    (function () {
+        function limpiarNombre(valor) {
+            var nombre = String(valor == null ? '' : valor).replace(/[§&][0-9a-fk-orx]/gi, '').trim();
+            return nombre || 'Desconocido';
+        }
+
+        function numero(valor) {
+            var n = Number(valor);
+            return isFinite(n) ? n : 0;
+        }
+
+        function formatearEntero(valor) {
+            return new Intl.NumberFormat('es-ES').format(Math.round(numero(valor)));
+        }
+
+        function formatearDinero(valor) {
+            var n = numero(valor);
+            var abs = Math.abs(n);
+            var sufijos = [[1e12, 'T'], [1e9, 'B'], [1e6, 'M'], [1e3, 'K']];
+            for (var i = 0; i < sufijos.length; i++) {
+                if (abs >= sufijos[i][0]) {
+                    var corto = (n / sufijos[i][0]).toLocaleString('es-ES', { maximumFractionDigits: 2 });
+                    return corto + sufijos[i][1];
+                }
+            }
+            return new Intl.NumberFormat('es-ES', { maximumFractionDigits: 2 }).format(n);
+        }
+
+        function formatearTiempo(valor) {
+            var total = Math.max(0, Math.round(numero(valor)));
+            var dias = Math.floor(total / 86400);
+            var horas = Math.floor((total % 86400) / 3600);
+            var minutos = Math.floor((total % 3600) / 60);
+            if (dias > 0) return dias + 'd ' + horas + 'h';
+            if (horas > 0) return horas + 'h ' + minutos + 'm';
+            return minutos + 'm';
+        }
+
+        function formatearValor(valor, tipo) {
+            if (tipo === 'money') return formatearDinero(valor);
+            if (tipo === 'time') return formatearTiempo(valor);
+            return formatearEntero(valor);
+        }
+
+        function pintarTop(lista, filas, tipo) {
+            if (!lista) return;
+            while (lista.firstChild) lista.removeChild(lista.firstChild);
+
+            if (!filas || !filas.length) {
+                var vacio = document.createElement('li');
+                vacio.className = 'od-top-empty';
+                vacio.textContent = 'Sin datos todavía';
+                lista.appendChild(vacio);
+                return;
+            }
+
+            filas.forEach(function (fila) {
+                var nombre = limpiarNombre(fila.name);
+                var item = document.createElement('li');
+                item.className = 'od-top-row';
+                item.setAttribute('data-rank', String(fila.position));
+
+                var rango = document.createElement('span');
+                rango.className = 'od-top-rank';
+                rango.textContent = fila.position;
+
+                var avatar = document.createElement('img');
+                avatar.className = 'od-top-avatar';
+                avatar.alt = '';
+                avatar.width = 26;
+                avatar.height = 26;
+                avatar.loading = 'lazy';
+                avatar.decoding = 'async';
+                avatar.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(fila.uuid || nombre) + '/26';
+                avatar.onerror = function () { this.style.visibility = 'hidden'; };
+
+                var texto = document.createElement('span');
+                texto.className = 'od-top-name';
+                texto.textContent = nombre;
+                texto.title = nombre;
+
+                var valor = document.createElement('span');
+                valor.className = 'od-top-value';
+                valor.textContent = formatearValor(fila.value, tipo);
+
+                item.appendChild(rango);
+                item.appendChild(avatar);
+                item.appendChild(texto);
+                item.appendChild(valor);
+                lista.appendChild(item);
+            });
+        }
+
+        function cargarTops() {
+            var config = window.SITE_CONFIG || {};
+            var ids = Object.assign({ kills: 'kills', money: 'money', hours: 'time_played' }, config.tops || {});
+            var destinos = [
+                { el: 'odTopKills', key: ids.kills, tipo: 'int' },
+                { el: 'odTopMoney', key: ids.money, tipo: 'money' },
+                { el: 'odTopHours', key: ids.hours, tipo: 'time' }
+            ];
+
+            fetch('/api/tops', { cache: 'no-store' })
+                .then(function (res) { return res.json(); })
+                .then(function (json) {
+                    var tops = (json && json.tops) || {};
+                    destinos.forEach(function (destino) {
+                        pintarTop(document.getElementById(destino.el), tops[destino.key] || [], destino.tipo);
+                    });
+
+                    var actualizado = document.getElementById('odTopsUpdated');
+                    if (actualizado && json && json.updatedAt) {
+                        var fecha = new Date(json.updatedAt);
+                        if (!isNaN(fecha.getTime())) {
+                            actualizado.textContent = 'Actualizado ' +
+                                fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + ' · ' +
+                                fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                        }
+                    }
+                })
+                .catch(function () {
+                    destinos.forEach(function (destino) {
+                        pintarTop(document.getElementById(destino.el), [], destino.tipo);
+                    });
+                });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', cargarTops);
+        } else {
+            cargarTops();
+        }
+    })();
+</script>
 </body>
 </html>

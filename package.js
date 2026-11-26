@@ -58,6 +58,9 @@ const EXCLUIDOS = [
   /* Guia de la migracion a Supabase. Se lee desde el repositorio, no
      desde el hosting. */
   'MIGRACION-SUPABASE.md',
+  /* Sincronizador de tops: se ejecuta en el servidor, no se publica. */
+  'scripts',
+  'TOPS-SYNC.md',
   /* Codigo del BOT. La verificacion del captcha va en el proyecto Node
      (odisseymc.site/bot), no en la web. Este archivo se queda aqui para
      poder consultarlo y pegar el modulo, pero NO se sube. */

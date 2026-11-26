@@ -266,7 +266,7 @@
                 </div>
                 <div class="flex flex-col items-end gap-2 text-right">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_ip">IP del servidor</span>
-                    <span class="font-sans footer-server-ip">mc.odisseymc.site</span>
+                    <span class="font-sans footer-server-ip">mc.odisseymc.lat</span>
                 </div>
                 <div id="adminBtn" class="hidden flex-col items-end gap-2 text-right">
                     <span class="font-bold text-sm text-text-light tracking-wide" data-i18n="footer_admin">Panel de admin</span>
@@ -493,7 +493,7 @@
         }
         async function updatePlayerCounts() {
             const config = (window.SITE_CONFIG || {});
-            const serverIp = config.serverIp || 'mc.odisseymc.site';
+            const serverIp = config.serverIp || 'mc.odisseymc.lat';
             const gamemode = config.gamemode || 'Survival Custom';
             const gamemodeEl = document.getElementById('serverGamemode');
             if (gamemodeEl) gamemodeEl.textContent = (getLang() === 'en' ? 'Mode: ' : 'Modo: ') + gamemode;

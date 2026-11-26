@@ -436,6 +436,36 @@ function mantenimientoPlano(m) {
       });
     }
 
+    /* Tops del servidor (BK-Tops). La web pide /api/tops y esta capa lee la
+       tabla server_tops. Esa tabla la rellena scripts/sync-tops.cjs desde
+       MySQL; la web solo lee y la RLS deja la lectura publica. */
+    if (ruta === '/api/tops') {
+      const { data, error } = await sb
+        .from('server_tops')
+        .select('top_id,position,player_name,player_uuid,value,display_value,updated_at')
+        .order('top_id', { ascending: true })
+        .order('position', { ascending: true });
+      if (error) {
+        return responder({ ok: false, error: error.message, tops: {} });
+      }
+      const tops = {};
+      let updatedAt = null;
+      (data || []).forEach(function (fila) {
+        if (!tops[fila.top_id]) tops[fila.top_id] = [];
+        tops[fila.top_id].push({
+          position: fila.position,
+          name: fila.player_name,
+          uuid: fila.player_uuid,
+          value: fila.value,
+          display: fila.display_value,
+        });
+        if (fila.updated_at && (!updatedAt || fila.updated_at > updatedAt)) {
+          updatedAt = fila.updated_at;
+        }
+      });
+      return responder({ ok: true, tops: tops, updatedAt: updatedAt });
+    }
+
     /* Lo del usuario que ha entrado: sus reportes y sus pedidos. La RLS
        ya limita a que vea solo los suyos, asi que aqui no se filtra nada
        a mano. */
@@ -925,7 +955,7 @@ function mantenimientoPlano(m) {
           /* Restaurar: se deja la fila como estaba con los valores de
              fabrica. No se borra, para no romper los NOT NULL. */
           var { error: errR } = await sb.from('site_settings').update({
-            server_ip: 'mc.odisseymc.site', server_port: '25565', gamemode: 'Survival Custom',
+            server_ip: 'mc.odisseymc.lat', server_port: '25565', gamemode: 'Survival Custom',
             discord_invite: 'https://discord.gg/odisseymc', discord_server_id: '1542393721318940782',
             version: '1.20 - 1.21', updated_at: new Date().toISOString(),
           }).eq('id', 1);

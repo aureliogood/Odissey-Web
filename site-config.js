@@ -11,10 +11,18 @@
 //                        > Widget > activar y copiar el ID.
 // =============================================================
 window.DEFAULT_SITE_CONFIG = {
-    serverIp: 'mc.odisseymc.site',
+    serverIp: 'mc.odisseymc.lat',
     serverPort: '25565',
     version: '1.20 - 1.21',
     gamemode: 'Survival Custom',
+    // IDs de los tops de BK-Tops que se muestran en la portada.
+    // Deben coincidir con las secciones de plugins/BK-Tops/tops.yml.
+    // Si tu top de horas se llama distinto, cambia solo el valor.
+    tops: {
+        kills: 'kills',
+        money: 'money',
+        hours: 'time_played'
+    },
     discordInvite: 'https://discord.gg/odisseymc',
     discordServerId: '1542393721318940782',
 
