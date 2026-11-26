@@ -7,7 +7,7 @@ se escriben a mano: salen del plugin **BK-Tops** que ya tienes en el servidor.
 
 ```
 Minecraft (BK-Tops, MySQL)
-        │  scripts/sync-tops.cjs lee top_kills, top_money, top_time_played
+        │  scripts/sync-tops.cjs lee top_kills_perma, top_money, top_play_time
         ▼
 Supabase (tabla server_tops)  ← la rellena el script con la service role key
         │  la web la lee con la publishable key (solo SELECT)
@@ -36,9 +36,9 @@ Al arrancar, BK-Tops crea una tabla por cada top:
 
 | Top en `tops.yml` | Tabla en MySQL        |
 | ----------------- | --------------------- |
-| `kills`           | `top_kills`           |
+| `kills_perma`     | `top_kills_perma`     |
 | `money`           | `top_money`           |
-| `time_played`     | `top_time_played`     |
+| `play_time`       | `top_play_time`       |
 
 > Si ya tenías tops guardados en H2, al pasar a MySQL empiezan vacíos y se
 > van rellenando otra vez con el paso del tiempo (BK-Tops los recalcula desde
@@ -48,9 +48,9 @@ Si tus tops se llaman distinto, cambia los IDs en `site-config.js`:
 
 ```js
 tops: {
-    kills: 'kills',
+    kills: 'kills_perma',
     money: 'money',
-    hours: 'time_played'
+    hours: 'play_time'
 },
 ```
 
@@ -95,7 +95,7 @@ BKTOPS_DB_NAME=bktops
 SUPABASE_URL=https://cffpnxmtwfaublkvrobt.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=la_service_role_key
 
-TOPS=kills,money,time_played
+TOPS=kills_perma,money,play_time
 TOPS_LIMIT=10
 ```
 
@@ -116,9 +116,9 @@ node sync-tops.cjs
 Deberías ver algo así:
 
 ```
-[tops] kills: 10 entradas sincronizadas
+[tops] kills_perma: 10 entradas sincronizadas
 [tops] money: 10 entradas sincronizadas
-[tops] time_played: 10 entradas sincronizadas
+[tops] play_time: 10 entradas sincronizadas
 ```
 
 Abre la web y recarga la portada. Si aún no hay datos, verás
@@ -164,9 +164,9 @@ Debe devolver algo como:
 {
   "ok": true,
   "tops": {
-    "kills": [{ "position": 1, "name": "Jugador", "value": 1234 }],
+    "kills_perma": [{ "position": 1, "name": "Jugador", "value": 1234 }],
     "money": [],
-    "time_played": []
+    "play_time": []
   },
   "updatedAt": "2026-11-26T18:00:00+00:00"
 }
@@ -180,7 +180,7 @@ Ese JSON lo genera `js/datos.js` leyendo `server_tops`.
 
 | Síntoma | Causa probable |
 | --- | --- |
-| `no se pudo leer top_kills` | El top no existe en `tops.yml` o MySQL no está activo. |
+| `no se pudo leer top_kills_perma` | El top no existe en `tops.yml` o MySQL no está activo. |
 | `Falta el paquete mysql2` | No ejecutaste `npm install` dentro de `scripts`. |
 | `Supabase respondió 401` | La service role key es incorrecta. |
 | `Supabase respondió 404` | No ejecutaste `supabase/10-tops.sql`. |

@@ -63,7 +63,7 @@ const config = {
   supabaseUrl: String(process.env.SUPABASE_URL || '').replace(/\/+$/, ''),
   serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
   limite: Math.max(1, Math.min(100, Number(process.env.TOPS_LIMIT || 10))),
-  tops: String(process.env.TOPS || 'kills,money,time_played')
+  tops: String(process.env.TOPS || 'kills_perma,money,play_time')
     .split(',')
     .map(function (s) { return s.trim(); })
     .filter(Boolean),

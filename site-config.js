@@ -19,9 +19,9 @@ window.DEFAULT_SITE_CONFIG = {
     // Deben coincidir con las secciones de plugins/BK-Tops/tops.yml.
     // Si tu top de horas se llama distinto, cambia solo el valor.
     tops: {
-        kills: 'kills',
+        kills: 'kills_perma',
         money: 'money',
-        hours: 'time_played'
+        hours: 'play_time'
     },
     discordInvite: 'https://discord.gg/odisseymc',
     discordServerId: '1542393721318940782',

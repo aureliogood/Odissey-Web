@@ -2668,7 +2668,7 @@ function toggleLang() {
 
         function cargarTops() {
             var config = window.SITE_CONFIG || {};
-            var ids = Object.assign({ kills: 'kills', money: 'money', hours: 'time_played' }, config.tops || {});
+            var ids = Object.assign({ kills: 'kills_perma', money: 'money', hours: 'play_time' }, config.tops || {});
             var destinos = [
                 { el: 'odTopKills', key: ids.kills, tipo: 'int' },
                 { el: 'odTopMoney', key: ids.money, tipo: 'money' },
