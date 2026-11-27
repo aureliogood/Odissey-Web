@@ -32,7 +32,7 @@
     
     <link rel="stylesheet" href="theme.css?v=158">
     <link rel="stylesheet" href="css/tailwind.css?v=158">
-    <link rel="stylesheet" href="css/index.css?v=166">
+    <link rel="stylesheet" href="css/index.css?v=169">
     <link rel="stylesheet" href="css/dala.css?v=158">
     <link rel="stylesheet" href="css/nav-shared.css?v=158">
     <link rel="stylesheet" href="css/dala-polish.css?v=163">
@@ -361,13 +361,13 @@
             <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px;">
                 <div>
                     <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-gold);">RANKINGS DEL SERVIDOR</span>
-                    <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #ffffff; margin: 8px 0 0 0;">
+                    <h2 class="font-display" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--brand-text); margin: 8px 0 0 0;">
                         Los mejores de <span class="od-text-gold">Odissey.</span>
                     </h2>
                 </div>
-                <p id="odTopsUpdated" style="margin: 0; font-size: 12px; color: #8b8b95; font-family: var(--od-font-mono);"></p>
+                <p id="odTopsUpdated" style="margin: 0; font-size: 12px; color: var(--brand-muted); font-family: var(--od-font-mono);"></p>
             </div>
-            <p style="font-size: 15px; color: #c5c7d1; max-width: 640px; line-height: 1.6; margin: 12px 0 28px 0;">
+            <p style="font-size: 15px; color: var(--brand-secondary); max-width: 640px; line-height: 1.6; margin: 12px 0 28px 0;">
                 Clasificación de la comunidad, sincronizada desde el servidor. ¿Crees que puedes llegar al número uno?
             </p>
 
@@ -2617,6 +2617,20 @@ function toggleLang() {
             return formatearEntero(valor);
         }
 
+        function avatarInicial(nombre) {
+            var seguro = String(nombre || '?');
+            var letra = seguro.charAt(0).toUpperCase();
+            var colores = ['#e0a52e', '#6ea8fe', '#7ee787', '#ff7a59', '#c792ea', '#f5c542'];
+            var suma = 0;
+            for (var i = 0; i < seguro.length; i++) suma = (suma + seguro.charCodeAt(i)) % 997;
+            var color = colores[suma % colores.length];
+            var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56">' +
+                '<rect width="56" height="56" fill="' + color + '"/>' +
+                '<text x="28" y="39" font-family="sans-serif" font-size="28" font-weight="700" ' +
+                'fill="#14121c" text-anchor="middle">' + letra + '</text></svg>';
+            return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        }
+
         function pintarTop(lista, filas, tipo) {
             if (!lista) return;
             while (lista.firstChild) lista.removeChild(lista.firstChild);
@@ -2624,7 +2638,17 @@ function toggleLang() {
             if (!filas || !filas.length) {
                 var vacio = document.createElement('li');
                 vacio.className = 'od-top-empty';
-                vacio.textContent = 'Sin datos todavía';
+
+                var vacioTitulo = document.createElement('span');
+                vacioTitulo.className = 'od-top-empty__title';
+                vacioTitulo.textContent = 'Sin datos todavía';
+
+                var vacioPista = document.createElement('span');
+                vacioPista.className = 'od-top-empty__hint';
+                vacioPista.textContent = 'Aparecerá cuando haya actividad en el servidor';
+
+                vacio.appendChild(vacioTitulo);
+                vacio.appendChild(vacioPista);
                 lista.appendChild(vacio);
                 return;
             }
@@ -2634,6 +2658,8 @@ function toggleLang() {
                 var item = document.createElement('li');
                 item.className = 'od-top-row';
                 item.setAttribute('data-rank', String(fila.position));
+                // Entrada escalonada: cada fila aparece un poco despues.
+                item.style.animationDelay = Math.min(Math.max(fila.position - 1, 0), 9) * 45 + 'ms';
 
                 var rango = document.createElement('span');
                 rango.className = 'od-top-rank';
@@ -2642,12 +2668,17 @@ function toggleLang() {
                 var avatar = document.createElement('img');
                 avatar.className = 'od-top-avatar';
                 avatar.alt = '';
-                avatar.width = 26;
-                avatar.height = 26;
+                avatar.width = 28;
+                avatar.height = 28;
                 avatar.loading = 'lazy';
                 avatar.decoding = 'async';
-                avatar.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(fila.uuid || nombre) + '/26';
-                avatar.onerror = function () { this.style.visibility = 'hidden'; };
+                // El servidor no es premium: los UUID no existen en Mojang,
+                // asi que mc-heads solo resuelve las cabezas por nombre.
+                avatar.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(nombre) + '/56';
+                avatar.onerror = function () {
+                    this.onerror = null;
+                    this.src = avatarInicial(nombre);
+                };
 
                 var texto = document.createElement('span');
                 texto.className = 'od-top-name';
