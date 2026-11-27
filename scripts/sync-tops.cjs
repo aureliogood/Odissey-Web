@@ -102,12 +102,17 @@ function tablaDe(topId) {
 
 async function peticionSupabase(ruta, opciones) {
   const opcionesFinales = Object.assign({}, opciones);
-  opcionesFinales.headers = Object.assign({
+  const cabeceras = {
     apikey: config.serviceKey,
-    Authorization: 'Bearer ' + config.serviceKey,
     'Content-Type': 'application/json',
     Prefer: 'return=minimal',
-  }, (opciones && opciones.headers) || {});
+  };
+  /* Las claves nuevas (sb_secret_...) no son JWT y solo van en `apikey`.
+     Las antiguas service_role (eyJ...) si necesitan el Bearer. */
+  if (!config.serviceKey.startsWith('sb_')) {
+    cabeceras.Authorization = 'Bearer ' + config.serviceKey;
+  }
+  opcionesFinales.headers = Object.assign(cabeceras, (opciones && opciones.headers) || {});
 
   const res = await fetch(config.supabaseUrl + '/rest/v1/' + ruta, opcionesFinales);
   if (!res.ok) {
